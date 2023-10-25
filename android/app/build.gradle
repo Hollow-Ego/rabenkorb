@@ -4,6 +4,24 @@ plugins {
     id "dev.flutter.flutter-gradle-plugin"
 }
 
+def versionProperties = new Properties()
+def versionPropertiesFile = rootProject.file('version.properties')
+if (versionPropertiesFile.exists()) {
+    versionPropertiesFile.withReader('UTF-8') { reader ->
+        versionProperties.load(reader)
+    }
+}
+
+def flutterVersionCode = versionProperties.getProperty('flutter.versionCode')
+if (flutterVersionCode == null) {
+    flutterVersionCode = '1'
+}
+
+def flutterVersionName = versionProperties.getProperty('flutter.versionName')
+if (flutterVersionName == null) {
+    flutterVersionName = '1.0'
+}
+
 def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
@@ -12,15 +30,6 @@ if (localPropertiesFile.exists()) {
     }
 }
 
-def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
-if (flutterVersionCode == null) {
-    flutterVersionCode = '1'
-}
-
-def flutterVersionName = localProperties.getProperty('flutter.versionName')
-if (flutterVersionName == null) {
-    flutterVersionName = '1.0'
-}
 
 android {
     namespace "com.codenull.pahn.rabenkorb.rabenkorb"
@@ -41,21 +50,25 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.codenull.pahn.rabenkorb.rabenkorb"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
         minSdkVersion flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
 
+    signingConfigs {
+        release {
+            storeFile  System.getenv("KEYSTORE_PATH") ? file(System.getenv("KEYSTORE_PATH")) : null
+            storePassword System.getenv("KEYSTORE_PASSWORD") ?: "keystorePassword"
+            keyAlias System.getenv("KEY_ALIAS") ?: "keyAlias"
+            keyPassword System.getenv("KEY_PASSWORD") ?: "keyPassword"
+        }
+    }
+
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
         }
     }
 }

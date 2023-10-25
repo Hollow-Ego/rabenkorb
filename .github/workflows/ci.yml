@@ -1,0 +1,124 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - 'main'
+
+env:
+  FLUTTER_VERSION: '3.13.7'
+  JAVA_VERSION: '17'
+  JAVA_DISTRO: 'temurin'
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: ${{ env.JAVA_DISTRO }}
+
+      - name: Set up Flutter
+        run: |
+          git clone https://github.com/flutter/flutter.git -b ${{ env.FLUTTER_VERSION }}
+          echo "$GITHUB_WORKSPACE/flutter/bin" >> $GITHUB_PATH
+
+      - name: Fetch Flutter Dependencies
+        run: |
+          flutter pub get
+
+      - name: Setup Bundler
+        run: |
+          sudo gem install bundler
+
+      - name: Install Bundles
+        run: |
+          cd android
+          sudo bundle install
+
+      - name: Decode Keystore
+        run: echo "${{ secrets.KEYSTORE }}" | base64 --decode > ./android/app/key.jks
+
+      - name: Set Keystore Path and Passwords
+        run: |
+          echo "KEYSTORE_PATH=./key.jks" >> $GITHUB_ENV
+          echo "KEYSTORE_PASSWORD=${{ secrets.KEYSTORE_PASSWORD }}" >> $GITHUB_ENV
+          echo "KEY_ALIAS=${{ secrets.KEY_ALIAS }}" >> $GITHUB_ENV
+          echo "KEY_PASSWORD=${{ secrets.KEY_PASSWORD }}" >> $GITHUB_ENV
+
+      - name: Create local.properties file
+        run: |
+          echo "sdk.dir=$ANDROID_HOME" > android/local.properties
+          echo "flutter.sdk=$GITHUB_WORKSPACE/flutter" >> android/local.properties
+
+      - name: Set execute permissions on gradlew
+        run: chmod +x android/gradlew
+
+      - name: Run Tests through Fastlane
+        run: |
+          cd android
+          bundle exec fastlane android test
+
+      - name: Extract Version
+        if: github.ref == 'refs/heads/main'
+        run: |
+          cd android
+          versionCode=$(grep 'flutter.versionCode' version.properties | cut -d'=' -f2)
+          versionName=$(grep 'flutter.versionName' version.properties | cut -d'=' -f2)
+          echo "VERSION_CODE=$versionCode" >> $GITHUB_ENV
+          echo "VERSION_NAME=$versionName" >> $GITHUB_ENV
+
+      - name: Update Version Code
+        if: github.ref == 'refs/heads/main'
+        run: |
+          cd android
+          VERSION_CODE=$(grep 'flutter.versionCode' version.properties | cut -d'=' -f2)
+          NEW_VERSION_CODE=$((VERSION_CODE+1))
+          echo "NEW_VERSION_CODE=$NEW_VERSION_CODE" >> $GITHUB_ENV
+          sed -i "s/flutter\.versionCode\s*=\s*[0-9]*/flutter\.versionCode=$NEW_VERSION_CODE/" version.properties
+          
+          git config --global user.email "pipeline@codenull.local"
+          git config --global user.name "Release Pipeline"
+          git remote set-url origin https://x-access-token:${{ secrets.ACCESS_TOKEN }}@github.com/Hollow-Ego/rabenkorb.git
+
+          git add version.properties
+          git commit -m "Increased version code to $NEW_VERSION_CODE"
+          git push
+
+      - name: Build Release APK through Fastlane
+        if: github.ref == 'refs/heads/main'
+        run: |
+          cd android
+          bundle exec fastlane android build_release
+
+      - name: Rename APK
+        if: github.ref == 'refs/heads/main'
+        run: mv ./build/app/outputs/flutter-apk/app-release.apk ./build/app/outputs/flutter-apk/app-release-${{ env.VERSION_NAME }}-${{ env.NEW_VERSION_CODE }}.apk
+
+      - name: Create GitHub Release
+        if: github.ref == 'refs/heads/main'
+        id: create_release
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ env.VERSION_NAME }}-${{ env.NEW_VERSION_CODE }}
+          release_name: Release ${{ env.VERSION_NAME }}-${{ env.NEW_VERSION_CODE }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+
+      - name: Upload APK to GitHub Release
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./build/app/outputs/flutter-apk/app-release-${{ env.VERSION_NAME }}-${{ env.NEW_VERSION_CODE }}.apk
+          asset_name: rabenkorb.${{ env.VERSION_NAME }}-${{ env.NEW_VERSION_CODE }}.apk
+          asset_content_type: application/vnd.android.package-archive
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
