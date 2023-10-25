@@ -28,4 +28,12 @@ platform :android do
       build_type: 'Release'
     )
   end
+
+  desc "Build debug APK"
+  lane :build_debug do
+    gradle(
+      task: 'assemble',
+      build_type: 'Debug'
+    )
+  end
 end
