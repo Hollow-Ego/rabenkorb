@@ -10,10 +10,22 @@ part 'database.g.dart';
 
 @DriftDatabase(tables: [LibraryItems])
 class AppDatabase extends _$AppDatabase {
-  AppDatabase() : super(_openConnection());
+  AppDatabase(QueryExecutor? e) : super(e ?? _openConnection());
 
   @override
   int get schemaVersion => 1;
+
+  Future<int> createLibraryItem(String name) {
+    return into(libraryItems).insert(LibraryItemsCompanion.insert(name: name));
+  }
+
+  Future<void> updateLibraryItem(int id, String name){
+    return update(libraryItems).replace(LibraryItem(id: id, name: name));
+  }
+
+  Stream<LibraryItem> watchLibraryItemWithId(int id){
+    return (select(libraryItems)..where((li) => li.id.equals(id))).watchSingle();
+  }
 }
 
 LazyDatabase _openConnection() {
