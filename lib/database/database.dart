@@ -4,28 +4,63 @@ import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
-import 'package:rabenkorb/database/tables/library-items.dart';
+import 'package:rabenkorb/database/daos/item_categories_dao.dart';
+import 'package:rabenkorb/database/daos/item_templates_dao.dart';
+import 'package:rabenkorb/database/daos/item_units_dao.dart';
+import 'package:rabenkorb/database/daos/items_dao.dart';
+import 'package:rabenkorb/database/daos/shopping_baskets_dao.dart';
+import 'package:rabenkorb/database/daos/sort_orders_dao.dart';
+import 'package:rabenkorb/database/daos/sort_rules_dao.dart';
+import 'package:rabenkorb/database/daos/template_libraries_dao.dart';
+import 'package:rabenkorb/database/daos/variant_keys_dao.dart';
+import 'package:rabenkorb/database/tables/item_categories.dart';
+import 'package:rabenkorb/database/tables/item_templates.dart';
+import 'package:rabenkorb/database/tables/item_units.dart';
+import 'package:rabenkorb/database/tables/items.dart';
+import 'package:rabenkorb/database/tables/shopping_basket.dart';
+import 'package:rabenkorb/database/tables/sort_orders.dart';
+import 'package:rabenkorb/database/tables/sort_rules.dart';
+import 'package:rabenkorb/database/tables/template_libraries.dart';
+import 'package:rabenkorb/database/tables/variant_keys.dart';
 
 part 'database.g.dart';
 
-@DriftDatabase(tables: [LibraryItems])
+@DriftDatabase(
+  tables: [
+    ItemCategories,
+    ItemTemplates,
+    ItemUnits,
+    Items,
+    ShoppingBaskets,
+    SortOrders,
+    SortRules,
+    TemplateLibraries,
+    VariantKeys,
+  ],
+  daos: [
+    ItemCategoriesDao,
+    ItemTemplatesDao,
+    ItemUnitsDao,
+    ItemsDao,
+    ShoppingBasketsDao,
+    SortOrdersDao,
+    SortRulesDao,
+    TemplateLibrariesDao,
+    VariantKeysDao,
+  ],
+)
 class AppDatabase extends _$AppDatabase {
   AppDatabase(QueryExecutor? e) : super(e ?? _openConnection());
 
   @override
   int get schemaVersion => 1;
 
-  Future<int> createLibraryItem(String name) {
-    return into(libraryItems).insert(LibraryItemsCompanion.insert(name: name));
-  }
-
-  Future<void> updateLibraryItem(int id, String name){
-    return update(libraryItems).replace(LibraryItem(id: id, name: name));
-  }
-
-  Stream<LibraryItem> watchLibraryItemWithId(int id){
-    return (select(libraryItems)..where((li) => li.id.equals(id))).watchSingle();
-  }
+  @override
+  MigrationStrategy get migration => MigrationStrategy(
+        beforeOpen: (details) async {
+          await customStatement('PRAGMA foreign_keys = ON');
+        },
+      );
 }
 
 LazyDatabase _openConnection() {
@@ -35,4 +70,3 @@ LazyDatabase _openConnection() {
     return NativeDatabase.createInBackground(file);
   });
 }
-

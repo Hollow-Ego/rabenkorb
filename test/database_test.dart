@@ -13,8 +13,8 @@ void main() {
 
   test('library items can be created', () async {
     const testName = "Milk";
-    final id = await database!.createLibraryItem(testName);
-    final libraryItem = await database!.watchLibraryItemWithId(id).first;
+    final id = await database!.itemTemplatesDao.createItemTemplate(testName);
+    final libraryItem = await database!.itemTemplatesDao.watchItemTemplateWithId(id).first;
 
     expect(libraryItem.name, testName);
   });
@@ -22,15 +22,14 @@ void main() {
   test('stream emits a new libary item when the name updates', () async {
     const testNameOne = "Milk";
     const testNameTwo = "Eggs";
-    final id = await database!.createLibraryItem(testNameOne);
+    final id = await database!.itemTemplatesDao.createItemTemplate(testNameOne);
 
     final expectation = expectLater(
-      database!.watchLibraryItemWithId(id).map((li) => li.name),
+      database!.itemTemplatesDao.watchItemTemplateWithId(id).map((li) => li.name),
       emitsInOrder([testNameOne, testNameTwo]),
     );
 
-    await database!.updateLibraryItem(id, testNameTwo);
-    await expectation;
+    await database!.itemTemplatesDao.updateItemTemplate(id, testNameTwo);
   });
 
   tearDown(() async {
