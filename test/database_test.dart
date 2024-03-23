@@ -2,7 +2,6 @@ import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:rabenkorb/database/database.dart';
 
-
 void main() {
   AppDatabase? database;
 
@@ -13,7 +12,8 @@ void main() {
   test('item templates can be created', () async {
     const testName = "Milk";
     final id = await database!.itemTemplatesDao.createItemTemplate(testName);
-    final libraryItem = await database!.itemTemplatesDao.watchItemTemplateWithId(id).first;
+    final libraryItem =
+        await database!.itemTemplatesDao.watchItemTemplateWithId(id).first;
 
     expect(libraryItem.name, testName);
   });
@@ -24,11 +24,13 @@ void main() {
     final id = await database!.itemTemplatesDao.createItemTemplate(testNameOne);
 
     expectLater(
-      database!.itemTemplatesDao.watchItemTemplateWithId(id).map((li) => li.name),
+      database!.itemTemplatesDao
+          .watchItemTemplateWithId(id)
+          .map((li) => li.name),
       emitsInOrder([testNameOne, testNameTwo]),
     );
 
-    await database!.itemTemplatesDao.updateItemTemplate(id, testNameTwo);
+    await database!.itemTemplatesDao.updateItemTemplate(id, name: testNameTwo);
   });
 
   tearDown(() async {

@@ -25,8 +25,22 @@ class ItemTemplatesDao extends DatabaseAccessor<AppDatabase>
     return into(itemTemplates).insert(companion);
   }
 
-  Future<void> updateItemTemplate(int id, String name) {
-    return update(itemTemplates).replace(ItemTemplate(id: id, name: name));
+  Future<void> updateItemTemplate(
+    int id, {
+    String? name,
+    int? categoryId,
+    int? libraryId,
+    int? variantKeyId,
+    String? imagePath,
+  }) {
+    final companion = ItemTemplatesCompanion(
+        name: Value.absentIfNull(name),
+        category: Value.absentIfNull(categoryId),
+        library: Value.absentIfNull(libraryId),
+        variantKey: Value.absentIfNull(variantKeyId),
+        imagePath: Value.absentIfNull(imagePath));
+    return (update(itemTemplates)..where((li) => li.id.equals(id)))
+        .write(companion);
   }
 
   Stream<ItemTemplate> watchItemTemplateWithId(int id) {

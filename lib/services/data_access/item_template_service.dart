@@ -20,8 +20,22 @@ class ItemTemplateService {
     );
   }
 
-  Future<void> updateItemTemplate(int id, String name) {
-    return _db.itemTemplatesDao.updateItemTemplate(id, name);
+  Future<void> updateItemTemplate(
+    int id, {
+    String? name,
+    int? categoryId,
+    int? libraryId,
+    int? variantKeyId,
+    String? imagePath,
+  }) {
+    return _db.itemTemplatesDao.updateItemTemplate(
+      id,
+      name: name,
+      categoryId: categoryId,
+      libraryId: libraryId,
+      variantKeyId: variantKeyId,
+      imagePath: imagePath,
+    );
   }
 
   Future<ItemTemplate?> getItemTemplateById(int id) {

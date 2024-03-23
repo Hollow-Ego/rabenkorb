@@ -59,10 +59,51 @@ void main() {
     var itemTemplate = await sut.getItemTemplateById(id);
     expect(itemTemplate?.name, nameOne);
 
-    await sut.updateItemTemplate(id, nameTwo);
+    await sut.updateItemTemplate(id, name: nameTwo);
 
     itemTemplate = await sut.getItemTemplateById(id);
     expect(itemTemplate?.name, nameTwo);
+  });
+
+  test('item templates can be updated partially', () async {
+    const nameOne = "Milk";
+    const categoryId = 1;
+    const libraryId = 1;
+    const variantKeyId = 1;
+    const imagePath = "/img.png";
+
+    final id = await sut.createItemTemplate(nameOne);
+
+    var itemTemplate = await sut.getItemTemplateById(id);
+    expect(itemTemplate?.name, nameOne);
+
+    await sut.updateItemTemplate(
+      id,
+      categoryId: categoryId,
+      libraryId: libraryId,
+      variantKeyId: variantKeyId,
+      imagePath: imagePath,
+    );
+
+    itemTemplate = await sut.getItemTemplateById(id);
+    expect(itemTemplate?.name, nameOne);
+    expect(itemTemplate?.category, categoryId);
+    expect(itemTemplate?.library, libraryId);
+    expect(itemTemplate?.variantKey, variantKeyId);
+    expect(itemTemplate?.imagePath, imagePath);
+
+    const modifiedCategory = 2;
+    await sut.updateItemTemplate(
+      id,
+      categoryId: modifiedCategory,
+    );
+
+    itemTemplate = await sut.getItemTemplateById(id);
+    expect(itemTemplate?.name, nameOne);
+    expect(itemTemplate?.category, modifiedCategory);
+    expect(itemTemplate?.library, libraryId);
+    expect(itemTemplate?.variantKey, variantKeyId);
+    expect(itemTemplate?.imagePath, imagePath);
   });
 
   test('item templates can be deleted', () async {
@@ -104,7 +145,7 @@ void main() {
     await Future.delayed(delay);
     await sut.createItemTemplate(itemFour);
     await Future.delayed(delay);
-    await sut.updateItemTemplate(itemThreeId, itemThreeModified);
+    await sut.updateItemTemplate(itemThreeId, name: itemThreeModified);
   });
 
   tearDown(() async {
