@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:rabenkorb/database/database.dart';
 import 'package:rabenkorb/database/tables/item_templates.dart';
+import 'package:rabenkorb/shared/sort_mode.dart';
 
 part 'item_templates_dao.g.dart';
 
@@ -59,5 +60,30 @@ class ItemTemplatesDao extends DatabaseAccessor<AppDatabase>
 
   Stream<List<ItemTemplate>> watchItemTemplates() {
     return (select(itemTemplates)).watch();
+  }
+
+  Stream<List<ItemTemplate>> watchItemTemplatesInOrder(SortMode sortMode) {
+    final query = (select(itemTemplates)..orderBy(_getOrderingTerms(sortMode)));
+    return query.watch();
+  }
+
+  List<OrderingTerm Function($ItemTemplatesTable)> _getOrderingTerms<T>(
+      SortMode sortMode) {
+    switch (sortMode) {
+      case SortMode.databaseOrder:
+        return [_byId];
+      case SortMode.name:
+        return [_byName];
+      case SortMode.custom:
+        return [];
+    }
+  }
+
+  OrderingTerm _byName($ItemTemplatesTable t) {
+    return OrderingTerm(expression: t.name);
+  }
+
+  OrderingTerm _byId($ItemTemplatesTable t) {
+    return OrderingTerm(expression: t.id);
   }
 }

@@ -2,6 +2,7 @@ import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:rabenkorb/database/database.dart';
 import 'package:rabenkorb/services/data_access/item_template_service.dart';
+import 'package:rabenkorb/shared/sort_mode.dart';
 import 'package:watch_it/watch_it.dart';
 
 import '../database_helper.dart';
@@ -132,6 +133,42 @@ void main() {
 
     expectLater(
       sut.watchItemTemplates().map((li) => li.map((e) => e.name)),
+      emitsInOrder(expectedValues),
+    );
+
+    // Delay creation of new items to ensure emissions are happening one by one
+    const delay = Duration(milliseconds: 100);
+    await sut.createItemTemplate(itemOne);
+    await Future.delayed(delay);
+    await sut.createItemTemplate(itemTwo);
+    await Future.delayed(delay);
+    final itemThreeId = await sut.createItemTemplate(itemThree);
+    await Future.delayed(delay);
+    await sut.createItemTemplate(itemFour);
+    await Future.delayed(delay);
+    await sut.updateItemTemplate(itemThreeId, name: itemThreeModified);
+  });
+
+  test('item templates can be watched in named order', () async {
+    const itemFour = "Bread";
+    const itemThreeModified = "Cannelloni";
+    const itemTwo = "Eggs";
+    const itemOne = "Milk";
+    const itemThree = "Pasta";
+
+    const expectedValues = [
+      [],
+      [itemOne],
+      [itemTwo, itemOne],
+      [itemTwo, itemOne, itemThree],
+      [itemFour, itemTwo, itemOne, itemThree],
+      [itemFour, itemThreeModified, itemTwo, itemOne],
+    ];
+
+    expectLater(
+      sut
+          .watchItemTemplatesInOrder(SortMode.name)
+          .map((li) => li.map((e) => e.name)),
       emitsInOrder(expectedValues),
     );
 

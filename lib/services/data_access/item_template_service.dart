@@ -1,4 +1,5 @@
 import 'package:rabenkorb/database/database.dart';
+import 'package:rabenkorb/shared/sort_mode.dart';
 import 'package:watch_it/watch_it.dart';
 
 class ItemTemplateService {
@@ -48,5 +49,9 @@ class ItemTemplateService {
 
   Stream<List<ItemTemplate>> watchItemTemplates() {
     return _db.itemTemplatesDao.watchItemTemplates();
+  }
+
+  Stream<List<ItemTemplate>> watchItemTemplatesInOrder(SortMode sortMode) {
+    return _db.itemTemplatesDao.watchItemTemplatesInOrder(sortMode);
   }
 }
