@@ -38,6 +38,19 @@ void main() {
     expect(libraryItem?.name, testNameTwo);
   });
 
+  test('item templates can be deleted', () async {
+    const testName = "Milk";
+    final id = await sut.createItemTemplate(testName);
+    final libraryItem = await sut.getItemTemplateById(id);
+
+    expect(libraryItem?.name, testName);
+  });
+
+  tearDown(() async {
+    final db = di<AppDatabase>();
+    await db.delete(db.itemTemplates).go();
+  });
+
   tearDownAll(() async {
     await di<AppDatabase>().close();
   });

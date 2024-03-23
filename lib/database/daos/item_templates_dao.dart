@@ -27,4 +27,8 @@ class ItemTemplatesDao extends DatabaseAccessor<AppDatabase>
     return (select(itemTemplates)..where((li) => li.id.equals(id)))
         .getSingleOrNull();
   }
+
+  Future<int> deleteItemTemplateWithId(int id) {
+    return (delete(itemTemplates)..where((li) => li.id.equals(id))).go();
+  }
 }

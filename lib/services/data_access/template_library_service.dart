@@ -15,4 +15,8 @@ class TemplateLibraryService {
   Future<ItemTemplate?> getItemTemplateById(int id) {
     return _db.itemTemplatesDao.getItemTemplateWithId(id);
   }
+
+  Future<int> deleteItemTemplateById(int id) {
+    return _db.itemTemplatesDao.deleteItemTemplateWithId(id);
+  }
 }
