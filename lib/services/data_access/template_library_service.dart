@@ -19,4 +19,8 @@ class TemplateLibraryService {
   Future<int> deleteItemTemplateById(int id) {
     return _db.itemTemplatesDao.deleteItemTemplateWithId(id);
   }
+
+  Stream<List<ItemTemplate>> watchItemTemplates() {
+    return _db.itemTemplatesDao.watchItemTemplates();
+  }
 }

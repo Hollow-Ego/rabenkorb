@@ -31,4 +31,8 @@ class ItemTemplatesDao extends DatabaseAccessor<AppDatabase>
   Future<int> deleteItemTemplateWithId(int id) {
     return (delete(itemTemplates)..where((li) => li.id.equals(id))).go();
   }
+
+  Stream<List<ItemTemplate>> watchItemTemplates() {
+    return (select(itemTemplates)).watch();
+  }
 }

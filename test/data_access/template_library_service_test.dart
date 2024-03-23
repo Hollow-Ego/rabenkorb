@@ -46,6 +46,40 @@ void main() {
     expect(libraryItem?.name, testName);
   });
 
+  test('item templates can be watched', () async {
+    const itemOne = "Milk";
+    const itemTwo = "Eggs";
+    const itemThree = "Pasta";
+    const itemThreeModified = "Spaghetti";
+    const itemFour = "Bread";
+
+    const expectedValues = [
+      [],
+      [itemOne],
+      [itemOne, itemTwo],
+      [itemOne, itemTwo, itemThree],
+      [itemOne, itemTwo, itemThree, itemFour],
+      [itemOne, itemTwo, itemThreeModified, itemFour],
+    ];
+
+    expectLater(
+      sut.watchItemTemplates().map((li) => li.map((e) => e.name)),
+      emitsInOrder(expectedValues),
+    );
+
+    // Delay creation of new items to ensure emissions are happening one by one
+    const delay = Duration(milliseconds: 100);
+    await sut.createItemTemplate(itemOne);
+    await Future.delayed(delay);
+    await sut.createItemTemplate(itemTwo);
+    await Future.delayed(delay);
+    final itemThreeId = await sut.createItemTemplate(itemThree);
+    await Future.delayed(delay);
+    await sut.createItemTemplate(itemFour);
+    await Future.delayed(delay);
+    await sut.updateItemTemplate(itemThreeId, itemThreeModified);
+  });
+
   tearDown(() async {
     final db = di<AppDatabase>();
     await db.delete(db.itemTemplates).go();
