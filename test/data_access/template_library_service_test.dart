@@ -16,73 +16,77 @@ void main() {
     sut = TemplateLibraryService();
   });
 
-  test('item templates can be created', () async {
-    const testName = "Milk";
-    final id = await sut.createItemTemplate(testName);
-    final libraryItem = await sut.getItemTemplateById(id);
+  test('template libraries can be created', () async {
+    const testName = "Dairy";
+    final id = await sut.createTemplateLibrary(testName);
+    final library = await sut.getTemplateLibraryById(id);
 
-    expect(libraryItem?.name, testName);
+    expect(library?.name, testName);
   });
 
-  test('item templates can be updated', () async {
-    const testNameOne = "Milk";
-    const testNameTwo = "Eggs";
-    final id = await sut.createItemTemplate(testNameOne);
+  test('template libraries can be updated', () async {
+    const testNameOne = "Dairy";
+    const testNameTwo = "Fresh Products";
+    final id = await sut.createTemplateLibrary(testNameOne);
 
-    var libraryItem = await sut.getItemTemplateById(id);
-    expect(libraryItem?.name, testNameOne);
+    var library = await sut.getTemplateLibraryById(id);
+    expect(library?.name, testNameOne);
 
-    await sut.updateItemTemplate(id, testNameTwo);
+    await sut.updateTemplateLibrary(id, testNameTwo);
 
-    libraryItem = await sut.getItemTemplateById(id);
-    expect(libraryItem?.name, testNameTwo);
+    library = await sut.getTemplateLibraryById(id);
+    expect(library?.name, testNameTwo);
   });
 
-  test('item templates can be deleted', () async {
-    const testName = "Milk";
-    final id = await sut.createItemTemplate(testName);
-    final libraryItem = await sut.getItemTemplateById(id);
+  test('template libraries can be deleted', () async {
+    const testName = "Dairy";
+    final id = await sut.createTemplateLibrary(testName);
+    final library = await sut.getTemplateLibraryById(id);
 
-    expect(libraryItem?.name, testName);
+    expect(library?.name, testName);
   });
 
-  test('item templates can be watched', () async {
-    const itemOne = "Milk";
-    const itemTwo = "Eggs";
-    const itemThree = "Pasta";
-    const itemThreeModified = "Spaghetti";
-    const itemFour = "Bread";
+  test('template libraries can be watched', () async {
+    const libraryOne = "Dairy";
+    const libraryTwo = "Fresh Products";
+    const libraryThree = "Pasta";
+    const libraryThreeModified = "Spaghetti";
+    const libraryFour = "Baked Goods";
 
     const expectedValues = [
       [],
-      [itemOne],
-      [itemOne, itemTwo],
-      [itemOne, itemTwo, itemThree],
-      [itemOne, itemTwo, itemThree, itemFour],
-      [itemOne, itemTwo, itemThreeModified, itemFour],
+      [libraryOne],
+      [libraryOne, libraryTwo],
+      [libraryOne, libraryTwo, libraryThree],
+      [libraryOne, libraryTwo, libraryThree, libraryFour],
+      [libraryOne, libraryTwo, libraryThreeModified, libraryFour],
     ];
 
     expectLater(
-      sut.watchItemTemplates().map((li) => li.map((e) => e.name)),
+      sut.watchTemplateLibraries().map((li) => li.map((e) => e.name)),
       emitsInOrder(expectedValues),
     );
 
     // Delay creation of new items to ensure emissions are happening one by one
     const delay = Duration(milliseconds: 100);
-    await sut.createItemTemplate(itemOne);
+    await sut.createTemplateLibrary(libraryOne);
     await Future.delayed(delay);
-    await sut.createItemTemplate(itemTwo);
+
+    await sut.createTemplateLibrary(libraryTwo);
     await Future.delayed(delay);
-    final itemThreeId = await sut.createItemTemplate(itemThree);
+
+    final libraryThreeId = await sut.createTemplateLibrary(libraryThree);
     await Future.delayed(delay);
-    await sut.createItemTemplate(itemFour);
+
+    await sut.createTemplateLibrary(libraryFour);
     await Future.delayed(delay);
-    await sut.updateItemTemplate(itemThreeId, itemThreeModified);
+
+    await sut.updateTemplateLibrary(libraryThreeId, libraryThreeModified);
   });
 
   tearDown(() async {
     final db = di<AppDatabase>();
-    await db.delete(db.itemTemplates).go();
+    await db.delete(db.templateLibraries).go();
   });
 
   tearDownAll(() async {

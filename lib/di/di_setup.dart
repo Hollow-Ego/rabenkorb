@@ -1,6 +1,6 @@
 import 'package:drift/native.dart';
 import 'package:rabenkorb/database/database.dart';
-import 'package:rabenkorb/services/data_access/template_library_service.dart';
+import 'package:rabenkorb/services/data_access/item_template_service.dart';
 import 'package:watch_it/watch_it.dart';
 
 void setupDI() {
@@ -14,5 +14,5 @@ void _registerDatabase() {
 }
 
 void _registerServices() {
-  di.registerSingleton<TemplateLibraryService>(TemplateLibraryService());
+  di.registerSingleton<ItemTemplateService>(ItemTemplateService());
 }
