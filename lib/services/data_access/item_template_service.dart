@@ -4,8 +4,20 @@ import 'package:watch_it/watch_it.dart';
 class ItemTemplateService {
   static final _db = di<AppDatabase>();
 
-  Future<int> createItemTemplate(String name) {
-    return _db.itemTemplatesDao.createItemTemplate(name);
+  Future<int> createItemTemplate(
+    String name, {
+    int? categoryId,
+    int? libraryId,
+    int? variantKeyId,
+    String? imagePath,
+  }) {
+    return _db.itemTemplatesDao.createItemTemplate(
+      name,
+      categoryId: categoryId,
+      libraryId: libraryId,
+      variantKeyId: variantKeyId,
+      imagePath: imagePath,
+    );
   }
 
   Future<void> updateItemTemplate(int id, String name) {

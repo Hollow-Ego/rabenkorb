@@ -9,9 +9,20 @@ class ItemTemplatesDao extends DatabaseAccessor<AppDatabase>
     with _$ItemTemplatesDaoMixin {
   ItemTemplatesDao(super.db);
 
-  Future<int> createItemTemplate(String name) {
-    return into(itemTemplates)
-        .insert(ItemTemplatesCompanion.insert(name: name));
+  Future<int> createItemTemplate(
+    String name, {
+    int? categoryId,
+    int? libraryId,
+    int? variantKeyId,
+    String? imagePath,
+  }) {
+    final companion = ItemTemplatesCompanion(
+        name: Value(name),
+        category: Value(categoryId),
+        library: Value(libraryId),
+        variantKey: Value(variantKeyId),
+        imagePath: Value(imagePath));
+    return into(itemTemplates).insert(companion);
   }
 
   Future<void> updateItemTemplate(int id, String name) {
