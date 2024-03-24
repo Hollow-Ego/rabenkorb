@@ -75,8 +75,15 @@ class ItemTemplatesDao extends DatabaseAccessor<AppDatabase>
           itemTemplates.category
                   .equalsExp(attachedDatabase.sortOrders.categoryId) &
               attachedDatabase.sortOrders.ruleId.equalsNullable(sortRuleId)),
-    ])
-      ..orderBy(_getOrderingTerms(sortMode));
+    ]);
+    otherQuery.orderBy([
+      OrderingTerm(
+          expression: itemCategories.id.isNull(), mode: OrderingMode.asc),
+      OrderingTerm(
+          expression: attachedDatabase.sortOrders.sortOrder.isNull(),
+          mode: OrderingMode.asc),
+      ..._getOrderingTerms(sortMode),
+    ]);
 
     // Mapping the query result to a stream of grouped items
     return otherQuery.watch().map((rows) {

@@ -194,6 +194,33 @@ void main() {
     );
   });
 
+  test(
+      'item templates can be watched in custom order with missing category and order',
+      () async {
+    const expectedValues = [
+      [
+        "Category Test One",
+        "Category Test Six",
+        "Category Test Three",
+        "Category Test Two",
+        "Without Category",
+      ],
+    ];
+
+    await sut.createItemTemplate("Bread", categoryId: 1);
+    await sut.createItemTemplate("Eggs", categoryId: 2);
+    await sut.createItemTemplate("Pasta", categoryId: 3);
+    await sut.createItemTemplate("Milk", categoryId: 6);
+    await sut.createItemTemplate("Apples");
+
+    expectLater(
+      sut.watchItemTemplatesInOrder(SortMode.custom, sortRuleId: 1).map(
+          (groupedItems) =>
+              groupedItems.map((group) => group.category.name).toList()),
+      emitsInOrder(expectedValues),
+    );
+  });
+
   tearDown(() async {
     final db = di<AppDatabase>();
     await db.delete(db.itemTemplates).go();
