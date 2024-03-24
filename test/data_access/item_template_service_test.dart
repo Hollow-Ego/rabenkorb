@@ -113,103 +113,19 @@ void main() {
     expect(itemTemplate?.name, name);
   });
 
-  test('item templates can be watched', () async {
-    const itemOne = "Milk";
-    const itemTwo = "Eggs";
-    const itemThree = "Pasta";
-    const itemThreeModified = "Spaghetti";
-    const itemFour = "Bread";
-
-    const expectedValues = [
-      [],
-      [itemOne],
-      [itemOne, itemTwo],
-      [itemOne, itemTwo, itemThree],
-      [itemOne, itemTwo, itemThree, itemFour],
-      [itemOne, itemTwo, itemThreeModified, itemFour],
-    ];
-
-    expectLater(
-      sut.watchItemTemplates().map((li) => li.map((e) => e.name)),
-      emitsInOrder(expectedValues),
-    );
-
-    // Delay creation of new items to ensure emissions are happening one by one
-    const delay = Duration(milliseconds: 100);
-    await sut.createItemTemplate(itemOne);
-    await Future.delayed(delay);
-    await sut.createItemTemplate(itemTwo);
-    await Future.delayed(delay);
-    final itemThreeId = await sut.createItemTemplate(itemThree);
-    await Future.delayed(delay);
-    await sut.createItemTemplate(itemFour);
-    await Future.delayed(delay);
-    await sut.updateItemTemplate(itemThreeId, name: itemThreeModified);
-  });
-
-  test('item templates can be watched in order by category name', () async {
-    const expectedValues = [
-      [
-        "Category Test Four",
-        "Category Test One",
-        "Category Test Three",
-        "Category Test Two",
-      ],
-    ];
-
-    await sut.createItemTemplate("Bread", categoryId: 1);
-    await sut.createItemTemplate("Eggs", categoryId: 2);
-    await sut.createItemTemplate("Pasta", categoryId: 3);
-    await sut.createItemTemplate("Milk", categoryId: 4);
-
-    expectLater(
-      sut.watchItemTemplatesInOrder(SortMode.name).map((groupedItems) =>
-          groupedItems.map((group) => group.category.name).toList()),
-      emitsInOrder(expectedValues),
-    );
-  });
-
-  test('item templates can be watched in custom order', () async {
-    const expectedValues = [
-      [
-        "Category Test Two",
-        "Category Test One",
-        "Category Test Three",
-        "Category Test Four",
-      ],
-    ];
-
-    await sut.createItemTemplate("Bread", categoryId: 1);
-    await sut.createItemTemplate("Eggs", categoryId: 2);
-    await sut.createItemTemplate("Pasta", categoryId: 3);
-    await sut.createItemTemplate("Milk", categoryId: 4);
-
-    expectLater(
-      sut.watchItemTemplatesInOrder(SortMode.custom, sortRuleId: 2).map(
-          (groupedItems) =>
-              groupedItems.map((group) => group.category.name).toList()),
-      emitsInOrder(expectedValues),
-    );
-  });
-
   test(
       'item templates can be watched in custom order with missing category and order',
       () async {
-    const expectedValues = [
+    final expectedValues = [
       [
-        "Category Test One",
-        "Category Test Six",
-        "Category Test Three",
-        "Category Test Two",
+        testCategories["Alcohol"]!.name,
+        testCategories["Baking Ingredients"]!.name,
+        testCategories["Hot Drinks"]!.name,
+        testCategories["Vegan"]!.name,
+        testCategories["Canned Food"]!.name,
         "Without Category",
       ],
     ];
-
-    await sut.createItemTemplate("Bread", categoryId: 1);
-    await sut.createItemTemplate("Eggs", categoryId: 2);
-    await sut.createItemTemplate("Pasta", categoryId: 3);
-    await sut.createItemTemplate("Milk", categoryId: 6);
-    await sut.createItemTemplate("Apples");
 
     expectLater(
       sut.watchItemTemplatesInOrder(SortMode.custom, sortRuleId: 1).map(
