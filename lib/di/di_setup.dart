@@ -1,4 +1,3 @@
-import 'package:drift/native.dart';
 import 'package:rabenkorb/database/database.dart';
 import 'package:rabenkorb/services/data_access/item_template_service.dart';
 import 'package:watch_it/watch_it.dart';
@@ -9,7 +8,7 @@ void setupDI() {
 }
 
 void _registerDatabase() {
-  final db = AppDatabase(NativeDatabase.memory());
+  final db = AppDatabase();
   di.registerSingleton<AppDatabase>(db);
 }
 
