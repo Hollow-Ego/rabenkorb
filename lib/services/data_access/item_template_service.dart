@@ -4,7 +4,7 @@ import 'package:rabenkorb/shared/sort_mode.dart';
 import 'package:watch_it/watch_it.dart';
 
 class ItemTemplateService {
-  static final _db = di<AppDatabase>();
+  final _db = di<AppDatabase>();
 
   Future<int> createItemTemplate(
     String name, {

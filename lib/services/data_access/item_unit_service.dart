@@ -2,7 +2,7 @@ import 'package:rabenkorb/database/database.dart';
 import 'package:watch_it/watch_it.dart';
 
 class ItemUnitService {
-  static final _db = di<AppDatabase>();
+  final _db = di<AppDatabase>();
 
   Future<int> createItemUnit(String name) {
     return _db.itemUnitsDao.createItemUnit(name);

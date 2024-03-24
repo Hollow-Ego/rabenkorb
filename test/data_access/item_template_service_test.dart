@@ -9,14 +9,12 @@ import '../database_helper.dart';
 
 void main() {
   late ItemTemplateService sut;
+  late AppDatabase database;
 
-  setUpAll(() async {
-    var database = AppDatabase(NativeDatabase.memory());
+  setUp(() async {
+    database = AppDatabase.forTesting(NativeDatabase.memory());
     di.registerSingleton<AppDatabase>(database);
     await seedDatabase(database);
-  });
-
-  setUp(() {
     sut = ItemTemplateService();
   });
 
@@ -222,11 +220,7 @@ void main() {
   });
 
   tearDown(() async {
-    final db = di<AppDatabase>();
-    await db.delete(db.itemTemplates).go();
-  });
-
-  tearDownAll(() async {
-    await di<AppDatabase>().close();
+    await database.close();
+    await di.reset(dispose: true);
   });
 }

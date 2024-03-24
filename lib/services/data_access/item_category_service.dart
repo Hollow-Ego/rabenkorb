@@ -2,7 +2,7 @@ import 'package:rabenkorb/database/database.dart';
 import 'package:watch_it/watch_it.dart';
 
 class ItemCategoryService {
-  static final _db = di<AppDatabase>();
+  final _db = di<AppDatabase>();
 
   Future<int> createItemCategory(String name) {
     return _db.itemCategoriesDao.createItemCategory(name);

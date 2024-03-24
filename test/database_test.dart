@@ -6,7 +6,7 @@ void main() {
   AppDatabase? database;
 
   setUp(() {
-    database = AppDatabase(NativeDatabase.memory());
+    database = AppDatabase.forTesting(NativeDatabase.memory());
   });
 
   test('item templates can be created', () async {

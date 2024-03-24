@@ -2,7 +2,7 @@ import 'package:rabenkorb/database/database.dart';
 import 'package:watch_it/watch_it.dart';
 
 class TemplateLibraryService {
-  static final _db = di<AppDatabase>();
+  final _db = di<AppDatabase>();
 
   Future<int> createTemplateLibrary(String name) {
     return _db.templateLibrariesDao.createTemplateLibrary(name);

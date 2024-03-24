@@ -6,13 +6,11 @@ import 'package:watch_it/watch_it.dart';
 
 void main() {
   late ItemUnitService sut;
+  late AppDatabase database;
 
-  setUpAll(() {
-    var database = AppDatabase(NativeDatabase.memory());
+  setUp(() async {
+    database = AppDatabase.forTesting(NativeDatabase.memory());
     di.registerSingleton<AppDatabase>(database);
-  });
-
-  setUp(() {
     sut = ItemUnitService();
   });
 
@@ -85,11 +83,7 @@ void main() {
   });
 
   tearDown(() async {
-    final db = di<AppDatabase>();
-    await db.delete(db.itemUnits).go();
-  });
-
-  tearDownAll(() async {
     await di<AppDatabase>().close();
+    di.reset(dispose: true);
   });
 }
