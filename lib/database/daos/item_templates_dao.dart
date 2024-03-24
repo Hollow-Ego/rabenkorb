@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:rabenkorb/database/database.dart';
 import 'package:rabenkorb/database/tables/item_templates.dart';
+import 'package:rabenkorb/models/grouped_items.dart';
 import 'package:rabenkorb/shared/sort_mode.dart';
 
 part 'item_templates_dao.g.dart';
@@ -62,28 +63,61 @@ class ItemTemplatesDao extends DatabaseAccessor<AppDatabase>
     return (select(itemTemplates)).watch();
   }
 
-  Stream<List<ItemTemplate>> watchItemTemplatesInOrder(SortMode sortMode) {
-    final query = (select(itemTemplates)..orderBy(_getOrderingTerms(sortMode)));
-    return query.watch();
+  Stream<List<GroupedItems>> watchItemTemplatesInOrder(
+    SortMode sortMode, {
+    int? sortRuleId,
+  }) {
+    final otherQuery = select(itemTemplates).join([
+      leftOuterJoin(
+          itemCategories, itemTemplates.category.equalsExp(itemCategories.id)),
+      leftOuterJoin(
+          attachedDatabase.sortOrders,
+          itemTemplates.category
+                  .equalsExp(attachedDatabase.sortOrders.categoryId) &
+              attachedDatabase.sortOrders.ruleId.equalsNullable(sortRuleId)),
+    ])
+      ..orderBy(_getOrderingTerms(sortMode));
+
+    // Mapping the query result to a stream of grouped items
+    return otherQuery.watch().map((rows) {
+      // A map to hold categories and their corresponding items
+      final Map<int, GroupedItems> groupedItems = {};
+      for (final row in rows) {
+        final template = row.readTable(itemTemplates);
+        final category = row.readTableOrNull(itemCategories) ??
+            const ItemCategory(id: 0, name: "Without Category");
+        groupedItems.putIfAbsent(
+            category.id, () => GroupedItems(category: category, items: []));
+        groupedItems[category.id]!.items.add(template);
+      }
+
+      // Convert the map to a list of GroupedItems
+      return groupedItems.values.toList();
+    });
   }
 
-  List<OrderingTerm Function($ItemTemplatesTable)> _getOrderingTerms<T>(
-      SortMode sortMode) {
+  List<OrderingTerm> _getOrderingTerms<T>(
+    SortMode sortMode,
+  ) {
     switch (sortMode) {
       case SortMode.databaseOrder:
-        return [_byId];
+        return [_byId()];
       case SortMode.name:
-        return [_byName];
+        return [_byCategoryName()];
       case SortMode.custom:
-        return [];
+        return [_bySortOrder()];
     }
   }
 
-  OrderingTerm _byName($ItemTemplatesTable t) {
-    return OrderingTerm(expression: t.name);
+  OrderingTerm _byCategoryName() {
+    return OrderingTerm(expression: itemCategories.name);
   }
 
-  OrderingTerm _byId($ItemTemplatesTable t) {
-    return OrderingTerm(expression: t.id);
+  OrderingTerm _byId() {
+    return OrderingTerm(expression: itemTemplates.id);
+  }
+
+  OrderingTerm _bySortOrder() {
+    return OrderingTerm(expression: attachedDatabase.sortOrders.sortOrder);
   }
 }

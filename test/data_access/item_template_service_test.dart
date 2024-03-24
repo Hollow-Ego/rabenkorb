@@ -149,40 +149,49 @@ void main() {
     await sut.updateItemTemplate(itemThreeId, name: itemThreeModified);
   });
 
-  test('item templates can be watched in named order', () async {
-    const itemFour = "Bread";
-    const itemThreeModified = "Cannelloni";
-    const itemTwo = "Eggs";
-    const itemOne = "Milk";
-    const itemThree = "Pasta";
-
+  test('item templates can be watched in order by category name', () async {
     const expectedValues = [
-      [],
-      [itemOne],
-      [itemTwo, itemOne],
-      [itemTwo, itemOne, itemThree],
-      [itemFour, itemTwo, itemOne, itemThree],
-      [itemFour, itemThreeModified, itemTwo, itemOne],
+      [
+        "Category Test Four",
+        "Category Test One",
+        "Category Test Three",
+        "Category Test Two",
+      ],
     ];
 
+    await sut.createItemTemplate("Bread", categoryId: 1);
+    await sut.createItemTemplate("Eggs", categoryId: 2);
+    await sut.createItemTemplate("Pasta", categoryId: 3);
+    await sut.createItemTemplate("Milk", categoryId: 4);
+
     expectLater(
-      sut
-          .watchItemTemplatesInOrder(SortMode.name)
-          .map((li) => li.map((e) => e.name)),
+      sut.watchItemTemplatesInOrder(SortMode.name).map((groupedItems) =>
+          groupedItems.map((group) => group.category.name).toList()),
       emitsInOrder(expectedValues),
     );
+  });
 
-    // Delay creation of new items to ensure emissions are happening one by one
-    const delay = Duration(milliseconds: 100);
-    await sut.createItemTemplate(itemOne);
-    await Future.delayed(delay);
-    await sut.createItemTemplate(itemTwo);
-    await Future.delayed(delay);
-    final itemThreeId = await sut.createItemTemplate(itemThree);
-    await Future.delayed(delay);
-    await sut.createItemTemplate(itemFour);
-    await Future.delayed(delay);
-    await sut.updateItemTemplate(itemThreeId, name: itemThreeModified);
+  test('item templates can be watched in custom order', () async {
+    const expectedValues = [
+      [
+        "Category Test Two",
+        "Category Test One",
+        "Category Test Three",
+        "Category Test Four",
+      ],
+    ];
+
+    await sut.createItemTemplate("Bread", categoryId: 1);
+    await sut.createItemTemplate("Eggs", categoryId: 2);
+    await sut.createItemTemplate("Pasta", categoryId: 3);
+    await sut.createItemTemplate("Milk", categoryId: 4);
+
+    expectLater(
+      sut.watchItemTemplatesInOrder(SortMode.custom, sortRuleId: 2).map(
+          (groupedItems) =>
+              groupedItems.map((group) => group.category.name).toList()),
+      emitsInOrder(expectedValues),
+    );
   });
 
   tearDown(() async {
