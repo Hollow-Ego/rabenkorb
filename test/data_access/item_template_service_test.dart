@@ -1,11 +1,13 @@
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:rabenkorb/database/database.dart';
+import 'package:rabenkorb/models/grouped_items.dart';
 import 'package:rabenkorb/services/data_access/item_template_service.dart';
 import 'package:rabenkorb/shared/sort_mode.dart';
 import 'package:watch_it/watch_it.dart';
 
 import '../database_helper.dart';
+import '../matcher/grouped_items_matcher.dart';
 
 void main() {
   late ItemTemplateService sut;
@@ -114,24 +116,59 @@ void main() {
   });
 
   test(
-      'item templates can be watched in custom order with missing category and order',
+      'item templates can be watched in custom order with missing category and order and without empty categories',
       () async {
     final expectedValues = [
       [
-        testCategories["Alcohol"]!.name,
-        testCategories["Baking Ingredients"]!.name,
-        testCategories["Hot Drinks"]!.name,
-        testCategories["Vegan"]!.name,
-        testCategories["Canned Food"]!.name,
-        "Without Category",
+        GroupedItems(
+          category: testCategories["Alcohol"]!,
+          items: [
+            testItemTemplates["Rum"]!,
+          ],
+        ),
+        GroupedItems(
+          category: testCategories["Baking Ingredients"]!,
+          items: [
+            testItemTemplates["Baking Soda"]!,
+            testItemTemplates["Flour"]!,
+          ],
+        ),
+        GroupedItems(
+          category: testCategories["Hot Drinks"]!,
+          items: [
+            testItemTemplates["Coffee"]!,
+            testItemTemplates["Earl Grey"]!,
+          ],
+        ),
+        GroupedItems(
+          category: testCategories["Vegan"]!,
+          items: [
+            testItemTemplates["Schnitzel"]!,
+          ],
+        ),
+        GroupedItems(
+          category: testCategories["Canned Food"]!,
+          items: [
+            testItemTemplates["Beans"]!,
+            testItemTemplates["Corn"]!,
+            testItemTemplates["Kidney Beans"]!,
+            testItemTemplates["Soup"]!,
+          ],
+        ),
+        GroupedItems(
+          category: const ItemCategory(id: 0, name: "Without Category"),
+          items: [
+            testItemTemplates["Apple"]!,
+            testItemTemplates["Orange Juice"]!,
+            testItemTemplates["Socks"]!,
+          ],
+        ),
       ],
     ];
 
     expectLater(
-      sut.watchItemTemplatesInOrder(SortMode.custom, sortRuleId: 1).map(
-          (groupedItems) =>
-              groupedItems.map((group) => group.category.name).toList()),
-      emitsInOrder(expectedValues),
+      sut.watchItemTemplatesInOrder(SortMode.custom, sortRuleId: 1),
+      emitsInOrder(expectedValues.map((emission) => IsGroupedItem(emission))),
     );
   });
 

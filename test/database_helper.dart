@@ -8,6 +8,7 @@ Map<String, ItemCategory> testCategories = {
   "Canned Food": const ItemCategory(id: 4, name: "Canned Food"),
   "Dry Food": const ItemCategory(id: 5, name: "Dry Food"),
   "Baking Ingredients": const ItemCategory(id: 6, name: "Baking Ingredients"),
+  "Unused Category": const ItemCategory(id: 7, name: "Unused Category"),
 };
 
 Map<String, ItemUnit> testUnits = {
@@ -58,6 +59,33 @@ Map<String, ItemTemplate> testItemTemplates = {
     category: testCategories["Baking Ingredients"]!.id,
   ),
   "Apple": const ItemTemplate(id: 6, name: "Apple"),
+  "Socks": const ItemTemplate(id: 7, name: "Socks"),
+  "Orange Juice": const ItemTemplate(id: 8, name: "Orange Juice"),
+  "Soup": ItemTemplate(
+    id: 9,
+    name: "Soup",
+    category: testCategories["Canned Food"]!.id,
+  ),
+  "Corn": ItemTemplate(
+    id: 10,
+    name: "Corn",
+    category: testCategories["Canned Food"]!.id,
+  ),
+  "Kidney Beans": ItemTemplate(
+    id: 11,
+    name: "Kidney Beans",
+    category: testCategories["Canned Food"]!.id,
+  ),
+  "Baking Soda": ItemTemplate(
+    id: 12,
+    name: "Baking Soda",
+    category: testCategories["Baking Ingredients"]!.id,
+  ),
+  "Earl Grey": ItemTemplate(
+    id: 13,
+    name: "Earl Grey",
+    category: testCategories["Hot Drinks"]!.id,
+  ),
 };
 
 List<SortOrder> testSortOrdersRuleOne = [
