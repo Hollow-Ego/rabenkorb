@@ -18,7 +18,7 @@ class BasketItems extends Table {
 
   IntColumn get category => integer().nullable().references(ItemCategories, #id)();
 
-  IntColumn get basket => integer().nullable().references(ShoppingBaskets, #id)();
+  IntColumn get basket => integer().references(ShoppingBaskets, #id)();
 
   IntColumn get unit => integer().nullable().references(ItemUnits, #id)();
 }
