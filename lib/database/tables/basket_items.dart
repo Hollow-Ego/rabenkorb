@@ -4,8 +4,8 @@ import 'package:rabenkorb/database/tables/item_units.dart';
 import 'package:rabenkorb/database/tables/shopping_basket.dart';
 import 'package:rabenkorb/database/tables/variant_keys.dart';
 
-@DataClassName('Item')
-class Items extends Table {
+@DataClassName('BasketItem')
+class BasketItems extends Table {
   IntColumn get id => integer().autoIncrement()();
 
   TextColumn get name => text().withLength(min: 1, max: 32)();

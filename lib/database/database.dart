@@ -4,19 +4,19 @@ import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
+import 'package:rabenkorb/database/daos/basket_items_dao.dart';
 import 'package:rabenkorb/database/daos/item_categories_dao.dart';
 import 'package:rabenkorb/database/daos/item_templates_dao.dart';
 import 'package:rabenkorb/database/daos/item_units_dao.dart';
-import 'package:rabenkorb/database/daos/items_dao.dart';
 import 'package:rabenkorb/database/daos/shopping_baskets_dao.dart';
 import 'package:rabenkorb/database/daos/sort_orders_dao.dart';
 import 'package:rabenkorb/database/daos/sort_rules_dao.dart';
 import 'package:rabenkorb/database/daos/template_libraries_dao.dart';
 import 'package:rabenkorb/database/daos/variant_keys_dao.dart';
+import 'package:rabenkorb/database/tables/basket_items.dart';
 import 'package:rabenkorb/database/tables/item_categories.dart';
 import 'package:rabenkorb/database/tables/item_templates.dart';
 import 'package:rabenkorb/database/tables/item_units.dart';
-import 'package:rabenkorb/database/tables/items.dart';
 import 'package:rabenkorb/database/tables/shopping_basket.dart';
 import 'package:rabenkorb/database/tables/sort_orders.dart';
 import 'package:rabenkorb/database/tables/sort_rules.dart';
@@ -30,7 +30,7 @@ part 'database.g.dart';
     ItemCategories,
     ItemTemplates,
     ItemUnits,
-    Items,
+    BasketItems,
     ShoppingBaskets,
     SortOrders,
     SortRules,
@@ -41,7 +41,7 @@ part 'database.g.dart';
     ItemCategoriesDao,
     ItemTemplatesDao,
     ItemUnitsDao,
-    ItemsDao,
+    BasketItemsDao,
     ShoppingBasketsDao,
     SortOrdersDao,
     SortRulesDao,
