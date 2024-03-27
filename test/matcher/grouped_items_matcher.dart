@@ -1,9 +1,10 @@
+import 'package:drift/drift.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:rabenkorb/database/database.dart';
 import 'package:rabenkorb/models/grouped_items.dart';
 
-class IsGroupedItem extends Matcher {
-  final List<GroupedItems> expectedItems;
+class IsGroupedItem<T extends DataClass> extends Matcher {
+  final List<GroupedItems<T>> expectedItems;
   int mismatchedItemIndex = -1;
   int mismatchedItemTemplateIndex = -1;
 
@@ -16,7 +17,7 @@ class IsGroupedItem extends Matcher {
 
   @override
   bool matches(item, Map matchState) {
-    final actualItems = item as List<GroupedItems>;
+    final actualItems = item as List<GroupedItems<T>>;
 
     for (final (index, actualItem) in actualItems.indexed) {
       final expectedItem = expectedItems.elementAt(index);
@@ -37,7 +38,7 @@ class IsGroupedItem extends Matcher {
     Map matchState,
     bool verbose,
   ) {
-    final actualItems = item as List<GroupedItems>;
+    final actualItems = item as List<GroupedItems<T>>;
 
     mismatchDescription.add("item at index $mismatchedItemIndex\n");
 
@@ -71,8 +72,8 @@ class IsGroupedItem extends Matcher {
   }
 
   bool _isExpectedGroupedItems(
-    GroupedItems actualItem,
-    GroupedItems expectedItem,
+    GroupedItems<T> actualItem,
+    GroupedItems<T> expectedItem,
   ) {
     final actualCategory = actualItem.category;
     final expectedCategory = expectedItem.category;
@@ -95,10 +96,17 @@ class IsGroupedItem extends Matcher {
     return actualCategory.name == expectedCategory.name;
   }
 
-  bool _areExpectedItems(
-    List<ItemTemplate> actualItems,
-    List<ItemTemplate> expectedItems,
-  ) {
+  bool _areExpectedItems(List<T> actualItems, List<T> expectedItems) {
+    if (T is ItemTemplate) {
+      _assertItemTemplates(actualItems as List<ItemTemplate>, expectedItems as List<ItemTemplate>);
+    } else if (T is BasketItem) {
+      _assertBasketItem(actualItems as List<BasketItem>, expectedItems as List<BasketItem>);
+    }
+
+    return mismatchedItemTemplateIndex < 0;
+  }
+
+  void _assertItemTemplates(List<ItemTemplate> actualItems, List<ItemTemplate> expectedItems) {
     for (final (index, actualItem) in actualItems.indexed) {
       final expectedItem = expectedItems.elementAt(index);
 
@@ -112,6 +120,24 @@ class IsGroupedItem extends Matcher {
         break;
       }
     }
-    return mismatchedItemTemplateIndex < 0;
+  }
+
+  void _assertBasketItem(List<BasketItem> actualItems, List<BasketItem> expectedItems) {
+    for (final (index, actualItem) in actualItems.indexed) {
+      final expectedItem = expectedItems.elementAt(index);
+
+      final nameMatches = actualItem.name == expectedItem.name;
+      final categoryMatches = actualItem.category == expectedItem.category;
+      final variantMatches = actualItem.variantKey == expectedItem.variantKey;
+      final imagePathMatches = actualItem.imagePath == expectedItem.imagePath;
+      final amountMatches = actualItem.amount == expectedItem.amount;
+      final unitMatches = actualItem.unit == expectedItem.unit;
+      final basketMatches = actualItem.basket == expectedItem.unit;
+
+      if (!(nameMatches && categoryMatches && variantMatches && imagePathMatches && amountMatches && unitMatches && basketMatches)) {
+        mismatchedItemTemplateIndex = index;
+        break;
+      }
+    }
   }
 }

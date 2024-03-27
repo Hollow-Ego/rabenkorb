@@ -1,8 +1,8 @@
 import 'package:rabenkorb/database/database.dart';
 
-class GroupedItems {
+class GroupedItems<T> {
   final ItemCategory category;
-  final List<ItemTemplate> items;
+  final List<T> items;
 
   GroupedItems({required this.category, required this.items});
 }

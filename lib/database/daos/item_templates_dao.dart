@@ -55,7 +55,7 @@ class ItemTemplatesDao extends DatabaseAccessor<AppDatabase> with _$ItemTemplate
     return (select(itemTemplates)).watch();
   }
 
-  Stream<List<GroupedItems>> watchItemTemplatesInOrder(
+  Stream<List<GroupedItems<ItemTemplate>>> watchItemTemplatesInOrder(
     SortMode sortMode, {
     int? sortRuleId,
     String? searchTerm,
@@ -80,7 +80,7 @@ class ItemTemplatesDao extends DatabaseAccessor<AppDatabase> with _$ItemTemplate
     // Mapping the query result to a stream of grouped items
     return query.watch().map((rows) {
       // A map to hold categories and their corresponding items
-      final Map<int, GroupedItems> groupedItems = {};
+      final Map<int, GroupedItems<ItemTemplate>> groupedItems = {};
       for (final row in rows) {
         final template = row.readTable(itemTemplates);
         final category = row.readTableOrNull(itemCategories) ?? const ItemCategory(id: 0, name: "Without Category");

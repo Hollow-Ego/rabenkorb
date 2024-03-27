@@ -169,7 +169,7 @@ void main() {
 
     expectLater(
       sut.itemTemplates,
-      emitsInOrder(expectedValues.map((emission) => IsGroupedItem(emission))),
+      emitsInOrder(expectedValues.map((emission) => IsGroupedItem<ItemTemplate>(emission))),
     );
   });
 
