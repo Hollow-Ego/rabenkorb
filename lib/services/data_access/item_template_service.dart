@@ -6,14 +6,12 @@ import 'package:watch_it/watch_it.dart';
 
 class ItemTemplateService {
   final _db = di<AppDatabase>();
+
   final BehaviorSubject<String> _searchSubject = BehaviorSubject<String>.seeded("");
-
   final BehaviorSubject<int?> _sortRuleIdSubject = BehaviorSubject<int?>.seeded(null);
-
   final BehaviorSubject<SortMode> _sortModeSubject = BehaviorSubject<SortMode>.seeded(SortMode.name);
 
   late Stream<List<GroupedItems>> _itemTemplatesStream;
-
   Stream<List<GroupedItems>> get itemTemplates => _itemTemplatesStream;
 
   ItemTemplateService() {
