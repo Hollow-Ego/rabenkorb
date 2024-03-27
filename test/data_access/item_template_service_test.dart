@@ -173,6 +173,97 @@ void main() {
     );
   });
 
+  test('item templates can be filtered case insensitive and debounced', () async {
+    const searchStringOne = "e";
+    const searchStringTwo = "ea";
+    const searchStringThree = "EANS";
+    final expectedValues = [
+      [
+        GroupedItems(
+          category: testCategories["Hot Drinks"]!,
+          items: [
+            testItemTemplates["Earl Grey"]!,
+          ],
+        ),
+        GroupedItems(
+          category: testCategories["Canned Food"]!,
+          items: [
+            testItemTemplates["Beans"]!,
+            testItemTemplates["Kidney Beans"]!,
+          ],
+        ),
+      ],
+      [
+        GroupedItems(
+          category: testCategories["Canned Food"]!,
+          items: [
+            testItemTemplates["Beans"]!,
+            testItemTemplates["Kidney Beans"]!,
+          ],
+        ),
+      ],
+      [
+        GroupedItems(
+          category: testCategories["Alcohol"]!,
+          items: [
+            testItemTemplates["Rum"]!,
+          ],
+        ),
+        GroupedItems(
+          category: testCategories["Baking Ingredients"]!,
+          items: [
+            testItemTemplates["Baking Soda"]!,
+            testItemTemplates["Flour"]!,
+          ],
+        ),
+        GroupedItems(
+          category: testCategories["Hot Drinks"]!,
+          items: [
+            testItemTemplates["Coffee"]!,
+            testItemTemplates["Earl Grey"]!,
+          ],
+        ),
+        GroupedItems(
+          category: testCategories["Vegan"]!,
+          items: [
+            testItemTemplates["Schnitzel"]!,
+          ],
+        ),
+        GroupedItems(
+          category: testCategories["Canned Food"]!,
+          items: [
+            testItemTemplates["Beans"]!,
+            testItemTemplates["Corn"]!,
+            testItemTemplates["Kidney Beans"]!,
+            testItemTemplates["Soup"]!,
+          ],
+        ),
+        GroupedItems(
+          category: const ItemCategory(id: 0, name: "Without Category"),
+          items: [
+            testItemTemplates["Apple"]!,
+            testItemTemplates["Orange Juice"]!,
+            testItemTemplates["Socks"]!,
+          ],
+        ),
+      ]
+    ];
+
+    expectLater(
+      sut.itemTemplates,
+      emitsInOrder(expectedValues.map((emission) => IsGroupedItem(emission))),
+    );
+
+    // Delay creation of new items to ensure emissions are happening one by one
+    const delay = Duration(milliseconds: 350);
+    sut.setSearchString(searchStringOne);
+    sut.setSearchString(searchStringTwo);
+    await Future.delayed(delay);
+    sut.setSearchString(searchStringThree);
+    await Future.delayed(delay);
+    sut.setSearchString(null);
+  });
+
   tearDown(() async {
     await database.close();
     await di.reset(dispose: true);
