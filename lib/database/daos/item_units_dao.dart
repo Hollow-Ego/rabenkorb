@@ -5,8 +5,7 @@ import 'package:rabenkorb/database/tables/item_units.dart';
 part 'item_units_dao.g.dart';
 
 @DriftAccessor(tables: [ItemUnits])
-class ItemUnitsDao extends DatabaseAccessor<AppDatabase>
-    with _$ItemUnitsDaoMixin {
+class ItemUnitsDao extends DatabaseAccessor<AppDatabase> with _$ItemUnitsDaoMixin {
   ItemUnitsDao(super.db);
 
   Future<int> createItemUnit(String name) {
@@ -22,8 +21,7 @@ class ItemUnitsDao extends DatabaseAccessor<AppDatabase>
   }
 
   Future<ItemUnit?> getItemUnitWithId(int id) {
-    return (select(itemUnits)..where((li) => li.id.equals(id)))
-        .getSingleOrNull();
+    return (select(itemUnits)..where((li) => li.id.equals(id))).getSingleOrNull();
   }
 
   Future<int> deleteItemUnitWithId(int id) {

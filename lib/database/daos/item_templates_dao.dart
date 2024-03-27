@@ -7,8 +7,7 @@ import 'package:rabenkorb/shared/sort_mode.dart';
 part 'item_templates_dao.g.dart';
 
 @DriftAccessor(tables: [ItemTemplates])
-class ItemTemplatesDao extends DatabaseAccessor<AppDatabase>
-    with _$ItemTemplatesDaoMixin {
+class ItemTemplatesDao extends DatabaseAccessor<AppDatabase> with _$ItemTemplatesDaoMixin {
   ItemTemplatesDao(super.db);
 
   Future<int> createItemTemplate(
@@ -19,11 +18,7 @@ class ItemTemplatesDao extends DatabaseAccessor<AppDatabase>
     String? imagePath,
   }) {
     final companion = ItemTemplatesCompanion(
-        name: Value(name),
-        category: Value(categoryId),
-        library: Value(libraryId),
-        variantKey: Value(variantKeyId),
-        imagePath: Value(imagePath));
+        name: Value(name), category: Value(categoryId), library: Value(libraryId), variantKey: Value(variantKeyId), imagePath: Value(imagePath));
     return into(itemTemplates).insert(companion);
   }
 
@@ -41,18 +36,15 @@ class ItemTemplatesDao extends DatabaseAccessor<AppDatabase>
         library: Value.absentIfNull(libraryId),
         variantKey: Value.absentIfNull(variantKeyId),
         imagePath: Value.absentIfNull(imagePath));
-    return (update(itemTemplates)..where((li) => li.id.equals(id)))
-        .write(companion);
+    return (update(itemTemplates)..where((li) => li.id.equals(id))).write(companion);
   }
 
   Stream<ItemTemplate> watchItemTemplateWithId(int id) {
-    return (select(itemTemplates)..where((li) => li.id.equals(id)))
-        .watchSingle();
+    return (select(itemTemplates)..where((li) => li.id.equals(id))).watchSingle();
   }
 
   Future<ItemTemplate?> getItemTemplateWithId(int id) {
-    return (select(itemTemplates)..where((li) => li.id.equals(id)))
-        .getSingleOrNull();
+    return (select(itemTemplates)..where((li) => li.id.equals(id))).getSingleOrNull();
   }
 
   Future<int> deleteItemTemplateWithId(int id) {
@@ -75,20 +67,13 @@ class ItemTemplatesDao extends DatabaseAccessor<AppDatabase>
     }
 
     final query = sourceQuery.join([
-      leftOuterJoin(
-          itemCategories, itemTemplates.category.equalsExp(itemCategories.id)),
-      leftOuterJoin(
-          attachedDatabase.sortOrders,
-          itemTemplates.category
-                  .equalsExp(attachedDatabase.sortOrders.categoryId) &
-              attachedDatabase.sortOrders.ruleId.equalsNullable(sortRuleId)),
+      leftOuterJoin(itemCategories, itemTemplates.category.equalsExp(itemCategories.id)),
+      leftOuterJoin(attachedDatabase.sortOrders,
+          itemTemplates.category.equalsExp(attachedDatabase.sortOrders.categoryId) & attachedDatabase.sortOrders.ruleId.equalsNullable(sortRuleId)),
     ]);
     query.orderBy([
-      OrderingTerm(
-          expression: itemCategories.id.isNull(), mode: OrderingMode.asc),
-      OrderingTerm(
-          expression: attachedDatabase.sortOrders.sortOrder.isNull(),
-          mode: OrderingMode.asc),
+      OrderingTerm(expression: itemCategories.id.isNull(), mode: OrderingMode.asc),
+      OrderingTerm(expression: attachedDatabase.sortOrders.sortOrder.isNull(), mode: OrderingMode.asc),
       ..._getOrderingTerms(sortMode),
     ]);
 
@@ -98,10 +83,8 @@ class ItemTemplatesDao extends DatabaseAccessor<AppDatabase>
       final Map<int, GroupedItems> groupedItems = {};
       for (final row in rows) {
         final template = row.readTable(itemTemplates);
-        final category = row.readTableOrNull(itemCategories) ??
-            const ItemCategory(id: 0, name: "Without Category");
-        groupedItems.putIfAbsent(
-            category.id, () => GroupedItems(category: category, items: []));
+        final category = row.readTableOrNull(itemCategories) ?? const ItemCategory(id: 0, name: "Without Category");
+        groupedItems.putIfAbsent(category.id, () => GroupedItems(category: category, items: []));
         groupedItems[category.id]!.items.add(template);
       }
 

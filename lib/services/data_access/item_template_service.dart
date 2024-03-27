@@ -6,14 +6,11 @@ import 'package:watch_it/watch_it.dart';
 
 class ItemTemplateService {
   final _db = di<AppDatabase>();
-  final BehaviorSubject<String> _searchSubject =
-      BehaviorSubject<String>.seeded("");
+  final BehaviorSubject<String> _searchSubject = BehaviorSubject<String>.seeded("");
 
-  final BehaviorSubject<int?> _sortRuleIdSubject =
-      BehaviorSubject<int?>.seeded(null);
+  final BehaviorSubject<int?> _sortRuleIdSubject = BehaviorSubject<int?>.seeded(null);
 
-  final BehaviorSubject<SortMode> _sortModeSubject =
-      BehaviorSubject<SortMode>.seeded(SortMode.name);
+  final BehaviorSubject<SortMode> _sortModeSubject = BehaviorSubject<SortMode>.seeded(SortMode.name);
 
   late Stream<List<GroupedItems>> _itemTemplatesStream;
 
@@ -24,15 +21,12 @@ class ItemTemplateService {
       _sortModeSubject.stream.distinct(),
       _sortRuleIdSubject.stream.distinct(),
       _searchSubject.stream.distinct(),
-      (SortMode sortMode, int? sortRuleId, String searchTerm) =>
-          _watchItemTemplatesInOrder(
+      (SortMode sortMode, int? sortRuleId, String searchTerm) => _watchItemTemplatesInOrder(
         sortMode,
         sortRuleId: sortRuleId,
         searchTerm: searchTerm,
       ),
-    )
-        .debounceTime(const Duration(milliseconds: 300))
-        .switchMap((stream) => stream);
+    ).debounceTime(const Duration(milliseconds: 300)).switchMap((stream) => stream);
   }
 
   factory ItemTemplateService.withValue({
@@ -111,9 +105,7 @@ class ItemTemplateService {
     _searchSubject.add(searchString);
   }
 
-  Stream<List<GroupedItems>> _watchItemTemplatesInOrder(SortMode sortMode,
-      {int? sortRuleId, String? searchTerm}) {
-    return _db.itemTemplatesDao.watchItemTemplatesInOrder(sortMode,
-        sortRuleId: sortRuleId, searchTerm: searchTerm);
+  Stream<List<GroupedItems>> _watchItemTemplatesInOrder(SortMode sortMode, {int? sortRuleId, String? searchTerm}) {
+    return _db.itemTemplatesDao.watchItemTemplatesInOrder(sortMode, sortRuleId: sortRuleId, searchTerm: searchTerm);
   }
 }

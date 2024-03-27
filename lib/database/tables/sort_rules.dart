@@ -1,15 +1,6 @@
 import 'package:drift/drift.dart';
 
-enum GroupMode {
-  name,
-  category,
-  unit,
-  amount,
-  amountAndUnit,
-  without,
-  external,
-  variant
-}
+enum GroupMode { name, category, unit, amount, amountAndUnit, without, external, variant }
 
 @DataClassName('SortRule')
 class SortRules extends Table {
