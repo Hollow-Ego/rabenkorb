@@ -110,14 +110,18 @@ class ItemTemplatesDao extends DatabaseAccessor<AppDatabase>
       case SortMode.databaseOrder:
         return [_byId()];
       case SortMode.name:
-        return [_byCategoryName()];
+        return [_byCategoryName(), _byItemTemplateName()];
       case SortMode.custom:
-        return [_bySortOrder()];
+        return [_bySortOrder(), _byItemTemplateName()];
     }
   }
 
   OrderingTerm _byCategoryName() {
     return OrderingTerm(expression: itemCategories.name);
+  }
+
+  OrderingTerm _byItemTemplateName() {
+    return OrderingTerm(expression: itemTemplates.name);
   }
 
   OrderingTerm _byId() {
