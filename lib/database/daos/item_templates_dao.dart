@@ -66,8 +66,15 @@ class ItemTemplatesDao extends DatabaseAccessor<AppDatabase>
   Stream<List<GroupedItems>> watchItemTemplatesInOrder(
     SortMode sortMode, {
     int? sortRuleId,
+    String? searchTerm,
   }) {
-    final otherQuery = select(itemTemplates).join([
+    final sourceQuery = select(itemTemplates);
+
+    if (searchTerm != null && searchTerm.isNotEmpty) {
+      sourceQuery.where((tbl) => tbl.name.like('%$searchTerm%'));
+    }
+
+    final query = sourceQuery.join([
       leftOuterJoin(
           itemCategories, itemTemplates.category.equalsExp(itemCategories.id)),
       leftOuterJoin(
@@ -76,7 +83,7 @@ class ItemTemplatesDao extends DatabaseAccessor<AppDatabase>
                   .equalsExp(attachedDatabase.sortOrders.categoryId) &
               attachedDatabase.sortOrders.ruleId.equalsNullable(sortRuleId)),
     ]);
-    otherQuery.orderBy([
+    query.orderBy([
       OrderingTerm(
           expression: itemCategories.id.isNull(), mode: OrderingMode.asc),
       OrderingTerm(
@@ -86,7 +93,7 @@ class ItemTemplatesDao extends DatabaseAccessor<AppDatabase>
     ]);
 
     // Mapping the query result to a stream of grouped items
-    return otherQuery.watch().map((rows) {
+    return query.watch().map((rows) {
       // A map to hold categories and their corresponding items
       final Map<int, GroupedItems> groupedItems = {};
       for (final row in rows) {

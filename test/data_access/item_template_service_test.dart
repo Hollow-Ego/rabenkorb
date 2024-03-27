@@ -17,7 +17,10 @@ void main() {
     database = AppDatabase.forTesting(NativeDatabase.memory());
     di.registerSingleton<AppDatabase>(database);
     await seedDatabase(database);
-    sut = ItemTemplateService();
+    sut = ItemTemplateService.withValue(
+      sortMode: SortMode.custom,
+      sortRuleId: 1,
+    );
   });
 
   test('item templates can be created', () async {
@@ -167,7 +170,7 @@ void main() {
     ];
 
     expectLater(
-      sut.watchItemTemplatesInOrder(SortMode.custom, sortRuleId: 1),
+      sut.itemTemplates,
       emitsInOrder(expectedValues.map((emission) => IsGroupedItem(emission))),
     );
   });
