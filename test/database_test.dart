@@ -12,8 +12,7 @@ void main() {
   test('item templates can be created', () async {
     const testName = "Milk";
     final id = await database!.itemTemplatesDao.createItemTemplate(testName);
-    final libraryItem =
-        await database!.itemTemplatesDao.watchItemTemplateWithId(id).first;
+    final libraryItem = await database!.itemTemplatesDao.watchItemTemplateWithId(id).first;
 
     expect(libraryItem.name, testName);
   });
@@ -24,9 +23,7 @@ void main() {
     final id = await database!.itemTemplatesDao.createItemTemplate(testNameOne);
 
     expectLater(
-      database!.itemTemplatesDao
-          .watchItemTemplateWithId(id)
-          .map((li) => li.name),
+      database!.itemTemplatesDao.watchItemTemplateWithId(id).map((li) => li.name),
       emitsInOrder([testNameOne, testNameTwo]),
     );
 

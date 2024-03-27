@@ -13,6 +13,7 @@ class Items extends Table {
   TextColumn get imagePath => text().nullable()();
 
   RealColumn get amount => real()();
+
   IntColumn get variantKey => integer().nullable().references(VariantKeys, #id)();
 
   IntColumn get category => integer().nullable().references(ItemCategories, #id)();

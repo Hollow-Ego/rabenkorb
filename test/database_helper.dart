@@ -89,45 +89,18 @@ Map<String, ItemTemplate> testItemTemplates = {
 };
 
 List<SortOrder> testSortOrdersRuleOne = [
-  SortOrder(
-      categoryId: testCategories["Alcohol"]!.id,
-      sortOrder: 1,
-      ruleId: testSortRules["Aldi"]!.id),
-  SortOrder(
-      categoryId: testCategories["Baking Ingredients"]!.id,
-      sortOrder: 2,
-      ruleId: testSortRules["Aldi"]!.id),
-  SortOrder(
-      categoryId: testCategories["Hot Drinks"]!.id,
-      sortOrder: 3,
-      ruleId: testSortRules["Aldi"]!.id),
+  SortOrder(categoryId: testCategories["Alcohol"]!.id, sortOrder: 1, ruleId: testSortRules["Aldi"]!.id),
+  SortOrder(categoryId: testCategories["Baking Ingredients"]!.id, sortOrder: 2, ruleId: testSortRules["Aldi"]!.id),
+  SortOrder(categoryId: testCategories["Hot Drinks"]!.id, sortOrder: 3, ruleId: testSortRules["Aldi"]!.id),
 ];
 
 List<SortOrder> testSortOrdersRuleTwo = [
-  SortOrder(
-      categoryId: testCategories["Vegan"]!.id,
-      sortOrder: 1,
-      ruleId: testSortRules["Lidl"]!.id),
-  SortOrder(
-      categoryId: testCategories["Alcohol"]!.id,
-      sortOrder: 2,
-      ruleId: testSortRules["Lidl"]!.id),
-  SortOrder(
-      categoryId: testCategories["Hot Drinks"]!.id,
-      sortOrder: 3,
-      ruleId: testSortRules["Lidl"]!.id),
-  SortOrder(
-      categoryId: testCategories["Canned Food"]!.id,
-      sortOrder: 6,
-      ruleId: testSortRules["Lidl"]!.id),
-  SortOrder(
-      categoryId: testCategories["Baking Ingredients"]!.id,
-      sortOrder: 8,
-      ruleId: testSortRules["Lidl"]!.id),
-  SortOrder(
-      categoryId: testCategories["Dry Food"]!.id,
-      sortOrder: 10,
-      ruleId: testSortRules["Lidl"]!.id),
+  SortOrder(categoryId: testCategories["Vegan"]!.id, sortOrder: 1, ruleId: testSortRules["Lidl"]!.id),
+  SortOrder(categoryId: testCategories["Alcohol"]!.id, sortOrder: 2, ruleId: testSortRules["Lidl"]!.id),
+  SortOrder(categoryId: testCategories["Hot Drinks"]!.id, sortOrder: 3, ruleId: testSortRules["Lidl"]!.id),
+  SortOrder(categoryId: testCategories["Canned Food"]!.id, sortOrder: 6, ruleId: testSortRules["Lidl"]!.id),
+  SortOrder(categoryId: testCategories["Baking Ingredients"]!.id, sortOrder: 8, ruleId: testSortRules["Lidl"]!.id),
+  SortOrder(categoryId: testCategories["Dry Food"]!.id, sortOrder: 10, ruleId: testSortRules["Lidl"]!.id),
 ];
 
 Future<void> seedDatabase(AppDatabase db) async {

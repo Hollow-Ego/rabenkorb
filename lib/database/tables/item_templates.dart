@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:rabenkorb/database/tables/item_categories.dart';
-import 'package:rabenkorb/database/tables/variant_keys.dart';
 import 'package:rabenkorb/database/tables/template_libraries.dart';
+import 'package:rabenkorb/database/tables/variant_keys.dart';
 
 @DataClassName('ItemTemplate')
 class ItemTemplates extends Table {

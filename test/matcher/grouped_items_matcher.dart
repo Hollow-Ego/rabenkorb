@@ -53,26 +53,19 @@ class IsGroupedItem extends Matcher {
     final actualCategory = actualItem.category.name;
 
     if (actualItem.category.name != expectedItem.category.name) {
-      mismatchDescription.add(
-          'expected to have category "$expectedCategory" but got "$actualCategory"\n');
+      mismatchDescription.add('expected to have category "$expectedCategory" but got "$actualCategory"\n');
     }
 
     if (mismatchedItemTemplateIndex >= 0) {
-      final actualItemTemplate =
-          actualItem.items.elementAt(mismatchedItemTemplateIndex);
-      final expectedItemTemplate =
-          expectedItem.items.elementAt(mismatchedItemTemplateIndex);
+      final actualItemTemplate = actualItem.items.elementAt(mismatchedItemTemplateIndex);
+      final expectedItemTemplate = expectedItem.items.elementAt(mismatchedItemTemplateIndex);
 
-      mismatchDescription
-          .add("actual item templates\n${actualItem.items.toString()}\n");
+      mismatchDescription.add("actual item templates\n${actualItem.items.toString()}\n");
 
-      mismatchDescription
-          .add("expected item templates\n${expectedItem.items.toString()}\n");
+      mismatchDescription.add("expected item templates\n${expectedItem.items.toString()}\n");
 
-      mismatchDescription
-          .add("item template at index $mismatchedItemTemplateIndex\n");
-      mismatchDescription.add(
-          'expected to be\n"${expectedItemTemplate.toJson()}"\nbut got\n"${actualItemTemplate.toJson()}"\n');
+      mismatchDescription.add("item template at index $mismatchedItemTemplateIndex\n");
+      mismatchDescription.add('expected to be\n"${expectedItemTemplate.toJson()}"\nbut got\n"${actualItemTemplate.toJson()}"\n');
     }
     return mismatchDescription;
   }
@@ -114,10 +107,7 @@ class IsGroupedItem extends Matcher {
       final variantMatches = actualItem.variantKey == expectedItem.variantKey;
       final imagePathMatches = actualItem.imagePath == expectedItem.imagePath;
 
-      if (!(nameMatches &&
-          categoryMatches &&
-          variantMatches &&
-          imagePathMatches)) {
+      if (!(nameMatches && categoryMatches && variantMatches && imagePathMatches)) {
         mismatchedItemTemplateIndex = index;
         break;
       }

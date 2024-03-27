@@ -118,9 +118,7 @@ void main() {
     expect(itemTemplate?.name, name);
   });
 
-  test(
-      'item templates can be watched in custom order with missing category and order and without empty categories',
-      () async {
+  test('item templates can be watched in custom order with missing category and order and without empty categories', () async {
     final expectedValues = [
       [
         GroupedItems(
