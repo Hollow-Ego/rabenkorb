@@ -15,7 +15,6 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
     double amount = 0,
     int? categoryId,
     required int basketId,
-    int? variantKeyId,
     String? imagePath,
     int? unitId,
   }) {
@@ -23,7 +22,6 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
       name: Value(name),
       category: Value(categoryId),
       basket: Value(basketId),
-      variantKey: Value(variantKeyId),
       imagePath: Value(imagePath),
       unit: Value(unitId),
       amount: Value(amount),
@@ -37,7 +35,6 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
     double? amount,
     int? categoryId,
     int? basketId,
-    int? variantKeyId,
     String? imagePath,
     int? unitId,
   }) {
@@ -45,7 +42,6 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
       name: Value.absentIfNull(name),
       category: Value.absentIfNull(categoryId),
       basket: Value.absentIfNull(basketId),
-      variantKey: Value.absentIfNull(variantKeyId),
       imagePath: Value.absentIfNull(imagePath),
       unit: Value.absentIfNull(unitId),
       amount: Value.absentIfNull(amount),

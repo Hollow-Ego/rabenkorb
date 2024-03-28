@@ -15,5 +15,5 @@ class ItemTemplates extends Table {
 
   IntColumn get category => integer().nullable().references(ItemCategories, #id)();
 
-  IntColumn get library => integer().nullable().references(TemplateLibraries, #id)();
+  IntColumn get library => integer().references(TemplateLibraries, #id)();
 }

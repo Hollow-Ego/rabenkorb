@@ -13,12 +13,17 @@ class ItemTemplatesDao extends DatabaseAccessor<AppDatabase> with _$ItemTemplate
   Future<int> createItemTemplate(
     String name, {
     int? categoryId,
-    int? libraryId,
+    required int libraryId,
     int? variantKeyId,
     String? imagePath,
   }) {
     final companion = ItemTemplatesCompanion(
-        name: Value(name), category: Value(categoryId), library: Value(libraryId), variantKey: Value(variantKeyId), imagePath: Value(imagePath));
+      name: Value(name),
+      category: Value(categoryId),
+      library: Value(libraryId),
+      variantKey: Value(variantKeyId),
+      imagePath: Value(imagePath),
+    );
     return into(itemTemplates).insert(companion);
   }
 

@@ -44,7 +44,7 @@ class ItemTemplateService {
   Future<int> createItemTemplate(
     String name, {
     int? categoryId,
-    int? libraryId,
+    required int libraryId,
     int? variantKeyId,
     String? imagePath,
   }) {

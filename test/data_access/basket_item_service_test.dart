@@ -37,7 +37,6 @@ void main() {
     const double amount = 2;
     const categoryId = 1;
     const basketId = 1;
-    const variantKeyId = 1;
     const imagePath = "/img.png";
     const unitId = 1;
 
@@ -46,7 +45,6 @@ void main() {
       amount: amount,
       categoryId: categoryId,
       basketId: basketId,
-      variantKeyId: variantKeyId,
       imagePath: imagePath,
       unitId: unitId,
     );
@@ -56,7 +54,6 @@ void main() {
     expect(basketItem?.amount, amount);
     expect(basketItem?.category, categoryId);
     expect(basketItem?.basket, basketId);
-    expect(basketItem?.variantKey, variantKeyId);
     expect(basketItem?.imagePath, imagePath);
     expect(basketItem?.unit, unitId);
   });
@@ -80,7 +77,6 @@ void main() {
     const double amount = 2;
     const categoryId = 1;
     const basketId = 1;
-    const variantKeyId = 1;
     const imagePath = "/img.png";
     const unitId = 1;
 
@@ -94,7 +90,6 @@ void main() {
       amount: amount,
       categoryId: categoryId,
       basketId: basketId,
-      variantKeyId: variantKeyId,
       imagePath: imagePath,
       unitId: unitId,
     );
@@ -104,7 +99,6 @@ void main() {
     expect(basketItem?.amount, amount);
     expect(basketItem?.category, categoryId);
     expect(basketItem?.basket, basketId);
-    expect(basketItem?.variantKey, variantKeyId);
     expect(basketItem?.imagePath, imagePath);
     expect(basketItem?.unit, unitId);
 
@@ -119,7 +113,6 @@ void main() {
     expect(basketItem?.amount, amount);
     expect(basketItem?.category, modifiedCategory);
     expect(basketItem?.basket, basketId);
-    expect(basketItem?.variantKey, variantKeyId);
     expect(basketItem?.imagePath, imagePath);
     expect(basketItem?.unit, unitId);
   });

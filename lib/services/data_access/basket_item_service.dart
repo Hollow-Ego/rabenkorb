@@ -47,7 +47,6 @@ class BasketItemService {
     double amount = 0,
     int? categoryId,
     required int basketId,
-    int? variantKeyId,
     String? imagePath,
     int? unitId,
   }) {
@@ -56,7 +55,6 @@ class BasketItemService {
       amount: amount,
       categoryId: categoryId,
       basketId: basketId,
-      variantKeyId: variantKeyId,
       imagePath: imagePath,
       unitId: unitId,
     );
@@ -68,7 +66,6 @@ class BasketItemService {
     double? amount,
     int? categoryId,
     int? basketId,
-    int? variantKeyId,
     String? imagePath,
     int? unitId,
   }) {
@@ -78,7 +75,6 @@ class BasketItemService {
       amount: amount,
       categoryId: categoryId,
       basketId: basketId,
-      variantKeyId: variantKeyId,
       imagePath: imagePath,
       unitId: unitId,
     );

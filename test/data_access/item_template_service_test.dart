@@ -26,7 +26,7 @@ void main() {
   test('item templates can be created', () async {
     const name = "Milk";
 
-    final id = await sut.createItemTemplate(name);
+    final id = await sut.createItemTemplate(name, libraryId: 1);
 
     final itemTemplate = await sut.getItemTemplateById(id);
     expect(itemTemplate?.name, name);
@@ -58,7 +58,7 @@ void main() {
   test('item templates can be updated', () async {
     const nameOne = "Milk";
     const nameTwo = "Eggs";
-    final id = await sut.createItemTemplate(nameOne);
+    final id = await sut.createItemTemplate(nameOne, libraryId: 1);
 
     var itemTemplate = await sut.getItemTemplateById(id);
     expect(itemTemplate?.name, nameOne);
@@ -76,7 +76,7 @@ void main() {
     const variantKeyId = 1;
     const imagePath = "/img.png";
 
-    final id = await sut.createItemTemplate(nameOne);
+    final id = await sut.createItemTemplate(nameOne, libraryId: libraryId);
 
     var itemTemplate = await sut.getItemTemplateById(id);
     expect(itemTemplate?.name, nameOne);
@@ -84,7 +84,6 @@ void main() {
     await sut.updateItemTemplate(
       id,
       categoryId: categoryId,
-      libraryId: libraryId,
       variantKeyId: variantKeyId,
       imagePath: imagePath,
     );
@@ -112,7 +111,7 @@ void main() {
 
   test('item templates can be deleted', () async {
     const name = "Milk";
-    final id = await sut.createItemTemplate(name);
+    final id = await sut.createItemTemplate(name, libraryId: 1);
     final itemTemplate = await sut.getItemTemplateById(id);
 
     expect(itemTemplate?.name, name);

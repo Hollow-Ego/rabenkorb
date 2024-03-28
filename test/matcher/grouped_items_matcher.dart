@@ -128,13 +128,12 @@ class IsGroupedItem<T extends DataClass> extends Matcher {
 
       final nameMatches = actualItem.name == expectedItem.name;
       final categoryMatches = actualItem.category == expectedItem.category;
-      final variantMatches = actualItem.variantKey == expectedItem.variantKey;
       final imagePathMatches = actualItem.imagePath == expectedItem.imagePath;
       final amountMatches = actualItem.amount == expectedItem.amount;
       final unitMatches = actualItem.unit == expectedItem.unit;
       final basketMatches = actualItem.basket == expectedItem.unit;
 
-      if (!(nameMatches && categoryMatches && variantMatches && imagePathMatches && amountMatches && unitMatches && basketMatches)) {
+      if (!(nameMatches && categoryMatches && imagePathMatches && amountMatches && unitMatches && basketMatches)) {
         mismatchedItemTemplateIndex = index;
         break;
       }
