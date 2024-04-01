@@ -46,8 +46,8 @@ class MetadataService {
     return _itemCategoryService.deleteItemCategoryById(id);
   }
 
-  Stream<List<ItemCategory>> watchItemCategoies() {
-    return _itemCategoryService.watchItemCategoies();
+  Stream<List<ItemCategory>> watchItemCategories() {
+    return _itemCategoryService.watchItemCategories();
   }
 
   Future<int> createVariantKey(String name) {

@@ -61,7 +61,7 @@ void main() {
     ];
 
     expectLater(
-      sut.watchItemCategoies().map((li) => li.map((e) => e.name)),
+      sut.watchItemCategories().map((li) => li.map((e) => e.name)),
       emitsInOrder(expectedValues),
     );
 

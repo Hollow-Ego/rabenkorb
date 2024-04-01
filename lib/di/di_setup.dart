@@ -16,7 +16,7 @@ import 'package:watch_it/watch_it.dart';
 void setupDI() {
   _registerDatabase();
   _registerStateServices();
-  _registerDataAcessServices();
+  _registerDataAccessServices();
   _registerBusinessServices();
 }
 
@@ -25,7 +25,7 @@ void _registerDatabase() {
   di.registerSingleton<AppDatabase>(db);
 }
 
-void _registerDataAcessServices() {
+void _registerDataAccessServices() {
   di.registerSingleton<BasketItemService>(BasketItemService());
   di.registerSingleton<ItemCategoryService>(ItemCategoryService());
   di.registerSingleton<ItemTemplateService>(ItemTemplateService());

@@ -20,7 +20,7 @@ class ItemCategoryService {
     return _db.itemCategoriesDao.deleteItemCategoryWithId(id);
   }
 
-  Stream<List<ItemCategory>> watchItemCategoies() {
+  Stream<List<ItemCategory>> watchItemCategories() {
     return _db.itemCategoriesDao.watchItemCategories();
   }
 }
