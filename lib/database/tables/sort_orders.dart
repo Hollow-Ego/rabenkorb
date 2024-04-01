@@ -4,8 +4,9 @@ import 'package:rabenkorb/database/tables/sort_rules.dart';
 
 @DataClassName('SortOrder')
 class SortOrders extends Table {
-  IntColumn get categoryId => integer().references(ItemCategories, #id)();
-  IntColumn get ruleId => integer().references(SortRules, #id)();
+  IntColumn get categoryId => integer().references(ItemCategories, #id, onDelete: KeyAction.cascade)();
+
+  IntColumn get ruleId => integer().references(SortRules, #id, onDelete: KeyAction.cascade)();
   IntColumn get sortOrder => integer()();
 
   @override

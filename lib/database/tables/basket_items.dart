@@ -13,11 +13,11 @@ class BasketItems extends Table {
 
   RealColumn get amount => real()();
 
-  IntColumn get category => integer().nullable().references(ItemCategories, #id)();
+  IntColumn get category => integer().nullable().references(ItemCategories, #id, onDelete: KeyAction.setNull)();
 
-  IntColumn get basket => integer().references(ShoppingBaskets, #id)();
+  IntColumn get basket => integer().references(ShoppingBaskets, #id, onDelete: KeyAction.cascade)();
 
-  IntColumn get unit => integer().nullable().references(ItemUnits, #id)();
+  IntColumn get unit => integer().nullable().references(ItemUnits, #id, onDelete: KeyAction.setNull)();
 
   BoolColumn get isChecked => boolean().withDefault(const Constant(false))();
 }

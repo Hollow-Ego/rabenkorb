@@ -15,5 +15,5 @@ class ItemTemplates extends Table {
 
   IntColumn get category => integer().nullable().references(ItemCategories, #id, onDelete: KeyAction.setNull)();
 
-  IntColumn get library => integer().references(TemplateLibraries, #id)();
+  IntColumn get library => integer().references(TemplateLibraries, #id, onDelete: KeyAction.cascade)();
 }
