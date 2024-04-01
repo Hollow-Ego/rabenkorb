@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:rabenkorb/database/database.dart';
 import 'package:rabenkorb/models/grouped_items.dart';
 import 'package:rabenkorb/services/data_access/basket_item_service.dart';
+import 'package:rabenkorb/services/state/basket_state_service.dart';
 import 'package:rabenkorb/shared/sort_mode.dart';
 import 'package:watch_it/watch_it.dart';
 
@@ -12,16 +13,21 @@ import '../matcher/grouped_items_matcher.dart';
 void main() {
   late BasketItemService sut;
   late AppDatabase database;
+  late BasketStateService basketStateService;
 
   setUp(() async {
-    database = AppDatabase.forTesting(NativeDatabase.memory());
-    di.registerSingleton<AppDatabase>(database);
-    await seedDatabase(database);
-    sut = BasketItemService.withValue(
+    basketStateService = BasketStateService.withValue(
       basketId: 1,
       sortMode: SortMode.custom,
       sortRuleId: 1,
     );
+    di.registerSingleton<BasketStateService>(basketStateService);
+
+    database = AppDatabase.forTesting(NativeDatabase.memory());
+    di.registerSingleton<AppDatabase>(database);
+
+    await seedDatabase(database);
+    sut = BasketItemService();
   });
 
   test('basket items can be created', () async {
@@ -268,12 +274,12 @@ void main() {
 
     // Delay creation of new items to ensure emissions are happening one by one
     const delay = Duration(milliseconds: 350);
-    sut.setSearchString(searchStringOne);
-    sut.setSearchString(searchStringTwo);
+    basketStateService.setSearchString(searchStringOne);
+    basketStateService.setSearchString(searchStringTwo);
     await Future.delayed(delay);
-    sut.setSearchString(searchStringThree);
+    basketStateService.setSearchString(searchStringThree);
     await Future.delayed(delay);
-    sut.setSearchString(null);
+    basketStateService.setSearchString(null);
   });
 
   test('basket items can be moved to a different basket', () async {
