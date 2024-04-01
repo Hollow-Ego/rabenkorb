@@ -85,6 +85,7 @@ void main() {
 
     var basketItem = await sut.getBasketItemById(id);
     expect(basketItem?.name, nameOne);
+    expect(basketItem?.isChecked, false);
 
     await sut.updateBasketItem(
       id,
@@ -104,9 +105,11 @@ void main() {
     expect(basketItem?.unit, unitId);
 
     const modifiedCategory = 2;
+    const checkedState = true;
     await sut.updateBasketItem(
       id,
       categoryId: modifiedCategory,
+      isChecked: checkedState,
     );
 
     basketItem = await sut.getBasketItemById(id);
@@ -116,6 +119,7 @@ void main() {
     expect(basketItem?.basket, basketId);
     expect(basketItem?.imagePath, imagePath);
     expect(basketItem?.unit, unitId);
+    expect(basketItem?.isChecked, checkedState);
   });
 
   test('basket items can be deleted', () async {

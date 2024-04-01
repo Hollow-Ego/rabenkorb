@@ -37,6 +37,7 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
     int? basketId,
     String? imagePath,
     int? unitId,
+    bool? isChecked,
   }) {
     final companion = BasketItemsCompanion(
       name: Value.absentIfNull(name),
@@ -45,6 +46,7 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
       imagePath: Value.absentIfNull(imagePath),
       unit: Value.absentIfNull(unitId),
       amount: Value.absentIfNull(amount),
+      isChecked: Value.absentIfNull(isChecked),
     );
     return (update(basketItems)..where((li) => li.id.equals(id))).write(companion);
   }

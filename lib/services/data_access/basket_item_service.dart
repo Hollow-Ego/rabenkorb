@@ -73,6 +73,7 @@ class BasketItemService {
     int? basketId,
     String? imagePath,
     int? unitId,
+    bool? isChecked,
   }) {
     return _db.basketItemsDao.updateBasketItem(
       id,
@@ -82,6 +83,7 @@ class BasketItemService {
       basketId: basketId,
       imagePath: imagePath,
       unitId: unitId,
+      isChecked: isChecked,
     );
   }
 

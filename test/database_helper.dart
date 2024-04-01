@@ -123,6 +123,7 @@ Map<String, BasketItem> testBasketItemsOne = {
     category: testCategories["Hot Drinks"]!.id,
     amount: 0,
     basket: testBaskets["Aldi"]!.id,
+    isChecked: false,
   ),
   "Rum - Aldi": BasketItem(
     id: 2,
@@ -130,6 +131,7 @@ Map<String, BasketItem> testBasketItemsOne = {
     category: testCategories["Alcohol"]!.id,
     amount: 1,
     basket: testBaskets["Aldi"]!.id,
+    isChecked: false,
   ),
   "Apple - Aldi": BasketItem(
     id: 6,
@@ -137,6 +139,7 @@ Map<String, BasketItem> testBasketItemsOne = {
     amount: 0,
     unit: testUnits["Pieces"]!.id,
     basket: testBaskets["Aldi"]!.id,
+    isChecked: false,
   ),
   "Soup - Aldi": BasketItem(
     id: 9,
@@ -144,6 +147,7 @@ Map<String, BasketItem> testBasketItemsOne = {
     category: testCategories["Canned Food"]!.id,
     amount: 1,
     basket: testBaskets["Aldi"]!.id,
+    isChecked: false,
   ),
   "Baking Soda - Aldi": BasketItem(
     id: 12,
@@ -151,6 +155,7 @@ Map<String, BasketItem> testBasketItemsOne = {
     category: testCategories["Baking Ingredients"]!.id,
     amount: 1,
     basket: testBaskets["Aldi"]!.id,
+    isChecked: false,
   ),
   "Earl Grey - Aldi": BasketItem(
     id: 13,
@@ -158,6 +163,7 @@ Map<String, BasketItem> testBasketItemsOne = {
     category: testCategories["Hot Drinks"]!.id,
     amount: 0,
     basket: testBaskets["Aldi"]!.id,
+    isChecked: false,
   ),
   "Beans - Aldi": BasketItem(
     id: 14,
@@ -166,6 +172,7 @@ Map<String, BasketItem> testBasketItemsOne = {
     amount: 1,
     unit: testUnits["Cans"]!.id,
     basket: testBaskets["Aldi"]!.id,
+    isChecked: false,
   ),
   "Flour - Aldi": BasketItem(
     id: 15,
@@ -173,6 +180,7 @@ Map<String, BasketItem> testBasketItemsOne = {
     category: testCategories["Baking Ingredients"]!.id,
     amount: 1,
     basket: testBaskets["Aldi"]!.id,
+    isChecked: false,
   ),
   "Schnitzel - Aldi": BasketItem(
     id: 16,
@@ -180,12 +188,14 @@ Map<String, BasketItem> testBasketItemsOne = {
     category: testCategories["Vegan"]!.id,
     amount: 0,
     basket: testBaskets["Aldi"]!.id,
+    isChecked: false,
   ),
   "Socks - Aldi": BasketItem(
     id: 17,
     name: "Socks",
     amount: 0,
     basket: testBaskets["Aldi"]!.id,
+    isChecked: false,
   ),
   "Orange Juice - Aldi": BasketItem(
     id: 18,
@@ -193,6 +203,7 @@ Map<String, BasketItem> testBasketItemsOne = {
     amount: 1.5,
     unit: testUnits["Liter"]!.id,
     basket: testBaskets["Aldi"]!.id,
+    isChecked: false,
   ),
   "Corn - Aldi": BasketItem(
     id: 19,
@@ -200,6 +211,7 @@ Map<String, BasketItem> testBasketItemsOne = {
     category: testCategories["Canned Food"]!.id,
     amount: 1,
     basket: testBaskets["Aldi"]!.id,
+    isChecked: false,
   ),
   "Kidney Beans - Aldi": BasketItem(
     id: 20,
@@ -207,6 +219,7 @@ Map<String, BasketItem> testBasketItemsOne = {
     category: testCategories["Canned Food"]!.id,
     amount: 1,
     basket: testBaskets["Aldi"]!.id,
+    isChecked: false,
   ),
 };
 
@@ -217,6 +230,7 @@ Map<String, BasketItem> testBasketItemsTwo = {
     category: testCategories["Vegan"]!.id,
     amount: 0,
     basket: testBaskets["Lidl"]!.id,
+    isChecked: false,
   ),
   "Beans - Lidl": BasketItem(
     id: 4,
@@ -225,6 +239,7 @@ Map<String, BasketItem> testBasketItemsTwo = {
     amount: 1,
     unit: testUnits["Cans"]!.id,
     basket: testBaskets["Lidl"]!.id,
+    isChecked: false,
   ),
   "Flour - Lidl": BasketItem(
     id: 5,
@@ -232,12 +247,14 @@ Map<String, BasketItem> testBasketItemsTwo = {
     category: testCategories["Baking Ingredients"]!.id,
     amount: 1,
     basket: testBaskets["Lidl"]!.id,
+    isChecked: false,
   ),
   "Socks - Lidl": BasketItem(
     id: 7,
     name: "Socks",
     amount: 0,
     basket: testBaskets["Lidl"]!.id,
+    isChecked: false,
   ),
   "Orange Juice - Lidl": BasketItem(
     id: 8,
@@ -245,6 +262,7 @@ Map<String, BasketItem> testBasketItemsTwo = {
     amount: 1.5,
     unit: testUnits["Liter"]!.id,
     basket: testBaskets["Lidl"]!.id,
+    isChecked: false,
   ),
   "Corn - Lidl": BasketItem(
     id: 10,
@@ -252,6 +270,7 @@ Map<String, BasketItem> testBasketItemsTwo = {
     category: testCategories["Canned Food"]!.id,
     amount: 1,
     basket: testBaskets["Lidl"]!.id,
+    isChecked: false,
   ),
   "Kidney Beans - Lidl": BasketItem(
     id: 11,
@@ -259,6 +278,7 @@ Map<String, BasketItem> testBasketItemsTwo = {
     category: testCategories["Canned Food"]!.id,
     amount: 1,
     basket: testBaskets["Lidl"]!.id,
+    isChecked: false,
   ),
 };
 

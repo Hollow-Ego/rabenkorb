@@ -21,7 +21,8 @@ class IsEqualToBasketItem extends Matcher {
     final amountMatches = actualItem.amount == expectedItem.amount;
     final unitMatches = actualItem.unit == expectedItem.unit;
     final basketMatches = actualItem.basket == expectedItem.basket;
+    final checkedStateMatches = actualItem.isChecked == expectedItem.isChecked;
 
-    return nameMatches && categoryMatches && imagePathMatches && amountMatches && unitMatches && basketMatches;
+    return nameMatches && categoryMatches && imagePathMatches && amountMatches && unitMatches && basketMatches && checkedStateMatches;
   }
 }

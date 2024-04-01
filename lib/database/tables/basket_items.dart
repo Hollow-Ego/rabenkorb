@@ -18,4 +18,6 @@ class BasketItems extends Table {
   IntColumn get basket => integer().references(ShoppingBaskets, #id)();
 
   IntColumn get unit => integer().nullable().references(ItemUnits, #id)();
+
+  BoolColumn get isChecked => boolean().withDefault(const Constant(false))();
 }
