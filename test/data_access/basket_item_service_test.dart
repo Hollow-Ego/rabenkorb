@@ -272,6 +272,109 @@ void main() {
     sut.setSearchString(null);
   });
 
+  test('basket items can be moved to a different basket', () async {
+    final expectedValues = [
+      [
+        GroupedItems(
+          category: testCategories["Alcohol"]!,
+          items: [
+            testBasketItemsOne["Rum - Aldi"]!,
+          ],
+        ),
+        GroupedItems(
+          category: testCategories["Baking Ingredients"]!,
+          items: [
+            testBasketItemsOne["Baking Soda - Aldi"]!,
+            testBasketItemsOne["Flour - Aldi"]!,
+          ],
+        ),
+        GroupedItems(
+          category: testCategories["Hot Drinks"]!,
+          items: [
+            testBasketItemsOne["Coffee - Aldi"]!,
+            testBasketItemsOne["Earl Grey - Aldi"]!,
+          ],
+        ),
+        GroupedItems(
+          category: testCategories["Vegan"]!,
+          items: [
+            testBasketItemsOne["Schnitzel - Aldi"]!,
+          ],
+        ),
+        GroupedItems(
+          category: testCategories["Canned Food"]!,
+          items: [
+            testBasketItemsOne["Beans - Aldi"]!,
+            testBasketItemsOne["Corn - Aldi"]!,
+            testBasketItemsOne["Kidney Beans - Aldi"]!,
+            testBasketItemsOne["Soup - Aldi"]!,
+          ],
+        ),
+        GroupedItems(
+          category: const ItemCategory(id: 0, name: "Without Category"),
+          items: [
+            testBasketItemsOne["Apple - Aldi"]!,
+            testBasketItemsOne["Orange Juice - Aldi"]!,
+            testBasketItemsOne["Socks - Aldi"]!,
+          ],
+        ),
+      ],
+      [
+        GroupedItems(
+          category: testCategories["Alcohol"]!,
+          items: [
+            testBasketItemsOne["Rum - Aldi"]!,
+          ],
+        ),
+        GroupedItems(
+          category: testCategories["Baking Ingredients"]!,
+          items: [
+            testBasketItemsOne["Baking Soda - Aldi"]!,
+            testBasketItemsOne["Flour - Aldi"]!,
+          ],
+        ),
+        GroupedItems(
+          category: testCategories["Hot Drinks"]!,
+          items: [
+            testBasketItemsOne["Earl Grey - Aldi"]!,
+          ],
+        ),
+        GroupedItems(
+          category: testCategories["Vegan"]!,
+          items: [
+            testBasketItemsOne["Schnitzel - Aldi"]!,
+          ],
+        ),
+        GroupedItems(
+          category: testCategories["Canned Food"]!,
+          items: [
+            testBasketItemsOne["Beans - Aldi"]!,
+            testBasketItemsOne["Corn - Aldi"]!,
+            testBasketItemsOne["Kidney Beans - Aldi"]!,
+            testBasketItemsOne["Soup - Aldi"]!,
+          ],
+        ),
+        GroupedItems(
+          category: const ItemCategory(id: 0, name: "Without Category"),
+          items: [
+            testBasketItemsOne["Apple - Aldi"]!,
+            testBasketItemsOne["Orange Juice - Aldi"]!,
+            testBasketItemsOne["Socks - Aldi"]!,
+          ],
+        ),
+      ],
+    ];
+
+    expectLater(
+      sut.basketItems,
+      emitsInOrder(expectedValues.map((emission) => IsEqualToGroupedItem<BasketItem>(emission))),
+    );
+    const delay = Duration(milliseconds: 350);
+    await Future.delayed(delay);
+    final itemToMove = testBasketItemsOne["Coffee - Aldi"]!;
+    sut.updateBasketItem(itemToMove.id, basketId: testBaskets["Lidl"]!.id);
+  });
+
   tearDown(() async {
     await database.close();
     await di.reset(dispose: true);
