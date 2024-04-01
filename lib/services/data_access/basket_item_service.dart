@@ -119,6 +119,10 @@ class BasketItemService {
     _searchSubject.add(searchString);
   }
 
+  Future<int> removeCheckedItemsFromBasket(int basketId) {
+    return _db.basketItemsDao.removeCheckedItemsFromBasket(basketId);
+  }
+
   Stream<List<GroupedItems<BasketItem>>> _watchBasketItemsInOrder({
     required int basketId,
     required SortMode sortMode,
