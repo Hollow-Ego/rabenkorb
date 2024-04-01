@@ -152,7 +152,14 @@ void main() {
             testItemTemplates["Beans"]!,
             testItemTemplates["Corn"]!,
             testItemTemplates["Kidney Beans"]!,
+            testItemTemplates["Peas - Canned"]!,
             testItemTemplates["Soup"]!,
+          ],
+        ),
+        GroupedItems(
+          category: testCategories["Frozen Food"]!,
+          items: [
+            testItemTemplates["Peas - Frozen"]!,
           ],
         ),
         GroupedItems(
@@ -177,6 +184,7 @@ void main() {
     const searchStringTwo = "ea";
     const searchStringThree = "EANS";
     final expectedValues = [
+      // Filter: ea
       [
         GroupedItems(
           category: testCategories["Hot Drinks"]!,
@@ -189,9 +197,17 @@ void main() {
           items: [
             testItemTemplates["Beans"]!,
             testItemTemplates["Kidney Beans"]!,
+            testItemTemplates["Peas - Canned"]!,
+          ],
+        ),
+        GroupedItems(
+          category: testCategories["Frozen Food"]!,
+          items: [
+            testItemTemplates["Peas - Frozen"]!,
           ],
         ),
       ],
+      // Filter: EANS
       [
         GroupedItems(
           category: testCategories["Canned Food"]!,
@@ -201,6 +217,7 @@ void main() {
           ],
         ),
       ],
+      // Without filter
       [
         GroupedItems(
           category: testCategories["Alcohol"]!,
@@ -234,7 +251,14 @@ void main() {
             testItemTemplates["Beans"]!,
             testItemTemplates["Corn"]!,
             testItemTemplates["Kidney Beans"]!,
+            testItemTemplates["Peas - Canned"]!,
             testItemTemplates["Soup"]!,
+          ],
+        ),
+        GroupedItems(
+          category: testCategories["Frozen Food"]!,
+          items: [
+            testItemTemplates["Peas - Frozen"]!,
           ],
         ),
         GroupedItems(

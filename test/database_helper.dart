@@ -9,6 +9,7 @@ Map<String, ItemCategory> testCategories = {
   "Dry Food": const ItemCategory(id: 5, name: "Dry Food"),
   "Baking Ingredients": const ItemCategory(id: 6, name: "Baking Ingredients"),
   "Unused Category": const ItemCategory(id: 7, name: "Unused Category"),
+  "Frozen Food": const ItemCategory(id: 8, name: "Frozen Food"),
 };
 
 Map<String, ItemUnit> testUnits = {
@@ -29,8 +30,6 @@ Map<String, ShoppingBasket> testBaskets = {
 
 Map<String, VariantKey> testVariantKeys = {
   "Key 1": const VariantKey(id: 1),
-  "Key 2": const VariantKey(id: 2),
-  "Key 3": const VariantKey(id: 3),
 };
 
 Map<String, SortRule> testSortRules = {
@@ -113,6 +112,20 @@ Map<String, ItemTemplate> testItemTemplates = {
     name: "Earl Grey",
     category: testCategories["Hot Drinks"]!.id,
     library: 1,
+  ),
+  "Peas - Canned": ItemTemplate(
+    id: 14,
+    name: "Peas",
+    category: testCategories["Canned Food"]!.id,
+    library: 1,
+    variantKey: testVariantKeys["Key 1"]!.id,
+  ),
+  "Peas - Frozen": ItemTemplate(
+    id: 15,
+    name: "Peas",
+    category: testCategories["Frozen Food"]!.id,
+    library: 1,
+    variantKey: testVariantKeys["Key 1"]!.id,
   ),
 };
 
