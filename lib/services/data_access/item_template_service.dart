@@ -60,6 +60,24 @@ class ItemTemplateService {
     );
   }
 
+  Future<void> replaceItemTemplate(
+    int id, {
+    required String name,
+    int? categoryId,
+    required int libraryId,
+    int? variantKeyId,
+    String? imagePath,
+  }) {
+    return _db.itemTemplatesDao.replaceItemTemplate(
+      id,
+      name: name,
+      categoryId: categoryId,
+      libraryId: libraryId,
+      variantKeyId: variantKeyId,
+      imagePath: imagePath,
+    );
+  }
+
   Future<ItemTemplate?> getItemTemplateById(int id) {
     return _db.itemTemplatesDao.getItemTemplateWithId(id);
   }

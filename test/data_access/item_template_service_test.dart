@@ -115,6 +115,42 @@ void main() {
     expect(itemTemplate?.imagePath, imagePath);
   });
 
+  test('all optional properties can be removed', () async {
+    const name = "Milk";
+    const categoryId = 1;
+    const libraryId = 1;
+    const variantKeyId = 1;
+    const imagePath = "/img.png";
+
+    final id = await sut.createItemTemplate(
+      name,
+      categoryId: categoryId,
+      libraryId: libraryId,
+      variantKeyId: variantKeyId,
+      imagePath: imagePath,
+    );
+
+    var itemTemplate = await sut.getItemTemplateById(id);
+    expect(itemTemplate?.name, name);
+    expect(itemTemplate?.category, categoryId);
+    expect(itemTemplate?.library, libraryId);
+    expect(itemTemplate?.variantKey, variantKeyId);
+    expect(itemTemplate?.imagePath, imagePath);
+
+    await sut.replaceItemTemplate(
+      id,
+      name: name,
+      libraryId: libraryId,
+    );
+
+    itemTemplate = await sut.getItemTemplateById(id);
+    expect(itemTemplate?.name, name);
+    expect(itemTemplate?.category, null);
+    expect(itemTemplate?.library, libraryId);
+    expect(itemTemplate?.variantKey, null);
+    expect(itemTemplate?.imagePath, null);
+  });
+
   test('item templates can be deleted', () async {
     const name = "Milk";
     final id = await sut.createItemTemplate(name, libraryId: 1);
