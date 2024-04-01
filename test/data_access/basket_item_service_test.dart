@@ -128,6 +128,42 @@ void main() {
     expect(basketItem?.isChecked, checkedState);
   });
 
+  test('all optional properties can be removed', () async {
+    const name = "Milk";
+    const double amount = 2;
+    const categoryId = 1;
+    const basketId = 1;
+    const imagePath = "/img.png";
+    const unitId = 1;
+
+    final id = await sut.createBasketItem(
+      name,
+      amount: amount,
+      categoryId: categoryId,
+      basketId: basketId,
+      imagePath: imagePath,
+      unitId: unitId,
+    );
+
+    var basketItem = await sut.getBasketItemById(id);
+    expect(basketItem?.name, name);
+    expect(basketItem?.amount, amount);
+    expect(basketItem?.category, categoryId);
+    expect(basketItem?.basket, basketId);
+    expect(basketItem?.imagePath, imagePath);
+    expect(basketItem?.unit, unitId);
+
+    await sut.replaceBasketItem(id, name: name, basketId: basketId);
+
+    basketItem = await sut.getBasketItemById(id);
+    expect(basketItem?.name, name);
+    expect(basketItem?.amount, 0);
+    expect(basketItem?.category, null);
+    expect(basketItem?.basket, basketId);
+    expect(basketItem?.imagePath, null);
+    expect(basketItem?.unit, null);
+  });
+
   test('basket items can be deleted', () async {
     const name = "Milk";
     final id = await sut.createBasketItem(name, basketId: 1);

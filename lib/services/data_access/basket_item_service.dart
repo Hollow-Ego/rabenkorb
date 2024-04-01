@@ -68,6 +68,28 @@ class BasketItemService {
     );
   }
 
+  Future<void> replaceBasketItem(
+    int id, {
+    required String name,
+    double? amount,
+    int? categoryId,
+    required int basketId,
+    String? imagePath,
+    int? unitId,
+    bool? isChecked,
+  }) {
+    return _db.basketItemsDao.replaceBasketItem(
+      id,
+      name: name,
+      amount: amount,
+      categoryId: categoryId,
+      basketId: basketId,
+      imagePath: imagePath,
+      unitId: unitId,
+      isChecked: isChecked,
+    );
+  }
+
   Future<BasketItem?> getBasketItemById(int id) {
     return _db.basketItemsDao.getBasketItemWithId(id);
   }

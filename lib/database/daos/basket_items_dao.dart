@@ -51,6 +51,29 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
     return (update(basketItems)..where((li) => li.id.equals(id))).write(companion);
   }
 
+  Future<void> replaceBasketItem(
+    int id, {
+    required String name,
+    double? amount,
+    int? categoryId,
+    required int basketId,
+    String? imagePath,
+    int? unitId,
+    bool? isChecked,
+  }) {
+    final companion = BasketItemsCompanion(
+      id: Value(id),
+      name: Value(name),
+      category: Value(categoryId),
+      basket: Value(basketId),
+      imagePath: Value(imagePath),
+      unit: Value(unitId),
+      amount: Value(amount ?? 0),
+      isChecked: Value(isChecked ?? false),
+    );
+    return update(basketItems).replace(companion);
+  }
+
   Stream<BasketItem> watchBasketItemWithId(int id) {
     return (select(basketItems)..where((li) => li.id.equals(id))).watchSingle();
   }
