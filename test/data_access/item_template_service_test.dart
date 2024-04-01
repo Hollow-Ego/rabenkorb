@@ -168,7 +168,7 @@ void main() {
 
     expectLater(
       sut.itemTemplates,
-      emitsInOrder(expectedValues.map((emission) => IsGroupedItem<ItemTemplate>(emission))),
+      emitsInOrder(expectedValues.map((emission) => IsEqualToGroupedItem<ItemTemplate>(emission))),
     );
   });
 
@@ -250,7 +250,7 @@ void main() {
 
     expectLater(
       sut.itemTemplates,
-      emitsInOrder(expectedValues.map((emission) => IsGroupedItem(emission))),
+      emitsInOrder(expectedValues.map((emission) => IsEqualToGroupedItem(emission))),
     );
 
     // Delay creation of new items to ensure emissions are happening one by one

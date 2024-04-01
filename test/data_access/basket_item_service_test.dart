@@ -177,7 +177,7 @@ void main() {
 
     expectLater(
       sut.basketItems,
-      emitsInOrder(expectedValues.map((emission) => IsGroupedItem<BasketItem>(emission))),
+      emitsInOrder(expectedValues.map((emission) => IsEqualToGroupedItem<BasketItem>(emission))),
     );
   });
 
@@ -259,7 +259,7 @@ void main() {
 
     expectLater(
       sut.basketItems,
-      emitsInOrder(expectedValues.map((emission) => IsGroupedItem(emission))),
+      emitsInOrder(expectedValues.map((emission) => IsEqualToGroupedItem(emission))),
     );
 
     // Delay creation of new items to ensure emissions are happening one by one
