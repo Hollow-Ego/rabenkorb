@@ -8,11 +8,15 @@ part 'sort_orders_dao.g.dart';
 class SortOrdersDao extends DatabaseAccessor<AppDatabase> with _$SortOrdersDaoMixin {
   SortOrdersDao(super.db);
 
+  Future<int> removeOrders(int ruleId) async {
+    return await (delete(sortOrders)..where((tbl) => tbl.ruleId.equals(ruleId))).go();
+  }
+
   Future<void> setOrder(int ruleId, List<int> categoryIds) async {
     // Start a transaction to ensure atomicity
     await transaction(() async {
       // Optional: Remove existing orders for this rule to avoid conflicts
-      await (delete(sortOrders)..where((tbl) => tbl.ruleId.equals(ruleId))).go();
+      await removeOrders(ruleId);
 
       // Insert the new order
       for (var i = 0; i < categoryIds.length; i++) {

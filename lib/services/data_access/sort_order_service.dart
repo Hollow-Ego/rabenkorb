@@ -1,0 +1,14 @@
+import 'package:rabenkorb/database/database.dart';
+import 'package:watch_it/watch_it.dart';
+
+class SortOrderService {
+  final _db = di<AppDatabase>();
+
+  Future<int> createSortOrder(int id) {
+    return _db.sortOrdersDao.removeOrders(id);
+  }
+
+  Future<void> setOrder(int id, List<int> categoryIds) {
+    return _db.sortOrdersDao.setOrder(id, categoryIds);
+  }
+}
