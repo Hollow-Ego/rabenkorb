@@ -20,6 +20,9 @@ class IsEqualToGroupedItem<T extends DataClass> extends Matcher {
   @override
   bool matches(item, Map matchState) {
     final actualItems = item as List<GroupedItems<T>>;
+    if (expectedItems.isEmpty) {
+      return actualItems.isEmpty;
+    }
 
     for (final (index, actualItem) in actualItems.indexed) {
       final expectedItem = expectedItems.elementAt(index);
@@ -41,6 +44,11 @@ class IsEqualToGroupedItem<T extends DataClass> extends Matcher {
     bool verbose,
   ) {
     final actualItems = item as List<GroupedItems<T>>;
+
+    if (expectedItems.isEmpty && actualItems.isNotEmpty) {
+      mismatchDescription.add("Expected items to be empty, but found ${actualItems.length} items");
+      return mismatchDescription;
+    }
 
     mismatchDescription.add("item at index $mismatchedItemIndex\n");
 

@@ -123,6 +123,10 @@ class BasketItemService {
     return _db.basketItemsDao.removeCheckedItemsFromBasket(basketId);
   }
 
+  Future<int> removeAllItemsFromBasket(int basketId) {
+    return _db.basketItemsDao.removeAllItemsFromBasket(basketId);
+  }
+
   Stream<List<GroupedItems<BasketItem>>> _watchBasketItemsInOrder({
     required int basketId,
     required SortMode sortMode,

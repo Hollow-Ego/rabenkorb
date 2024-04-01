@@ -111,6 +111,10 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
     return (delete(basketItems)..where((li) => li.basket.equals(basketId) & li.isChecked)).go();
   }
 
+  Future<int> removeAllItemsFromBasket(int basketId) {
+    return (delete(basketItems)..where((li) => li.basket.equals(basketId))).go();
+  }
+
   List<OrderingTerm> _getOrderingTerms<T>(
     SortMode sortMode,
   ) {
