@@ -1,4 +1,5 @@
 import 'package:rabenkorb/database/database.dart';
+import 'package:rabenkorb/models/item_category_view_model.dart';
 import 'package:watch_it/watch_it.dart';
 
 class ItemCategoryService {
@@ -12,7 +13,7 @@ class ItemCategoryService {
     return _db.itemCategoriesDao.updateItemCategory(id, name);
   }
 
-  Future<ItemCategory?> getItemCategoryById(int id) {
+  Future<ItemCategoryViewModel?> getItemCategoryById(int id) {
     return _db.itemCategoriesDao.getItemCategoryWithId(id);
   }
 
@@ -20,7 +21,7 @@ class ItemCategoryService {
     return _db.itemCategoriesDao.deleteItemCategoryWithId(id);
   }
 
-  Stream<List<ItemCategory>> watchItemCategories() {
+  Stream<List<ItemCategoryViewModel>> watchItemCategories() {
     return _db.itemCategoriesDao.watchItemCategories();
   }
 }

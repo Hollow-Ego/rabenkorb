@@ -1,12 +1,14 @@
-import 'package:drift/drift.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:rabenkorb/database/database.dart';
+import 'package:rabenkorb/abstracts/data_item.dart';
+import 'package:rabenkorb/models/basket_item_view_model.dart';
 import 'package:rabenkorb/models/grouped_items.dart';
+import 'package:rabenkorb/models/item_category_view_model.dart';
+import 'package:rabenkorb/models/item_template_view_model.dart';
 
 import 'basket_item_matcher.dart';
 import 'item_template_matcher.dart';
 
-class IsEqualToGroupedItem<T extends DataClass> extends Matcher {
+class IsEqualToGroupedItem<T extends DataItem> extends Matcher {
   final List<GroupedItems<T>> expectedItems;
   int mismatchedItemIndex = -1;
 
@@ -85,19 +87,19 @@ class IsEqualToGroupedItem<T extends DataClass> extends Matcher {
     return isExpectedCategory;
   }
 
-  bool _isExpectedCategory(ItemCategory actualCategory, ItemCategory expectedCategory) {
+  bool _isExpectedCategory(ItemCategoryViewModel actualCategory, ItemCategoryViewModel expectedCategory) {
     return actualCategory.name == expectedCategory.name;
   }
 
   void _areExpectedItems(List<T> actualItems, List<T> expectedItems) {
-    if (actualItems is List<ItemTemplate>) {
-      _assertItemTemplates(actualItems as List<ItemTemplate>, expectedItems as List<ItemTemplate>);
-    } else if (actualItems is List<BasketItem>) {
-      _assertBasketItem(actualItems as List<BasketItem>, expectedItems as List<BasketItem>);
+    if (actualItems is List<ItemTemplateViewModel>) {
+      _assertItemTemplates(actualItems as List<ItemTemplateViewModel>, expectedItems as List<ItemTemplateViewModel>);
+    } else if (actualItems is List<BasketItemViewModel>) {
+      _assertBasketItem(actualItems as List<BasketItemViewModel>, expectedItems as List<BasketItemViewModel>);
     }
   }
 
-  void _assertItemTemplates(List<ItemTemplate> actualItems, List<ItemTemplate> expectedItems) {
+  void _assertItemTemplates(List<ItemTemplateViewModel> actualItems, List<ItemTemplateViewModel> expectedItems) {
     for (final (index, actualItem) in actualItems.indexed) {
       final expectedItem = expectedItems.elementAt(index);
 
@@ -105,7 +107,7 @@ class IsEqualToGroupedItem<T extends DataClass> extends Matcher {
     }
   }
 
-  void _assertBasketItem(List<BasketItem> actualItems, List<BasketItem> expectedItems) {
+  void _assertBasketItem(List<BasketItemViewModel> actualItems, List<BasketItemViewModel> expectedItems) {
     for (final (index, actualItem) in actualItems.indexed) {
       final expectedItem = expectedItems.elementAt(index);
       expect(actualItem, IsEqualToBasketItem(expectedItem));

@@ -1,4 +1,4 @@
-import 'package:rabenkorb/database/database.dart';
+import 'package:rabenkorb/models/sort_rule_view_model.dart';
 import 'package:rabenkorb/services/data_access/sort_order_service.dart';
 import 'package:rabenkorb/services/data_access/sort_rule_service.dart';
 import 'package:watch_it/watch_it.dart';
@@ -15,7 +15,7 @@ class SortService {
     return _sortRuleService.updateSortRule(id, name);
   }
 
-  Future<SortRule?> getSortRuleById(int id) {
+  Future<SortRuleViewModel?> getSortRuleById(int id) {
     return _sortRuleService.getSortRuleById(id);
   }
 
@@ -23,11 +23,11 @@ class SortService {
     return _sortRuleService.deleteSortRuleById(id);
   }
 
-  Stream<List<SortRule>> watchSortRules() {
+  Stream<List<SortRuleViewModel>> watchSortRules() {
     return _sortRuleService.watchSortRules();
   }
 
-  Stream<SortRule> watchSortRuleWithId(int id) {
+  Stream<SortRuleViewModel?> watchSortRuleWithId(int id) {
     return _sortRuleService.watchSortRuleWithId(id);
   }
 

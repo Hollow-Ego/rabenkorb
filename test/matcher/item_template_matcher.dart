@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:rabenkorb/database/database.dart';
+import 'package:rabenkorb/models/item_template_view_model.dart';
 
 class IsEqualToItemTemplate extends Matcher {
-  late final ItemTemplate expectedItem;
+  late final ItemTemplateViewModel expectedItem;
 
   IsEqualToItemTemplate(this.expectedItem);
 
@@ -13,9 +13,9 @@ class IsEqualToItemTemplate extends Matcher {
 
   @override
   bool matches(item, Map matchState) {
-    final actualItem = item as ItemTemplate;
+    final actualItem = item as ItemTemplateViewModel;
     final nameMatches = actualItem.name == expectedItem.name;
-    final categoryMatches = actualItem.category == expectedItem.category;
+    final categoryMatches = actualItem.category?.id == expectedItem.category?.id;
     final variantMatches = actualItem.variantKey == expectedItem.variantKey;
     final imagePathMatches = actualItem.imagePath == expectedItem.imagePath;
 

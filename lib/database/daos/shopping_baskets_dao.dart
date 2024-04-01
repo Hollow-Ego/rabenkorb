@@ -1,6 +1,8 @@
 import 'package:drift/drift.dart';
 import 'package:rabenkorb/database/database.dart';
 import 'package:rabenkorb/database/tables/shopping_basket.dart';
+import 'package:rabenkorb/mappers/to_view_model.dart';
+import 'package:rabenkorb/models/shopping_basket_view_model.dart';
 
 part 'shopping_baskets_dao.g.dart';
 
@@ -16,19 +18,20 @@ class ShoppingBasketsDao extends DatabaseAccessor<AppDatabase> with _$ShoppingBa
     return update(shoppingBaskets).replace(ShoppingBasket(id: id, name: name));
   }
 
-  Stream<ShoppingBasket> watchShoppingBasketWithId(int id) {
-    return (select(shoppingBaskets)..where((li) => li.id.equals(id))).watchSingle();
+  Stream<ShoppingBasketViewModel?> watchShoppingBasketWithId(int id) {
+    return (select(shoppingBaskets)..where((li) => li.id.equals(id))).watchSingle().map((basket) => toShoppingBasketViewModel(basket));
   }
 
-  Future<ShoppingBasket?> getShoppingBasketWithId(int id) {
-    return (select(shoppingBaskets)..where((li) => li.id.equals(id))).getSingleOrNull();
+  Future<ShoppingBasketViewModel?> getShoppingBasketWithId(int id) async {
+    final basket = await (select(shoppingBaskets)..where((li) => li.id.equals(id))).getSingleOrNull();
+    return toShoppingBasketViewModel(basket);
   }
 
   Future<int> deleteShoppingBasketWithId(int id) {
     return (delete(shoppingBaskets)..where((li) => li.id.equals(id))).go();
   }
 
-  Stream<List<ShoppingBasket>> watchShoppingBaskets() {
-    return (select(shoppingBaskets)).watch();
+  Stream<List<ShoppingBasketViewModel>> watchShoppingBaskets() {
+    return (select(shoppingBaskets)).watch().map((baskets) => baskets.map((basket) => toShoppingBasketViewModel(basket)!).toList());
   }
 }

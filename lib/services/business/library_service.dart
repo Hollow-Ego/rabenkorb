@@ -1,5 +1,6 @@
-import 'package:rabenkorb/database/database.dart';
 import 'package:rabenkorb/models/grouped_items.dart';
+import 'package:rabenkorb/models/item_template_view_model.dart';
+import 'package:rabenkorb/models/template_library_view_model.dart';
 import 'package:rabenkorb/services/business/metadata_service.dart';
 import 'package:rabenkorb/services/data_access/item_template_service.dart';
 import 'package:rabenkorb/services/data_access/template_library_service.dart';
@@ -11,7 +12,7 @@ class LibraryService {
   final _itemTemplateService = di<ItemTemplateService>();
   final _metadataService = di<MetadataService>();
 
-  Stream<List<GroupedItems<ItemTemplate>>> get itemTemplates => _itemTemplateService.itemTemplates;
+  Stream<List<GroupedItems<ItemTemplateViewModel>>> get itemTemplates => _itemTemplateService.itemTemplates;
 
   Future<int> createLibrary(String name) {
     return _templateLibraryService.createTemplateLibrary(name);
@@ -21,7 +22,7 @@ class LibraryService {
     return _templateLibraryService.updateTemplateLibrary(libraryId, name);
   }
 
-  Future<TemplateLibrary?> getTemplateLibraryById(int libraryId) {
+  Future<TemplateLibraryViewModel?> getTemplateLibraryById(int libraryId) {
     return _templateLibraryService.getTemplateLibraryById(libraryId);
   }
 
@@ -29,7 +30,7 @@ class LibraryService {
     return _templateLibraryService.deleteTemplateLibraryById(libraryId);
   }
 
-  Stream<List<TemplateLibrary>> watchTemplateLibraries() {
+  Stream<List<TemplateLibraryViewModel>> watchTemplateLibraries() {
     return _templateLibraryService.watchTemplateLibraries();
   }
 
@@ -56,7 +57,7 @@ class LibraryService {
       templateId,
       name: originalItemTemplate.name,
       categoryId: null,
-      libraryId: originalItemTemplate.library,
+      libraryId: originalItemTemplate.library.id,
       imagePath: originalItemTemplate.imagePath,
       variantKeyId: originalItemTemplate.variantKey,
     );
@@ -74,8 +75,8 @@ class LibraryService {
     await _itemTemplateService.replaceItemTemplate(
       templateId,
       name: originalItemTemplate.name,
-      categoryId: originalItemTemplate.category,
-      libraryId: originalItemTemplate.library,
+      categoryId: originalItemTemplate.category?.id,
+      libraryId: originalItemTemplate.library.id,
       imagePath: originalItemTemplate.imagePath,
       variantKeyId: null,
     );
@@ -114,7 +115,7 @@ class LibraryService {
     );
   }
 
-  Future<ItemTemplate?> getItemTemplateById(int templateId) {
+  Future<ItemTemplateViewModel?> getItemTemplateById(int templateId) {
     return _itemTemplateService.getItemTemplateById(templateId);
   }
 

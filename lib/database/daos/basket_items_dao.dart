@@ -1,7 +1,10 @@
 import 'package:drift/drift.dart';
 import 'package:rabenkorb/database/database.dart';
 import 'package:rabenkorb/database/tables/basket_items.dart';
+import 'package:rabenkorb/mappers/to_view_model.dart';
+import 'package:rabenkorb/models/basket_item_view_model.dart';
 import 'package:rabenkorb/models/grouped_items.dart';
+import 'package:rabenkorb/models/item_category_view_model.dart';
 import 'package:rabenkorb/shared/sort_mode.dart';
 
 part 'basket_items_dao.g.dart';
@@ -74,23 +77,24 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
     return update(basketItems).replace(companion);
   }
 
-  Stream<BasketItem> watchBasketItemWithId(int id) {
-    return (select(basketItems)..where((li) => li.id.equals(id))).watchSingle();
+  Stream<BasketItemViewModel?> watchBasketItemWithId(int id) {
+    return _joinValues((select(basketItems)..where((li) => li.id.equals(id)))).watchSingle().map((row) => _rowToViewModel(row));
   }
 
-  Future<BasketItem?> getBasketItemWithId(int id) {
-    return (select(basketItems)..where((li) => li.id.equals(id))).getSingleOrNull();
+  Future<BasketItemViewModel?> getBasketItemWithId(int id) async {
+    final row = await _joinValues((select(basketItems)..where((li) => li.id.equals(id)))).getSingleOrNull();
+    return _rowToViewModel(row);
   }
 
   Future<int> deleteBasketItemWithId(int id) {
     return (delete(basketItems)..where((li) => li.id.equals(id))).go();
   }
 
-  Stream<List<BasketItem>> watchBasketItems() {
-    return (select(basketItems)).watch();
+  Stream<List<BasketItemViewModel>> watchBasketItems() {
+    return _joinValues(select(basketItems)).watch().map((rows) => _rowsToViewModels(rows));
   }
 
-  Stream<List<GroupedItems<BasketItem>>> watchBasketItemsInOrder({
+  Stream<List<GroupedItems<BasketItemViewModel>>> watchBasketItemsInOrder({
     required int basketId,
     required SortMode sortMode,
     int? sortRuleId,
@@ -103,11 +107,14 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
       sourceQuery.where((bi) => bi.name.like('%$searchTerm%'));
     }
 
-    final query = sourceQuery.join([
-      leftOuterJoin(itemCategories, basketItems.category.equalsExp(itemCategories.id)),
-      leftOuterJoin(attachedDatabase.sortOrders,
-          basketItems.category.equalsExp(attachedDatabase.sortOrders.categoryId) & attachedDatabase.sortOrders.ruleId.equalsNullable(sortRuleId)),
-    ]);
+    final query = _joinValues(
+      sourceQuery,
+      includeJoins: [
+        leftOuterJoin(attachedDatabase.sortOrders,
+            basketItems.category.equalsExp(attachedDatabase.sortOrders.categoryId) & attachedDatabase.sortOrders.ruleId.equalsNullable(sortRuleId))
+      ],
+    );
+
     query.orderBy([
       OrderingTerm(expression: itemCategories.id.isNull(), mode: OrderingMode.asc),
       OrderingTerm(expression: attachedDatabase.sortOrders.sortOrder.isNull(), mode: OrderingMode.asc),
@@ -117,12 +124,13 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
     // Mapping the query result to a stream of grouped items
     return query.watch().map((rows) {
       // A map to hold categories and their corresponding items
-      final Map<int, GroupedItems<BasketItem>> groupedItems = {};
+      final Map<int, GroupedItems<BasketItemViewModel>> groupedItems = {};
       for (final row in rows) {
-        final item = row.readTable(basketItems);
-        final category = row.readTableOrNull(itemCategories) ?? const ItemCategory(id: 0, name: "Without Category");
+        final viewModel = _rowToViewModel(row)!;
+        final category = viewModel.category ?? ItemCategoryViewModel(0, "Without Category");
+
         groupedItems.putIfAbsent(category.id, () => GroupedItems(category: category, items: []));
-        groupedItems[category.id]!.items.add(item);
+        groupedItems[category.id]!.items.add(viewModel);
       }
 
       // Convert the map to a list of GroupedItems
@@ -165,5 +173,32 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
 
   OrderingTerm _bySortOrder() {
     return OrderingTerm(expression: attachedDatabase.sortOrders.sortOrder);
+  }
+
+  JoinedSelectStatement<HasResultSet, dynamic> _joinValues(
+    SimpleSelectStatement<$BasketItemsTable, BasketItem> sourceQuery, {
+    List<Join<HasResultSet, dynamic>> includeJoins = const [],
+  }) {
+    return sourceQuery.join([
+      leftOuterJoin(itemCategories, basketItems.category.equalsExp(itemCategories.id)),
+      leftOuterJoin(itemUnits, basketItems.unit.equalsExp(itemUnits.id)),
+      leftOuterJoin(shoppingBaskets, basketItems.basket.equalsExp(shoppingBaskets.id)),
+      ...includeJoins
+    ]);
+  }
+
+  List<BasketItemViewModel> _rowsToViewModels(List<TypedResult> rows) {
+    return rows.map((row) => _rowToViewModel(row)!).toList();
+  }
+
+  BasketItemViewModel? _rowToViewModel(TypedResult? row) {
+    if (row == null) {
+      return null;
+    }
+    final item = row.readTable(basketItems);
+    final category = row.readTableOrNull(itemCategories);
+    final basket = row.readTable(shoppingBaskets);
+    final unit = row.readTableOrNull(itemUnits);
+    return toBasketItemViewModel(item, category, basket, unit);
   }
 }

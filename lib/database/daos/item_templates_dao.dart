@@ -1,7 +1,10 @@
 import 'package:drift/drift.dart';
 import 'package:rabenkorb/database/database.dart';
 import 'package:rabenkorb/database/tables/item_templates.dart';
+import 'package:rabenkorb/mappers/to_view_model.dart';
 import 'package:rabenkorb/models/grouped_items.dart';
+import 'package:rabenkorb/models/item_category_view_model.dart';
+import 'package:rabenkorb/models/item_template_view_model.dart';
 import 'package:rabenkorb/shared/sort_mode.dart';
 
 part 'item_templates_dao.g.dart';
@@ -63,27 +66,29 @@ class ItemTemplatesDao extends DatabaseAccessor<AppDatabase> with _$ItemTemplate
     return update(itemTemplates).replace(newItemTemplate);
   }
 
-  Stream<ItemTemplate> watchItemTemplateWithId(int id) {
-    return (select(itemTemplates)..where((li) => li.id.equals(id))).watchSingle();
+  Stream<ItemTemplateViewModel?> watchItemTemplateWithId(int id) {
+    return _joinValues(select(itemTemplates)..where((li) => li.id.equals(id))).watchSingle().map((row) => _rowToViewModel(row));
   }
 
-  Future<ItemTemplate?> getItemTemplateWithId(int id) {
-    return (select(itemTemplates)..where((li) => li.id.equals(id))).getSingleOrNull();
+  Future<ItemTemplateViewModel?> getItemTemplateWithId(int id) async {
+    final row = await _joinValues(select(itemTemplates)..where((li) => li.id.equals(id))).getSingleOrNull();
+    return _rowToViewModel(row);
   }
 
-  Future<List<ItemTemplate>> getItemTemplatesByVariantKey(int variantKeyId) {
-    return (select(itemTemplates)..where((li) => li.variantKey.equals(variantKeyId))).get();
+  Future<List<ItemTemplateViewModel>> getItemTemplatesByVariantKey(int variantKeyId) async {
+    final rows = await _joinValues(select(itemTemplates)..where((li) => li.variantKey.equals(variantKeyId))).get();
+    return _rowsToViewModels(rows);
   }
 
   Future<int> deleteItemTemplateWithId(int id) {
     return (delete(itemTemplates)..where((li) => li.id.equals(id))).go();
   }
 
-  Stream<List<ItemTemplate>> watchItemTemplates() {
-    return (select(itemTemplates)).watch();
+  Stream<List<ItemTemplateViewModel>> watchItemTemplates() {
+    return _joinValues(select(itemTemplates)).watch().map((rows) => _rowsToViewModels(rows));
   }
 
-  Stream<List<GroupedItems<ItemTemplate>>> watchItemTemplatesInOrder(
+  Stream<List<GroupedItems<ItemTemplateViewModel>>> watchItemTemplatesInOrder(
     SortMode sortMode, {
     int? sortRuleId,
     String? searchTerm,
@@ -94,11 +99,13 @@ class ItemTemplatesDao extends DatabaseAccessor<AppDatabase> with _$ItemTemplate
       sourceQuery.where((tbl) => tbl.name.like('%$searchTerm%'));
     }
 
-    final query = sourceQuery.join([
-      leftOuterJoin(itemCategories, itemTemplates.category.equalsExp(itemCategories.id)),
-      leftOuterJoin(attachedDatabase.sortOrders,
-          itemTemplates.category.equalsExp(attachedDatabase.sortOrders.categoryId) & attachedDatabase.sortOrders.ruleId.equalsNullable(sortRuleId)),
-    ]);
+    final query = _joinValues(
+      sourceQuery,
+      includeJoins: [
+        leftOuterJoin(attachedDatabase.sortOrders,
+            itemTemplates.category.equalsExp(attachedDatabase.sortOrders.categoryId) & attachedDatabase.sortOrders.ruleId.equalsNullable(sortRuleId)),
+      ],
+    );
     query.orderBy([
       OrderingTerm(expression: itemCategories.id.isNull(), mode: OrderingMode.asc),
       OrderingTerm(expression: attachedDatabase.sortOrders.sortOrder.isNull(), mode: OrderingMode.asc),
@@ -108,12 +115,12 @@ class ItemTemplatesDao extends DatabaseAccessor<AppDatabase> with _$ItemTemplate
     // Mapping the query result to a stream of grouped items
     return query.watch().map((rows) {
       // A map to hold categories and their corresponding items
-      final Map<int, GroupedItems<ItemTemplate>> groupedItems = {};
+      final Map<int, GroupedItems<ItemTemplateViewModel>> groupedItems = {};
       for (final row in rows) {
-        final template = row.readTable(itemTemplates);
-        final category = row.readTableOrNull(itemCategories) ?? const ItemCategory(id: 0, name: "Without Category");
+        final viewModel = _rowToViewModel(row)!;
+        final category = viewModel.category ?? ItemCategoryViewModel(0, "Without Category");
         groupedItems.putIfAbsent(category.id, () => GroupedItems(category: category, items: []));
-        groupedItems[category.id]!.items.add(template);
+        groupedItems[category.id]!.items.add(viewModel);
       }
 
       // Convert the map to a list of GroupedItems
@@ -148,5 +155,30 @@ class ItemTemplatesDao extends DatabaseAccessor<AppDatabase> with _$ItemTemplate
 
   OrderingTerm _bySortOrder() {
     return OrderingTerm(expression: attachedDatabase.sortOrders.sortOrder);
+  }
+
+  JoinedSelectStatement<HasResultSet, dynamic> _joinValues(
+    SimpleSelectStatement<$ItemTemplatesTable, ItemTemplate> sourceQuery, {
+    List<Join<HasResultSet, dynamic>> includeJoins = const [],
+  }) {
+    return sourceQuery.join([
+      leftOuterJoin(itemCategories, itemTemplates.category.equalsExp(itemCategories.id)),
+      leftOuterJoin(templateLibraries, itemTemplates.library.equalsExp(templateLibraries.id)),
+      ...includeJoins,
+    ]);
+  }
+
+  List<ItemTemplateViewModel> _rowsToViewModels(List<TypedResult> rows) {
+    return rows.map((row) => _rowToViewModel(row)!).toList();
+  }
+
+  ItemTemplateViewModel? _rowToViewModel(TypedResult? row) {
+    if (row == null) {
+      return null;
+    }
+    final item = row.readTable(itemTemplates);
+    final category = row.readTableOrNull(itemCategories);
+    final library = row.readTable(templateLibraries);
+    return toItemTemplateViewModel(item, category, library);
   }
 }

@@ -1,4 +1,5 @@
 import 'package:rabenkorb/database/database.dart';
+import 'package:rabenkorb/models/item_unit_view_model.dart';
 import 'package:watch_it/watch_it.dart';
 
 class ItemUnitService {
@@ -12,7 +13,7 @@ class ItemUnitService {
     return _db.itemUnitsDao.updateItemUnit(id, name);
   }
 
-  Future<ItemUnit?> getItemUnitById(int id) {
+  Future<ItemUnitViewModel?> getItemUnitById(int id) {
     return _db.itemUnitsDao.getItemUnitWithId(id);
   }
 
@@ -20,7 +21,7 @@ class ItemUnitService {
     return _db.itemUnitsDao.deleteItemUnitWithId(id);
   }
 
-  Stream<List<ItemUnit>> watchItemUnits() {
+  Stream<List<ItemUnitViewModel>> watchItemUnits() {
     return _db.itemUnitsDao.watchItemUnits();
   }
 }

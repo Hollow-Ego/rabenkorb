@@ -2,6 +2,8 @@ import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:rabenkorb/database/database.dart';
 import 'package:rabenkorb/models/grouped_items.dart';
+import 'package:rabenkorb/models/item_category_view_model.dart';
+import 'package:rabenkorb/models/item_template_view_model.dart';
 import 'package:rabenkorb/services/data_access/item_template_service.dart';
 import 'package:rabenkorb/services/state/library_state_service.dart';
 import 'package:rabenkorb/shared/sort_mode.dart';
@@ -55,8 +57,8 @@ void main() {
 
     final itemTemplate = await sut.getItemTemplateById(id);
     expect(itemTemplate?.name, name);
-    expect(itemTemplate?.category, categoryId);
-    expect(itemTemplate?.library, libraryId);
+    expect(itemTemplate?.category?.id, categoryId);
+    expect(itemTemplate?.library.id, libraryId);
     expect(itemTemplate?.variantKey, variantKeyId);
     expect(itemTemplate?.imagePath, imagePath);
   });
@@ -96,8 +98,8 @@ void main() {
 
     itemTemplate = await sut.getItemTemplateById(id);
     expect(itemTemplate?.name, nameOne);
-    expect(itemTemplate?.category, categoryId);
-    expect(itemTemplate?.library, libraryId);
+    expect(itemTemplate?.category?.id, categoryId);
+    expect(itemTemplate?.library.id, libraryId);
     expect(itemTemplate?.variantKey, variantKeyId);
     expect(itemTemplate?.imagePath, imagePath);
 
@@ -109,8 +111,8 @@ void main() {
 
     itemTemplate = await sut.getItemTemplateById(id);
     expect(itemTemplate?.name, nameOne);
-    expect(itemTemplate?.category, modifiedCategory);
-    expect(itemTemplate?.library, libraryId);
+    expect(itemTemplate?.category?.id, modifiedCategory);
+    expect(itemTemplate?.library.id, libraryId);
     expect(itemTemplate?.variantKey, variantKeyId);
     expect(itemTemplate?.imagePath, imagePath);
   });
@@ -132,8 +134,8 @@ void main() {
 
     var itemTemplate = await sut.getItemTemplateById(id);
     expect(itemTemplate?.name, name);
-    expect(itemTemplate?.category, categoryId);
-    expect(itemTemplate?.library, libraryId);
+    expect(itemTemplate?.category?.id, categoryId);
+    expect(itemTemplate?.library.id, libraryId);
     expect(itemTemplate?.variantKey, variantKeyId);
     expect(itemTemplate?.imagePath, imagePath);
 
@@ -145,8 +147,8 @@ void main() {
 
     itemTemplate = await sut.getItemTemplateById(id);
     expect(itemTemplate?.name, name);
-    expect(itemTemplate?.category, null);
-    expect(itemTemplate?.library, libraryId);
+    expect(itemTemplate?.category?.id, null);
+    expect(itemTemplate?.library.id, libraryId);
     expect(itemTemplate?.variantKey, null);
     expect(itemTemplate?.imagePath, null);
   });
@@ -163,53 +165,53 @@ void main() {
     final expectedValues = [
       [
         GroupedItems(
-          category: testCategories["Alcohol"]!,
+          category: testCategory("Alcohol"),
           items: [
-            testItemTemplates["Rum"]!,
+            testItemTemplate("Rum"),
           ],
         ),
         GroupedItems(
-          category: testCategories["Baking Ingredients"]!,
+          category: testCategory("Baking Ingredients"),
           items: [
-            testItemTemplates["Baking Soda"]!,
-            testItemTemplates["Flour"]!,
+            testItemTemplate("Baking Soda"),
+            testItemTemplate("Flour"),
           ],
         ),
         GroupedItems(
-          category: testCategories["Hot Drinks"]!,
+          category: testCategory("Hot Drinks"),
           items: [
-            testItemTemplates["Coffee"]!,
-            testItemTemplates["Earl Grey"]!,
+            testItemTemplate("Coffee"),
+            testItemTemplate("Earl Grey"),
           ],
         ),
         GroupedItems(
-          category: testCategories["Vegan"]!,
+          category: testCategory("Vegan"),
           items: [
-            testItemTemplates["Schnitzel"]!,
+            testItemTemplate("Schnitzel"),
           ],
         ),
         GroupedItems(
-          category: testCategories["Canned Food"]!,
+          category: testCategory("Canned Food"),
           items: [
-            testItemTemplates["Beans"]!,
-            testItemTemplates["Corn"]!,
-            testItemTemplates["Kidney Beans"]!,
-            testItemTemplates["Peas - Canned"]!,
-            testItemTemplates["Soup"]!,
+            testItemTemplate("Beans"),
+            testItemTemplate("Corn"),
+            testItemTemplate("Kidney Beans"),
+            testItemTemplate("Peas - Canned"),
+            testItemTemplate("Soup"),
           ],
         ),
         GroupedItems(
-          category: testCategories["Frozen Food"]!,
+          category: testCategory("Frozen Food"),
           items: [
-            testItemTemplates["Peas - Frozen"]!,
+            testItemTemplate("Peas - Frozen"),
           ],
         ),
         GroupedItems(
-          category: const ItemCategory(id: 0, name: "Without Category"),
+          category: ItemCategoryViewModel(0, "Without Category"),
           items: [
-            testItemTemplates["Apple"]!,
-            testItemTemplates["Orange Juice"]!,
-            testItemTemplates["Socks"]!,
+            testItemTemplate("Apple"),
+            testItemTemplate("Orange Juice"),
+            testItemTemplate("Socks"),
           ],
         ),
       ],
@@ -217,7 +219,7 @@ void main() {
 
     expectLater(
       sut.itemTemplates,
-      emitsInOrder(expectedValues.map((emission) => IsEqualToGroupedItem<ItemTemplate>(emission))),
+      emitsInOrder(expectedValues.map((emission) => IsEqualToGroupedItem<ItemTemplateViewModel>(emission))),
     );
   });
 
@@ -229,86 +231,86 @@ void main() {
       // Filter: ea
       [
         GroupedItems(
-          category: testCategories["Hot Drinks"]!,
+          category: testCategory("Hot Drinks"),
           items: [
-            testItemTemplates["Earl Grey"]!,
+            testItemTemplate("Earl Grey"),
           ],
         ),
         GroupedItems(
-          category: testCategories["Canned Food"]!,
+          category: testCategory("Canned Food"),
           items: [
-            testItemTemplates["Beans"]!,
-            testItemTemplates["Kidney Beans"]!,
-            testItemTemplates["Peas - Canned"]!,
+            testItemTemplate("Beans"),
+            testItemTemplate("Kidney Beans"),
+            testItemTemplate("Peas - Canned"),
           ],
         ),
         GroupedItems(
-          category: testCategories["Frozen Food"]!,
+          category: testCategory("Frozen Food"),
           items: [
-            testItemTemplates["Peas - Frozen"]!,
+            testItemTemplate("Peas - Frozen"),
           ],
         ),
       ],
       // Filter: EANS
       [
         GroupedItems(
-          category: testCategories["Canned Food"]!,
+          category: testCategory("Canned Food"),
           items: [
-            testItemTemplates["Beans"]!,
-            testItemTemplates["Kidney Beans"]!,
+            testItemTemplate("Beans"),
+            testItemTemplate("Kidney Beans"),
           ],
         ),
       ],
       // Without filter
       [
         GroupedItems(
-          category: testCategories["Alcohol"]!,
+          category: testCategory("Alcohol"),
           items: [
-            testItemTemplates["Rum"]!,
+            testItemTemplate("Rum"),
           ],
         ),
         GroupedItems(
-          category: testCategories["Baking Ingredients"]!,
+          category: testCategory("Baking Ingredients"),
           items: [
-            testItemTemplates["Baking Soda"]!,
-            testItemTemplates["Flour"]!,
+            testItemTemplate("Baking Soda"),
+            testItemTemplate("Flour"),
           ],
         ),
         GroupedItems(
-          category: testCategories["Hot Drinks"]!,
+          category: testCategory("Hot Drinks"),
           items: [
-            testItemTemplates["Coffee"]!,
-            testItemTemplates["Earl Grey"]!,
+            testItemTemplate("Coffee"),
+            testItemTemplate("Earl Grey"),
           ],
         ),
         GroupedItems(
-          category: testCategories["Vegan"]!,
+          category: testCategory("Vegan"),
           items: [
-            testItemTemplates["Schnitzel"]!,
+            testItemTemplate("Schnitzel"),
           ],
         ),
         GroupedItems(
-          category: testCategories["Canned Food"]!,
+          category: testCategory("Canned Food"),
           items: [
-            testItemTemplates["Beans"]!,
-            testItemTemplates["Corn"]!,
-            testItemTemplates["Kidney Beans"]!,
-            testItemTemplates["Peas - Canned"]!,
-            testItemTemplates["Soup"]!,
+            testItemTemplate("Beans"),
+            testItemTemplate("Corn"),
+            testItemTemplate("Kidney Beans"),
+            testItemTemplate("Peas - Canned"),
+            testItemTemplate("Soup"),
           ],
         ),
         GroupedItems(
-          category: testCategories["Frozen Food"]!,
+          category: testCategory("Frozen Food"),
           items: [
-            testItemTemplates["Peas - Frozen"]!,
+            testItemTemplate("Peas - Frozen"),
           ],
         ),
         GroupedItems(
-          category: const ItemCategory(id: 0, name: "Without Category"),
+          category: ItemCategoryViewModel(0, "Without Category"),
           items: [
-            testItemTemplates["Apple"]!,
-            testItemTemplates["Orange Juice"]!,
-            testItemTemplates["Socks"]!,
+            testItemTemplate("Apple"),
+            testItemTemplate("Orange Juice"),
+            testItemTemplate("Socks"),
           ],
         ),
       ]

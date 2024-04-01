@@ -1,6 +1,8 @@
 import 'package:drift/drift.dart';
 import 'package:rabenkorb/database/database.dart';
 import 'package:rabenkorb/database/tables/template_libraries.dart';
+import 'package:rabenkorb/mappers/to_view_model.dart';
+import 'package:rabenkorb/models/template_library_view_model.dart';
 
 part 'template_libraries_dao.g.dart';
 
@@ -16,19 +18,20 @@ class TemplateLibrariesDao extends DatabaseAccessor<AppDatabase> with _$Template
     return update(templateLibraries).replace(TemplateLibrary(id: id, name: name));
   }
 
-  Stream<TemplateLibrary> watchTemplateLibraryWithId(int id) {
-    return (select(templateLibraries)..where((li) => li.id.equals(id))).watchSingle();
+  Stream<TemplateLibraryViewModel?> watchTemplateLibraryWithId(int id) {
+    return (select(templateLibraries)..where((li) => li.id.equals(id))).watchSingle().map((library) => toTemplateLibraryViewModel(library));
   }
 
-  Future<TemplateLibrary?> getTemplateLibraryWithId(int id) {
-    return (select(templateLibraries)..where((li) => li.id.equals(id))).getSingleOrNull();
+  Future<TemplateLibraryViewModel?> getTemplateLibraryWithId(int id) async {
+    final library = await (select(templateLibraries)..where((li) => li.id.equals(id))).getSingleOrNull();
+    return toTemplateLibraryViewModel(library);
   }
 
   Future<int> deleteTemplateLibraryWithId(int id) {
     return (delete(templateLibraries)..where((li) => li.id.equals(id))).go();
   }
 
-  Stream<List<TemplateLibrary>> watchTemplateLibraries() {
-    return (select(templateLibraries)).watch();
+  Stream<List<TemplateLibraryViewModel>> watchTemplateLibraries() {
+    return (select(templateLibraries)).watch().map((libraries) => libraries.map((library) => toTemplateLibraryViewModel(library)!).toList());
   }
 }

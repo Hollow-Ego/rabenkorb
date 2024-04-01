@@ -1,4 +1,5 @@
 import 'package:rabenkorb/database/database.dart';
+import 'package:rabenkorb/models/basket_item_view_model.dart';
 import 'package:rabenkorb/models/grouped_items.dart';
 import 'package:rabenkorb/services/state/basket_state_service.dart';
 import 'package:rabenkorb/shared/sort_mode.dart';
@@ -9,9 +10,9 @@ class BasketItemService {
   final _db = di<AppDatabase>();
   final _basketStateService = di<BasketStateService>();
 
-  late Stream<List<GroupedItems<BasketItem>>> basketItemsStream;
+  late Stream<List<GroupedItems<BasketItemViewModel>>> basketItemsStream;
 
-  Stream<List<GroupedItems<BasketItem>>> get basketItems => basketItemsStream;
+  Stream<List<GroupedItems<BasketItemViewModel>>> get basketItems => basketItemsStream;
 
   BasketItemService() {
     basketItemsStream = Rx.combineLatest4(
@@ -90,7 +91,7 @@ class BasketItemService {
     );
   }
 
-  Future<BasketItem?> getBasketItemById(int id) {
+  Future<BasketItemViewModel?> getBasketItemById(int id) {
     return _db.basketItemsDao.getBasketItemWithId(id);
   }
 
@@ -98,7 +99,7 @@ class BasketItemService {
     return _db.basketItemsDao.deleteBasketItemWithId(id);
   }
 
-  Stream<List<BasketItem>> watchBasketItems() {
+  Stream<List<BasketItemViewModel>> watchBasketItems() {
     return _db.basketItemsDao.watchBasketItems();
   }
 
@@ -110,7 +111,7 @@ class BasketItemService {
     return _db.basketItemsDao.removeAllItemsFromBasket(basketId);
   }
 
-  Stream<List<GroupedItems<BasketItem>>> _watchBasketItemsInOrder({
+  Stream<List<GroupedItems<BasketItemViewModel>>> _watchBasketItemsInOrder({
     required int basketId,
     required SortMode sortMode,
     int? sortRuleId,

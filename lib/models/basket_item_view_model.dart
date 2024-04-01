@@ -1,8 +1,9 @@
+import 'package:rabenkorb/abstracts/data_item.dart';
 import 'package:rabenkorb/models/item_category_view_model.dart';
 import 'package:rabenkorb/models/item_unit_view_model.dart';
 import 'package:rabenkorb/models/shopping_basket_view_model.dart';
 
-class BasketItemViewModel {
+class BasketItemViewModel extends DataItem {
   final int id;
   final String name;
   final String? imagePath;
@@ -22,4 +23,18 @@ class BasketItemViewModel {
     required this.unit,
     required this.isChecked,
   });
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      "id": id,
+      "name": name,
+      "imagePath": imagePath,
+      "amount": amount,
+      "category": category,
+      "basket": basket,
+      "unit": unit,
+      "isChecked": isChecked,
+    };
+  }
 }

@@ -1,5 +1,13 @@
 import 'package:rabenkorb/database/database.dart';
 import 'package:rabenkorb/database/tables/sort_rules.dart';
+import 'package:rabenkorb/mappers/to_view_model.dart';
+import 'package:rabenkorb/models/basket_item_view_model.dart';
+import 'package:rabenkorb/models/item_category_view_model.dart';
+import 'package:rabenkorb/models/item_template_view_model.dart';
+import 'package:rabenkorb/models/item_unit_view_model.dart';
+import 'package:rabenkorb/models/shopping_basket_view_model.dart';
+import 'package:rabenkorb/models/sort_rule_view_model.dart';
+import 'package:rabenkorb/models/template_library_view_model.dart';
 
 Map<String, ItemCategory> testCategories = {
   "Alcohol": const ItemCategory(id: 1, name: "Alcohol"),
@@ -324,4 +332,40 @@ Future<void> seedDatabase(AppDatabase db) async {
     batch.insertAll(db.basketItems, testBasketItemsOne.values);
     batch.insertAll(db.basketItems, testBasketItemsTwo.values);
   });
+}
+
+ItemCategoryViewModel testCategory(String key) {
+  return toItemCategoryViewModel(testCategories[key])!;
+}
+
+ItemUnitViewModel testUnit(String key) {
+  return toItemUnitViewModel(testUnits[key])!;
+}
+
+TemplateLibraryViewModel testLibrary(String key) {
+  return toTemplateLibraryViewModel(testLibraries[key])!;
+}
+
+ShoppingBasketViewModel testBasket(String key) {
+  return toShoppingBasketViewModel(testBaskets[key])!;
+}
+
+SortRuleViewModel testSortRule(String key) {
+  return toSortRuleViewModel(testSortRules[key])!;
+}
+
+ItemTemplateViewModel testItemTemplate(String key) {
+  final item = testItemTemplates[key]!;
+  final category = item.category != null ? testCategories.values.firstWhere((c) => c.id == item.category) : null;
+  final library = testLibraries.values.firstWhere((c) => c.id == item.library);
+  return toItemTemplateViewModel(item, category, library);
+}
+
+BasketItemViewModel testBasketItem(String key, String basketName) {
+  var item = basketName == "Aldi" ? testBasketItemsOne[key]! : testBasketItemsTwo[key]!;
+  var category = item.category != null ? testCategories.values.firstWhere((c) => c.id == item.category) : null;
+  var basket = testBaskets.values.firstWhere((c) => c.id == item.basket);
+  var unit = item.unit != null ? testUnits.values.firstWhere((c) => c.id == item.unit) : null;
+
+  return toBasketItemViewModel(item, category, basket, unit);
 }

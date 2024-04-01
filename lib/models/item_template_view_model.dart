@@ -1,7 +1,8 @@
+import 'package:rabenkorb/abstracts/data_item.dart';
 import 'package:rabenkorb/models/item_category_view_model.dart';
 import 'package:rabenkorb/models/template_library_view_model.dart';
 
-class ItemTemplateViewModel {
+class ItemTemplateViewModel extends DataItem {
   final int id;
   final String name;
   final String? imagePath;
@@ -17,4 +18,16 @@ class ItemTemplateViewModel {
     required this.category,
     required this.library,
   });
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      "id": id,
+      "name": name,
+      "imagePath": imagePath,
+      "variantKey": variantKey,
+      "category": category,
+      "library": library,
+    };
+  }
 }

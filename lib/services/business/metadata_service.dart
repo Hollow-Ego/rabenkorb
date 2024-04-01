@@ -1,6 +1,8 @@
 import 'package:rabenkorb/exceptions/missing_category.dart';
 import 'package:rabenkorb/exceptions/missing_unit.dart';
 import 'package:rabenkorb/exceptions/missing_variant.dart';
+import 'package:rabenkorb/models/item_category_view_model.dart';
+import 'package:rabenkorb/models/item_unit_view_model.dart';
 import 'package:rabenkorb/services/data_access/item_category_service.dart';
 import 'package:rabenkorb/services/data_access/item_unit_service.dart';
 import 'package:rabenkorb/services/data_access/variant_key_service.dart';
@@ -21,7 +23,7 @@ class MetadataService {
     return _itemUnitService.updateItemUnit(id, name);
   }
 
-  Future<ItemUnit?> getItemUnitById(int id) {
+  Future<ItemUnitViewModel?> getItemUnitById(int id) {
     return _itemUnitService.getItemUnitById(id);
   }
 
@@ -29,7 +31,7 @@ class MetadataService {
     return _itemUnitService.deleteItemUnitById(id);
   }
 
-  Stream<List<ItemUnit>> watchItemUnits() {
+  Stream<List<ItemUnitViewModel>> watchItemUnits() {
     return _itemUnitService.watchItemUnits();
   }
 
@@ -41,7 +43,7 @@ class MetadataService {
     return _itemCategoryService.updateItemCategory(id, name);
   }
 
-  Future<ItemCategory?> getItemCategoryById(int id) {
+  Future<ItemCategoryViewModel?> getItemCategoryById(int id) {
     return _itemCategoryService.getItemCategoryById(id);
   }
 
@@ -49,7 +51,7 @@ class MetadataService {
     return _itemCategoryService.deleteItemCategoryById(id);
   }
 
-  Stream<List<ItemCategory>> watchItemCategories() {
+  Stream<List<ItemCategoryViewModel>> watchItemCategories() {
     return _itemCategoryService.watchItemCategories();
   }
 

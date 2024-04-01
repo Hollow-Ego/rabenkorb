@@ -1,5 +1,6 @@
-import 'package:rabenkorb/database/database.dart';
+import 'package:rabenkorb/models/basket_item_view_model.dart';
 import 'package:rabenkorb/models/grouped_items.dart';
+import 'package:rabenkorb/models/shopping_basket_view_model.dart';
 import 'package:rabenkorb/services/data_access/basket_item_service.dart';
 import 'package:rabenkorb/services/data_access/shopping_basket_service.dart';
 import 'package:watch_it/watch_it.dart';
@@ -12,7 +13,7 @@ class BasketService {
   final _basketItemService = di<BasketItemService>();
   final _metadataService = di<MetadataService>();
 
-  Stream<List<GroupedItems<BasketItem>>> get basketItems => _basketItemService.basketItems;
+  Stream<List<GroupedItems<BasketItemViewModel>>> get basketItems => _basketItemService.basketItems;
 
   Future<int> createShoppingBasket(String name) {
     return _shoppingBasketService.createShoppingBasket(name);
@@ -22,7 +23,7 @@ class BasketService {
     return _shoppingBasketService.updateShoppingBasket(id, name);
   }
 
-  Future<ShoppingBasket?> getShoppingBasketById(int id) {
+  Future<ShoppingBasketViewModel?> getShoppingBasketById(int id) {
     return _shoppingBasketService.getShoppingBasketById(id);
   }
 
@@ -30,7 +31,7 @@ class BasketService {
     return _shoppingBasketService.deleteShoppingBasketById(id);
   }
 
-  Stream<List<ShoppingBasket>> watchShoppingBaskets() {
+  Stream<List<ShoppingBasketViewModel>> watchShoppingBaskets() {
     return _shoppingBasketService.watchShoppingBaskets();
   }
 
@@ -88,7 +89,7 @@ class BasketService {
     );
   }
 
-  Future<BasketItem?> getBasketItemById(int id) {
+  Future<BasketItemViewModel?> getBasketItemById(int id) {
     return _basketItemService.getBasketItemById(id);
   }
 

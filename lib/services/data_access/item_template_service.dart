@@ -1,5 +1,6 @@
 import 'package:rabenkorb/database/database.dart';
 import 'package:rabenkorb/models/grouped_items.dart';
+import 'package:rabenkorb/models/item_template_view_model.dart';
 import 'package:rabenkorb/services/state/library_state_service.dart';
 import 'package:rabenkorb/shared/sort_mode.dart';
 import 'package:rxdart/rxdart.dart';
@@ -9,9 +10,9 @@ class ItemTemplateService {
   final _db = di<AppDatabase>();
   final _libraryStateService = di<LibraryStateService>();
 
-  late Stream<List<GroupedItems<ItemTemplate>>> _itemTemplatesStream;
+  late Stream<List<GroupedItems<ItemTemplateViewModel>>> _itemTemplatesStream;
 
-  Stream<List<GroupedItems<ItemTemplate>>> get itemTemplates => _itemTemplatesStream;
+  Stream<List<GroupedItems<ItemTemplateViewModel>>> get itemTemplates => _itemTemplatesStream;
 
   ItemTemplateService() {
     _itemTemplatesStream = Rx.combineLatest3(
@@ -78,11 +79,11 @@ class ItemTemplateService {
     );
   }
 
-  Future<ItemTemplate?> getItemTemplateById(int id) {
+  Future<ItemTemplateViewModel?> getItemTemplateById(int id) {
     return _db.itemTemplatesDao.getItemTemplateWithId(id);
   }
 
-  Future<List<ItemTemplate>> getItemTemplatesByVariantKey(int variantKeyId) {
+  Future<List<ItemTemplateViewModel>> getItemTemplatesByVariantKey(int variantKeyId) {
     return _db.itemTemplatesDao.getItemTemplatesByVariantKey(variantKeyId);
   }
 
@@ -90,11 +91,11 @@ class ItemTemplateService {
     return _db.itemTemplatesDao.deleteItemTemplateWithId(id);
   }
 
-  Stream<List<ItemTemplate>> watchItemTemplates() {
+  Stream<List<ItemTemplateViewModel>> watchItemTemplates() {
     return _db.itemTemplatesDao.watchItemTemplates();
   }
 
-  Stream<List<GroupedItems<ItemTemplate>>> _watchItemTemplatesInOrder(SortMode sortMode, {int? sortRuleId, String? searchTerm}) {
+  Stream<List<GroupedItems<ItemTemplateViewModel>>> _watchItemTemplatesInOrder(SortMode sortMode, {int? sortRuleId, String? searchTerm}) {
     return _db.itemTemplatesDao.watchItemTemplatesInOrder(sortMode, sortRuleId: sortRuleId, searchTerm: searchTerm);
   }
 }

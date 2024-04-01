@@ -14,26 +14,26 @@ void main() {
 
   test('item templates can be created', () async {
     const testName = "Milk";
-    final id = await database!.itemTemplatesDao.createItemTemplate(testName, libraryId: 1);
-    final libraryItem = await database!.itemTemplatesDao.watchItemTemplateWithId(id).first;
+    final id = await database.itemTemplatesDao.createItemTemplate(testName, libraryId: 1);
+    final libraryItem = await database.itemTemplatesDao.watchItemTemplateWithId(id).first;
 
-    expect(libraryItem.name, testName);
+    expect(libraryItem?.name, testName);
   });
 
   test('stream emits a new item template when the name updates', () async {
     const testNameOne = "Milk";
     const testNameTwo = "Eggs";
-    final id = await database!.itemTemplatesDao.createItemTemplate(testNameOne, libraryId: 1);
+    final id = await database.itemTemplatesDao.createItemTemplate(testNameOne, libraryId: 1);
 
     expectLater(
-      database!.itemTemplatesDao.watchItemTemplateWithId(id).map((li) => li.name),
+      database.itemTemplatesDao.watchItemTemplateWithId(id).map((li) => li?.name),
       emitsInOrder([testNameOne, testNameTwo]),
     );
 
-    await database!.itemTemplatesDao.updateItemTemplate(id, name: testNameTwo);
+    await database.itemTemplatesDao.updateItemTemplate(id, name: testNameTwo);
   });
 
   tearDown(() async {
-    await database!.close();
+    await database.close();
   });
 }

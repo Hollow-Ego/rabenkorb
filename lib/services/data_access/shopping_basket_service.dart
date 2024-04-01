@@ -1,4 +1,5 @@
 import 'package:rabenkorb/database/database.dart';
+import 'package:rabenkorb/models/shopping_basket_view_model.dart';
 import 'package:watch_it/watch_it.dart';
 
 class ShoppingBasketService {
@@ -12,7 +13,7 @@ class ShoppingBasketService {
     return _db.shoppingBasketsDao.updateShoppingBasket(id, name);
   }
 
-  Future<ShoppingBasket?> getShoppingBasketById(int id) {
+  Future<ShoppingBasketViewModel?> getShoppingBasketById(int id) {
     return _db.shoppingBasketsDao.getShoppingBasketWithId(id);
   }
 
@@ -20,7 +21,7 @@ class ShoppingBasketService {
     return _db.shoppingBasketsDao.deleteShoppingBasketWithId(id);
   }
 
-  Stream<List<ShoppingBasket>> watchShoppingBaskets() {
+  Stream<List<ShoppingBasketViewModel>> watchShoppingBaskets() {
     return _db.shoppingBasketsDao.watchShoppingBaskets();
   }
 }

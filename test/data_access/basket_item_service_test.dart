@@ -1,7 +1,9 @@
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:rabenkorb/database/database.dart';
+import 'package:rabenkorb/models/basket_item_view_model.dart';
 import 'package:rabenkorb/models/grouped_items.dart';
+import 'package:rabenkorb/models/item_category_view_model.dart';
 import 'package:rabenkorb/services/data_access/basket_item_service.dart';
 import 'package:rabenkorb/services/state/basket_state_service.dart';
 import 'package:rabenkorb/shared/sort_mode.dart';
@@ -59,10 +61,10 @@ void main() {
     final basketItem = await sut.getBasketItemById(id);
     expect(basketItem?.name, name);
     expect(basketItem?.amount, amount);
-    expect(basketItem?.category, categoryId);
-    expect(basketItem?.basket, basketId);
+    expect(basketItem?.category?.id, categoryId);
+    expect(basketItem?.basket.id, basketId);
     expect(basketItem?.imagePath, imagePath);
-    expect(basketItem?.unit, unitId);
+    expect(basketItem?.unit?.id, unitId);
   });
 
   test('basket items can be updated', () async {
@@ -105,10 +107,10 @@ void main() {
     basketItem = await sut.getBasketItemById(id);
     expect(basketItem?.name, nameOne);
     expect(basketItem?.amount, amount);
-    expect(basketItem?.category, categoryId);
-    expect(basketItem?.basket, basketId);
+    expect(basketItem?.category?.id, categoryId);
+    expect(basketItem?.basket.id, basketId);
     expect(basketItem?.imagePath, imagePath);
-    expect(basketItem?.unit, unitId);
+    expect(basketItem?.unit?.id, unitId);
 
     const modifiedCategory = 2;
     const checkedState = true;
@@ -121,10 +123,10 @@ void main() {
     basketItem = await sut.getBasketItemById(id);
     expect(basketItem?.name, nameOne);
     expect(basketItem?.amount, amount);
-    expect(basketItem?.category, modifiedCategory);
-    expect(basketItem?.basket, basketId);
+    expect(basketItem?.category?.id, modifiedCategory);
+    expect(basketItem?.basket.id, basketId);
     expect(basketItem?.imagePath, imagePath);
-    expect(basketItem?.unit, unitId);
+    expect(basketItem?.unit?.id, unitId);
     expect(basketItem?.isChecked, checkedState);
   });
 
@@ -148,20 +150,20 @@ void main() {
     var basketItem = await sut.getBasketItemById(id);
     expect(basketItem?.name, name);
     expect(basketItem?.amount, amount);
-    expect(basketItem?.category, categoryId);
-    expect(basketItem?.basket, basketId);
+    expect(basketItem?.category?.id, categoryId);
+    expect(basketItem?.basket.id, basketId);
     expect(basketItem?.imagePath, imagePath);
-    expect(basketItem?.unit, unitId);
+    expect(basketItem?.unit?.id, unitId);
 
     await sut.replaceBasketItem(id, name: name, basketId: basketId);
 
     basketItem = await sut.getBasketItemById(id);
     expect(basketItem?.name, name);
     expect(basketItem?.amount, 0);
-    expect(basketItem?.category, null);
-    expect(basketItem?.basket, basketId);
+    expect(basketItem?.category?.id, null);
+    expect(basketItem?.basket.id, basketId);
     expect(basketItem?.imagePath, null);
-    expect(basketItem?.unit, null);
+    expect(basketItem?.unit?.id, null);
   });
 
   test('basket items can be deleted', () async {
@@ -176,46 +178,46 @@ void main() {
     final expectedValues = [
       [
         GroupedItems(
-          category: testCategories["Alcohol"]!,
+          category: testCategory("Alcohol"),
           items: [
-            testBasketItemsOne["Rum - Aldi"]!,
+            testBasketItem("Rum - Aldi", "Aldi"),
           ],
         ),
         GroupedItems(
-          category: testCategories["Baking Ingredients"]!,
+          category: testCategory("Baking Ingredients"),
           items: [
-            testBasketItemsOne["Baking Soda - Aldi"]!,
-            testBasketItemsOne["Flour - Aldi"]!,
+            testBasketItem("Baking Soda - Aldi", "Aldi"),
+            testBasketItem("Flour - Aldi", "Aldi"),
           ],
         ),
         GroupedItems(
-          category: testCategories["Hot Drinks"]!,
+          category: testCategory("Hot Drinks"),
           items: [
-            testBasketItemsOne["Coffee - Aldi"]!,
-            testBasketItemsOne["Earl Grey - Aldi"]!,
+            testBasketItem("Coffee - Aldi", "Aldi"),
+            testBasketItem("Earl Grey - Aldi", "Aldi"),
           ],
         ),
         GroupedItems(
-          category: testCategories["Vegan"]!,
+          category: testCategory("Vegan"),
           items: [
-            testBasketItemsOne["Schnitzel - Aldi"]!,
+            testBasketItem("Schnitzel - Aldi", "Aldi"),
           ],
         ),
         GroupedItems(
-          category: testCategories["Canned Food"]!,
+          category: testCategory("Canned Food"),
           items: [
-            testBasketItemsOne["Beans - Aldi"]!,
-            testBasketItemsOne["Corn - Aldi"]!,
-            testBasketItemsOne["Kidney Beans - Aldi"]!,
-            testBasketItemsOne["Soup - Aldi"]!,
+            testBasketItem("Beans - Aldi", "Aldi"),
+            testBasketItem("Corn - Aldi", "Aldi"),
+            testBasketItem("Kidney Beans - Aldi", "Aldi"),
+            testBasketItem("Soup - Aldi", "Aldi"),
           ],
         ),
         GroupedItems(
-          category: const ItemCategory(id: 0, name: "Without Category"),
+          category: ItemCategoryViewModel(0, "Without Category"),
           items: [
-            testBasketItemsOne["Apple - Aldi"]!,
-            testBasketItemsOne["Orange Juice - Aldi"]!,
-            testBasketItemsOne["Socks - Aldi"]!,
+            testBasketItem("Apple - Aldi", "Aldi"),
+            testBasketItem("Orange Juice - Aldi", "Aldi"),
+            testBasketItem("Socks - Aldi", "Aldi"),
           ],
         ),
       ],
@@ -223,7 +225,7 @@ void main() {
 
     expectLater(
       sut.basketItems,
-      emitsInOrder(expectedValues.map((emission) => IsEqualToGroupedItem<BasketItem>(emission))),
+      emitsInOrder(expectedValues.map((emission) => IsEqualToGroupedItem<BasketItemViewModel>(emission))),
     );
   });
 
@@ -234,70 +236,70 @@ void main() {
     final expectedValues = [
       [
         GroupedItems(
-          category: testCategories["Hot Drinks"]!,
+          category: testCategory("Hot Drinks"),
           items: [
-            testBasketItemsOne["Earl Grey - Aldi"]!,
+            testBasketItem("Earl Grey - Aldi", "Aldi"),
           ],
         ),
         GroupedItems(
-          category: testCategories["Canned Food"]!,
+          category: testCategory("Canned Food"),
           items: [
-            testBasketItemsOne["Beans - Aldi"]!,
-            testBasketItemsOne["Kidney Beans - Aldi"]!,
-          ],
-        ),
-      ],
-      [
-        GroupedItems(
-          category: testCategories["Canned Food"]!,
-          items: [
-            testBasketItemsOne["Beans - Aldi"]!,
-            testBasketItemsOne["Kidney Beans - Aldi"]!,
+            testBasketItem("Beans - Aldi", "Aldi"),
+            testBasketItem("Kidney Beans - Aldi", "Aldi"),
           ],
         ),
       ],
       [
         GroupedItems(
-          category: testCategories["Alcohol"]!,
+          category: testCategory("Canned Food"),
           items: [
-            testBasketItemsOne["Rum - Aldi"]!,
+            testBasketItem("Beans - Aldi", "Aldi"),
+            testBasketItem("Kidney Beans - Aldi", "Aldi"),
+          ],
+        ),
+      ],
+      [
+        GroupedItems(
+          category: testCategory("Alcohol"),
+          items: [
+            testBasketItem("Rum - Aldi", "Aldi"),
           ],
         ),
         GroupedItems(
-          category: testCategories["Baking Ingredients"]!,
+          category: testCategory("Baking Ingredients"),
           items: [
-            testBasketItemsOne["Baking Soda - Aldi"]!,
-            testBasketItemsOne["Flour - Aldi"]!,
+            testBasketItem("Baking Soda - Aldi", "Aldi"),
+            testBasketItem("Flour - Aldi", "Aldi"),
           ],
         ),
         GroupedItems(
-          category: testCategories["Hot Drinks"]!,
+          category: testCategory("Hot Drinks"),
           items: [
-            testBasketItemsOne["Coffee - Aldi"]!,
-            testBasketItemsOne["Earl Grey - Aldi"]!,
+            testBasketItem("Coffee - Aldi", "Aldi"),
+            testBasketItem("Earl Grey - Aldi", "Aldi"),
           ],
         ),
         GroupedItems(
-          category: testCategories["Vegan"]!,
+          category: testCategory("Vegan"),
           items: [
-            testBasketItemsOne["Schnitzel - Aldi"]!,
+            testBasketItem("Schnitzel - Aldi", "Aldi"),
           ],
         ),
         GroupedItems(
-          category: testCategories["Canned Food"]!,
+          category: testCategory("Canned Food"),
           items: [
-            testBasketItemsOne["Beans - Aldi"]!,
-            testBasketItemsOne["Corn - Aldi"]!,
-            testBasketItemsOne["Kidney Beans - Aldi"]!,
-            testBasketItemsOne["Soup - Aldi"]!,
+            testBasketItem("Beans - Aldi", "Aldi"),
+            testBasketItem("Corn - Aldi", "Aldi"),
+            testBasketItem("Kidney Beans - Aldi", "Aldi"),
+            testBasketItem("Soup - Aldi", "Aldi"),
           ],
         ),
         GroupedItems(
-          category: const ItemCategory(id: 0, name: "Without Category"),
+          category: ItemCategoryViewModel(0, "Without Category"),
           items: [
-            testBasketItemsOne["Apple - Aldi"]!,
-            testBasketItemsOne["Orange Juice - Aldi"]!,
-            testBasketItemsOne["Socks - Aldi"]!,
+            testBasketItem("Apple - Aldi", "Aldi"),
+            testBasketItem("Orange Juice - Aldi", "Aldi"),
+            testBasketItem("Socks - Aldi", "Aldi"),
           ],
         ),
       ]
@@ -322,90 +324,90 @@ void main() {
     final expectedValues = [
       [
         GroupedItems(
-          category: testCategories["Alcohol"]!,
+          category: testCategory("Alcohol"),
           items: [
-            testBasketItemsOne["Rum - Aldi"]!,
+            testBasketItem("Rum - Aldi", "Aldi"),
           ],
         ),
         GroupedItems(
-          category: testCategories["Baking Ingredients"]!,
+          category: testCategory("Baking Ingredients"),
           items: [
-            testBasketItemsOne["Baking Soda - Aldi"]!,
-            testBasketItemsOne["Flour - Aldi"]!,
+            testBasketItem("Baking Soda - Aldi", "Aldi"),
+            testBasketItem("Flour - Aldi", "Aldi"),
           ],
         ),
         GroupedItems(
-          category: testCategories["Hot Drinks"]!,
+          category: testCategory("Hot Drinks"),
           items: [
-            testBasketItemsOne["Coffee - Aldi"]!,
-            testBasketItemsOne["Earl Grey - Aldi"]!,
+            testBasketItem("Coffee - Aldi", "Aldi"),
+            testBasketItem("Earl Grey - Aldi", "Aldi"),
           ],
         ),
         GroupedItems(
-          category: testCategories["Vegan"]!,
+          category: testCategory("Vegan"),
           items: [
-            testBasketItemsOne["Schnitzel - Aldi"]!,
+            testBasketItem("Schnitzel - Aldi", "Aldi"),
           ],
         ),
         GroupedItems(
-          category: testCategories["Canned Food"]!,
+          category: testCategory("Canned Food"),
           items: [
-            testBasketItemsOne["Beans - Aldi"]!,
-            testBasketItemsOne["Corn - Aldi"]!,
-            testBasketItemsOne["Kidney Beans - Aldi"]!,
-            testBasketItemsOne["Soup - Aldi"]!,
+            testBasketItem("Beans - Aldi", "Aldi"),
+            testBasketItem("Corn - Aldi", "Aldi"),
+            testBasketItem("Kidney Beans - Aldi", "Aldi"),
+            testBasketItem("Soup - Aldi", "Aldi"),
           ],
         ),
         GroupedItems(
-          category: const ItemCategory(id: 0, name: "Without Category"),
+          category: ItemCategoryViewModel(0, "Without Category"),
           items: [
-            testBasketItemsOne["Apple - Aldi"]!,
-            testBasketItemsOne["Orange Juice - Aldi"]!,
-            testBasketItemsOne["Socks - Aldi"]!,
+            testBasketItem("Apple - Aldi", "Aldi"),
+            testBasketItem("Orange Juice - Aldi", "Aldi"),
+            testBasketItem("Socks - Aldi", "Aldi"),
           ],
         ),
       ],
       [
         GroupedItems(
-          category: testCategories["Alcohol"]!,
+          category: testCategory("Alcohol"),
           items: [
-            testBasketItemsOne["Rum - Aldi"]!,
+            testBasketItem("Rum - Aldi", "Aldi"),
           ],
         ),
         GroupedItems(
-          category: testCategories["Baking Ingredients"]!,
+          category: testCategory("Baking Ingredients"),
           items: [
-            testBasketItemsOne["Baking Soda - Aldi"]!,
-            testBasketItemsOne["Flour - Aldi"]!,
+            testBasketItem("Baking Soda - Aldi", "Aldi"),
+            testBasketItem("Flour - Aldi", "Aldi"),
           ],
         ),
         GroupedItems(
-          category: testCategories["Hot Drinks"]!,
+          category: testCategory("Hot Drinks"),
           items: [
-            testBasketItemsOne["Earl Grey - Aldi"]!,
+            testBasketItem("Earl Grey - Aldi", "Aldi"),
           ],
         ),
         GroupedItems(
-          category: testCategories["Vegan"]!,
+          category: testCategory("Vegan"),
           items: [
-            testBasketItemsOne["Schnitzel - Aldi"]!,
+            testBasketItem("Schnitzel - Aldi", "Aldi"),
           ],
         ),
         GroupedItems(
-          category: testCategories["Canned Food"]!,
+          category: testCategory("Canned Food"),
           items: [
-            testBasketItemsOne["Beans - Aldi"]!,
-            testBasketItemsOne["Corn - Aldi"]!,
-            testBasketItemsOne["Kidney Beans - Aldi"]!,
-            testBasketItemsOne["Soup - Aldi"]!,
+            testBasketItem("Beans - Aldi", "Aldi"),
+            testBasketItem("Corn - Aldi", "Aldi"),
+            testBasketItem("Kidney Beans - Aldi", "Aldi"),
+            testBasketItem("Soup - Aldi", "Aldi"),
           ],
         ),
         GroupedItems(
-          category: const ItemCategory(id: 0, name: "Without Category"),
+          category: ItemCategoryViewModel(0, "Without Category"),
           items: [
-            testBasketItemsOne["Apple - Aldi"]!,
-            testBasketItemsOne["Orange Juice - Aldi"]!,
-            testBasketItemsOne["Socks - Aldi"]!,
+            testBasketItem("Apple - Aldi", "Aldi"),
+            testBasketItem("Orange Juice - Aldi", "Aldi"),
+            testBasketItem("Socks - Aldi", "Aldi"),
           ],
         ),
       ],
@@ -413,11 +415,11 @@ void main() {
 
     expectLater(
       sut.basketItems,
-      emitsInOrder(expectedValues.map((emission) => IsEqualToGroupedItem<BasketItem>(emission))),
+      emitsInOrder(expectedValues.map((emission) => IsEqualToGroupedItem<BasketItemViewModel>(emission))),
     );
     const delay = Duration(milliseconds: 350);
     await Future.delayed(delay);
-    final itemToMove = testBasketItemsOne["Coffee - Aldi"]!;
+    final itemToMove = testBasketItem("Coffee - Aldi", "Aldi");
     sut.updateBasketItem(itemToMove.id, basketId: testBaskets["Lidl"]!.id);
   });
 
@@ -425,76 +427,76 @@ void main() {
     final expectedValues = [
       [
         GroupedItems(
-          category: testCategories["Alcohol"]!,
+          category: testCategory("Alcohol"),
           items: [
-            testBasketItemsOne["Rum - Aldi"]!,
+            testBasketItem("Rum - Aldi", "Aldi"),
           ],
         ),
         GroupedItems(
-          category: testCategories["Baking Ingredients"]!,
+          category: testCategory("Baking Ingredients"),
           items: [
-            testBasketItemsOne["Baking Soda - Aldi"]!,
-            testBasketItemsOne["Flour - Aldi"]!,
+            testBasketItem("Baking Soda - Aldi", "Aldi"),
+            testBasketItem("Flour - Aldi", "Aldi"),
           ],
         ),
         GroupedItems(
-          category: testCategories["Hot Drinks"]!,
+          category: testCategory("Hot Drinks"),
           items: [
-            testBasketItemsOne["Coffee - Aldi"]!,
-            testBasketItemsOne["Earl Grey - Aldi"]!,
+            testBasketItem("Coffee - Aldi", "Aldi"),
+            testBasketItem("Earl Grey - Aldi", "Aldi"),
           ],
         ),
         GroupedItems(
-          category: testCategories["Vegan"]!,
+          category: testCategory("Vegan"),
           items: [
-            testBasketItemsOne["Schnitzel - Aldi"]!,
+            testBasketItem("Schnitzel - Aldi", "Aldi"),
           ],
         ),
         GroupedItems(
-          category: testCategories["Canned Food"]!,
+          category: testCategory("Canned Food"),
           items: [
-            testBasketItemsOne["Beans - Aldi"]!,
-            testBasketItemsOne["Corn - Aldi"]!,
-            testBasketItemsOne["Kidney Beans - Aldi"]!,
-            testBasketItemsOne["Soup - Aldi"]!,
+            testBasketItem("Beans - Aldi", "Aldi"),
+            testBasketItem("Corn - Aldi", "Aldi"),
+            testBasketItem("Kidney Beans - Aldi", "Aldi"),
+            testBasketItem("Soup - Aldi", "Aldi"),
           ],
         ),
         GroupedItems(
-          category: const ItemCategory(id: 0, name: "Without Category"),
+          category: ItemCategoryViewModel(0, "Without Category"),
           items: [
-            testBasketItemsOne["Apple - Aldi"]!,
-            testBasketItemsOne["Orange Juice - Aldi"]!,
-            testBasketItemsOne["Socks - Aldi"]!,
+            testBasketItem("Apple - Aldi", "Aldi"),
+            testBasketItem("Orange Juice - Aldi", "Aldi"),
+            testBasketItem("Socks - Aldi", "Aldi"),
           ],
         ),
       ],
       [
         GroupedItems(
-          category: testCategories["Hot Drinks"]!,
+          category: testCategory("Hot Drinks"),
           items: [
-            testBasketItemsOne["Coffee - Aldi"]!,
-            testBasketItemsOne["Earl Grey - Aldi"]!,
+            testBasketItem("Coffee - Aldi", "Aldi"),
+            testBasketItem("Earl Grey - Aldi", "Aldi"),
           ],
         ),
         GroupedItems(
-          category: testCategories["Vegan"]!,
+          category: testCategory("Vegan"),
           items: [
-            testBasketItemsOne["Schnitzel - Aldi"]!,
+            testBasketItem("Schnitzel - Aldi", "Aldi"),
           ],
         ),
         GroupedItems(
-          category: testCategories["Canned Food"]!,
+          category: testCategory("Canned Food"),
           items: [
-            testBasketItemsOne["Beans - Aldi"]!,
-            testBasketItemsOne["Soup - Aldi"]!,
+            testBasketItem("Beans - Aldi", "Aldi"),
+            testBasketItem("Soup - Aldi", "Aldi"),
           ],
         ),
         GroupedItems(
-          category: const ItemCategory(id: 0, name: "Without Category"),
+          category: ItemCategoryViewModel(0, "Without Category"),
           items: [
-            testBasketItemsOne["Apple - Aldi"]!,
-            testBasketItemsOne["Orange Juice - Aldi"]!,
-            testBasketItemsOne["Socks - Aldi"]!,
+            testBasketItem("Apple - Aldi", "Aldi"),
+            testBasketItem("Orange Juice - Aldi", "Aldi"),
+            testBasketItem("Socks - Aldi", "Aldi"),
           ],
         ),
       ],
@@ -502,16 +504,16 @@ void main() {
 
     expectLater(
       sut.basketItems,
-      emitsInOrder(expectedValues.map((emission) => IsEqualToGroupedItem<BasketItem>(emission))),
+      emitsInOrder(expectedValues.map((emission) => IsEqualToGroupedItem<BasketItemViewModel>(emission))),
     );
     const delay = Duration(milliseconds: 350);
     await Future.delayed(delay);
 
-    final rum = testBasketItemsOne["Rum - Aldi"]!;
-    final baking = testBasketItemsOne["Baking Soda - Aldi"]!;
-    final flour = testBasketItemsOne["Flour - Aldi"]!;
-    final corn = testBasketItemsOne["Corn - Aldi"]!;
-    final kidneyBeans = testBasketItemsOne["Kidney Beans - Aldi"]!;
+    final rum = testBasketItem("Rum - Aldi", "Aldi");
+    final baking = testBasketItem("Baking Soda - Aldi", "Aldi");
+    final flour = testBasketItem("Flour - Aldi", "Aldi");
+    final corn = testBasketItem("Corn - Aldi", "Aldi");
+    final kidneyBeans = testBasketItem("Kidney Beans - Aldi", "Aldi");
 
     sut.updateBasketItem(rum.id, isChecked: true);
     sut.updateBasketItem(baking.id, isChecked: true);
@@ -523,49 +525,49 @@ void main() {
   });
 
   test('all basket items can be removed from a basket', () async {
-    final List<List<GroupedItems<BasketItem>>> expectedValues = [
+    final List<List<GroupedItems<BasketItemViewModel>>> expectedValues = [
       [
         GroupedItems(
-          category: testCategories["Alcohol"]!,
+          category: testCategory("Alcohol"),
           items: [
-            testBasketItemsOne["Rum - Aldi"]!,
+            testBasketItem("Rum - Aldi", "Aldi"),
           ],
         ),
         GroupedItems(
-          category: testCategories["Baking Ingredients"]!,
+          category: testCategory("Baking Ingredients"),
           items: [
-            testBasketItemsOne["Baking Soda - Aldi"]!,
-            testBasketItemsOne["Flour - Aldi"]!,
+            testBasketItem("Baking Soda - Aldi", "Aldi"),
+            testBasketItem("Flour - Aldi", "Aldi"),
           ],
         ),
         GroupedItems(
-          category: testCategories["Hot Drinks"]!,
+          category: testCategory("Hot Drinks"),
           items: [
-            testBasketItemsOne["Coffee - Aldi"]!,
-            testBasketItemsOne["Earl Grey - Aldi"]!,
+            testBasketItem("Coffee - Aldi", "Aldi"),
+            testBasketItem("Earl Grey - Aldi", "Aldi"),
           ],
         ),
         GroupedItems(
-          category: testCategories["Vegan"]!,
+          category: testCategory("Vegan"),
           items: [
-            testBasketItemsOne["Schnitzel - Aldi"]!,
+            testBasketItem("Schnitzel - Aldi", "Aldi"),
           ],
         ),
         GroupedItems(
-          category: testCategories["Canned Food"]!,
+          category: testCategory("Canned Food"),
           items: [
-            testBasketItemsOne["Beans - Aldi"]!,
-            testBasketItemsOne["Corn - Aldi"]!,
-            testBasketItemsOne["Kidney Beans - Aldi"]!,
-            testBasketItemsOne["Soup - Aldi"]!,
+            testBasketItem("Beans - Aldi", "Aldi"),
+            testBasketItem("Corn - Aldi", "Aldi"),
+            testBasketItem("Kidney Beans - Aldi", "Aldi"),
+            testBasketItem("Soup - Aldi", "Aldi"),
           ],
         ),
         GroupedItems(
-          category: const ItemCategory(id: 0, name: "Without Category"),
+          category: ItemCategoryViewModel(0, "Without Category"),
           items: [
-            testBasketItemsOne["Apple - Aldi"]!,
-            testBasketItemsOne["Orange Juice - Aldi"]!,
-            testBasketItemsOne["Socks - Aldi"]!,
+            testBasketItem("Apple - Aldi", "Aldi"),
+            testBasketItem("Orange Juice - Aldi", "Aldi"),
+            testBasketItem("Socks - Aldi", "Aldi"),
           ],
         ),
       ],
@@ -574,16 +576,16 @@ void main() {
 
     expectLater(
       sut.basketItems,
-      emitsInOrder(expectedValues.map((emission) => IsEqualToGroupedItem<BasketItem>(emission))),
+      emitsInOrder(expectedValues.map((emission) => IsEqualToGroupedItem<BasketItemViewModel>(emission))),
     );
     const delay = Duration(milliseconds: 350);
     await Future.delayed(delay);
 
-    final rum = testBasketItemsOne["Rum - Aldi"]!;
-    final baking = testBasketItemsOne["Baking Soda - Aldi"]!;
-    final flour = testBasketItemsOne["Flour - Aldi"]!;
-    final corn = testBasketItemsOne["Corn - Aldi"]!;
-    final kidneyBeans = testBasketItemsOne["Kidney Beans - Aldi"]!;
+    final rum = testBasketItem("Rum - Aldi", "Aldi");
+    final baking = testBasketItem("Baking Soda - Aldi", "Aldi");
+    final flour = testBasketItem("Flour - Aldi", "Aldi");
+    final corn = testBasketItem("Corn - Aldi", "Aldi");
+    final kidneyBeans = testBasketItem("Kidney Beans - Aldi", "Aldi");
 
     sut.updateBasketItem(rum.id, isChecked: true);
     sut.updateBasketItem(baking.id, isChecked: true);
