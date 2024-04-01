@@ -4,7 +4,7 @@ import 'package:watch_it/watch_it.dart';
 class SortOrderService {
   final _db = di<AppDatabase>();
 
-  Future<int> createSortOrder(int id) {
+  Future<int> removeSortOrder(int id) {
     return _db.sortOrdersDao.removeOrders(id);
   }
 

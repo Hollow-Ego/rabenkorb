@@ -1,0 +1,41 @@
+import 'package:rabenkorb/database/database.dart';
+import 'package:rabenkorb/services/data_access/sort_order_service.dart';
+import 'package:rabenkorb/services/data_access/sort_rule_service.dart';
+import 'package:watch_it/watch_it.dart';
+
+class SortService {
+  final _sortRuleService = di<SortRuleService>();
+  final _sortOrderService = di<SortOrderService>();
+
+  Future<int> createSortRule(String name) {
+    return _sortRuleService.createSortRule(name);
+  }
+
+  Future<void> updateSortRule(int id, String name) {
+    return _sortRuleService.updateSortRule(id, name);
+  }
+
+  Future<SortRule?> getSortRuleById(int id) {
+    return _sortRuleService.getSortRuleById(id);
+  }
+
+  Future<int> deleteSortRuleById(int id) {
+    return _sortRuleService.deleteSortRuleById(id);
+  }
+
+  Stream<List<SortRule>> watchSortRules() {
+    return _sortRuleService.watchSortRules();
+  }
+
+  Stream<SortRule> watchSortRuleWithId(int id) {
+    return _sortRuleService.watchSortRuleWithId(id);
+  }
+
+  Future<int> removeSortOrder(int id) {
+    return _sortOrderService.removeSortOrder(id);
+  }
+
+  Future<void> setOrder(int id, List<int> categoryIds) {
+    return _sortOrderService.setOrder(id, categoryIds);
+  }
+}
