@@ -65,15 +65,17 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
     return (select(basketItems)).watch();
   }
 
-  Stream<List<GroupedItems<BasketItem>>> watchBasketItemsInOrder(
-    SortMode sortMode, {
+  Stream<List<GroupedItems<BasketItem>>> watchBasketItemsInOrder({
+    required int basketId,
+    required SortMode sortMode,
     int? sortRuleId,
     String? searchTerm,
   }) {
     final sourceQuery = select(basketItems);
+    sourceQuery.where((bi) => bi.basket.equals(basketId));
 
     if (searchTerm != null && searchTerm.isNotEmpty) {
-      sourceQuery.where((tbl) => tbl.name.like('%$searchTerm%'));
+      sourceQuery.where((bi) => bi.name.like('%$searchTerm%'));
     }
 
     final query = sourceQuery.join([

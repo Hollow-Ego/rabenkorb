@@ -10,18 +10,21 @@ class BasketItemService {
   final BehaviorSubject<String> _searchSubject = BehaviorSubject<String>.seeded("");
   final BehaviorSubject<int?> _sortRuleIdSubject = BehaviorSubject<int?>.seeded(null);
   final BehaviorSubject<SortMode> _sortModeSubject = BehaviorSubject<SortMode>.seeded(SortMode.name);
+  final BehaviorSubject<int> _basketIdSubject = BehaviorSubject<int>();
 
   late Stream<List<GroupedItems<BasketItem>>> basketItemsStream;
 
   Stream<List<GroupedItems<BasketItem>>> get basketItems => basketItemsStream;
 
   BasketItemService() {
-    basketItemsStream = Rx.combineLatest3(
+    basketItemsStream = Rx.combineLatest4(
       _sortModeSubject.stream.distinct(),
       _sortRuleIdSubject.stream.distinct(),
       _searchSubject.stream.distinct(),
-      (SortMode sortMode, int? sortRuleId, String searchTerm) => _watchBasketItemsInOrder(
-        sortMode,
+      _basketIdSubject.stream.distinct(),
+      (SortMode sortMode, int? sortRuleId, String searchTerm, int basketId) => _watchBasketItemsInOrder(
+        basketId: basketId,
+        sortMode: sortMode,
         sortRuleId: sortRuleId,
         searchTerm: searchTerm,
       ),
@@ -29,6 +32,7 @@ class BasketItemService {
   }
 
   factory BasketItemService.withValue({
+    required int basketId,
     SortMode? sortMode,
     int? sortRuleId,
     String? searchString,
@@ -38,6 +42,7 @@ class BasketItemService {
     service.setSortMode(sortMode);
     service.setSearchString(searchString);
     service.setSortRuleId(sortRuleId);
+    service.setBasketId(basketId);
 
     return service;
   }
@@ -103,12 +108,21 @@ class BasketItemService {
     _sortRuleIdSubject.add(sortRuleId);
   }
 
+  void setBasketId(int basketId) {
+    _basketIdSubject.add(basketId);
+  }
+
   void setSearchString(String? searchString) {
     searchString = searchString ?? "";
     _searchSubject.add(searchString);
   }
 
-  Stream<List<GroupedItems<BasketItem>>> _watchBasketItemsInOrder(SortMode sortMode, {int? sortRuleId, String? searchTerm}) {
-    return _db.basketItemsDao.watchBasketItemsInOrder(sortMode, sortRuleId: sortRuleId, searchTerm: searchTerm);
+  Stream<List<GroupedItems<BasketItem>>> _watchBasketItemsInOrder({
+    required int basketId,
+    required SortMode sortMode,
+    int? sortRuleId,
+    String? searchTerm,
+  }) {
+    return _db.basketItemsDao.watchBasketItemsInOrder(basketId: basketId, sortMode: sortMode, sortRuleId: sortRuleId, searchTerm: searchTerm);
   }
 }

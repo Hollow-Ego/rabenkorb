@@ -23,8 +23,8 @@ Map<String, TemplateLibrary> testLibraries = {
 };
 
 Map<String, ShoppingBasket> testBaskets = {
-  "Lidl": const ShoppingBasket(id: 1, name: "Lidl", useAsGroup: false),
-  "Aldi": const ShoppingBasket(id: 2, name: "Aldi", useAsGroup: false),
+  "Aldi": const ShoppingBasket(id: 1, name: "Aldi", useAsGroup: false),
+  "Lidl": const ShoppingBasket(id: 2, name: "Lidl", useAsGroup: false),
 };
 
 Map<String, VariantKey> testVariantKeys = {
@@ -116,29 +116,109 @@ Map<String, ItemTemplate> testItemTemplates = {
   ),
 };
 
-Map<String, BasketItem> testBasketItems = {
-  "Coffee": BasketItem(
+Map<String, BasketItem> testBasketItemsOne = {
+  "Coffee - Aldi": BasketItem(
     id: 1,
     name: "Coffee",
     category: testCategories["Hot Drinks"]!.id,
     amount: 0,
     basket: testBaskets["Aldi"]!.id,
   ),
-  "Rum": BasketItem(
+  "Rum - Aldi": BasketItem(
     id: 2,
     name: "Rum",
     category: testCategories["Alcohol"]!.id,
     amount: 1,
     basket: testBaskets["Aldi"]!.id,
   ),
-  "Schnitzel": BasketItem(
+  "Apple - Aldi": BasketItem(
+    id: 6,
+    name: "Apple",
+    amount: 0,
+    unit: testUnits["Pieces"]!.id,
+    basket: testBaskets["Aldi"]!.id,
+  ),
+  "Soup - Aldi": BasketItem(
+    id: 9,
+    name: "Soup",
+    category: testCategories["Canned Food"]!.id,
+    amount: 1,
+    basket: testBaskets["Aldi"]!.id,
+  ),
+  "Baking Soda - Aldi": BasketItem(
+    id: 12,
+    name: "Baking Soda",
+    category: testCategories["Baking Ingredients"]!.id,
+    amount: 1,
+    basket: testBaskets["Aldi"]!.id,
+  ),
+  "Earl Grey - Aldi": BasketItem(
+    id: 13,
+    name: "Earl Grey",
+    category: testCategories["Hot Drinks"]!.id,
+    amount: 0,
+    basket: testBaskets["Aldi"]!.id,
+  ),
+  "Beans - Aldi": BasketItem(
+    id: 14,
+    name: "Beans",
+    category: testCategories["Canned Food"]!.id,
+    amount: 1,
+    unit: testUnits["Cans"]!.id,
+    basket: testBaskets["Aldi"]!.id,
+  ),
+  "Flour - Aldi": BasketItem(
+    id: 15,
+    name: "Flour",
+    category: testCategories["Baking Ingredients"]!.id,
+    amount: 1,
+    basket: testBaskets["Aldi"]!.id,
+  ),
+  "Schnitzel - Aldi": BasketItem(
+    id: 16,
+    name: "\"Schnitzel\"",
+    category: testCategories["Vegan"]!.id,
+    amount: 0,
+    basket: testBaskets["Aldi"]!.id,
+  ),
+  "Socks - Aldi": BasketItem(
+    id: 17,
+    name: "Socks",
+    amount: 0,
+    basket: testBaskets["Aldi"]!.id,
+  ),
+  "Orange Juice - Aldi": BasketItem(
+    id: 18,
+    name: "Orange Juice",
+    amount: 1.5,
+    unit: testUnits["Liter"]!.id,
+    basket: testBaskets["Aldi"]!.id,
+  ),
+  "Corn - Aldi": BasketItem(
+    id: 19,
+    name: "Corn",
+    category: testCategories["Canned Food"]!.id,
+    amount: 1,
+    basket: testBaskets["Aldi"]!.id,
+  ),
+  "Kidney Beans - Aldi": BasketItem(
+    id: 20,
+    name: "Kidney Beans",
+    category: testCategories["Canned Food"]!.id,
+    amount: 1,
+    basket: testBaskets["Aldi"]!.id,
+  ),
+};
+
+Map<String, BasketItem> testBasketItemsTwo = {
+  "Schnitzel - Lidl": BasketItem(
     id: 3,
     name: "\"Schnitzel\"",
     category: testCategories["Vegan"]!.id,
     amount: 0,
     basket: testBaskets["Lidl"]!.id,
   ),
-  "Beans": BasketItem(
+  "Beans - Lidl": BasketItem(
     id: 4,
     name: "Beans",
     category: testCategories["Canned Food"]!.id,
@@ -146,67 +226,39 @@ Map<String, BasketItem> testBasketItems = {
     unit: testUnits["Cans"]!.id,
     basket: testBaskets["Lidl"]!.id,
   ),
-  "Flour": BasketItem(
+  "Flour - Lidl": BasketItem(
     id: 5,
     name: "Flour",
     category: testCategories["Baking Ingredients"]!.id,
     amount: 1,
     basket: testBaskets["Lidl"]!.id,
   ),
-  "Apple": BasketItem(
-    id: 6,
-    name: "Apple",
-    amount: 0,
-    unit: testUnits["Pieces"]!.id,
-    basket: testBaskets["Aldi"]!.id,
-  ),
-  "Socks": BasketItem(
+  "Socks - Lidl": BasketItem(
     id: 7,
     name: "Socks",
     amount: 0,
     basket: testBaskets["Lidl"]!.id,
   ),
-  "Orange Juice": BasketItem(
+  "Orange Juice - Lidl": BasketItem(
     id: 8,
     name: "Orange Juice",
     amount: 1.5,
     unit: testUnits["Liter"]!.id,
     basket: testBaskets["Lidl"]!.id,
   ),
-  "Soup": BasketItem(
-    id: 9,
-    name: "Soup",
-    category: testCategories["Canned Food"]!.id,
-    amount: 1,
-    basket: testBaskets["Aldi"]!.id,
-  ),
-  "Corn": BasketItem(
+  "Corn - Lidl": BasketItem(
     id: 10,
     name: "Corn",
     category: testCategories["Canned Food"]!.id,
     amount: 1,
     basket: testBaskets["Lidl"]!.id,
   ),
-  "Kidney Beans": BasketItem(
+  "Kidney Beans - Lidl": BasketItem(
     id: 11,
     name: "Kidney Beans",
     category: testCategories["Canned Food"]!.id,
     amount: 1,
     basket: testBaskets["Lidl"]!.id,
-  ),
-  "Baking Soda": BasketItem(
-    id: 12,
-    name: "Baking Soda",
-    category: testCategories["Baking Ingredients"]!.id,
-    amount: 1,
-    basket: testBaskets["Aldi"]!.id,
-  ),
-  "Earl Grey": BasketItem(
-    id: 13,
-    name: "Earl Grey",
-    category: testCategories["Hot Drinks"]!.id,
-    amount: 0,
-    basket: testBaskets["Aldi"]!.id,
   ),
 };
 
@@ -236,6 +288,7 @@ Future<void> seedDatabase(AppDatabase db) async {
     batch.insertAll(db.sortOrders, testSortOrdersRuleTwo);
     batch.insertAll(db.shoppingBaskets, testBaskets.values);
     batch.insertAll(db.itemTemplates, testItemTemplates.values);
-    batch.insertAll(db.basketItems, testBasketItems.values);
+    batch.insertAll(db.basketItems, testBasketItemsOne.values);
+    batch.insertAll(db.basketItems, testBasketItemsTwo.values);
   });
 }

@@ -18,6 +18,7 @@ void main() {
     di.registerSingleton<AppDatabase>(database);
     await seedDatabase(database);
     sut = BasketItemService.withValue(
+      basketId: 1,
       sortMode: SortMode.custom,
       sortRuleId: 1,
     );
@@ -131,44 +132,44 @@ void main() {
         GroupedItems(
           category: testCategories["Alcohol"]!,
           items: [
-            testBasketItems["Rum"]!,
+            testBasketItemsOne["Rum - Aldi"]!,
           ],
         ),
         GroupedItems(
           category: testCategories["Baking Ingredients"]!,
           items: [
-            testBasketItems["Baking Soda"]!,
-            testBasketItems["Flour"]!,
+            testBasketItemsOne["Baking Soda - Aldi"]!,
+            testBasketItemsOne["Flour - Aldi"]!,
           ],
         ),
         GroupedItems(
           category: testCategories["Hot Drinks"]!,
           items: [
-            testBasketItems["Coffee"]!,
-            testBasketItems["Earl Grey"]!,
+            testBasketItemsOne["Coffee - Aldi"]!,
+            testBasketItemsOne["Earl Grey - Aldi"]!,
           ],
         ),
         GroupedItems(
           category: testCategories["Vegan"]!,
           items: [
-            testBasketItems["Schnitzel"]!,
+            testBasketItemsOne["Schnitzel - Aldi"]!,
           ],
         ),
         GroupedItems(
           category: testCategories["Canned Food"]!,
           items: [
-            testBasketItems["Beans"]!,
-            testBasketItems["Corn"]!,
-            testBasketItems["Kidney Beans"]!,
-            testBasketItems["Soup"]!,
+            testBasketItemsOne["Beans - Aldi"]!,
+            testBasketItemsOne["Corn - Aldi"]!,
+            testBasketItemsOne["Kidney Beans - Aldi"]!,
+            testBasketItemsOne["Soup - Aldi"]!,
           ],
         ),
         GroupedItems(
           category: const ItemCategory(id: 0, name: "Without Category"),
           items: [
-            testBasketItems["Apple"]!,
-            testBasketItems["Orange Juice"]!,
-            testBasketItems["Socks"]!,
+            testBasketItemsOne["Apple - Aldi"]!,
+            testBasketItemsOne["Orange Juice - Aldi"]!,
+            testBasketItemsOne["Socks - Aldi"]!,
           ],
         ),
       ],
@@ -189,14 +190,14 @@ void main() {
         GroupedItems(
           category: testCategories["Hot Drinks"]!,
           items: [
-            testBasketItems["Earl Grey"]!,
+            testBasketItemsOne["Earl Grey - Aldi"]!,
           ],
         ),
         GroupedItems(
           category: testCategories["Canned Food"]!,
           items: [
-            testBasketItems["Beans"]!,
-            testBasketItems["Kidney Beans"]!,
+            testBasketItemsOne["Beans - Aldi"]!,
+            testBasketItemsOne["Kidney Beans - Aldi"]!,
           ],
         ),
       ],
@@ -204,8 +205,8 @@ void main() {
         GroupedItems(
           category: testCategories["Canned Food"]!,
           items: [
-            testBasketItems["Beans"]!,
-            testBasketItems["Kidney Beans"]!,
+            testBasketItemsOne["Beans - Aldi"]!,
+            testBasketItemsOne["Kidney Beans - Aldi"]!,
           ],
         ),
       ],
@@ -213,44 +214,44 @@ void main() {
         GroupedItems(
           category: testCategories["Alcohol"]!,
           items: [
-            testBasketItems["Rum"]!,
+            testBasketItemsOne["Rum - Aldi"]!,
           ],
         ),
         GroupedItems(
           category: testCategories["Baking Ingredients"]!,
           items: [
-            testBasketItems["Baking Soda"]!,
-            testBasketItems["Flour"]!,
+            testBasketItemsOne["Baking Soda - Aldi"]!,
+            testBasketItemsOne["Flour - Aldi"]!,
           ],
         ),
         GroupedItems(
           category: testCategories["Hot Drinks"]!,
           items: [
-            testBasketItems["Coffee"]!,
-            testBasketItems["Earl Grey"]!,
+            testBasketItemsOne["Coffee - Aldi"]!,
+            testBasketItemsOne["Earl Grey - Aldi"]!,
           ],
         ),
         GroupedItems(
           category: testCategories["Vegan"]!,
           items: [
-            testBasketItems["Schnitzel"]!,
+            testBasketItemsOne["Schnitzel - Aldi"]!,
           ],
         ),
         GroupedItems(
           category: testCategories["Canned Food"]!,
           items: [
-            testBasketItems["Beans"]!,
-            testBasketItems["Corn"]!,
-            testBasketItems["Kidney Beans"]!,
-            testBasketItems["Soup"]!,
+            testBasketItemsOne["Beans - Aldi"]!,
+            testBasketItemsOne["Corn - Aldi"]!,
+            testBasketItemsOne["Kidney Beans - Aldi"]!,
+            testBasketItemsOne["Soup - Aldi"]!,
           ],
         ),
         GroupedItems(
           category: const ItemCategory(id: 0, name: "Without Category"),
           items: [
-            testBasketItems["Apple"]!,
-            testBasketItems["Orange Juice"]!,
-            testBasketItems["Socks"]!,
+            testBasketItemsOne["Apple - Aldi"]!,
+            testBasketItemsOne["Orange Juice - Aldi"]!,
+            testBasketItemsOne["Socks - Aldi"]!,
           ],
         ),
       ]
