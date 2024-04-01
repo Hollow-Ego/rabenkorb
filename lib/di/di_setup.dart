@@ -1,5 +1,6 @@
 import 'package:rabenkorb/database/database.dart';
 import 'package:rabenkorb/services/business/library_service.dart';
+import 'package:rabenkorb/services/business/metadata_service.dart';
 import 'package:rabenkorb/services/data_access/basket_item_service.dart';
 import 'package:rabenkorb/services/data_access/item_category_service.dart';
 import 'package:rabenkorb/services/data_access/item_template_service.dart';
@@ -37,6 +38,7 @@ void _registerDataAcessServices() {
 }
 
 void _registerBusinessServices() {
+  di.registerSingleton<MetadataService>(MetadataService());
   di.registerSingleton<LibraryService>(LibraryService());
 }
 
