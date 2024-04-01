@@ -24,8 +24,8 @@ Map<String, TemplateLibrary> testLibraries = {
 };
 
 Map<String, ShoppingBasket> testBaskets = {
-  "Aldi": const ShoppingBasket(id: 1, name: "Aldi", useAsGroup: false),
-  "Lidl": const ShoppingBasket(id: 2, name: "Lidl", useAsGroup: false),
+  "Aldi": const ShoppingBasket(id: 1, name: "Aldi"),
+  "Lidl": const ShoppingBasket(id: 2, name: "Lidl"),
 };
 
 Map<String, VariantKey> testVariantKeys = {
