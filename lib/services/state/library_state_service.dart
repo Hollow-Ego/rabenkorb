@@ -8,9 +8,7 @@ class LibraryStateService {
   final BehaviorSubject<SortMode> _sortModeSubject = BehaviorSubject<SortMode>.seeded(SortMode.name);
 
   Stream<String> get search => _searchSubject.stream.distinct();
-
   Stream<int?> get sortRuleId => _sortRuleIdSubject.stream.distinct();
-
   Stream<SortMode> get sortMode => _sortModeSubject.stream.distinct();
 
   LibraryStateService();

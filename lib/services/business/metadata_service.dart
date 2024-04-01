@@ -1,3 +1,6 @@
+import 'package:rabenkorb/exceptions/missing_category.dart';
+import 'package:rabenkorb/exceptions/missing_unit.dart';
+import 'package:rabenkorb/exceptions/missing_variant.dart';
 import 'package:rabenkorb/services/data_access/item_category_service.dart';
 import 'package:rabenkorb/services/data_access/item_unit_service.dart';
 import 'package:rabenkorb/services/data_access/variant_key_service.dart';
@@ -60,5 +63,32 @@ class MetadataService {
 
   Future<int> deleteVariantKeyById(int id) {
     return _variantKeyService.deleteVariantKeyById(id);
+  }
+
+  Future<void> ensureExistingCategory(int? categoryId) async {
+    if (categoryId == null) {
+      return;
+    }
+    final category = await getItemCategoryById(categoryId);
+
+    throwIf(category == null, MissingCategoryException(categoryId));
+  }
+
+  Future<void> ensureExistingVariantKey(int? variantId) async {
+    if (variantId == null) {
+      return;
+    }
+    final variant = await getVariantKeyById(variantId);
+
+    throwIf(variant == null, MissingVariantException(variantId));
+  }
+
+  Future<void> ensureExistingUnit(int? unitId) async {
+    if (unitId == null) {
+      return;
+    }
+    final unit = await getItemUnitById(unitId);
+
+    throwIf(unit == null, MissingUnitException(unitId));
   }
 }
