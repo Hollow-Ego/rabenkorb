@@ -56,6 +56,10 @@ class BasketService {
     );
   }
 
+  Future<void> setBasketItemCheckedState(int id, bool state) {
+    return updateBasketItem(id, isChecked: state);
+  }
+
   Future<void> updateBasketItem(
     int id, {
     String? name,

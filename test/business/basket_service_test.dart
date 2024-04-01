@@ -64,6 +64,17 @@ void main() {
     );
   });
 
+  test("basket items can be checked and unchecked", () async {
+    final testBasketItemId = testBasketItemsOne["Apple - Aldi"]!.id;
+    await sut.setBasketItemCheckedState(testBasketItemId, true);
+    var basketItem = await sut.getBasketItemById(testBasketItemId);
+    expect(basketItem!.isChecked, true);
+
+    await sut.setBasketItemCheckedState(testBasketItemId, false);
+    basketItem = await sut.getBasketItemById(testBasketItemId);
+    expect(basketItem!.isChecked, false);
+  });
+
   tearDown(() async {
     await database.close();
     await di.reset(dispose: true);
