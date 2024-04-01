@@ -71,6 +71,10 @@ class ItemTemplatesDao extends DatabaseAccessor<AppDatabase> with _$ItemTemplate
     return (select(itemTemplates)..where((li) => li.id.equals(id))).getSingleOrNull();
   }
 
+  Future<List<ItemTemplate>> getItemTemplatesByVariantKey(int variantKeyId) {
+    return (select(itemTemplates)..where((li) => li.variantKey.equals(variantKeyId))).get();
+  }
+
   Future<int> deleteItemTemplateWithId(int id) {
     return (delete(itemTemplates)..where((li) => li.id.equals(id))).go();
   }

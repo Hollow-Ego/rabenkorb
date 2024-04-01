@@ -11,9 +11,9 @@ class ItemTemplates extends Table {
 
   TextColumn get imagePath => text().nullable()();
 
-  IntColumn get variantKey => integer().nullable().references(VariantKeys, #id)();
+  IntColumn get variantKey => integer().nullable().references(VariantKeys, #id, onDelete: KeyAction.setNull)();
 
-  IntColumn get category => integer().nullable().references(ItemCategories, #id)();
+  IntColumn get category => integer().nullable().references(ItemCategories, #id, onDelete: KeyAction.setNull)();
 
   IntColumn get library => integer().references(TemplateLibraries, #id)();
 }

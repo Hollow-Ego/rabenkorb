@@ -17,6 +17,7 @@ import '../database_helper.dart';
 
 void main() {
   late LibraryService sut;
+  late MetadataService metadataService;
   late AppDatabase database;
 
   setUp(() async {
@@ -29,7 +30,8 @@ void main() {
     di.registerSingleton<ItemCategoryService>(ItemCategoryService());
     di.registerSingleton<VariantKeyService>(VariantKeyService());
 
-    di.registerSingleton<MetadataService>(MetadataService());
+    metadataService = MetadataService();
+    di.registerSingleton<MetadataService>(metadataService);
     di.registerSingleton<TemplateLibraryService>(TemplateLibraryService());
 
     await seedDatabase(database);
@@ -62,6 +64,18 @@ void main() {
       sut.createItemTemplate("Test Item", libraryId: 1, variantKeyId: 99),
       throwsA(isA<MissingVariantException>()),
     );
+  });
+
+  test("remove no longer needed variant keys after removing it for one template", () async {
+    final itemTemplateId = testItemTemplates["Peas - Frozen"]!.id;
+    final connectedItemTemplateId = testItemTemplates["Peas - Canned"]!.id;
+    await sut.removeItemTemplateVariant(itemTemplateId);
+
+    final previouslyConnectedItem = await sut.getItemTemplateById(connectedItemTemplateId);
+    expect(previouslyConnectedItem!.variantKey, null);
+
+    final variant = await metadataService.getVariantKeyById(testVariantKeys["Key 1"]!.id);
+    expect(variant, null);
   });
 
   tearDown(() async {

@@ -82,6 +82,10 @@ class ItemTemplateService {
     return _db.itemTemplatesDao.getItemTemplateWithId(id);
   }
 
+  Future<List<ItemTemplate>> getItemTemplatesByVariantKey(int variantKeyId) {
+    return _db.itemTemplatesDao.getItemTemplatesByVariantKey(variantKeyId);
+  }
+
   Future<int> deleteItemTemplateById(int id) {
     return _db.itemTemplatesDao.deleteItemTemplateWithId(id);
   }
