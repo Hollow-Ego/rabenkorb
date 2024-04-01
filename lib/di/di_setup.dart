@@ -1,4 +1,5 @@
 import 'package:rabenkorb/database/database.dart';
+import 'package:rabenkorb/services/business/basket_service.dart';
 import 'package:rabenkorb/services/business/library_service.dart';
 import 'package:rabenkorb/services/business/metadata_service.dart';
 import 'package:rabenkorb/services/business/sort_service.dart';
@@ -11,6 +12,7 @@ import 'package:rabenkorb/services/data_access/sort_order_service.dart';
 import 'package:rabenkorb/services/data_access/sort_rule_service.dart';
 import 'package:rabenkorb/services/data_access/template_library_service.dart';
 import 'package:rabenkorb/services/data_access/variant_key_service.dart';
+import 'package:rabenkorb/services/state/basket_state_service.dart';
 import 'package:rabenkorb/services/state/library_state_service.dart';
 import 'package:watch_it/watch_it.dart';
 
@@ -42,8 +44,10 @@ void _registerBusinessServices() {
   di.registerSingleton<SortService>(SortService());
   di.registerSingleton<MetadataService>(MetadataService());
   di.registerSingleton<LibraryService>(LibraryService());
+  di.registerSingleton<BasketService>(BasketService());
 }
 
 void _registerStateServices() {
   di.registerSingleton<LibraryStateService>(LibraryStateService());
+  di.registerSingleton<BasketStateService>(BasketStateService());
 }
