@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:rabenkorb/database/database.dart';
 import 'package:rabenkorb/models/grouped_items.dart';
 import 'package:rabenkorb/services/data_access/item_template_service.dart';
+import 'package:rabenkorb/services/state/library_state_service.dart';
 import 'package:rabenkorb/shared/sort_mode.dart';
 import 'package:watch_it/watch_it.dart';
 
@@ -12,15 +13,20 @@ import '../matcher/grouped_items_matcher.dart';
 void main() {
   late ItemTemplateService sut;
   late AppDatabase database;
+  late LibraryStateService libraryStateService;
 
   setUp(() async {
-    database = AppDatabase.forTesting(NativeDatabase.memory());
-    di.registerSingleton<AppDatabase>(database);
-    await seedDatabase(database);
-    sut = ItemTemplateService.withValue(
+    libraryStateService = LibraryStateService.withValue(
       sortMode: SortMode.custom,
       sortRuleId: 1,
     );
+    di.registerSingleton<LibraryStateService>(libraryStateService);
+
+    database = AppDatabase.forTesting(NativeDatabase.memory());
+    di.registerSingleton<AppDatabase>(database);
+    await seedDatabase(database);
+
+    sut = ItemTemplateService();
   });
 
   test('item templates can be created', () async {
@@ -279,12 +285,12 @@ void main() {
 
     // Delay creation of new items to ensure emissions are happening one by one
     const delay = Duration(milliseconds: 350);
-    sut.setSearchString(searchStringOne);
-    sut.setSearchString(searchStringTwo);
+    libraryStateService.setSearchString(searchStringOne);
+    libraryStateService.setSearchString(searchStringTwo);
     await Future.delayed(delay);
-    sut.setSearchString(searchStringThree);
+    libraryStateService.setSearchString(searchStringThree);
     await Future.delayed(delay);
-    sut.setSearchString(null);
+    libraryStateService.setSearchString(null);
   });
 
   tearDown(() async {
