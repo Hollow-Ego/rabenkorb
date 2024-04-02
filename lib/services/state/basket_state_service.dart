@@ -1,7 +1,11 @@
+import 'package:rabenkorb/abstracts/PreferenceService.dart';
 import 'package:rabenkorb/shared/sort_mode.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:watch_it/watch_it.dart';
 
 class BasketStateService {
+  final _prefs = di<PreferenceService>();
+
   final BehaviorSubject<String> _searchSubject = BehaviorSubject<String>.seeded("");
   final BehaviorSubject<int?> _sortRuleIdSubject = BehaviorSubject<int?>.seeded(null);
   final BehaviorSubject<SortMode> _sortModeSubject = BehaviorSubject<SortMode>.seeded(SortMode.name);

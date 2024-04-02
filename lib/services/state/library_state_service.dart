@@ -1,8 +1,12 @@
+import 'package:rabenkorb/abstracts/PreferenceService.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:watch_it/watch_it.dart';
 
 import '../../shared/sort_mode.dart';
 
 class LibraryStateService {
+  final _prefs = di<PreferenceService>();
+
   final BehaviorSubject<String> _searchSubject = BehaviorSubject<String>.seeded("");
   final BehaviorSubject<int?> _sortRuleIdSubject = BehaviorSubject<int?>.seeded(null);
   final BehaviorSubject<SortMode> _sortModeSubject = BehaviorSubject<SortMode>.seeded(SortMode.name);

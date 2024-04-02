@@ -1,5 +1,6 @@
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:rabenkorb/abstracts/PreferenceService.dart';
 import 'package:rabenkorb/database/database.dart';
 import 'package:rabenkorb/models/grouped_items.dart';
 import 'package:rabenkorb/models/item_category_view_model.dart';
@@ -11,6 +12,7 @@ import 'package:watch_it/watch_it.dart';
 
 import '../database_helper.dart';
 import '../matcher/grouped_items_matcher.dart';
+import '../mock_preferences_service.dart';
 
 void main() {
   late ItemTemplateService sut;
@@ -18,6 +20,7 @@ void main() {
   late LibraryStateService libraryStateService;
 
   setUp(() async {
+    di.registerSingleton<PreferenceService>(MockPreferenceService());
     libraryStateService = LibraryStateService.withValue(
       sortMode: SortMode.custom,
       sortRuleId: 1,

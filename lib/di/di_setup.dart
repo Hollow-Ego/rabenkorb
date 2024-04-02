@@ -1,3 +1,4 @@
+import 'package:rabenkorb/abstracts/PreferenceService.dart';
 import 'package:rabenkorb/database/database.dart';
 import 'package:rabenkorb/services/business/basket_service.dart';
 import 'package:rabenkorb/services/business/library_service.dart';
@@ -14,13 +15,23 @@ import 'package:rabenkorb/services/data_access/template_library_service.dart';
 import 'package:rabenkorb/services/data_access/variant_key_service.dart';
 import 'package:rabenkorb/services/state/basket_state_service.dart';
 import 'package:rabenkorb/services/state/library_state_service.dart';
+import 'package:rabenkorb/services/state/shared_preference_service.dart';
 import 'package:watch_it/watch_it.dart';
 
 void setupDI() {
+  _registerCoreServices();
   _registerDatabase();
   _registerStateServices();
   _registerDataAccessServices();
   _registerBusinessServices();
+}
+
+void _registerCoreServices() {
+  di.registerSingletonAsync<SharedPreferenceService>(() async {
+    final sharedPreferencesService = SharedPreferenceService();
+    await sharedPreferencesService.init();
+    return sharedPreferencesService;
+  });
 }
 
 void _registerDatabase() {
@@ -48,6 +59,6 @@ void _registerBusinessServices() {
 }
 
 void _registerStateServices() {
-  di.registerSingleton<LibraryStateService>(LibraryStateService());
-  di.registerSingleton<BasketStateService>(BasketStateService());
+  di.registerSingletonWithDependencies<LibraryStateService>(() => LibraryStateService(), dependsOn: [PreferenceService]);
+  di.registerSingletonWithDependencies<BasketStateService>(() => BasketStateService(), dependsOn: []);
 }
