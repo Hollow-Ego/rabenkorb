@@ -20,7 +20,7 @@ class BasketItemService {
       _basketStateService.sortRuleId,
       _basketStateService.search,
       _basketStateService.basketId,
-      (SortMode sortMode, int? sortRuleId, String searchTerm, int basketId) => _watchBasketItemsInOrder(
+      (SortMode sortMode, int? sortRuleId, String searchTerm, int? basketId) => _watchBasketItemsInOrder(
         basketId: basketId,
         sortMode: sortMode,
         sortRuleId: sortRuleId,
@@ -112,7 +112,7 @@ class BasketItemService {
   }
 
   Stream<List<GroupedItems<BasketItemViewModel>>> _watchBasketItemsInOrder({
-    required int basketId,
+    required int? basketId,
     required SortMode sortMode,
     int? sortRuleId,
     String? searchTerm,

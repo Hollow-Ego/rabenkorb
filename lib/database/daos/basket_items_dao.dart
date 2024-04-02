@@ -95,11 +95,14 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
   }
 
   Stream<List<GroupedItems<BasketItemViewModel>>> watchBasketItemsInOrder({
-    required int basketId,
+    required int? basketId,
     required SortMode sortMode,
     int? sortRuleId,
     String? searchTerm,
   }) {
+    if (basketId == null) {
+      return const Stream.empty();
+    }
     final sourceQuery = select(basketItems);
     sourceQuery.where((bi) => bi.basket.equals(basketId));
 
