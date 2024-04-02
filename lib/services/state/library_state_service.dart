@@ -1,4 +1,5 @@
 import 'package:rabenkorb/abstracts/PreferenceService.dart';
+import 'package:rabenkorb/shared/preference_keys.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:watch_it/watch_it.dart';
 
@@ -15,7 +16,9 @@ class LibraryStateService {
   Stream<int?> get sortRuleId => _sortRuleIdSubject.stream.distinct();
   Stream<SortMode> get sortMode => _sortModeSubject.stream.distinct();
 
-  LibraryStateService();
+  LibraryStateService() {
+    _init();
+  }
 
   factory LibraryStateService.withValue({
     SortMode? sortMode,
@@ -31,19 +34,35 @@ class LibraryStateService {
     return service;
   }
 
-  void setSortMode(SortMode? sortMode) {
+  Future<void> setSortMode(SortMode? sortMode) async {
     if (sortMode == null) {
       return;
     }
+    await _prefs.setString(PreferenceKeys.libraryGroupMode, sortMode.name);
     _sortModeSubject.add(sortMode);
   }
 
-  void setSortRuleId(int? sortRuleId) {
+  Future<void> setSortRuleId(int? sortRuleId) async {
+    if (sortRuleId == null) {
+      await _prefs.remove(PreferenceKeys.librarySortRuleId);
+    } else {
+      await _prefs.setInt(PreferenceKeys.librarySortRuleId, sortRuleId);
+    }
     _sortRuleIdSubject.add(sortRuleId);
   }
 
   void setSearchString(String? searchString) {
     searchString = searchString ?? "";
     _searchSubject.add(searchString);
+  }
+
+  void _init() {
+    final sortModeName = _prefs.getString(PreferenceKeys.libraryGroupMode);
+    final sortMode = sortModeName != null ? SortMode.values.byName(sortModeName) : SortMode.name;
+
+    final sortRuleId = _prefs.getInt(PreferenceKeys.librarySortRuleId);
+
+    _sortModeSubject.add(sortMode);
+    _sortRuleIdSubject.add(sortRuleId);
   }
 }

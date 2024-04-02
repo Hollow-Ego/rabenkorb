@@ -7,13 +7,13 @@ abstract class PreferenceService {
 
   Future<bool> setString(String key, String value);
 
-  bool getBool(String key);
+  bool? getBool(String key);
 
-  double getDouble(String key);
+  double? getDouble(String key);
 
-  int getInt(String key);
+  int? getInt(String key);
 
-  String getString(String key);
+  String? getString(String key);
 
   Future<bool> remove(String key);
 

@@ -10,22 +10,22 @@ class MockPreferenceService extends PreferenceService {
   }
 
   @override
-  bool getBool(String key) {
+  bool? getBool(String key) {
     return _storage[key];
   }
 
   @override
-  double getDouble(String key) {
+  double? getDouble(String key) {
     return _storage[key];
   }
 
   @override
-  int getInt(String key) {
+  int? getInt(String key) {
     return _storage[key];
   }
 
   @override
-  String getString(String key) {
+  String? getString(String key) {
     return _storage[key];
   }
 

@@ -30,23 +30,23 @@ class SharedPreferenceService extends PreferenceService {
   }
 
   @override
-  bool getBool(String key) {
-    return _prefs!.getBool(key)!;
+  bool? getBool(String key) {
+    return _prefs!.getBool(key);
   }
 
   @override
-  double getDouble(String key) {
-    return _prefs!.getDouble(key)!;
+  double? getDouble(String key) {
+    return _prefs!.getDouble(key);
   }
 
   @override
-  int getInt(String key) {
-    return _prefs!.getInt(key)!;
+  int? getInt(String key) {
+    return _prefs!.getInt(key);
   }
 
   @override
-  String getString(String key) {
-    return _prefs!.getString(key)!;
+  String? getString(String key) {
+    return _prefs!.getString(key);
   }
 
   @override
