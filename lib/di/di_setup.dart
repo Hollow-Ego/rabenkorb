@@ -5,6 +5,7 @@ import 'package:rabenkorb/services/business/basket_service.dart';
 import 'package:rabenkorb/services/business/library_service.dart';
 import 'package:rabenkorb/services/business/metadata_service.dart';
 import 'package:rabenkorb/services/business/sort_service.dart';
+import 'package:rabenkorb/services/core/version_service.dart';
 import 'package:rabenkorb/services/data_access/basket_item_service.dart';
 import 'package:rabenkorb/services/data_access/item_category_service.dart';
 import 'package:rabenkorb/services/data_access/item_template_service.dart';
@@ -17,6 +18,7 @@ import 'package:rabenkorb/services/data_access/variant_key_service.dart';
 import 'package:rabenkorb/services/state/basket_state_service.dart';
 import 'package:rabenkorb/services/state/library_state_service.dart';
 import 'package:rabenkorb/services/state/shared_preference_service.dart';
+import 'package:rabenkorb/services/utility/backup_service.dart';
 import 'package:rabenkorb/services/utility/image_service.dart';
 import 'package:watch_it/watch_it.dart';
 
@@ -31,6 +33,12 @@ Future<void> setupDI() async {
 }
 
 Future<void> _registerCoreServices() async {
+  di.registerSingletonAsync<VersionService>(() async {
+    final versionService = VersionService();
+    await versionService.init();
+    return versionService;
+  });
+
   di.registerSingletonAsync<PreferenceService>(() async {
     final sharedPreferencesService = SharedPreferenceService();
     await sharedPreferencesService.init();
@@ -70,4 +78,5 @@ void _registerStateServices() {
 
 void _registerUtilityServices() {
   di.registerSingleton<ImageService>(LocalImageService());
+  di.registerLazySingleton<BackupService>(() => BackupService());
 }

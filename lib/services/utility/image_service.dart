@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:path/path.dart' as path;
@@ -5,30 +6,6 @@ import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:rabenkorb/abstracts/image_service.dart';
 
 class LocalImageService extends ImageService {
-  final List<String> _supportedFileTypes = [
-    '.png',
-    '.jpeg',
-    '.jpg',
-  ];
-
-  @override
-  Future<void> copyImagesFromDirectory(Directory directory, {String? saveTo}) async {
-    await directory.list().forEach((element) async {
-      if (element is! File) return;
-
-      final fileType = path.extension(element.path);
-
-      if (!_supportedFileTypes.contains(fileType)) {
-        return;
-      }
-      final fileExists = await element.exists();
-      if (!fileExists) {
-        return;
-      }
-      await saveImage(element, saveTo: saveTo);
-    });
-  }
-
   @override
   Future<void> deleteImage(String? imagePath) async {
     if (imagePath == null) {
@@ -53,5 +30,27 @@ class LocalImageService extends ImageService {
       return null;
     }
     return image.copy("$targetPath/$fileName");
+  }
+
+  @override
+  String? getAsBase64(String? imagePath) {
+    if (imagePath == null) {
+      return null;
+    }
+
+    final image = File(imagePath);
+    if (!image.existsSync()) {
+      return null;
+    }
+    final bytes = image.readAsBytesSync();
+    return base64Encode(bytes);
+  }
+
+  @override
+  Future<File?> saveBase64Image(String base64Image, String imagePath) async {
+    final bytes = base64Decode(base64Image);
+    final image = File(imagePath);
+    await image.writeAsBytes(bytes);
+    return saveImage(image);
   }
 }

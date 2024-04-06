@@ -128,6 +128,11 @@ class ItemTemplatesDao extends DatabaseAccessor<AppDatabase> with _$ItemTemplate
     });
   }
 
+  Future<List<String>> getImagePaths() {
+    final query = select(itemTemplates)..where((t) => t.imagePath.isNotNull());
+    return query.map((row) => row.imagePath!).get();
+  }
+
   List<OrderingTerm> _getOrderingTerms<T>(
     SortMode sortMode,
   ) {

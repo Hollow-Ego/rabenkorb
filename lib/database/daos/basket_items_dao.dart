@@ -162,6 +162,11 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
     }
   }
 
+  Future<List<String>> getImagePaths() {
+    final query = select(basketItems)..where((t) => t.imagePath.isNotNull());
+    return query.map((row) => row.imagePath!).get();
+  }
+
   OrderingTerm _byCategoryName() {
     return OrderingTerm(expression: itemCategories.name);
   }
