@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rabenkorb/di/di_setup.dart';
 
-void main() {
-  setupDI();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await setupDI();
   runApp(const MainApp());
 }
 

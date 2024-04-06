@@ -18,15 +18,16 @@ import 'package:rabenkorb/services/state/library_state_service.dart';
 import 'package:rabenkorb/services/state/shared_preference_service.dart';
 import 'package:watch_it/watch_it.dart';
 
-void setupDI() {
-  _registerCoreServices();
+Future<void> setupDI() async {
+  await _registerCoreServices();
   _registerDatabase();
   _registerStateServices();
   _registerDataAccessServices();
   _registerBusinessServices();
+  await di.allReady();
 }
 
-void _registerCoreServices() {
+Future<void> _registerCoreServices() async {
   di.registerSingletonAsync<PreferenceService>(() async {
     final sharedPreferencesService = SharedPreferenceService();
     await sharedPreferencesService.init();
@@ -40,9 +41,9 @@ void _registerDatabase() {
 }
 
 void _registerDataAccessServices() {
-  di.registerSingleton<BasketItemService>(BasketItemService());
+  di.registerSingletonWithDependencies<BasketItemService>(() => BasketItemService(), dependsOn: [BasketStateService]);
   di.registerSingleton<ItemCategoryService>(ItemCategoryService());
-  di.registerSingleton<ItemTemplateService>(ItemTemplateService());
+  di.registerSingletonWithDependencies<ItemTemplateService>(() => ItemTemplateService(), dependsOn: [LibraryStateService]);
   di.registerSingleton<ItemUnitService>(ItemUnitService());
   di.registerSingleton<ShoppingBasketService>(ShoppingBasketService());
   di.registerSingleton<SortOrderService>(SortOrderService());
@@ -54,11 +55,12 @@ void _registerDataAccessServices() {
 void _registerBusinessServices() {
   di.registerSingleton<SortService>(SortService());
   di.registerSingleton<MetadataService>(MetadataService());
-  di.registerSingleton<LibraryService>(LibraryService());
-  di.registerSingleton<BasketService>(BasketService());
+
+  di.registerSingletonWithDependencies<LibraryService>(() => LibraryService(), dependsOn: [ItemTemplateService]);
+  di.registerSingletonWithDependencies<BasketService>(() => BasketService(), dependsOn: [BasketItemService]);
 }
 
 void _registerStateServices() {
   di.registerSingletonWithDependencies<LibraryStateService>(() => LibraryStateService(), dependsOn: [PreferenceService]);
-  di.registerSingletonWithDependencies<BasketStateService>(() => BasketStateService(), dependsOn: []);
+  di.registerSingletonWithDependencies<BasketStateService>(() => BasketStateService(), dependsOn: [PreferenceService]);
 }
