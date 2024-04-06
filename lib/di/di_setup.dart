@@ -27,7 +27,7 @@ void setupDI() {
 }
 
 void _registerCoreServices() {
-  di.registerSingletonAsync<SharedPreferenceService>(() async {
+  di.registerSingletonAsync<PreferenceService>(() async {
     final sharedPreferencesService = SharedPreferenceService();
     await sharedPreferencesService.init();
     return sharedPreferencesService;
