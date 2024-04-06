@@ -1,4 +1,4 @@
-import 'package:rabenkorb/abstracts/PreferenceService.dart';
+import 'package:rabenkorb/abstracts/preference_service.dart';
 
 class MockPreferenceService extends PreferenceService {
   final Map<String, dynamic> _storage = {};

@@ -1,4 +1,4 @@
-import 'package:rabenkorb/abstracts/PreferenceService.dart';
+import 'package:rabenkorb/abstracts/preference_service.dart';
 import 'package:rabenkorb/database/database.dart';
 import 'package:rabenkorb/services/business/basket_service.dart';
 import 'package:rabenkorb/services/business/library_service.dart';

@@ -1,4 +1,4 @@
-import 'package:rabenkorb/abstracts/PreferenceService.dart';
+import 'package:rabenkorb/abstracts/preference_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferenceService extends PreferenceService {

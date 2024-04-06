@@ -1,4 +1,4 @@
-import 'package:rabenkorb/abstracts/PreferenceService.dart';
+import 'package:rabenkorb/abstracts/preference_service.dart';
 import 'package:rabenkorb/shared/preference_keys.dart';
 import 'package:rabenkorb/shared/sort_mode.dart';
 import 'package:rxdart/rxdart.dart';

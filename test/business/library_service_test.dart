@@ -1,6 +1,6 @@
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:rabenkorb/abstracts/PreferenceService.dart';
+import 'package:rabenkorb/abstracts/preference_service.dart';
 import 'package:rabenkorb/database/database.dart';
 import 'package:rabenkorb/exceptions/missing_category.dart';
 import 'package:rabenkorb/exceptions/missing_variant.dart';
