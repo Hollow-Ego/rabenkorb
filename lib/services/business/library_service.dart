@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:rabenkorb/abstracts/image_service.dart';
 import 'package:rabenkorb/models/grouped_items.dart';
 import 'package:rabenkorb/models/item_template_view_model.dart';
 import 'package:rabenkorb/models/template_library_view_model.dart';
@@ -11,6 +14,7 @@ class LibraryService {
   final _templateLibraryService = di<TemplateLibraryService>();
   final _itemTemplateService = di<ItemTemplateService>();
   final _metadataService = di<MetadataService>();
+  final _imageService = di<ImageService>();
 
   Stream<List<GroupedItems<ItemTemplateViewModel>>> get itemTemplates => _itemTemplateService.itemTemplates;
 
@@ -39,13 +43,22 @@ class LibraryService {
     int? categoryId,
     required int libraryId,
     int? variantKeyId,
-    String? imagePath,
+    File? image,
   }) async {
     libraryId = await _ensureExistingLibrary(libraryId);
     await _metadataService.ensureExistingCategory(categoryId);
     await _metadataService.ensureExistingVariantKey(variantKeyId);
 
-    return _itemTemplateService.createItemTemplate(name, libraryId: libraryId);
+    if (image != null) {
+      image = await _imageService.saveImage(image);
+    }
+
+    return _itemTemplateService.createItemTemplate(
+      name,
+      libraryId: libraryId,
+      imagePath: image?.path,
+      variantKeyId: variantKeyId,
+    );
   }
 
   Future<void> removeItemTemplateCategory(int templateId) async {
@@ -89,7 +102,30 @@ class LibraryService {
     await _metadataService.deleteVariantKeyById(variantKeyId);
   }
 
-  // ToDo: Add methods to delete images
+  Future<void> removeItemTemplateImage(int templateId) async {
+    final originalItemTemplate = await _itemTemplateService.getItemTemplateById(templateId);
+    if (originalItemTemplate == null) {
+      return;
+    }
+    final imagePath = originalItemTemplate.imagePath;
+    if (imagePath == null) {
+      return;
+    }
+    await _itemTemplateService.replaceItemTemplate(
+      templateId,
+      name: originalItemTemplate.name,
+      categoryId: originalItemTemplate.category?.id,
+      libraryId: originalItemTemplate.library.id,
+      imagePath: null,
+      variantKeyId: originalItemTemplate.variantKey,
+    );
+    // Check if the same image is used by other items;
+    final usageCount = await _itemTemplateService.countImagePathUsages(imagePath);
+    if (usageCount > 0) {
+      return;
+    }
+    await _imageService.deleteImage(imagePath);
+  }
 
   Future<void> updateItemTemplate(
     int templateId, {
@@ -97,7 +133,7 @@ class LibraryService {
     int? categoryId,
     int? libraryId,
     int? variantKeyId,
-    String? imagePath,
+    File? image,
   }) async {
     if (libraryId != null) {
       libraryId = await _ensureExistingLibrary(libraryId);
@@ -105,13 +141,20 @@ class LibraryService {
     await _metadataService.ensureExistingCategory(categoryId);
     await _metadataService.ensureExistingVariantKey(variantKeyId);
 
+    // Delete old image if new one was provided
+    if (image != null) {
+      await removeItemTemplateImage(templateId);
+      // Save new image
+      image = await _imageService.saveImage(image);
+    }
+
     return _itemTemplateService.updateItemTemplate(
       templateId,
       name: name,
       categoryId: categoryId,
       libraryId: libraryId,
       variantKeyId: variantKeyId,
-      imagePath: imagePath,
+      imagePath: image?.path,
     );
   }
 
@@ -119,7 +162,8 @@ class LibraryService {
     return _itemTemplateService.getItemTemplateById(templateId);
   }
 
-  Future<int> deleteItemTemplateById(int templateId) {
+  Future<int> deleteItemTemplateById(int templateId) async {
+    await removeItemTemplateImage(templateId);
     return _itemTemplateService.deleteItemTemplateById(templateId);
   }
 

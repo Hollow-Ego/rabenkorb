@@ -54,21 +54,38 @@ class AppDatabase extends _$AppDatabase {
 
   AppDatabase.forTesting(super.e);
 
+  AppDatabase.forImport(String path) : super(_openImportDatabase(path));
+
   @override
   int get schemaVersion => 1;
 
   @override
-  MigrationStrategy get migration => MigrationStrategy(
-        beforeOpen: (details) async {
-          await customStatement('PRAGMA foreign_keys = ON');
-        },
-      );
+  MigrationStrategy get migration => MigrationStrategy(beforeOpen: (details) async {
+        await customStatement('PRAGMA foreign_keys = ON');
+      });
+
+  Future<void> exportInto(File file) async {
+    await file.parent.create(recursive: true);
+
+    if (file.existsSync()) {
+      file.deleteSync();
+    }
+
+    await customStatement('VACUUM INTO ?', [file.path]);
+  }
 }
 
 LazyDatabase _openConnection() {
   return LazyDatabase(() async {
     final dbFolder = await getApplicationDocumentsDirectory();
     final file = File(p.join(dbFolder.path, 'db.sqlite'));
+    return NativeDatabase.createInBackground(file);
+  });
+}
+
+LazyDatabase _openImportDatabase(String path) {
+  return LazyDatabase(() async {
+    final file = File(p.join(path, 'db.sqlite'));
     return NativeDatabase.createInBackground(file);
   });
 }

@@ -334,6 +334,23 @@ void main() {
     libraryStateService.setSearchString(null);
   });
 
+  test('counts the usage of an image path correctly', () async {
+    const nameOne = "Milk";
+    const nameTwo = "Milk as well";
+    const imagePath = "my-milk.png";
+
+    var count = await sut.countImagePathUsages(imagePath);
+    expect(count, 0);
+
+    await sut.createItemTemplate(nameOne, libraryId: 1, imagePath: imagePath);
+    count = await sut.countImagePathUsages(imagePath);
+    expect(count, 1);
+
+    await sut.createItemTemplate(nameTwo, libraryId: 1, imagePath: imagePath);
+    count = await sut.countImagePathUsages(imagePath);
+    expect(count, 2);
+  });
+
   tearDown(() async {
     await database.close();
     await di.reset(dispose: true);

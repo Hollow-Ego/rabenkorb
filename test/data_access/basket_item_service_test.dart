@@ -599,6 +599,23 @@ void main() {
     sut.removeAllItemsFromBasket(testBaskets["Aldi"]!.id);
   });
 
+  test('counts the usage of an image path correctly', () async {
+    const nameOne = "Milk";
+    const nameTwo = "Milk as well";
+    const imagePath = "my-milk.png";
+
+    var count = await sut.countImagePathUsages(imagePath);
+    expect(count, 0);
+
+    await sut.createBasketItem(nameOne, basketId: 1, imagePath: imagePath);
+    count = await sut.countImagePathUsages(imagePath);
+    expect(count, 1);
+
+    await sut.createBasketItem(nameTwo, basketId: 1, imagePath: imagePath);
+    count = await sut.countImagePathUsages(imagePath);
+    expect(count, 2);
+  });
+
   tearDown(() async {
     await database.close();
     await di.reset(dispose: true);
