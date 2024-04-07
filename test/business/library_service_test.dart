@@ -1,5 +1,6 @@
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:rabenkorb/abstracts/image_service.dart';
 import 'package:rabenkorb/abstracts/preference_service.dart';
 import 'package:rabenkorb/database/database.dart';
 import 'package:rabenkorb/exceptions/missing_category.dart';
@@ -15,6 +16,7 @@ import 'package:rabenkorb/services/state/library_state_service.dart';
 import 'package:watch_it/watch_it.dart';
 
 import '../database_helper.dart';
+import '../mock_image_service.dart';
 import '../mock_preferences_service.dart';
 
 void main() {
@@ -25,6 +27,7 @@ void main() {
   setUp(() async {
     database = AppDatabase.forTesting(NativeDatabase.memory());
     di.registerSingleton<PreferenceService>(MockPreferenceService());
+    di.registerSingleton<ImageService>(MockImageService());
     di.registerSingleton<AppDatabase>(database);
     di.registerSingleton<LibraryStateService>(LibraryStateService());
 

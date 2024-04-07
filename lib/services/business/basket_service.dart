@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:rabenkorb/abstracts/image_service.dart';
 import 'package:rabenkorb/models/basket_item_view_model.dart';
 import 'package:rabenkorb/models/grouped_items.dart';
 import 'package:rabenkorb/models/shopping_basket_view_model.dart';
@@ -12,6 +15,7 @@ class BasketService {
   final _shoppingBasketService = di<ShoppingBasketService>();
   final _basketItemService = di<BasketItemService>();
   final _metadataService = di<MetadataService>();
+  final _imageService = di<ImageService>();
 
   Stream<List<GroupedItems<BasketItemViewModel>>> get basketItems => _basketItemService.basketItems;
 
@@ -40,19 +44,23 @@ class BasketService {
     double amount = 0,
     int? categoryId,
     required int basketId,
-    String? imagePath,
+    File? image,
     int? unitId,
   }) async {
     basketId = await _ensureExistingBasket(basketId);
     await _metadataService.ensureExistingCategory(categoryId);
     await _metadataService.ensureExistingUnit(unitId);
 
+    if (image != null) {
+      image = await _imageService.saveImage(image);
+    }
+
     return _basketItemService.createBasketItem(
       name,
       amount: amount,
       categoryId: categoryId,
       basketId: basketId,
-      imagePath: imagePath,
+      imagePath: image?.path,
       unitId: unitId,
     );
   }
@@ -61,13 +69,40 @@ class BasketService {
     return updateBasketItem(id, isChecked: state);
   }
 
+  Future<void> removeBasketItemImage(int id) async {
+    final originalBasketItem = await _basketItemService.getBasketItemById(id);
+    if (originalBasketItem == null) {
+      return;
+    }
+
+    final imagePath = originalBasketItem.imagePath;
+    if (imagePath == null) {
+      return;
+    }
+    await _basketItemService.replaceBasketItem(id,
+        name: originalBasketItem.name,
+        categoryId: originalBasketItem.category?.id,
+        basketId: originalBasketItem.basket.id,
+        imagePath: null,
+        isChecked: originalBasketItem.isChecked,
+        unitId: originalBasketItem.unit?.id,
+        amount: originalBasketItem.amount);
+
+    // Check if the same image is used by other items;
+    final usageCount = await _basketItemService.countImagePathUsages(imagePath);
+    if (usageCount > 0) {
+      return;
+    }
+    await _imageService.deleteImage(imagePath);
+  }
+
   Future<void> updateBasketItem(
     int id, {
     String? name,
     double? amount,
     int? categoryId,
     int? basketId,
-    String? imagePath,
+    File? image,
     int? unitId,
     bool? isChecked,
   }) async {
@@ -77,13 +112,20 @@ class BasketService {
     await _metadataService.ensureExistingCategory(categoryId);
     await _metadataService.ensureExistingUnit(unitId);
 
+    // Delete old image if new one was provided
+    if (image != null) {
+      await removeBasketItemImage(id);
+      // Save new image
+      image = await _imageService.saveImage(image);
+    }
+
     return _basketItemService.updateBasketItem(
       id,
       name: name,
       amount: amount,
       categoryId: categoryId,
       basketId: basketId,
-      imagePath: imagePath,
+      imagePath: image?.path,
       unitId: unitId,
       isChecked: isChecked,
     );
@@ -93,7 +135,8 @@ class BasketService {
     return _basketItemService.getBasketItemById(id);
   }
 
-  Future<int> deleteBasketItemById(int id) {
+  Future<int> deleteBasketItemById(int id) async {
+    await removeBasketItemImage(id);
     return _basketItemService.deleteBasketItemById(id);
   }
 

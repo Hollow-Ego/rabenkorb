@@ -149,6 +149,17 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
     return (delete(basketItems)..where((li) => li.basket.equals(basketId))).go();
   }
 
+  Future<List<String>> getImagePaths() {
+    final query = select(basketItems)..where((t) => t.imagePath.isNotNull());
+    return query.map((row) => row.imagePath!).get();
+  }
+
+  Future<int?> countImagePathUsages(String imagePath) async {
+    final amountOfUsages = basketItems.imagePath.count(filter: basketItems.imagePath.equals(imagePath));
+    final query = selectOnly(basketItems)..addColumns([amountOfUsages]);
+    return query.map((row) => row.read(amountOfUsages)).getSingle();
+  }
+
   List<OrderingTerm> _getOrderingTerms<T>(
     SortMode sortMode,
   ) {
@@ -160,11 +171,6 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
       case SortMode.custom:
         return [_bySortOrder(), _byBasketItemName()];
     }
-  }
-
-  Future<List<String>> getImagePaths() {
-    final query = select(basketItems)..where((t) => t.imagePath.isNotNull());
-    return query.map((row) => row.imagePath!).get();
   }
 
   OrderingTerm _byCategoryName() {

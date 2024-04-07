@@ -111,6 +111,10 @@ class BasketItemService {
     return _db.basketItemsDao.removeAllItemsFromBasket(basketId);
   }
 
+  Future<int> countImagePathUsages(String imagePath) async {
+    return (await _db.basketItemsDao.countImagePathUsages(imagePath)) ?? 0;
+  }
+
   Stream<List<GroupedItems<BasketItemViewModel>>> _watchBasketItemsInOrder({
     required int? basketId,
     required SortMode sortMode,
