@@ -16,6 +16,7 @@ import 'package:rabenkorb/services/data_access/sort_rule_service.dart';
 import 'package:rabenkorb/services/data_access/template_library_service.dart';
 import 'package:rabenkorb/services/data_access/variant_key_service.dart';
 import 'package:rabenkorb/services/state/basket_state_service.dart';
+import 'package:rabenkorb/services/state/intl_state_service.dart';
 import 'package:rabenkorb/services/state/library_state_service.dart';
 import 'package:rabenkorb/services/state/shared_preference_service.dart';
 import 'package:rabenkorb/services/utility/backup_service.dart';
@@ -26,7 +27,7 @@ Future<void> setupDI() async {
   await _registerCoreServices();
   _registerUtilityServices();
   _registerDatabase();
-  _registerStateServices();
+  await _registerStateServices();
   _registerDataAccessServices();
   _registerBusinessServices();
   await di.allReady();
@@ -71,9 +72,14 @@ void _registerBusinessServices() {
   di.registerSingletonWithDependencies<BasketService>(() => BasketService(), dependsOn: [BasketItemService]);
 }
 
-void _registerStateServices() {
+Future<void> _registerStateServices() async {
   di.registerSingletonWithDependencies<LibraryStateService>(() => LibraryStateService(), dependsOn: [PreferenceService]);
   di.registerSingletonWithDependencies<BasketStateService>(() => BasketStateService(), dependsOn: [PreferenceService]);
+  di.registerSingletonAsync<IntlStateService>(() async {
+    var intlService = IntlStateService();
+    await intlService.init();
+    return intlService;
+  }, dependsOn: [PreferenceService]);
 }
 
 void _registerUtilityServices() {

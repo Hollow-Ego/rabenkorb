@@ -5,4 +5,6 @@ class PreferenceKeys {
   static const basketGroupMode = "basket:group-mode";
   static const basketSortRuleId = "basket:sort-rule-id";
   static const basketId = "basket:id";
+
+  static const intlLocale = "intl:locale";
 }

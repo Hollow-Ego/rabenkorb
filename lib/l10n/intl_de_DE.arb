@@ -1,0 +1,15 @@
+{
+  "@@locale": "de_DE",
+  "LanguageDisplayName": "Deutsch",
+  "AppTitle": "Rabenkorb",
+  "Menu": "Menü",
+  "Settings": "Einstellungen",
+  "Home": "Home",
+  "Language": "Sprache",
+  "EmptyMessage": "Nichts zu sehen",
+  "Basket": "Korb",
+  "Library": "Bibliothek",
+  "Item": "Artikel",
+  "Template": "Template",
+  "Unnamed": "Unbenannt"
+}
