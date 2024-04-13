@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:rabenkorb/di/di_setup.dart';
-import 'package:rabenkorb/features/core/debug/debug_page.dart';
-import 'package:rabenkorb/features/core/structural/app_scaffold.dart';
+import 'package:rabenkorb/features/core/main_page.dart';
 import 'package:rabenkorb/services/state/intl_state_service.dart';
 import 'package:watch_it/watch_it.dart';
 
@@ -27,11 +26,11 @@ class MainApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: S.delegate.supportedLocales,
-      locale: di<IntlStateService>().locale,
+      locale: di<IntlStateService>().localeSync,
       theme: ThemeData(
         useMaterial3: true,
       ),
-      home: const AppScaffold(body: DebugPage()),
+      home: MainPage(),
     );
   }
 }

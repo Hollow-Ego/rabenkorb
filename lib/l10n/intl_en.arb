@@ -11,5 +11,6 @@
   "Library": "Library",
   "Item": "Item",
   "Template": "Template",
-  "Unnamed": "Unnamed"
+  "Unnamed": "Unnamed",
+  "Debug": "Debug"
 }

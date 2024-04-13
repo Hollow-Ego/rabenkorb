@@ -8,7 +8,7 @@ class LanguageDebug extends StatelessWidget with WatchItMixin {
 
   @override
   Widget build(BuildContext context) {
-    final _ = watchPropertyValue((IntlStateService p0) => p0.locale);
+    final _ = watchStream((IntlStateService p0) => p0.locale);
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

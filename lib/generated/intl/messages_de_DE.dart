@@ -1,5 +1,5 @@
 // DO NOT EDIT. This is code generated via package:intl/generate_localized.dart
-// This is a library that provides messages for a en locale. All the
+// This is a library that provides messages for a de_DE locale. All the
 // messages from the main program should be duplicated here with the same
 // function name.
 
@@ -18,22 +18,23 @@ final messages = new MessageLookup();
 typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 
 class MessageLookup extends MessageLookupByLibrary {
-  String get localeName => 'en';
+  String get localeName => 'de_DE';
 
   final messages = _notInlinedMessages(_notInlinedMessages);
+
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "AppTitle": MessageLookupByLibrary.simpleMessage("Rabenkorb"),
-        "Basket": MessageLookupByLibrary.simpleMessage("Basket"),
+        "Basket": MessageLookupByLibrary.simpleMessage("Korb"),
         "Debug": MessageLookupByLibrary.simpleMessage("Debug"),
-        "EmptyMessage": MessageLookupByLibrary.simpleMessage("Nothing to see"),
+        "EmptyMessage": MessageLookupByLibrary.simpleMessage("Nichts zu sehen"),
         "Home": MessageLookupByLibrary.simpleMessage("Home"),
-        "Item": MessageLookupByLibrary.simpleMessage("Item"),
-        "Language": MessageLookupByLibrary.simpleMessage("Language"),
-        "LanguageDisplayName": MessageLookupByLibrary.simpleMessage("English"),
-        "Library": MessageLookupByLibrary.simpleMessage("Library"),
-        "Menu": MessageLookupByLibrary.simpleMessage("Menu"),
-        "Settings": MessageLookupByLibrary.simpleMessage("Settings"),
+        "Item": MessageLookupByLibrary.simpleMessage("Artikel"),
+        "Language": MessageLookupByLibrary.simpleMessage("Sprache"),
+        "LanguageDisplayName": MessageLookupByLibrary.simpleMessage("Deutsch"),
+        "Library": MessageLookupByLibrary.simpleMessage("Bibliothek"),
+        "Menu": MessageLookupByLibrary.simpleMessage("Menü"),
+        "Settings": MessageLookupByLibrary.simpleMessage("Einstellungen"),
         "Template": MessageLookupByLibrary.simpleMessage("Template"),
-        "Unnamed": MessageLookupByLibrary.simpleMessage("Unnamed")
+        "Unnamed": MessageLookupByLibrary.simpleMessage("Unbenannt")
       };
 }
