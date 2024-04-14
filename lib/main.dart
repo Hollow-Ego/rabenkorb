@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:rabenkorb/di/di_setup.dart';
-import 'package:rabenkorb/features/core/main_page.dart';
+import 'package:rabenkorb/routing/router_config.dart';
 import 'package:rabenkorb/services/state/intl_state_service.dart';
 import 'package:watch_it/watch_it.dart';
 
@@ -18,7 +18,7 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       localizationsDelegates: const [
         S.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -30,7 +30,7 @@ class MainApp extends StatelessWidget {
       theme: ThemeData(
         useMaterial3: true,
       ),
-      home: MainPage(),
+      routerConfig: routerConfig,
     );
   }
 }
