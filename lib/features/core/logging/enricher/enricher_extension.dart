@@ -4,7 +4,7 @@ import 'app_version_enricher.dart';
 import 'device_info_enricher.dart';
 
 class EnrichedMessageLog extends MessageLog {
-  EnrichedMessageLog({required id, message, Map<String, dynamic>? data}) : super(id: id, message: message, data: data) {
+  EnrichedMessageLog({required super.id, super.message, Map<String, dynamic>? data}) : super(data: data) {
     if (data == null) {
       this.data = {};
     }
