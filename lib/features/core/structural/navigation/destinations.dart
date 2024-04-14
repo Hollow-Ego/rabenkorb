@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:rabenkorb/features/core/debug/debug_page.dart';
 import 'package:rabenkorb/features/core/structural/navigation/destination_details.dart';
 import 'package:rabenkorb/generated/l10n.dart';
 
@@ -9,7 +8,9 @@ final List<DestinationDetails> mainDestinations = [
       icon: const Icon(Icons.bug_report),
       label: S.current.Debug,
     ),
-    body: const DebugPage(),
+    body: const Center(
+      child: Text("Debug 1"),
+    ),
     appBar: AppBar(),
     index: 0,
   ),
