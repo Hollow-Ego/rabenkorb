@@ -9,8 +9,9 @@ class NavigationStateService {
   Stream<int> get currentPageIndex => _currentPageIndex.stream.distinct();
 
   Stream<Widget?> get bodyWidget => _currentPageIndex.switchMap((index) => Stream<Widget?>.value(_destinations[index].body));
-
   Stream<MainAction?> get mainAction => _currentPageIndex.switchMap((index) => Stream<MainAction?>.value(_destinations[index].mainAction));
+
+  Stream<PreferredSizeWidget?> get appBar => _currentPageIndex.switchMap((index) => Stream<PreferredSizeWidget?>.value(_destinations[index].appBar));
 
   setCurrentPageIndex(int index) {
     _currentPageIndex.add(index);

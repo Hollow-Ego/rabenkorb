@@ -10,6 +10,7 @@ final List<DestinationDetails> mainDestinations = [
       label: S.current.Debug,
     ),
     body: const DebugPage(),
+    appBar: AppBar(),
     index: 0,
   ),
   DestinationDetails(

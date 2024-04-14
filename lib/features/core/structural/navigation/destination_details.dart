@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class DestinationDetails {
   final NavigationDestination destination;
   final Widget body;
-  final Widget? title;
+  final PreferredSizeWidget? appBar;
   final int index;
   final MainAction? mainAction;
 
@@ -11,7 +11,7 @@ class DestinationDetails {
     required this.destination,
     required this.body,
     required this.index,
-    this.title,
+    this.appBar,
     this.mainAction,
   });
 }
