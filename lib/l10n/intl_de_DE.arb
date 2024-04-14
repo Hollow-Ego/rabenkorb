@@ -12,5 +12,6 @@
   "Item": "Artikel",
   "Template": "Template",
   "Unnamed": "Unbenannt",
+  "MissingString": "<Leer>",
   "Debug": "Debug"
 }

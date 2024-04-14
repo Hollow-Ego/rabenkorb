@@ -9,7 +9,7 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    drawerEntries.sort((a, b) => a.index.compareTo(b.index));
+    drawerEntries.sort((a, b) => a.position.compareTo(b.position));
 
     return Drawer(
       child: Column(
@@ -32,10 +32,11 @@ class AppDrawer extends StatelessWidget {
   }
 
   Widget _toListTile(BuildContext context, DrawerEntry entry) {
-    return ListTile(
-      leading: entry.leading,
-      title: Text(entry.title),
-      onTap: () => entry.onTap(context),
-    );
+    return entry.titleWidget ??
+        ListTile(
+          leading: entry.leading,
+          title: Text(entry.title ?? S.of(context).MissingString),
+          onTap: entry.onTap != null ? () => entry.onTap!(context) : null,
+        );
   }
 }

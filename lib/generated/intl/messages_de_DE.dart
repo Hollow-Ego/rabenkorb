@@ -32,6 +32,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "LanguageDisplayName": MessageLookupByLibrary.simpleMessage("Deutsch"),
         "Library": MessageLookupByLibrary.simpleMessage("Bibliothek"),
         "Menu": MessageLookupByLibrary.simpleMessage("Menü"),
+        "MissingString": MessageLookupByLibrary.simpleMessage("<Leer>"),
         "Settings": MessageLookupByLibrary.simpleMessage("Einstellungen"),
         "Template": MessageLookupByLibrary.simpleMessage("Template"),
         "Unnamed": MessageLookupByLibrary.simpleMessage("Unbenannt")

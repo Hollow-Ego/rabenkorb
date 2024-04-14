@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 class DrawerEntry {
-  final String title;
-  final int index;
-  final void Function(BuildContext context) onTap;
-  final Widget leading;
+  final String? title;
+  final int position;
+  final void Function(BuildContext context)? onTap;
+  final Widget? leading;
+  final Widget? titleWidget;
 
-  DrawerEntry({required this.title, required this.index, required this.onTap, required this.leading});
+  DrawerEntry({this.title, required this.position, this.onTap, this.leading, this.titleWidget});
 }

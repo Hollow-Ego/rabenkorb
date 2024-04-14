@@ -167,6 +167,16 @@ class S {
     );
   }
 
+  /// `<Empty>`
+  String get MissingString {
+    return Intl.message(
+      '<Empty>',
+      name: 'MissingString',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Debug`
   String get Debug {
     return Intl.message(
