@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:rabenkorb/features/core/inputs/core_primary_button.dart';
+import 'package:rabenkorb/features/core/inputs/core_secondary_button.dart';
 import 'package:rabenkorb/generated/l10n.dart';
 import 'package:rabenkorb/services/state/intl_state_service.dart';
 import 'package:watch_it/watch_it.dart';
@@ -15,13 +17,13 @@ class LanguageDebug extends StatelessWidget with WatchItMixin {
         children: [
           Text(S.of(context).LanguageDisplayName),
           Text(S.of(context).EmptyMessage),
-          ElevatedButton(
+          CorePrimaryButton(
             onPressed: () {
               di<IntlStateService>().setLocale(const Locale('de', 'DE'));
             },
             child: const Text("Deutsch"),
           ),
-          ElevatedButton(
+          CoreSecondaryButton(
             onPressed: () {
               di<IntlStateService>().setLocale(const Locale('en'));
             },
