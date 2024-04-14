@@ -1,6 +1,9 @@
 import 'package:rabenkorb/abstracts/image_service.dart';
+import 'package:rabenkorb/abstracts/log_sink.dart';
 import 'package:rabenkorb/abstracts/preference_service.dart';
 import 'package:rabenkorb/database/database.dart';
+import 'package:rabenkorb/features/core/logging/core_logger.dart';
+import 'package:rabenkorb/features/core/logging/sinks/void_sink.dart';
 import 'package:rabenkorb/services/business/basket_service.dart';
 import 'package:rabenkorb/services/business/library_service.dart';
 import 'package:rabenkorb/services/business/metadata_service.dart';
@@ -25,6 +28,7 @@ import 'package:rabenkorb/services/utility/image_service.dart';
 import 'package:watch_it/watch_it.dart';
 
 Future<void> setupDI() async {
+  _addLogging();
   await _registerCoreServices();
   _registerUtilityServices();
   _registerDatabase();
@@ -45,6 +49,12 @@ Future<void> _registerCoreServices() async {
     final sharedPreferencesService = SharedPreferenceService();
     await sharedPreferencesService.init();
     return sharedPreferencesService;
+  });
+
+  di.registerSingletonAsync<DeviceInfoService>(() async {
+    final deviceInfoService = DeviceInfoService();
+    await deviceInfoService.init();
+    return deviceInfoService;
   });
 }
 
@@ -87,4 +97,9 @@ Future<void> _registerStateServices() async {
 void _registerUtilityServices() {
   di.registerSingleton<ImageService>(LocalImageService());
   di.registerLazySingleton<BackupService>(() => BackupService());
+}
+
+void _addLogging() {
+  di.registerLazySingleton<LogSink>(() => VoidSink());
+  di.registerLazySingleton<CoreLogger>(() => CoreLogger());
 }
