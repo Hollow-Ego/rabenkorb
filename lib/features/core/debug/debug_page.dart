@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rabenkorb/features/core/debug/language_debug.dart';
+import 'package:rabenkorb/features/core/debug/loading_debug.dart';
 import 'package:rabenkorb/features/core/debug/logging_debug.dart';
 import 'package:rabenkorb/features/core/structural/core_scaffold.dart';
 import 'package:rabenkorb/features/core/structural/drawer/core_drawer.dart';
@@ -15,9 +16,11 @@ class DebugPage extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: GridView.count(
           crossAxisCount: 2,
+          childAspectRatio: (1 / 2),
           children: const [
             LanguageDebug(),
             LoggingDebug(),
+            LoadingDebug(),
           ],
         ),
       ),

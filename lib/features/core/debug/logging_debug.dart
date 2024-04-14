@@ -10,6 +10,9 @@ class LoggingDebug extends StatelessWidget {
       child: Center(
         child: Column(
           children: [
+            const ListTile(
+              title: Text("Logging"),
+            ),
             CoreSecondaryButton(
               child: const Text("Cause Error"),
               onPressed: () => throw Exception("Test Exception"),

@@ -25,6 +25,7 @@ import 'package:rabenkorb/services/data_access/variant_key_service.dart';
 import 'package:rabenkorb/services/state/basket_state_service.dart';
 import 'package:rabenkorb/services/state/intl_state_service.dart';
 import 'package:rabenkorb/services/state/library_state_service.dart';
+import 'package:rabenkorb/services/state/loading_state.dart';
 import 'package:rabenkorb/services/state/navigation_state_service.dart';
 import 'package:rabenkorb/services/state/shared_preference_service.dart';
 import 'package:rabenkorb/services/utility/backup_service.dart';
@@ -89,6 +90,7 @@ void _registerBusinessServices() {
 }
 
 Future<void> _registerStateServices() async {
+  di.registerSingleton<LoadingIndicatorState>(LoadingIndicatorState());
   di.registerSingletonWithDependencies<LibraryStateService>(() => LibraryStateService(), dependsOn: [PreferenceService]);
   di.registerSingletonWithDependencies<BasketStateService>(() => BasketStateService(), dependsOn: [PreferenceService]);
   di.registerSingletonAsync<IntlStateService>(() async {

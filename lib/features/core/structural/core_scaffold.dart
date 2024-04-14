@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rabenkorb/features/core/display/loading_overlay.dart';
 
 class CoreScaffold extends StatelessWidget {
   final String? titleText;
@@ -24,20 +25,22 @@ class CoreScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: Scaffold(
-        key: scaffoldKey,
-        // backgroundColor: Colors.transparent,
-        appBar: appBar,
-        body: body != null
-            ? SafeArea(
-                child: body!,
-              )
-            : null,
-        drawer: drawer,
-        bottomNavigationBar: bottomNavigationBar,
-        floatingActionButton: floatingActionButton,
+    return LoadingOverlay(
+      child: GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: Scaffold(
+          key: scaffoldKey,
+          // backgroundColor: Colors.transparent,
+          appBar: appBar,
+          body: body != null
+              ? SafeArea(
+                  child: body!,
+                )
+              : null,
+          drawer: drawer,
+          bottomNavigationBar: bottomNavigationBar,
+          floatingActionButton: floatingActionButton,
+        ),
       ),
     );
   }
