@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class AppScaffold extends StatelessWidget {
+class CoreScaffold extends StatelessWidget {
   final String? titleText;
   final Widget? body;
   final Widget? drawer;
@@ -10,7 +10,7 @@ class AppScaffold extends StatelessWidget {
   final FloatingActionButtonLocation? floatingActionButtonLocation;
   final Key? scaffoldKey;
 
-  const AppScaffold({
+  const CoreScaffold({
     super.key,
     this.titleText,
     this.body,

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:rabenkorb/services/state/navigation_state_service.dart';
 import 'package:watch_it/watch_it.dart';
 
-class AppNavigation extends StatelessWidget with WatchItMixin {
-  const AppNavigation({super.key});
+class CoreNavigation extends StatelessWidget with WatchItMixin {
+  const CoreNavigation({super.key});
 
   @override
   Widget build(BuildContext context) {

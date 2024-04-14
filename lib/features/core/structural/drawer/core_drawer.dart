@@ -4,8 +4,8 @@ import 'package:rabenkorb/features/core/structural/drawer/drawer_entries.dart';
 import 'package:rabenkorb/features/core/structural/drawer/drawer_entry.dart';
 import 'package:rabenkorb/generated/l10n.dart';
 
-class AppDrawer extends StatelessWidget {
-  const AppDrawer({super.key});
+class CoreDrawer extends StatelessWidget {
+  const CoreDrawer({super.key});
 
   @override
   Widget build(BuildContext context) {

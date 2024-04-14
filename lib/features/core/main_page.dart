@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:rabenkorb/features/core/structural/app_scaffold.dart';
-import 'package:rabenkorb/features/core/structural/drawer/app_drawer.dart';
-import 'package:rabenkorb/features/core/structural/navigation/app_navigation.dart';
+import 'package:rabenkorb/features/core/structural/core_scaffold.dart';
+import 'package:rabenkorb/features/core/structural/drawer/core_drawer.dart';
+import 'package:rabenkorb/features/core/structural/navigation/core_navigation.dart';
 import 'package:rabenkorb/features/core/structural/navigation/destination_details.dart';
 import 'package:rabenkorb/services/state/navigation_state_service.dart';
 import 'package:watch_it/watch_it.dart';
@@ -15,11 +15,11 @@ class MainPage extends StatelessWidget with WatchItMixin {
     final mainAction = watchStream((NavigationStateService p0) => p0.mainAction);
     final appBar = watchStream((NavigationStateService p0) => p0.appBar);
 
-    return AppScaffold(
+    return CoreScaffold(
       body: body.data,
-      bottomNavigationBar: const AppNavigation(),
+      bottomNavigationBar: const CoreNavigation(),
       floatingActionButton: toFloatingActionButton(context, mainAction.data),
-      drawer: const AppDrawer(),
+      drawer: const CoreDrawer(),
       appBar: appBar.data,
     );
   }
