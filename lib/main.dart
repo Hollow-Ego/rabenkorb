@@ -20,8 +20,6 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // ToDo: Side Nav
-    // ToDo: Route to Debug Main Page via Side Nav (make nav service reusable for different scenarios)
     return MaterialApp.router(
       localizationsDelegates: const [
         S.delegate,
