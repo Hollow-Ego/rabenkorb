@@ -12,10 +12,8 @@ class VersionService {
     return _packageVersion;
   }
 
-  get isDebugOrDev => di<EnvironmentService>().environment == "dev";
-
   String get internalAppVersion {
-    return isDebugOrDev ? "$_packageVersion$_styleVersion$_debugSuffix" : "$_packageVersion$_styleVersion";
+    return di<EnvironmentService>().isDebug ? "$_packageVersion$_styleVersion$_debugSuffix" : "$_packageVersion$_styleVersion";
   }
 
   VersionService();

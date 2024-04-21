@@ -4,7 +4,7 @@ import 'package:rabenkorb/features/core/display/about.dart';
 import 'package:rabenkorb/features/core/structural/drawer/drawer_entry.dart';
 import 'package:rabenkorb/generated/l10n.dart';
 import 'package:rabenkorb/routing/routes.dart';
-import 'package:rabenkorb/services/core/version_service.dart';
+import 'package:rabenkorb/services/core/environment_service.dart';
 import 'package:watch_it/watch_it.dart';
 
 List<DrawerEntry> drawerEntries = [
@@ -18,7 +18,7 @@ List<DrawerEntry> drawerEntries = [
     titleWidget: const AboutWidget(),
     position: 98,
   ),
-  if (di<VersionService>().isDebugOrDev)
+  if (di<EnvironmentService>().isDebug)
     DrawerEntry(
       title: S.current.Debug,
       position: 99,
