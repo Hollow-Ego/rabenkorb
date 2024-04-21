@@ -13,7 +13,7 @@ class VersionService {
   }
 
   String get internalAppVersion {
-    return di<EnvironmentService>().isDebug ? "$_packageVersion$_styleVersion$_debugSuffix" : "$_packageVersion$_styleVersion";
+    return di<EnvironmentService>().isDebug ? "$_packageVersion.$_styleVersion$_debugSuffix" : "$_packageVersion.$_styleVersion";
   }
 
   VersionService();
