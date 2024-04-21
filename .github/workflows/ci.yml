@@ -61,7 +61,10 @@ jobs:
         run: chmod +x android/gradlew
 
       - name: Run Tests through Fastlane
+        env:
+          ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
         run: |
+          echo "env=$ENVIRONMENT" > .env
           cd android
           bundle exec fastlane android test
 
