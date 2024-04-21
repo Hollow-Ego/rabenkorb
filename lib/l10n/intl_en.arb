@@ -1,0 +1,19 @@
+{
+  "@@locale": "en",
+  "LanguageDisplayName": "English",
+  "AppTitle": "Rabenkorb",
+  "Menu": "Menu",
+  "Settings": "Settings",
+  "Home": "Home",
+  "Language": "Language",
+  "EmptyMessage": "Nothing to see",
+  "Basket": "Basket",
+  "Library": "Library",
+  "Item": "Item",
+  "Template": "Template",
+  "Unnamed": "Unnamed",
+  "MissingString": "<Empty>",
+  "Debug": "Debug",
+  "Confirm": "Confirm",
+  "Cancel": "Cancel"
+}
