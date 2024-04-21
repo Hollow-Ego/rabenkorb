@@ -13,5 +13,7 @@
   "Template": "Template",
   "Unnamed": "Unbenannt",
   "MissingString": "<Leer>",
-  "Debug": "Debug"
+  "Debug": "Debug",
+  "Confirm": "Bestätigen",
+  "Cancel": "Abbrechen"
 }

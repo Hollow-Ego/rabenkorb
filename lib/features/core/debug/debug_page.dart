@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rabenkorb/features/core/debug/dialog_debug.dart';
 import 'package:rabenkorb/features/core/debug/language_debug.dart';
 import 'package:rabenkorb/features/core/debug/loading_debug.dart';
 import 'package:rabenkorb/features/core/debug/logging_debug.dart';
@@ -23,6 +24,7 @@ class DebugPage extends StatelessWidget {
             LoggingDebug(),
             LoadingDebug(),
             MessagingDebug(),
+            DialogDebug(),
           ],
         ),
       ),

@@ -12,6 +12,7 @@ import 'package:rabenkorb/services/business/library_service.dart';
 import 'package:rabenkorb/services/business/metadata_service.dart';
 import 'package:rabenkorb/services/business/sort_service.dart';
 import 'package:rabenkorb/services/core/device_info_service.dart';
+import 'package:rabenkorb/services/core/dialog_service.dart';
 import 'package:rabenkorb/services/core/snackbar_service.dart';
 import 'package:rabenkorb/services/core/version_service.dart';
 import 'package:rabenkorb/services/data_access/basket_item_service.dart';
@@ -47,6 +48,7 @@ Future<void> setupDI() async {
 
 Future<void> _registerCoreServices() async {
   di.registerSingleton<SnackBarService>(SnackBarService());
+  di.registerSingleton<DialogService>(DialogService());
 
   di.registerSingletonAsync<VersionService>(() async {
     final versionService = VersionService();
