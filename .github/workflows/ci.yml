@@ -6,7 +6,7 @@ on:
       - 'main'
 
 env:
-  FLUTTER_VERSION: '3.13.7'
+  FLUTTER_VERSION: '3.19.4'
   JAVA_VERSION: '17'
   JAVA_DISTRO: 'temurin'
 
