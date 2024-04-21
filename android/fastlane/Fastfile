@@ -23,17 +23,21 @@ platform :android do
 
   desc "Build release APK"
   lane :build_release do
-    gradle(
-      task: 'assemble',
-      build_type: 'Release'
-    )
+    sh("flutter build apk --release")
+  end
+
+  desc "Build local release APK"
+  lane :build_release do
+    sh("flutter build apk --release --dart-define-from-file=./.env/prod.json")
   end
 
   desc "Build debug APK"
   lane :build_debug do
-    gradle(
-      task: 'assemble',
-      build_type: 'Debug'
-    )
+    sh("flutter build apk --debug --dart-define-from-file=./.env/dev.json")
+  end
+
+  desc "Build testing APK"
+  lane :build_qa do
+    sh("flutter build apk --release --dart-define-from-file=./.env/qa.json")
   end
 end
