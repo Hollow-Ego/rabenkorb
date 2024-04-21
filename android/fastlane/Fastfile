@@ -27,7 +27,7 @@ platform :android do
   end
 
   desc "Build local release APK"
-  lane :build_release do
+  lane :build_local_release do
     sh("flutter build apk --release --dart-define-from-file=./.env/prod.json")
   end
 
