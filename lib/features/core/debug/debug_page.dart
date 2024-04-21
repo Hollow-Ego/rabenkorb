@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rabenkorb/features/core/debug/language_debug.dart';
 import 'package:rabenkorb/features/core/debug/loading_debug.dart';
 import 'package:rabenkorb/features/core/debug/logging_debug.dart';
+import 'package:rabenkorb/features/core/debug/messaging_debug.dart';
 import 'package:rabenkorb/features/core/structural/core_scaffold.dart';
 import 'package:rabenkorb/features/core/structural/drawer/core_drawer.dart';
 import 'package:rabenkorb/generated/l10n.dart';
@@ -21,6 +22,7 @@ class DebugPage extends StatelessWidget {
             LanguageDebug(),
             LoggingDebug(),
             LoadingDebug(),
+            MessagingDebug(),
           ],
         ),
       ),
