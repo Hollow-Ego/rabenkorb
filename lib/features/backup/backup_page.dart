@@ -7,6 +7,7 @@ import 'package:rabenkorb/features/core/structural/drawer/core_drawer.dart';
 import 'package:rabenkorb/generated/l10n.dart';
 import 'package:rabenkorb/services/core/dialog_service.dart';
 import 'package:rabenkorb/services/utility/backup_service.dart';
+import 'package:rabenkorb/shared/helper_functions.dart';
 import 'package:rabenkorb/shared/state_types.dart';
 import 'package:watch_it/watch_it.dart';
 
@@ -43,7 +44,9 @@ class BackupPage extends StatelessWidget {
     if (exportPath == null || exportPath.trim().isEmpty) {
       return;
     }
-    await di<BackupService>().backup(exportPath);
+    doWithLoadingIndicator(() async {
+      await di<BackupService>().backup(exportPath);
+    });
   }
 
   Future<bool> _confirmPermissions(BuildContext context) async {
