@@ -48,8 +48,8 @@ class DialogService {
     String? title,
     String? confirmBtnText,
     String? cancelBtnText,
-    void Function()? onConfirm,
-    void Function()? onCancel,
+    Future<void> Function()? onConfirm,
+    Future<void> Function()? onCancel,
     bool showCancelBtn = true,
   }) {
     return _show(
@@ -82,8 +82,8 @@ class DialogService {
     String? title,
     String? confirmBtnText,
     String? cancelBtnText,
-    void Function()? onConfirm,
-    void Function()? onCancel,
+    Future<void> Function()? onConfirm,
+    Future<void> Function()? onCancel,
     bool showCancelBtn = false,
     bool isConfirmDialog = false,
   }) async {
@@ -96,12 +96,12 @@ class DialogService {
             actions: [
               if (isConfirmDialog)
                 CorePrimaryButton(
-                  onPressed: () => _confirm(context, onConfirm),
+                  onPressed: () async => await _confirm(context, onConfirm),
                   child: Text(confirmBtnText ?? S.of(context).Confirm),
                 ),
               if (isConfirmDialog)
                 CoreSecondaryButton(
-                  onPressed: () => _cancel(context, onCancel),
+                  onPressed: () async => await _cancel(context, onCancel),
                   child: Text(cancelBtnText ?? S.of(context).Cancel),
                 )
             ],
@@ -109,19 +109,19 @@ class DialogService {
         });
   }
 
-  void _confirm(BuildContext context, void Function()? onConfirm) {
+  Future<void> _confirm(BuildContext context, Future<void> Function()? onConfirm) async {
     Navigator.pop(context);
     if (onConfirm == null) {
       return;
     }
-    onConfirm();
+    await onConfirm();
   }
 
-  void _cancel(BuildContext context, void Function()? onCancel) {
+  Future<void> _cancel(BuildContext context, Future<void> Function()? onCancel) async {
     Navigator.pop(context);
     if (onCancel == null) {
       return;
     }
-    onCancel();
+    await onCancel();
   }
 }

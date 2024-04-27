@@ -75,12 +75,12 @@ class _DialogDebugState extends State<DialogDebug> {
                     text: "Do you really want to do the thing?",
                     title: "Doing the thing",
                     type: StateType.neutral,
-                    onConfirm: () {
+                    onConfirm: () async {
                       setState(() {
                         _dialogResult = "Confirmed";
                       });
                     },
-                    onCancel: () {
+                    onCancel: () async {
                       setState(() {
                         _dialogResult = "Canceled";
                       });
