@@ -61,14 +61,17 @@ jobs:
           echo "sdk.dir=$ANDROID_HOME" > android/local.properties
           echo "flutter.sdk=$GITHUB_WORKSPACE/flutter" >> android/local.properties
 
-      - name: Set execute permissions on gradlew
-        run: chmod +x android/gradlew
-
-      - name: Run Tests through Fastlane
+      - name: Create Environment
         env:
           ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
         run: |
           echo "env=$ENVIRONMENT" > .env
+
+      - name: Set execute permissions on gradlew
+        run: chmod +x android/gradlew
+
+      - name: Run Tests through Fastlane
+        run: |
           cd android
           bundle exec fastlane android test
 
