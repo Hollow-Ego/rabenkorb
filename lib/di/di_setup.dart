@@ -6,6 +6,7 @@ import 'package:rabenkorb/features/core/error/error_handler.dart';
 import 'package:rabenkorb/features/core/error/error_handler_step.dart';
 import 'package:rabenkorb/features/core/error/steps/log_step.dart';
 import 'package:rabenkorb/features/core/logging/core_logger.dart';
+import 'package:rabenkorb/features/core/logging/sinks/mongo_db_sink.dart';
 import 'package:rabenkorb/features/core/logging/sinks/void_sink.dart';
 import 'package:rabenkorb/services/business/basket_service.dart';
 import 'package:rabenkorb/services/business/library_service.dart';
@@ -114,7 +115,10 @@ void _registerUtilityServices() {
 }
 
 void _addLogging() {
-  di.registerLazySingleton<LogSink>(() => VoidSink());
+  di.registerLazySingleton<List<LogSinks>>(() => [
+        VoidSink(),
+        MongoDbSink(),
+      ]);
   di.registerLazySingleton<CoreLogger>(() => CoreLogger());
 }
 

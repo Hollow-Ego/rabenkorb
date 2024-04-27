@@ -4,7 +4,7 @@ import 'package:rabenkorb/models/log_data.dart';
 import 'package:watch_it/watch_it.dart';
 
 class CoreLogger extends CodenicLogger {
-  final LogSink _sink = di<LogSink>();
+  final List<LogSinks> _sinks = di<List<LogSinks>>();
 
   @override
   void error(
@@ -13,17 +13,19 @@ class CoreLogger extends CodenicLogger {
     StackTrace? stackTrace,
   }) {
     super.error(messageLog, error: error, stackTrace: stackTrace);
-    var logData = toLogData(messageLog, error: error, stackTrace: stackTrace);
+    var logData = toLogData(messageLog, error: error.message, stackTrace: stackTrace);
     logToDatabase(logData);
   }
 
   Future<void> logToDatabase(LogData logData) async {
-    _sink.sendLog(logData);
+    for (var sink in _sinks) {
+      sink.sendLog(logData);
+    }
   }
 
   LogData toLogData(
     MessageLog messageLog, {
-    dynamic error,
+    String? error,
     StackTrace? stackTrace,
   }) {
     return LogData.fromLogEvent(messageLog, error: error, stackTrace: stackTrace);
