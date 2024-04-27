@@ -28,4 +28,20 @@ class IntlStateService {
     );
     await setLocale(locale);
   }
+
+  String getDisplayName(Locale? locale) {
+    if (locale == null) {
+      return S.current.MissingString;
+    }
+    switch (locale.toString()) {
+      case 'de_DE':
+        return 'Deutsch';
+      case 'en':
+      case 'en_GB':
+      case 'en_US':
+        return 'English';
+      default:
+        return S.current.MissingString;
+    }
+  }
 }

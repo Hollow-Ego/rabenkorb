@@ -24,8 +24,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "AppTitle": MessageLookupByLibrary.simpleMessage("Rabenkorb"),
         "Backup": MessageLookupByLibrary.simpleMessage("Backup"),
-        "BackupCreate":
-            MessageLookupByLibrary.simpleMessage("Backup erstellen"),
+        "BackupCreate": MessageLookupByLibrary.simpleMessage("Backup erstellen"),
         "Basket": MessageLookupByLibrary.simpleMessage("Korb"),
         "Cancel": MessageLookupByLibrary.simpleMessage("Abbrechen"),
         "Confirm": MessageLookupByLibrary.simpleMessage("Bestätigen"),
@@ -40,11 +39,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "MessagePermissionRequired": MessageLookupByLibrary.simpleMessage(
             "Um auf Ordner zum Speicher oder Laden von Sicherungen zugreifen zu können, benötigt diese App die Berechtigung auf alle Dateien und Ordner zuzugreifen. Diese wird niemals auf Dateien zugreifen, die nicht zu ihr gehören. \n\nWenn Sie auf \"Berechtigung setzen\" drücken werden Sie zur Berechtigungsverwaltung weitergeleitet. Setzen Sie dort die Berechtigung und kehren zur App zurück, indem Sie auf die Zurück-Taste Ihres Smartphones drücken."),
         "MissingString": MessageLookupByLibrary.simpleMessage("<Leer>"),
-        "PermissionsRequired":
-            MessageLookupByLibrary.simpleMessage("Berechtigungen erforderlich"),
-        "SetPermission":
-            MessageLookupByLibrary.simpleMessage("Berechtigung erteilen"),
+        "PermissionsRequired": MessageLookupByLibrary.simpleMessage("Berechtigungen erforderlich"),
+        "SetPermission": MessageLookupByLibrary.simpleMessage("Berechtigung erteilen"),
         "Settings": MessageLookupByLibrary.simpleMessage("Einstellungen"),
+        "SettingsGeneral": MessageLookupByLibrary.simpleMessage("Allgemeine Einstellungen"),
         "Template": MessageLookupByLibrary.simpleMessage("Template"),
         "Unnamed": MessageLookupByLibrary.simpleMessage("Unbenannt")
       };

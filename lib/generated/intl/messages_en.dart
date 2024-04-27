@@ -39,10 +39,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "MessagePermissionRequired": MessageLookupByLibrary.simpleMessage(
             "To access folders for saving or loading backup this app the permission to access files and folders. This app will never access any files that are not related to it. \n\nIf you click on \"Set Permission\" you will be redirect to the permission screen of your phone. Please set the permission and return to this app by pressing the Back Button of your Smartphone."),
         "MissingString": MessageLookupByLibrary.simpleMessage("<Empty>"),
-        "PermissionsRequired":
-            MessageLookupByLibrary.simpleMessage("Permissions required"),
+        "PermissionsRequired": MessageLookupByLibrary.simpleMessage("Permissions required"),
         "SetPermission": MessageLookupByLibrary.simpleMessage("Set Permission"),
         "Settings": MessageLookupByLibrary.simpleMessage("Settings"),
+        "SettingsGeneral": MessageLookupByLibrary.simpleMessage("General Settings"),
         "Template": MessageLookupByLibrary.simpleMessage("Template"),
         "Unnamed": MessageLookupByLibrary.simpleMessage("Unnamed")
       };
