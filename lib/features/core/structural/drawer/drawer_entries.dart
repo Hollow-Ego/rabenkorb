@@ -15,6 +15,12 @@ List<DrawerEntry> drawerEntries = [
     leading: const Icon(Icons.home),
   ),
   DrawerEntry(
+    title: S.current.Settings,
+    position: 1,
+    onTap: (BuildContext context) => context.go(Routes.settings),
+    leading: const Icon(Icons.settings),
+  ),
+  DrawerEntry(
     titleWidget: const AboutWidget(),
     position: 98,
   ),
