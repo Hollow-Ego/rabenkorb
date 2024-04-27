@@ -8,7 +8,7 @@ class LogData {
   late String id;
   String? message;
   late Map<String, dynamic> context;
-  dynamic error;
+  String? error;
   String? stackTrace;
 
   LogData(
@@ -21,7 +21,7 @@ class LogData {
 
   factory LogData.fromLogEvent(
     MessageLog messageLog, {
-    dynamic error,
+    String? error,
     StackTrace? stackTrace,
   }) {
     final id = messageLog.id;
