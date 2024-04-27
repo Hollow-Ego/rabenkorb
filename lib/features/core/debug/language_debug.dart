@@ -10,7 +10,6 @@ class LanguageDebug extends StatelessWidget with WatchItMixin {
 
   @override
   Widget build(BuildContext context) {
-    final _ = watchStream((IntlStateService p0) => p0.locale);
     return Card(
       child: Column(
         children: [

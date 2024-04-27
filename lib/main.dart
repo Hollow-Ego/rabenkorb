@@ -15,11 +15,12 @@ void main() async {
   runApp(const MainApp());
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends StatelessWidget with WatchItMixin {
   const MainApp({super.key});
-
   @override
   Widget build(BuildContext context) {
+    final locale = watchStream((IntlStateService p0) => p0.locale);
+
     return MaterialApp.router(
       localizationsDelegates: const [
         S.delegate,
@@ -28,7 +29,7 @@ class MainApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: S.delegate.supportedLocales,
-      locale: di<IntlStateService>().localeSync,
+      locale: locale.data,
       theme: ThemeData(
         useMaterial3: true,
       ),
