@@ -27,6 +27,7 @@ dependencies:
   mongo_dart: ^0.10.2
   permission_handler: ^11.3.1
   file_picker: ^8.0.3
+  sqlite3_flutter_libs: ^0.5.21
 
 dev_dependencies:
   flutter_test:
