@@ -187,6 +187,26 @@ class S {
     );
   }
 
+  /// `Backup`
+  String get Backup {
+    return Intl.message(
+      'Backup',
+      name: 'Backup',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create Backup`
+  String get BackupCreate {
+    return Intl.message(
+      'Create Backup',
+      name: 'BackupCreate',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Confirm`
   String get Confirm {
     return Intl.message(

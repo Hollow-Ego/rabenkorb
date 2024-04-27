@@ -14,6 +14,8 @@
   "Unnamed": "Unbenannt",
   "MissingString": "<Leer>",
   "Debug": "Debug",
+  "Backup": "Backup",
+  "BackupCreate": "Backup erstellen",
   "Confirm": "Bestätigen",
   "Cancel": "Abbrechen"
 }
