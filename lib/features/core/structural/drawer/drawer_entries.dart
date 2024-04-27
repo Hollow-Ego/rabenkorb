@@ -18,6 +18,12 @@ List<DrawerEntry> drawerEntries = [
     titleWidget: const AboutWidget(),
     position: 98,
   ),
+  DrawerEntry(
+    title: S.current.Backup,
+    position: 1,
+    onTap: (BuildContext context) => context.go(Routes.backup),
+    leading: const Icon(Icons.save),
+  ),
   if (di<EnvironmentService>().isDebug)
     DrawerEntry(
       title: S.current.Debug,

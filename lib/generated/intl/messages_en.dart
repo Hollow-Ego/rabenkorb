@@ -23,6 +23,8 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "AppTitle": MessageLookupByLibrary.simpleMessage("Rabenkorb"),
+        "Backup": MessageLookupByLibrary.simpleMessage("Backup"),
+        "BackupCreate": MessageLookupByLibrary.simpleMessage("Create Backup"),
         "Basket": MessageLookupByLibrary.simpleMessage("Basket"),
         "Cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "Confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
@@ -34,7 +36,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "LanguageDisplayName": MessageLookupByLibrary.simpleMessage("English"),
         "Library": MessageLookupByLibrary.simpleMessage("Library"),
         "Menu": MessageLookupByLibrary.simpleMessage("Menu"),
+        "MessagePermissionRequired": MessageLookupByLibrary.simpleMessage(
+            "To access folders for saving or loading backup this app the permission to access files and folders. This app will never access any files that are not related to it. \n\nIf you click on \"Set Permission\" you will be redirect to the permission screen of your phone. Please set the permission and return to this app by pressing the Back Button of your Smartphone."),
         "MissingString": MessageLookupByLibrary.simpleMessage("<Empty>"),
+        "PermissionsRequired": MessageLookupByLibrary.simpleMessage("Permissions required"),
+        "SetPermission": MessageLookupByLibrary.simpleMessage("Set Permission"),
         "Settings": MessageLookupByLibrary.simpleMessage("Settings"),
         "Template": MessageLookupByLibrary.simpleMessage("Template"),
         "Unnamed": MessageLookupByLibrary.simpleMessage("Unnamed")
