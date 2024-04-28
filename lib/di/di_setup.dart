@@ -78,23 +78,23 @@ void _registerDatabase() {
 }
 
 void _registerDataAccessServices() {
-  di.registerSingletonWithDependencies<BasketItemService>(() => BasketItemService(), dependsOn: [BasketStateService]);
-  di.registerSingleton<ItemCategoryService>(ItemCategoryService());
-  di.registerSingletonWithDependencies<ItemTemplateService>(() => ItemTemplateService(), dependsOn: [LibraryStateService]);
-  di.registerSingleton<ItemUnitService>(ItemUnitService());
-  di.registerSingleton<ShoppingBasketService>(ShoppingBasketService());
-  di.registerSingleton<SortOrderService>(SortOrderService());
-  di.registerSingleton<SortRuleService>(SortRuleService());
-  di.registerSingleton<TemplateLibraryService>(TemplateLibraryService());
-  di.registerSingleton<VariantKeyService>(VariantKeyService());
+  di.registerFactory<BasketItemService>(() => BasketItemService());
+  di.registerFactory<ItemCategoryService>(() => ItemCategoryService());
+  di.registerFactory<ItemTemplateService>(() => ItemTemplateService());
+  di.registerFactory<ItemUnitService>(() => ItemUnitService());
+  di.registerFactory<ShoppingBasketService>(() => ShoppingBasketService());
+  di.registerFactory<SortOrderService>(() => SortOrderService());
+  di.registerFactory<SortRuleService>(() => SortRuleService());
+  di.registerFactory<TemplateLibraryService>(() => TemplateLibraryService());
+  di.registerFactory<VariantKeyService>(() => VariantKeyService());
 }
 
 void _registerBusinessServices() {
-  di.registerSingleton<SortService>(SortService());
-  di.registerSingleton<MetadataService>(MetadataService());
+  di.registerFactory<SortService>(() => SortService());
+  di.registerFactory<MetadataService>(() => MetadataService());
 
-  di.registerSingletonWithDependencies<LibraryService>(() => LibraryService(), dependsOn: [ItemTemplateService]);
-  di.registerSingletonWithDependencies<BasketService>(() => BasketService(), dependsOn: [BasketItemService]);
+  di.registerFactory<LibraryService>(() => LibraryService());
+  di.registerFactory<BasketService>(() => BasketService());
 }
 
 Future<void> _registerStateServices() async {
