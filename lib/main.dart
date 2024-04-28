@@ -12,11 +12,14 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setupDI();
   FlutterError.onError = di<ErrorHandler>().handleError;
-  runApp(const MainApp());
+  runApp(MainApp(routerConfig: goRouterConfig()));
 }
 
 class MainApp extends StatelessWidget with WatchItMixin {
-  const MainApp({super.key});
+  final RouterConfig<Object> routerConfig;
+
+  const MainApp({super.key, required this.routerConfig});
+
   @override
   Widget build(BuildContext context) {
     final locale = watchStream((IntlStateService p0) => p0.locale);
