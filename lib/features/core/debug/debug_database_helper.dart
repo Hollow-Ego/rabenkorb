@@ -334,6 +334,22 @@ Future<void> seedDatabase(AppDatabase db) async {
   });
 }
 
+Future<void> clearDatabase(AppDatabase db) async {
+  await db.batch((batch) {
+    batch.deleteAll(db.itemCategories);
+    batch.deleteAll(db.itemUnits);
+    batch.deleteAll(db.templateLibraries);
+    batch.deleteAll(db.variantKeys);
+    batch.deleteAll(db.sortRules);
+    batch.deleteAll(db.sortOrders);
+    batch.deleteAll(db.sortOrders);
+    batch.deleteAll(db.shoppingBaskets);
+    batch.deleteAll(db.itemTemplates);
+    batch.deleteAll(db.basketItems);
+    batch.deleteAll(db.basketItems);
+  });
+}
+
 ItemCategoryViewModel testCategory(String key) {
   return toItemCategoryViewModel(testCategories[key])!;
 }
