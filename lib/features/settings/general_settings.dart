@@ -13,6 +13,7 @@ class GeneralSettings extends StatelessWidget with WatchItMixin {
 
     final supportedLocales = S.delegate.supportedLocales
         .map((locale) => DropdownMenuItem(
+              key: Key(locale.toLanguageTag()),
               value: locale,
               child: Text(intlStateService.getDisplayName(locale)),
             ))
@@ -27,6 +28,7 @@ class GeneralSettings extends StatelessWidget with WatchItMixin {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 12.0),
           child: CoreDropdown(
+            dropdownKey: const Key("language-dropdown"),
             value: intlStateService.localeSync,
             items: supportedLocales,
             label: S.of(context).Language,
