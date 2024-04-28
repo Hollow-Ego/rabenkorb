@@ -19,8 +19,8 @@ void main() {
       await tester.pumpWidget(MainApp(routerConfig: routerConfig));
 
       expect(find.text("General Settings"), findsOneWidget);
-      await tapOnKey(tester, "language-dropdown");
-      await tapOnKey(tester, "de-DE");
+      await tapOnKey(tester, "settings:language-dropdown");
+      await tapOnKey(tester, "settings:de-DE");
       expect(find.text("Allgemeine Einstellungen"), findsOneWidget);
     }, timeout: const Timeout(Duration(minutes: 1)));
   });
