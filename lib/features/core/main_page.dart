@@ -7,7 +7,9 @@ import 'package:rabenkorb/services/state/navigation_state_service.dart';
 import 'package:watch_it/watch_it.dart';
 
 class MainPage extends StatelessWidget with WatchItMixin {
-  MainPage({super.key});
+  MainPage({super.key, int? initialPageIndex}) {
+    di<NavigationStateService>().setCurrentPageIndex(initialPageIndex ?? 0);
+  }
 
   @override
   Widget build(BuildContext context) {

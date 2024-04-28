@@ -15,6 +15,14 @@ RouterConfig<Object> goRouterConfig({String initialLocation = Routes.home}) => G
           builder: (context, state) => MainPage(),
         ),
         GoRoute(
+          path: Routes.library,
+          builder: (context, state) {
+            return MainPage(
+              initialPageIndex: 1,
+            );
+          },
+        ),
+        GoRoute(
           path: Routes.backup,
           builder: (context, state) => const BackupPage(),
         ),
