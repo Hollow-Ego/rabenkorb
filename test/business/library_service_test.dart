@@ -5,6 +5,7 @@ import 'package:rabenkorb/abstracts/preference_service.dart';
 import 'package:rabenkorb/database/database.dart';
 import 'package:rabenkorb/exceptions/missing_category.dart';
 import 'package:rabenkorb/exceptions/missing_variant.dart';
+import 'package:rabenkorb/features/core/debug/debug_database_helper.dart';
 import 'package:rabenkorb/services/business/library_service.dart';
 import 'package:rabenkorb/services/business/metadata_service.dart';
 import 'package:rabenkorb/services/data_access/item_category_service.dart';
@@ -15,7 +16,6 @@ import 'package:rabenkorb/services/data_access/variant_key_service.dart';
 import 'package:rabenkorb/services/state/library_state_service.dart';
 import 'package:watch_it/watch_it.dart';
 
-import '../database_helper.dart';
 import '../mock_image_service.dart';
 import '../mock_preferences_service.dart';
 
