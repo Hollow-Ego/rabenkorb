@@ -1,32 +1,43 @@
+import 'dart:async';
+
 import 'package:rabenkorb/database/database.dart';
 import 'package:rabenkorb/models/basket_item_view_model.dart';
 import 'package:rabenkorb/models/grouped_items.dart';
 import 'package:rabenkorb/services/state/basket_state_service.dart';
+import 'package:rabenkorb/shared/filter_details.dart';
 import 'package:rabenkorb/shared/sort_mode.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:watch_it/watch_it.dart';
 
-class BasketItemService {
+class BasketItemService implements Disposable {
   final _db = di<AppDatabase>();
   final _basketStateService = di<BasketStateService>();
 
   late Stream<List<GroupedItems<BasketItemViewModel>>> basketItemsStream;
 
-  Stream<List<GroupedItems<BasketItemViewModel>>> get basketItems => basketItemsStream;
+  late StreamSubscription _basketItemsSub;
+  final _basketItems = BehaviorSubject<List<GroupedItems<BasketItemViewModel>>>.seeded([]);
+
+  Stream<List<GroupedItems<BasketItemViewModel>>> get basketItems => _basketItems.stream.share();
 
   BasketItemService() {
-    basketItemsStream = Rx.combineLatest4(
+    _basketItemsSub = Rx.combineLatest4(
       _basketStateService.sortMode,
       _basketStateService.sortRuleId,
       _basketStateService.search,
       _basketStateService.basketId,
-      (SortMode sortMode, int? sortRuleId, String searchTerm, int? basketId) => _watchBasketItemsInOrder(
-        basketId: basketId,
-        sortMode: sortMode,
-        sortRuleId: sortRuleId,
-        searchTerm: searchTerm,
-      ),
-    ).debounceTime(const Duration(milliseconds: 300)).switchMap((stream) => stream);
+      (SortMode sortMode, int? sortRuleId, String searchTerm, int? basketId) =>
+          BasketItemFilterDetails(sortMode: sortMode, searchTerm: searchTerm, sortRuleId: sortRuleId, basketId: basketId),
+    ).switchMap((BasketItemFilterDetails details) {
+      return _watchBasketItemsInOrder(
+        basketId: details.basketId,
+        sortMode: details.sortMode,
+        sortRuleId: details.sortRuleId,
+        searchTerm: details.searchTerm,
+      );
+    }).listen((items) {
+      _basketItems.add(items);
+    });
   }
 
   Future<int> createBasketItem(
@@ -122,5 +133,10 @@ class BasketItemService {
     String? searchTerm,
   }) {
     return _db.basketItemsDao.watchBasketItemsInOrder(basketId: basketId, sortMode: sortMode, sortRuleId: sortRuleId, searchTerm: searchTerm);
+  }
+
+  @override
+  FutureOr onDispose() {
+    _basketItemsSub.cancel();
   }
 }
