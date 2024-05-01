@@ -6,4 +6,11 @@ class GroupedItems<T extends DataItem> {
   final List<T> items;
 
   GroupedItems({required this.category, required this.items});
+
+  Map<String, dynamic> toJson() {
+    return {
+      "category": category.toJson(),
+      "items": items.map((e) => e.toJson()),
+    };
+  }
 }

@@ -26,8 +26,8 @@ class ItemTemplateViewModel extends DataItem {
       "name": name,
       "imagePath": imagePath,
       "variantKey": variantKey,
-      "category": category,
-      "library": library,
+      "category": category?.toJson(),
+      "library": library.toJson(),
     };
   }
 }
