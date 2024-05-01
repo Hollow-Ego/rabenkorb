@@ -25,5 +25,6 @@ final List<DestinationDetails> mainDestinations = [
     body: const LibraryView(),
     index: 1,
     mainAction: libraryMainAction,
+    appBar: AppBar(),
   )
 ];
