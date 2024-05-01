@@ -12,7 +12,7 @@ import 'package:rabenkorb/shared/extensions.dart';
 class CoreGroupedList<T extends DataItem> extends StatelessWidget {
   final void Function(int, int, int, int)? onItemReorder;
   final void Function(int, int, List<GroupedItems<T>>)? onListReorder;
-  final void Function(bool, ItemCategoryViewModel, String) onExpansionChange;
+  final void Function(bool, ItemCategoryViewModel, String)? onExpansionChange;
   final bool canDragList;
   final bool canDragItem;
 
@@ -27,7 +27,7 @@ class CoreGroupedList<T extends DataItem> extends StatelessWidget {
     this.onListReorder,
     this.canDragList = false,
     this.canDragItem = false,
-    required this.onExpansionChange,
+    this.onExpansionChange,
   });
 
   Widget _buildHeader(String header) {
@@ -61,7 +61,11 @@ class CoreGroupedList<T extends DataItem> extends StatelessWidget {
         canDrag: canDragList,
         disableTopAndBottomBorders: true,
         initiallyExpanded: true,
-        onExpansionChanged: (bool expanded) => onExpansionChange(expanded, itemGroup.category, headerKey),
+        onExpansionChanged: (bool expanded) {
+          if (onExpansionChange != null) {
+            onExpansionChange!(expanded, itemGroup.category, headerKey);
+          }
+        },
       );
 
       return newList;
