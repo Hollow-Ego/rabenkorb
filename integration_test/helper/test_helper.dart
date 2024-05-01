@@ -5,7 +5,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:rabenkorb/database/database.dart';
 import 'package:rabenkorb/di/di_setup.dart';
 import 'package:rabenkorb/features/core/debug/debug_database_helper.dart';
+import 'package:rabenkorb/services/state/basket_state_service.dart';
 import 'package:rabenkorb/services/state/intl_state_service.dart';
+import 'package:rabenkorb/services/state/library_state_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:watch_it/watch_it.dart';
 
@@ -20,6 +22,8 @@ Future<void> resetAppState() async {
   final prefs = await SharedPreferences.getInstance();
   await prefs.clear();
   di<IntlStateService>().init();
+  di<LibraryStateService>().init();
+  di<BasketStateService>().init();
 }
 
 Future<void> setupEverything() async {

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rabenkorb/features/core/structural/core_scaffold.dart';
 import 'package:rabenkorb/features/core/structural/drawer/core_drawer.dart';
+import 'package:rabenkorb/features/settings/basket_settings.dart';
 import 'package:rabenkorb/features/settings/general_settings.dart';
+import 'package:rabenkorb/features/settings/library_settings.dart';
 import 'package:rabenkorb/generated/l10n.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -16,6 +18,8 @@ class SettingsPage extends StatelessWidget {
           child: Column(
             children: [
               GeneralSettings(),
+              BasketSettings(),
+              LibrarySettings(),
             ],
           ),
         ),
