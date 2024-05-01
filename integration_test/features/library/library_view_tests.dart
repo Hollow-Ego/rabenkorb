@@ -23,9 +23,9 @@ void main() {
     testWidgets('should show item templates in a grouped list', (tester) async {
       await start(tester, routerConfig);
 
-      expect(find.byKey(const Key('alcohol-header')), findsOneWidget);
+      expect(find.byKey(const Key('alcohol-1-header')), findsOneWidget);
       expect(find.byKey(const Key('rum-2')), findsOneWidget);
-      expect(find.byKey(const Key('baking-ingredients-header')), findsOneWidget);
+      expect(find.byKey(const Key('baking-ingredients-6-header')), findsOneWidget);
       expect(find.byKey(const Key('baking-soda-12')), findsOneWidget);
       expect(find.byKey(const Key('flour-5')), findsOneWidget);
     }, timeout: const Timeout(Duration(minutes: 1)));
@@ -33,7 +33,7 @@ void main() {
     testWidgets('should toggle collapse state', (tester) async {
       await start(tester, routerConfig);
 
-      final alcoholHeader = find.byKey(const Key('alcohol-header'));
+      final alcoholHeader = find.byKey(const Key('alcohol-1-header'));
       expect(find.byKey(const Key('rum-2')).hitTestable(), findsOneWidget);
 
       // Collapse

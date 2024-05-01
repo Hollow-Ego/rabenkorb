@@ -2,6 +2,7 @@ import 'package:rabenkorb/abstracts/data_item.dart';
 import 'package:rabenkorb/models/item_category_view_model.dart';
 import 'package:rabenkorb/models/item_unit_view_model.dart';
 import 'package:rabenkorb/models/shopping_basket_view_model.dart';
+import 'package:rabenkorb/shared/extensions.dart';
 
 class BasketItemViewModel extends DataItem {
   final int id;
@@ -12,6 +13,9 @@ class BasketItemViewModel extends DataItem {
   final ShoppingBasketViewModel basket;
   final ItemUnitViewModel? unit;
   final bool isChecked;
+
+  @override
+  String get key => "${name.toLowerSpaceless()}-$id";
 
   BasketItemViewModel({
     required this.id,
