@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:rabenkorb/shared/extensions.dart';
 
 class CoreListHeader extends StatelessWidget {
   final String header;
+  final String subKey;
 
-  const CoreListHeader({super.key, required this.header});
+  const CoreListHeader({super.key, required this.header, required this.subKey});
 
   @override
   Widget build(BuildContext context) {
-    final subKey = header.toLowerSpaceless();
     return Chip(
       key: Key("$subKey-header"),
       label: Text(

@@ -1,6 +1,7 @@
 import 'package:rabenkorb/abstracts/data_item.dart';
 import 'package:rabenkorb/models/item_category_view_model.dart';
 import 'package:rabenkorb/models/template_library_view_model.dart';
+import 'package:rabenkorb/shared/extensions.dart';
 
 class ItemTemplateViewModel extends DataItem {
   final int id;
@@ -9,6 +10,9 @@ class ItemTemplateViewModel extends DataItem {
   final int? variantKey;
   final ItemCategoryViewModel? category;
   final TemplateLibraryViewModel library;
+
+  @override
+  String get key => "${name.toLowerSpaceless()}-$id";
 
   ItemTemplateViewModel({
     required this.id,
