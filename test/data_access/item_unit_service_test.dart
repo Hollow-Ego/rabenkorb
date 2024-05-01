@@ -11,7 +11,9 @@ void main() {
   setUp(() async {
     database = AppDatabase.forTesting(NativeDatabase.memory());
     di.registerSingleton<AppDatabase>(database);
-    sut = ItemUnitService();
+
+    di.registerSingleton<ItemUnitService>(ItemUnitService());
+    sut = di<ItemUnitService>();
   });
 
   test('item units can be created', () async {

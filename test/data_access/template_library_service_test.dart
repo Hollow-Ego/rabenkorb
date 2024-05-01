@@ -11,7 +11,9 @@ void main() {
   setUp(() async {
     database = AppDatabase.forTesting(NativeDatabase.memory());
     di.registerSingleton<AppDatabase>(database);
-    sut = TemplateLibraryService();
+
+    di.registerSingleton<TemplateLibraryService>(TemplateLibraryService());
+    sut = di<TemplateLibraryService>();
   });
 
   test('template libraries can be created', () async {
