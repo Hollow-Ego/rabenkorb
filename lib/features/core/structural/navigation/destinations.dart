@@ -18,6 +18,7 @@ final List<DestinationDetails> mainDestinations = [
   ),
   DestinationDetails(
     destination: NavigationDestination(
+      key: const Key('library-destination'),
       icon: const Icon(Icons.library_books),
       label: S.current.Library,
     ),

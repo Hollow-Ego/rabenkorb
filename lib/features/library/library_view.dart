@@ -13,7 +13,8 @@ class LibraryView extends StatelessWidget with WatchItMixin {
   @override
   Widget build(BuildContext context) {
     final AsyncSnapshot<List<GroupedItems<ItemTemplateViewModel>>> templates = watchStream((LibraryService p0) => p0.itemTemplates, initialValue: []);
-    final alwaysCollapseCategories = watchStream((LibraryStateService p0) => p0.alwaysCollapseCategories, initialValue: false);
+    final alwaysCollapseCategoriesData = watchStream((LibraryStateService p0) => p0.alwaysCollapseCategories, initialValue: false);
+    final alwaysCollapseCategories = alwaysCollapseCategoriesData.hasData && alwaysCollapseCategoriesData.data!;
     return CoreGroupedList<ItemTemplateViewModel>(
       source: templates.hasData ? templates.data! : [],
       itemContentBuilder: (BuildContext context, ItemTemplateViewModel item) {
@@ -24,13 +25,17 @@ class LibraryView extends StatelessWidget with WatchItMixin {
           ),
         );
       },
-      onExpansionChange: (bool isExpanded, ItemCategoryViewModel header, String headerKey) {},
+      onExpansionChange: (bool isExpanded, ItemCategoryViewModel header, String headerKey) async {
+        if (alwaysCollapseCategories) {
+          return;
+        }
+        await di<LibraryStateService>().setCollapseState(headerKey, !isExpanded);
+      },
       getInitialExpansion: (String headerKey) {
-        if (alwaysCollapseCategories.hasData && alwaysCollapseCategories.data!) {
+        if (alwaysCollapseCategories) {
           return false;
         }
-
-        return true;
+        return !di<LibraryStateService>().isCollapsed(headerKey);
       },
     );
   }

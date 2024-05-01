@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:rabenkorb/main.dart';
@@ -17,6 +17,7 @@ void main() {
   setUpAll(() async {
     await setupEverything();
     await setupDatabase();
+    await resetAppState();
   });
 
   group('library', () {
@@ -30,7 +31,7 @@ void main() {
       expect(find.byKey(const Key('flour-5')), findsOneWidget);
     }, timeout: const Timeout(Duration(minutes: 1)));
 
-    testWidgets('should toggle collapse state', (tester) async {
+    testWidgets('should toggle collapse state and remember the state', (tester) async {
       await start(tester, routerConfig);
 
       final alcoholHeader = find.byKey(const Key('alcohol-1-header'));
@@ -52,6 +53,11 @@ void main() {
       await tester.tap(alcoholHeader);
       await tester.wait();
 
+      expect(find.byKey(const Key('rum-2')).hitTestable(), findsNothing);
+
+      await tester.goToViaDrawer(Icons.settings);
+      await tester.goToHome();
+      await tester.tapOnKey('library-destination');
       expect(find.byKey(const Key('rum-2')).hitTestable(), findsNothing);
     }, timeout: const Timeout(Duration(minutes: 1)));
   });

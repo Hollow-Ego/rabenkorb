@@ -6,6 +6,8 @@ import 'package:rabenkorb/models/item_unit_view_model.dart';
 import 'package:rabenkorb/services/data_access/item_category_service.dart';
 import 'package:rabenkorb/services/data_access/item_unit_service.dart';
 import 'package:rabenkorb/services/data_access/variant_key_service.dart';
+import 'package:rabenkorb/services/state/basket_state_service.dart';
+import 'package:rabenkorb/services/state/library_state_service.dart';
 import 'package:watch_it/watch_it.dart';
 
 import '../../database/database.dart';
@@ -14,6 +16,8 @@ class MetadataService {
   final _itemUnitService = di<ItemUnitService>();
   final _itemCategoryService = di<ItemCategoryService>();
   final _variantKeyService = di<VariantKeyService>();
+  final _libraryStateService = di<LibraryStateService>();
+  final _basketStateService = di<BasketStateService>();
 
   Future<int> createItemUnit(String name) {
     return _itemUnitService.createItemUnit(name);
@@ -47,8 +51,14 @@ class MetadataService {
     return _itemCategoryService.getItemCategoryById(id);
   }
 
-  Future<int> deleteItemCategoryById(int id) {
-    return _itemCategoryService.deleteItemCategoryById(id);
+  Future<int> deleteItemCategoryById(int id) async {
+    final result = await _itemCategoryService.savelyDeleteItemCategoryById(id);
+    final category = result.deletedObject;
+    if (category != null) {
+      await _libraryStateService.removeCollapsedState(category.key);
+      await _basketStateService.removeCollapsedState(category.key);
+    }
+    return result.deletedRows;
   }
 
   Stream<List<ItemCategoryViewModel>> watchItemCategories() {
