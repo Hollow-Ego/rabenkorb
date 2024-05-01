@@ -12,12 +12,9 @@ class BasketStateService {
   final BehaviorSubject<SortMode> _sortModeSubject = BehaviorSubject<SortMode>.seeded(SortMode.name);
   final BehaviorSubject<int?> _basketIdSubject = BehaviorSubject<int>();
 
-  Stream<String> get search => _searchSubject.stream.distinct();
-
+  Stream<String> get search => _searchSubject.stream.debounceTime(const Duration(milliseconds: 300)).distinct();
   Stream<int?> get sortRuleId => _sortRuleIdSubject.stream.distinct();
-
   Stream<SortMode> get sortMode => _sortModeSubject.stream.distinct();
-
   Stream<int?> get basketId => _basketIdSubject.stream.distinct();
 
   BasketStateService() {

@@ -10,7 +10,7 @@ class GroupedItems<T extends DataItem> {
   Map<String, dynamic> toJson() {
     return {
       "category": category.toJson(),
-      "items": items.map((e) => e.toJson()),
+      "items": items.map((e) => e.toJson()).toList(),
     };
   }
 }

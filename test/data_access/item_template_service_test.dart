@@ -316,11 +316,11 @@ void main() {
             testItemTemplate("Socks"),
           ],
         ),
-      ]
+      ],
     ];
 
     expectLater(
-      sut.itemTemplates,
+      sut.itemTemplates.skip(1),
       emitsInOrder(expectedValues.map((emission) => IsEqualToGroupedItem(emission))),
     );
 
@@ -332,6 +332,7 @@ void main() {
     libraryStateService.setSearchString(searchStringThree);
     await Future.delayed(delay);
     libraryStateService.setSearchString(null);
+    await Future.delayed(delay);
   });
 
   test('counts the usage of an image path correctly', () async {

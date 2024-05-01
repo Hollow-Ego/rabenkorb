@@ -228,7 +228,7 @@ void main() {
     ];
 
     expectLater(
-      sut.basketItems,
+      sut.basketItems.skip(1),
       emitsInOrder(expectedValues.map((emission) => IsEqualToGroupedItem<BasketItemViewModel>(emission))),
     );
   });
@@ -310,7 +310,7 @@ void main() {
     ];
 
     expectLater(
-      sut.basketItems,
+      sut.basketItems.skip(1),
       emitsInOrder(expectedValues.map((emission) => IsEqualToGroupedItem(emission))),
     );
 
@@ -418,7 +418,7 @@ void main() {
     ];
 
     expectLater(
-      sut.basketItems,
+      sut.basketItems.skip(1),
       emitsInOrder(expectedValues.map((emission) => IsEqualToGroupedItem<BasketItemViewModel>(emission))),
     );
     const delay = Duration(milliseconds: 350);
@@ -507,7 +507,7 @@ void main() {
     ];
 
     expectLater(
-      sut.basketItems,
+      sut.basketItems.skip(1),
       emitsInOrder(expectedValues.map((emission) => IsEqualToGroupedItem<BasketItemViewModel>(emission))),
     );
     const delay = Duration(milliseconds: 350);
@@ -579,7 +579,7 @@ void main() {
     ];
 
     expectLater(
-      sut.basketItems,
+      sut.basketItems.skip(1),
       emitsInOrder(expectedValues.map((emission) => IsEqualToGroupedItem<BasketItemViewModel>(emission))),
     );
     const delay = Duration(milliseconds: 350);
