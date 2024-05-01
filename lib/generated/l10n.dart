@@ -97,6 +97,36 @@ class S {
     );
   }
 
+  /// `Library Settings`
+  String get SettingsLibrary {
+    return Intl.message(
+      'Library Settings',
+      name: 'SettingsLibrary',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Basket Settings`
+  String get SettingsBasket {
+    return Intl.message(
+      'Basket Settings',
+      name: 'SettingsBasket',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Always Collapse Headers`
+  String get AlwaysCollapseCategories {
+    return Intl.message(
+      'Always Collapse Headers',
+      name: 'AlwaysCollapseCategories',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Home`
   String get Home {
     return Intl.message(

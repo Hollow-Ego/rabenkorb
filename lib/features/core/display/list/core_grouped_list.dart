@@ -13,6 +13,7 @@ class CoreGroupedList<T extends DataItem> extends StatelessWidget {
   final void Function(int, int, int, int)? onItemReorder;
   final void Function(int, int, List<GroupedItems<T>>)? onListReorder;
   final void Function(bool, ItemCategoryViewModel, String)? onExpansionChange;
+  final bool Function(String) getInitialExpansion;
   final bool canDragList;
   final bool canDragItem;
 
@@ -23,6 +24,7 @@ class CoreGroupedList<T extends DataItem> extends StatelessWidget {
     super.key,
     required this.source,
     required this.itemContentBuilder,
+    required this.getInitialExpansion,
     this.onItemReorder,
     this.onListReorder,
     this.canDragList = false,
@@ -60,7 +62,7 @@ class CoreGroupedList<T extends DataItem> extends StatelessWidget {
         children: mappedItems,
         canDrag: canDragList,
         disableTopAndBottomBorders: true,
-        initiallyExpanded: true,
+        initiallyExpanded: getInitialExpansion(headerKey),
         onExpansionChanged: (bool expanded) {
           if (onExpansionChange != null) {
             onExpansionChange!(expanded, itemGroup.category, headerKey);

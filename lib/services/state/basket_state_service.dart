@@ -11,14 +11,17 @@ class BasketStateService {
   final BehaviorSubject<int?> _sortRuleIdSubject = BehaviorSubject<int?>.seeded(null);
   final BehaviorSubject<SortMode> _sortModeSubject = BehaviorSubject<SortMode>.seeded(SortMode.name);
   final BehaviorSubject<int?> _basketIdSubject = BehaviorSubject<int>();
+  final BehaviorSubject<bool> _alwaysCollapseCategories = BehaviorSubject<bool>.seeded(false);
 
   Stream<String> get search => _searchSubject.stream.debounceTime(const Duration(milliseconds: 300)).distinct();
   Stream<int?> get sortRuleId => _sortRuleIdSubject.stream.distinct();
   Stream<SortMode> get sortMode => _sortModeSubject.stream.distinct();
   Stream<int?> get basketId => _basketIdSubject.stream.distinct();
 
+  Stream<bool> get alwaysCollapseCategories => _alwaysCollapseCategories.stream.distinct();
+
   BasketStateService() {
-    _init();
+    init();
   }
 
   factory BasketStateService.withValue({
@@ -68,13 +71,20 @@ class BasketStateService {
     _searchSubject.add(searchString);
   }
 
-  void _init() {
+  Future<void> setAlwaysCollapseCategories(bool alwaysCollapseCategories) async {
+    await _prefs.setBool(PreferenceKeys.basketAlwaysCollapseCategories, alwaysCollapseCategories);
+    _alwaysCollapseCategories.add(alwaysCollapseCategories);
+  }
+
+  void init() {
+    final alwaysCollapseCategories = _prefs.getBool(PreferenceKeys.basketAlwaysCollapseCategories) ?? false;
     final sortModeName = _prefs.getString(PreferenceKeys.basketGroupMode);
     final sortMode = sortModeName != null ? SortMode.values.byName(sortModeName) : SortMode.name;
 
     final sortRuleId = _prefs.getInt(PreferenceKeys.basketSortRuleId);
     final basketId = _prefs.getInt(PreferenceKeys.basketId) ?? -1;
 
+    _alwaysCollapseCategories.add(alwaysCollapseCategories);
     _sortModeSubject.add(sortMode);
     _sortRuleIdSubject.add(sortRuleId);
     _basketIdSubject.add(basketId);

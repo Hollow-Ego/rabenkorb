@@ -22,6 +22,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "AlwaysCollapseCategories": MessageLookupByLibrary.simpleMessage("Always Collapse Headers"),
         "AppTitle": MessageLookupByLibrary.simpleMessage("Rabenkorb"),
         "Backup": MessageLookupByLibrary.simpleMessage("Backup"),
         "BackupCreate": MessageLookupByLibrary.simpleMessage("Create Backup"),
@@ -42,7 +43,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "PermissionsRequired": MessageLookupByLibrary.simpleMessage("Permissions required"),
         "SetPermission": MessageLookupByLibrary.simpleMessage("Set Permission"),
         "Settings": MessageLookupByLibrary.simpleMessage("Settings"),
+        "SettingsBasket": MessageLookupByLibrary.simpleMessage("Basket Settings"),
         "SettingsGeneral": MessageLookupByLibrary.simpleMessage("General Settings"),
+        "SettingsLibrary": MessageLookupByLibrary.simpleMessage("Library Settings"),
         "Template": MessageLookupByLibrary.simpleMessage("Template"),
         "Unnamed": MessageLookupByLibrary.simpleMessage("Unnamed")
       };

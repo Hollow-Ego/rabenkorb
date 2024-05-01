@@ -11,13 +11,16 @@ class LibraryStateService {
   final BehaviorSubject<String> _searchSubject = BehaviorSubject<String>.seeded("");
   final BehaviorSubject<int?> _sortRuleIdSubject = BehaviorSubject<int?>.seeded(null);
   final BehaviorSubject<SortMode> _sortModeSubject = BehaviorSubject<SortMode>.seeded(SortMode.name);
+  final BehaviorSubject<bool> _alwaysCollapseCategories = BehaviorSubject<bool>.seeded(false);
 
   Stream<String> get search => _searchSubject.stream.debounceTime(const Duration(milliseconds: 300)).distinct();
   Stream<int?> get sortRuleId => _sortRuleIdSubject.stream.distinct();
   Stream<SortMode> get sortMode => _sortModeSubject.stream.distinct();
 
+  Stream<bool> get alwaysCollapseCategories => _alwaysCollapseCategories.stream.distinct();
+
   LibraryStateService() {
-    _init();
+    init();
   }
 
   factory LibraryStateService.withValue({
@@ -51,17 +54,24 @@ class LibraryStateService {
     _sortRuleIdSubject.add(sortRuleId);
   }
 
+  Future<void> setAlwaysCollapseCategories(bool alwaysCollapseCategories) async {
+    await _prefs.setBool(PreferenceKeys.libraryAlwaysCollapseCategories, alwaysCollapseCategories);
+    _alwaysCollapseCategories.add(alwaysCollapseCategories);
+  }
+
   void setSearchString(String? searchString) {
     searchString = searchString ?? "";
     _searchSubject.add(searchString);
   }
 
-  void _init() {
+  void init() {
+    final alwaysCollapseCategories = _prefs.getBool(PreferenceKeys.libraryAlwaysCollapseCategories) ?? false;
     final sortModeName = _prefs.getString(PreferenceKeys.libraryGroupMode);
     final sortMode = sortModeName != null ? SortMode.values.byName(sortModeName) : SortMode.name;
 
     final sortRuleId = _prefs.getInt(PreferenceKeys.librarySortRuleId);
 
+    _alwaysCollapseCategories.add(alwaysCollapseCategories);
     _sortModeSubject.add(sortMode);
     _sortRuleIdSubject.add(sortRuleId);
   }
