@@ -6,12 +6,13 @@ import 'package:rabenkorb/features/core/display/list/core_list_ghost.dart';
 import 'package:rabenkorb/features/core/display/list/core_list_header.dart';
 import 'package:rabenkorb/features/core/display/list/core_placeholder.dart';
 import 'package:rabenkorb/models/grouped_items.dart';
+import 'package:rabenkorb/models/item_category_view_model.dart';
 import 'package:rabenkorb/shared/extensions.dart';
 
 class CoreGroupedList<T extends DataItem> extends StatelessWidget {
   final void Function(int, int, int, int)? onItemReorder;
   final void Function(int, int, List<GroupedItems<T>>)? onListReorder;
-  final void Function(bool, int) onExpansionChange;
+  final void Function(bool, ItemCategoryViewModel, String) onExpansionChange;
   final bool canDragList;
   final bool canDragItem;
 
@@ -44,20 +45,23 @@ class CoreGroupedList<T extends DataItem> extends StatelessWidget {
       final header = itemGroup.category.name;
       final headerId = itemGroup.category.id;
       final headerSubKey = header.toLowerSpaceless();
+
       final mappedItems = itemGroup.items.map((T v) {
         return DragAndDropItem(
           child: itemContentBuilder(context, v),
           canDrag: canDragItem,
         );
       }).toList();
+
+      final headerKey = "$headerSubKey-$headerId-list-expansion";
       final newList = DragAndDropListExpansion(
-        listKey: Key("$headerSubKey-$headerId-list-expansion"),
+        listKey: Key(headerKey),
         title: _buildHeader(header),
         children: mappedItems,
         canDrag: canDragList,
         disableTopAndBottomBorders: true,
         initiallyExpanded: true,
-        onExpansionChanged: (bool expanded) => onExpansionChange(expanded, headerId),
+        onExpansionChanged: (bool expanded) => onExpansionChange(expanded, itemGroup.category, headerKey),
       );
 
       return newList;

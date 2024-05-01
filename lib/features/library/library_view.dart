@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rabenkorb/features/core/display/list/core_grouped_list.dart';
 import 'package:rabenkorb/models/grouped_items.dart';
+import 'package:rabenkorb/models/item_category_view_model.dart';
 import 'package:rabenkorb/models/item_template_view_model.dart';
 import 'package:rabenkorb/services/business/library_service.dart';
 import 'package:rabenkorb/shared/extensions.dart';
@@ -24,7 +25,7 @@ class LibraryView extends StatelessWidget with WatchItMixin {
           ),
         );
       },
-      onExpansionChange: (bool isExpanded, int headerId) {},
+      onExpansionChange: (bool isExpanded, ItemCategoryViewModel header, String headerKey) {},
     );
   }
 }
