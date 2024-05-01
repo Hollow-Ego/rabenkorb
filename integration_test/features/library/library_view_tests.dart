@@ -6,6 +6,7 @@ import 'package:rabenkorb/routing/router_config.dart';
 import 'package:rabenkorb/routing/routes.dart';
 
 import '../../helper/test_helper.dart';
+import '../../helper/tester_extensions.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -39,7 +40,7 @@ void main() {
 
 Future<void> start(WidgetTester tester, RouterConfig<Object> routerConfig) async {
   await tester.pumpWidget(MainApp(routerConfig: routerConfig));
-  await tester.pump();
+  await tester.wait();
   await waitForDatabase(tester);
 }
 
