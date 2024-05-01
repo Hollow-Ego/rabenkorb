@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:rabenkorb/abstracts/preference_service.dart';
 import 'package:rabenkorb/shared/preference_keys.dart';
 import 'package:rabenkorb/shared/sort_mode.dart';
@@ -19,6 +21,8 @@ class BasketStateService {
   Stream<int?> get basketId => _basketIdSubject.stream.distinct();
 
   Stream<bool> get alwaysCollapseCategories => _alwaysCollapseCategories.stream.distinct();
+
+  Map<String, bool> _collapsedState = <String, bool>{};
 
   BasketStateService() {
     init();
@@ -76,6 +80,20 @@ class BasketStateService {
     _alwaysCollapseCategories.add(alwaysCollapseCategories);
   }
 
+  Future<void> setCollapseState(String headerKey, bool value) async {
+    _collapsedState[headerKey] = value;
+    await _prefs.setString(PreferenceKeys.basketCollapsedStates, jsonEncode(_collapsedState));
+  }
+
+  Future<void> removeCollapsedState(String headerKey) async {
+    _collapsedState.remove(headerKey);
+    await _prefs.setString(PreferenceKeys.basketCollapsedStates, jsonEncode(_collapsedState));
+  }
+
+  bool isExpanded(String headerKey) {
+    return _collapsedState[headerKey] ?? false;
+  }
+
   void init() {
     final alwaysCollapseCategories = _prefs.getBool(PreferenceKeys.basketAlwaysCollapseCategories) ?? false;
     final sortModeName = _prefs.getString(PreferenceKeys.basketGroupMode);
@@ -83,6 +101,9 @@ class BasketStateService {
 
     final sortRuleId = _prefs.getInt(PreferenceKeys.basketSortRuleId);
     final basketId = _prefs.getInt(PreferenceKeys.basketId) ?? -1;
+
+    final collapsedStateString = _prefs.getString(PreferenceKeys.basketCollapsedStates) ?? "";
+    _collapsedState = collapsedStateString.isNotEmpty ? jsonDecode(collapsedStateString) : {};
 
     _alwaysCollapseCategories.add(alwaysCollapseCategories);
     _sortModeSubject.add(sortMode);

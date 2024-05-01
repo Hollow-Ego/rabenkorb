@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:rabenkorb/abstracts/preference_service.dart';
 import 'package:rabenkorb/shared/preference_keys.dart';
 import 'package:rxdart/rxdart.dart';
@@ -18,6 +20,8 @@ class LibraryStateService {
   Stream<SortMode> get sortMode => _sortModeSubject.stream.distinct();
 
   Stream<bool> get alwaysCollapseCategories => _alwaysCollapseCategories.stream.distinct();
+
+  Map<String, bool> _collapsedState = <String, bool>{};
 
   LibraryStateService() {
     init();
@@ -64,12 +68,30 @@ class LibraryStateService {
     _searchSubject.add(searchString);
   }
 
+  Future<void> setCollapseState(String headerKey, bool value) async {
+    _collapsedState[headerKey] = value;
+    await _prefs.setString(PreferenceKeys.libraryCollapsedStates, jsonEncode(_collapsedState));
+  }
+
+  Future<void> removeCollapsedState(String headerKey) async {
+    _collapsedState.remove(headerKey);
+    await _prefs.setString(PreferenceKeys.libraryCollapsedStates, jsonEncode(_collapsedState));
+  }
+
+  bool isCollapsed(String headerKey) {
+    return _collapsedState[headerKey] ?? false;
+  }
+
   void init() {
     final alwaysCollapseCategories = _prefs.getBool(PreferenceKeys.libraryAlwaysCollapseCategories) ?? false;
     final sortModeName = _prefs.getString(PreferenceKeys.libraryGroupMode);
     final sortMode = sortModeName != null ? SortMode.values.byName(sortModeName) : SortMode.name;
 
     final sortRuleId = _prefs.getInt(PreferenceKeys.librarySortRuleId);
+
+    final collapsedStateString = _prefs.getString(PreferenceKeys.libraryCollapsedStates) ?? "";
+
+    _collapsedState = collapsedStateString.isNotEmpty ? jsonDecode(collapsedStateString) : {};
 
     _alwaysCollapseCategories.add(alwaysCollapseCategories);
     _sortModeSubject.add(sortMode);

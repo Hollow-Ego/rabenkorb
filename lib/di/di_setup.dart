@@ -91,10 +91,10 @@ void _registerDataAccessServices() {
 
 void _registerBusinessServices() {
   di.registerSingleton<SortService>(SortService());
-  di.registerSingleton<MetadataService>(MetadataService());
+  di.registerSingletonWithDependencies<MetadataService>(() => MetadataService(), dependsOn: [LibraryStateService, BasketStateService]);
 
-  di.registerSingletonWithDependencies<LibraryService>(() => LibraryService(), dependsOn: [ItemTemplateService]);
-  di.registerSingletonWithDependencies<BasketService>(() => BasketService(), dependsOn: [BasketItemService]);
+  di.registerSingletonWithDependencies<LibraryService>(() => LibraryService(), dependsOn: [ItemTemplateService, MetadataService]);
+  di.registerSingletonWithDependencies<BasketService>(() => BasketService(), dependsOn: [BasketItemService, MetadataService]);
 }
 
 Future<void> _registerStateServices() async {
