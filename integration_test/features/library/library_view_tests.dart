@@ -27,6 +27,31 @@ void main() {
       expect(find.byKey(const Key('baking-soda-12')), findsOneWidget);
       expect(find.byKey(const Key('flour-5')), findsOneWidget);
     }, timeout: const Timeout(Duration(minutes: 1)));
+
+    testWidgets('should toggle collapse state', (tester) async {
+      await start(tester, routerConfig);
+
+      final alcoholHeader = find.byKey(const Key('alcohol-header'));
+      expect(find.byKey(const Key('rum-2')).hitTestable(), findsOneWidget);
+
+      // Collapse
+      await tester.tap(alcoholHeader);
+      await tester.wait();
+
+      expect(find.byKey(const Key('rum-2')).hitTestable(), findsNothing);
+
+      // Open
+      await tester.tap(alcoholHeader);
+      await tester.wait();
+
+      expect(find.byKey(const Key('rum-2')).hitTestable(), findsOneWidget);
+
+      // Collapse
+      await tester.tap(alcoholHeader);
+      await tester.wait();
+
+      expect(find.byKey(const Key('rum-2')).hitTestable(), findsNothing);
+    }, timeout: const Timeout(Duration(minutes: 1)));
   });
 
   tearDown(() async {
