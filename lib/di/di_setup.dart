@@ -78,23 +78,23 @@ void _registerDatabase() {
 }
 
 void _registerDataAccessServices() {
-  di.registerFactory<BasketItemService>(() => BasketItemService());
-  di.registerFactory<ItemCategoryService>(() => ItemCategoryService());
-  di.registerFactory<ItemTemplateService>(() => ItemTemplateService());
-  di.registerFactory<ItemUnitService>(() => ItemUnitService());
-  di.registerFactory<ShoppingBasketService>(() => ShoppingBasketService());
-  di.registerFactory<SortOrderService>(() => SortOrderService());
-  di.registerFactory<SortRuleService>(() => SortRuleService());
-  di.registerFactory<TemplateLibraryService>(() => TemplateLibraryService());
-  di.registerFactory<VariantKeyService>(() => VariantKeyService());
+  di.registerSingletonWithDependencies<BasketItemService>(() => BasketItemService(), dependsOn: [BasketStateService]);
+  di.registerSingleton<ItemCategoryService>(ItemCategoryService());
+  di.registerSingletonWithDependencies<ItemTemplateService>(() => ItemTemplateService(), dependsOn: [LibraryStateService]);
+  di.registerSingleton<ItemUnitService>(ItemUnitService());
+  di.registerSingleton<ShoppingBasketService>(ShoppingBasketService());
+  di.registerSingleton<SortOrderService>(SortOrderService());
+  di.registerSingleton<SortRuleService>(SortRuleService());
+  di.registerSingleton<TemplateLibraryService>(TemplateLibraryService());
+  di.registerSingleton<VariantKeyService>(VariantKeyService());
 }
 
 void _registerBusinessServices() {
-  di.registerFactory<SortService>(() => SortService());
-  di.registerFactory<MetadataService>(() => MetadataService());
+  di.registerSingleton<SortService>(SortService());
+  di.registerSingleton<MetadataService>(MetadataService());
 
-  di.registerFactory<LibraryService>(() => LibraryService());
-  di.registerFactory<BasketService>(() => BasketService());
+  di.registerSingletonWithDependencies<LibraryService>(() => LibraryService(), dependsOn: [ItemTemplateService]);
+  di.registerSingletonWithDependencies<BasketService>(() => BasketService(), dependsOn: [BasketItemService]);
 }
 
 Future<void> _registerStateServices() async {
