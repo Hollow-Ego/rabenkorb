@@ -11,7 +11,9 @@ void main() {
   setUp(() {
     database = AppDatabase.forTesting(NativeDatabase.memory());
     di.registerSingleton<AppDatabase>(database);
-    sut = ItemCategoryService();
+
+    di.registerSingleton<ItemCategoryService>(ItemCategoryService());
+    sut = di<ItemCategoryService>();
   });
 
   test('item categories can be created', () async {

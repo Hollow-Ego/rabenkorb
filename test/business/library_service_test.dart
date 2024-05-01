@@ -42,7 +42,8 @@ void main() {
 
     await seedDatabase(database);
 
-    sut = LibraryService();
+    di.registerSingleton<LibraryService>(LibraryService());
+    sut = di<LibraryService>();
   });
 
   test("item templates targeting a non-existent library will create a library with a default name", () async {

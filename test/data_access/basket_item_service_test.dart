@@ -32,7 +32,8 @@ void main() {
     di.registerSingleton<AppDatabase>(database);
 
     await seedDatabase(database);
-    sut = BasketItemService();
+    di.registerSingleton<BasketItemService>(BasketItemService());
+    sut = di<BasketItemService>();
   });
 
   test('basket items can be created', () async {

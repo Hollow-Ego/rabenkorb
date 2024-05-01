@@ -39,8 +39,8 @@ void main() {
     di.registerSingleton<ShoppingBasketService>(ShoppingBasketService());
 
     await seedDatabase(database);
-
-    sut = BasketService();
+    di.registerSingleton<BasketService>(BasketService());
+    sut = di<BasketService>();
   });
 
   test("basket items targeting a non-existent basket will create a basket with a default name", () async {

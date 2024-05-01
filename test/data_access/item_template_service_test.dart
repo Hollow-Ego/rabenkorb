@@ -30,8 +30,8 @@ void main() {
     database = AppDatabase.forTesting(NativeDatabase.memory());
     di.registerSingleton<AppDatabase>(database);
     await seedDatabase(database);
-
-    sut = ItemTemplateService();
+    di.registerSingleton<ItemTemplateService>(ItemTemplateService());
+    sut = di<ItemTemplateService>();
   });
 
   test('item templates can be created', () async {
