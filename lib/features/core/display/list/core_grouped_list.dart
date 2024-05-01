@@ -6,6 +6,7 @@ import 'package:rabenkorb/features/core/display/list/core_list_ghost.dart';
 import 'package:rabenkorb/features/core/display/list/core_list_header.dart';
 import 'package:rabenkorb/features/core/display/list/core_placeholder.dart';
 import 'package:rabenkorb/models/grouped_items.dart';
+import 'package:rabenkorb/shared/extensions.dart';
 
 class CoreGroupedList<T extends DataItem> extends StatelessWidget {
   final void Function(int, int, int, int)? onItemReorder;
@@ -42,14 +43,15 @@ class CoreGroupedList<T extends DataItem> extends StatelessWidget {
     return source.map((itemGroup) {
       final header = itemGroup.category.name;
       final headerId = itemGroup.category.id;
-      final mappedItems = itemGroup.items
-          .map((T v) => DragAndDropItem(
-                child: itemContentBuilder(context, v),
-                canDrag: canDragItem,
-              ))
-          .toList();
+      final headerSubKey = header.toLowerSpaceless();
+      final mappedItems = itemGroup.items.map((T v) {
+        return DragAndDropItem(
+          child: itemContentBuilder(context, v),
+          canDrag: canDragItem,
+        );
+      }).toList();
       final newList = DragAndDropListExpansion(
-        listKey: ObjectKey(header),
+        listKey: Key("$headerSubKey-$headerId-list-expansion"),
         title: _buildHeader(header),
         children: mappedItems,
         canDrag: canDragList,

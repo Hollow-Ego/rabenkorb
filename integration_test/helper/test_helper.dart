@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:rabenkorb/database/database.dart';
 import 'package:rabenkorb/di/di_setup.dart';
+import 'package:rabenkorb/features/core/debug/debug_database_helper.dart';
 import 'package:rabenkorb/services/state/intl_state_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:watch_it/watch_it.dart';
@@ -63,4 +64,10 @@ Future<void> tearDownEverything() async {
   await resetAppState();
   await di<AppDatabase>().close();
   await di.reset(dispose: true);
+}
+
+Future<void> setupDatabase() async {
+  final db = di<AppDatabase>();
+  await clearDatabase(db);
+  await seedDatabase(db);
 }
