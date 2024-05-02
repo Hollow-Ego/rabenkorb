@@ -3,15 +3,21 @@ import 'package:rabenkorb/features/core/structural/navigation/destination_detail
 import 'package:rabenkorb/features/core/structural/navigation/destinations.dart';
 import 'package:rxdart/rxdart.dart';
 
+import '../../models/main_page_details.dart';
+
 class NavigationStateService {
   final BehaviorSubject<int> _currentPageIndex = BehaviorSubject<int>.seeded(0);
 
-  Stream<int> get currentPageIndex => _currentPageIndex.stream.distinct();
+  int get currentPageIndexSync => _currentPageIndex.value;
 
-  Stream<Widget?> get bodyWidget => _currentPageIndex.switchMap((index) => Stream<Widget?>.value(_destinations[index].body));
-  Stream<MainAction?> get mainAction => _currentPageIndex.switchMap((index) => Stream<MainAction?>.value(_destinations[index].mainAction));
-
-  Stream<PreferredSizeWidget?> get appBar => _currentPageIndex.switchMap((index) => Stream<PreferredSizeWidget?>.value(_destinations[index].appBar));
+  Stream<MainPageDetails?> get mainPageDetails => _currentPageIndex.distinct().map((index) {
+        final destination = _destinations[index];
+        return MainPageDetails(
+          body: destination.body,
+          mainAction: destination.mainAction,
+          appBar: destination.appBar,
+        );
+      });
 
   setCurrentPageIndex(int index) {
     _currentPageIndex.add(index);
