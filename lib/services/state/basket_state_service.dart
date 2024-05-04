@@ -15,12 +15,15 @@ class BasketStateService {
   final BehaviorSubject<int?> _basketIdSubject = BehaviorSubject<int>();
   final BehaviorSubject<bool> _alwaysCollapseCategories = BehaviorSubject<bool>.seeded(false);
 
-  Stream<String> get search => _searchSubject.stream.debounceTime(const Duration(milliseconds: 300)).distinct();
-  Stream<int?> get sortRuleId => _sortRuleIdSubject.stream.distinct();
-  Stream<SortMode> get sortMode => _sortModeSubject.stream.distinct();
-  Stream<int?> get basketId => _basketIdSubject.stream.distinct();
+  Stream<String> get search => _searchSubject.stream.debounceTime(const Duration(milliseconds: 300));
 
-  Stream<bool> get alwaysCollapseCategories => _alwaysCollapseCategories.stream.distinct();
+  Stream<int?> get sortRuleId => _sortRuleIdSubject.stream;
+
+  Stream<SortMode> get sortMode => _sortModeSubject.stream;
+
+  Stream<int?> get basketId => _basketIdSubject.stream;
+
+  Stream<bool> get alwaysCollapseCategories => _alwaysCollapseCategories.stream;
 
   Map<String, bool> _collapsedState = <String, bool>{};
 

@@ -16,7 +16,7 @@ class ItemTemplateService implements Disposable {
   late StreamSubscription _templateSub;
   final _itemTemplates = BehaviorSubject<List<GroupedItems<ItemTemplateViewModel>>>.seeded([]);
 
-  Stream<List<GroupedItems<ItemTemplateViewModel>>> get itemTemplates => _itemTemplates.stream.share();
+  Stream<List<GroupedItems<ItemTemplateViewModel>>> get itemTemplates => _itemTemplates.stream;
 
   ItemTemplateService() {
     _templateSub = Rx.combineLatest3(
