@@ -18,7 +18,7 @@ class BasketItemService implements Disposable {
   late StreamSubscription _basketItemsSub;
   final _basketItems = BehaviorSubject<List<GroupedItems<BasketItemViewModel>>>.seeded([]);
 
-  Stream<List<GroupedItems<BasketItemViewModel>>> get basketItems => _basketItems.stream.share();
+  Stream<List<GroupedItems<BasketItemViewModel>>> get basketItems => _basketItems.stream;
 
   BasketItemService() {
     _basketItemsSub = Rx.combineLatest4(
