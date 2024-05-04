@@ -7,7 +7,7 @@ extension TesterExtensions on WidgetTester {
   Future<void> openDrawer() async {
     final ScaffoldState state = firstState(find.byType(Scaffold));
     state.openDrawer();
-    await pump(pumpDuration);
+    await pumpAndSettle(pumpDuration);
   }
 
   Future<void> goToViaDrawer(IconData iconToTap) async {
@@ -15,14 +15,14 @@ extension TesterExtensions on WidgetTester {
 
     final Finder icon = find.byIcon(iconToTap);
     await ensureVisible(icon);
-    await pump(pumpDuration);
+    await pumpAndSettle(pumpDuration);
     await tap(icon);
-    await pump(pumpDuration);
+    await pumpAndSettle(pumpDuration);
   }
 
   Future<void> tapOn(Finder finder) async {
     await tap(finder);
-    await pump(pumpDuration);
+    await pumpAndSettle(pumpDuration);
   }
 
   Future<void> tapOnKey(String key) async {
@@ -38,6 +38,6 @@ extension TesterExtensions on WidgetTester {
   }
 
   Future<void> wait() async {
-    await pump(pumpDuration);
+    await pumpAndSettle(pumpDuration);
   }
 }
