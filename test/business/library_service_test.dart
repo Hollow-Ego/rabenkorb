@@ -13,6 +13,7 @@ import 'package:rabenkorb/services/data_access/item_template_service.dart';
 import 'package:rabenkorb/services/data_access/item_unit_service.dart';
 import 'package:rabenkorb/services/data_access/template_library_service.dart';
 import 'package:rabenkorb/services/data_access/variant_key_service.dart';
+import 'package:rabenkorb/services/state/basket_state_service.dart';
 import 'package:rabenkorb/services/state/library_state_service.dart';
 import 'package:watch_it/watch_it.dart';
 
@@ -30,14 +31,15 @@ void main() {
     di.registerSingleton<ImageService>(MockImageService());
     di.registerSingleton<AppDatabase>(database);
     di.registerSingleton<LibraryStateService>(LibraryStateService());
+    di.registerSingleton<BasketStateService>(BasketStateService());
 
     di.registerSingleton<ItemTemplateService>(ItemTemplateService());
     di.registerSingleton<ItemUnitService>(ItemUnitService());
     di.registerSingleton<ItemCategoryService>(ItemCategoryService());
     di.registerSingleton<VariantKeyService>(VariantKeyService());
 
-    metadataService = MetadataService();
-    di.registerSingleton<MetadataService>(metadataService);
+    di.registerSingleton<MetadataService>(MetadataService());
+    metadataService = di<MetadataService>();
     di.registerSingleton<TemplateLibraryService>(TemplateLibraryService());
 
     await seedDatabase(database);

@@ -14,6 +14,7 @@ import 'package:rabenkorb/services/data_access/item_unit_service.dart';
 import 'package:rabenkorb/services/data_access/shopping_basket_service.dart';
 import 'package:rabenkorb/services/data_access/variant_key_service.dart';
 import 'package:rabenkorb/services/state/basket_state_service.dart';
+import 'package:rabenkorb/services/state/library_state_service.dart';
 import 'package:watch_it/watch_it.dart';
 
 import '../mock_image_service.dart';
@@ -29,6 +30,7 @@ void main() {
     di.registerSingleton<ImageService>(MockImageService());
     di.registerSingleton<AppDatabase>(database);
     di.registerSingleton<BasketStateService>(BasketStateService());
+    di.registerSingleton<LibraryStateService>(LibraryStateService());
 
     di.registerSingleton<BasketItemService>(BasketItemService());
     di.registerSingleton<ItemUnitService>(ItemUnitService());
