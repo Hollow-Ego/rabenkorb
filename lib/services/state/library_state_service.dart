@@ -93,7 +93,10 @@ class LibraryStateService {
 
     final collapsedStateString = _prefs.getString(PreferenceKeys.libraryCollapsedStates) ?? "";
 
-    _collapsedState = collapsedStateString.isNotEmpty ? jsonDecode(collapsedStateString) : {};
+    if (collapsedStateString.isNotEmpty) {
+      final decodedMap = jsonDecode(collapsedStateString);
+      _collapsedState = decodedMap.cast<String, bool>();
+    }
 
     _alwaysCollapseCategories.add(alwaysCollapseCategories);
     _sortModeSubject.add(sortMode);
