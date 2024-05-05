@@ -88,11 +88,10 @@ class LibraryStateService {
     final alwaysCollapseCategories = _prefs.getBool(PreferenceKeys.libraryAlwaysCollapseCategories) ?? false;
     final sortModeName = _prefs.getString(PreferenceKeys.libraryGroupMode);
     final sortMode = sortModeName != null ? SortMode.values.byName(sortModeName) : SortMode.name;
-
     final sortRuleId = _prefs.getInt(PreferenceKeys.librarySortRuleId);
-
     final collapsedStateString = _prefs.getString(PreferenceKeys.libraryCollapsedStates) ?? "";
 
+    _collapsedState = {};
     if (collapsedStateString.isNotEmpty) {
       final decodedMap = jsonDecode(collapsedStateString);
       _collapsedState = decodedMap.cast<String, bool>();
