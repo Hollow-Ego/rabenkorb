@@ -15,13 +15,14 @@ class MainPage extends StatelessWidget with WatchItMixin {
   Widget build(BuildContext context) {
     final details = watchStream((NavigationStateService p0) => p0.mainPageDetails);
 
+    final pageIndex = details.data?.pageIndex ?? 0;
     final body = details.data?.body;
     final mainAction = details.data?.mainAction;
     final appBar = details.data?.appBar;
 
     return CoreScaffold(
       body: body,
-      bottomNavigationBar: const CoreNavigation(),
+      bottomNavigationBar: CoreNavigation(pageIndex: pageIndex),
       floatingActionButton: toFloatingActionButton(context, mainAction),
       drawer: const CoreDrawer(),
       appBar: appBar,

@@ -32,6 +32,7 @@ class NavigationStateService implements Disposable {
     _mainPageDetailsSub = _currentPageIndex.distinct().listen((index) {
       final destination = _destinations[index];
       _mainPageDetails.add(MainPageDetails(
+        pageIndex: index,
         body: destination.body,
         mainAction: destination.mainAction,
         appBar: destination.appBar,
