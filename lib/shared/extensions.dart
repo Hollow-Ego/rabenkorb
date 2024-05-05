@@ -3,3 +3,9 @@ extension StringTransformation on String {
     return toLowerCase().replaceAll(' ', '-');
   }
 }
+
+extension NullableStrings on String? {
+  bool isValid() {
+    return this != null && this!.isNotEmpty;
+  }
+}
