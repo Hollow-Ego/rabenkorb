@@ -18,7 +18,7 @@ class NavigationStateService implements Disposable {
 
   Stream<MainPageDetails?> get mainPageDetails => _mainPageDetails.stream;
 
-  setCurrentPageIndex(int index) {
+  void setCurrentPageIndex(int index) {
     _currentPageIndex.add(index);
   }
 

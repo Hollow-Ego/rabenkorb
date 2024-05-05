@@ -5,6 +5,8 @@ import 'package:rabenkorb/features/core/debug/debug_page.dart';
 import 'package:rabenkorb/features/core/main_page.dart';
 import 'package:rabenkorb/features/settings/settings_page.dart';
 import 'package:rabenkorb/routing/routes.dart';
+import 'package:rabenkorb/services/state/navigation_state_service.dart';
+import 'package:watch_it/watch_it.dart';
 
 // GoRouter configuration
 RouterConfig<Object> goRouterConfig({String initialLocation = Routes.home}) => GoRouter(
@@ -16,10 +18,9 @@ RouterConfig<Object> goRouterConfig({String initialLocation = Routes.home}) => G
         ),
         GoRoute(
           path: Routes.library,
-          builder: (context, state) {
-            return MainPage(
-              initialPageIndex: 1,
-            );
+          redirect: (context, state) {
+            di<NavigationStateService>().setCurrentPageIndex(1);
+            return Routes.home;
           },
         ),
         GoRoute(
