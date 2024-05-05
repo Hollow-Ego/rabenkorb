@@ -30,6 +30,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Cancel": MessageLookupByLibrary.simpleMessage("Abbrechen"),
         "Confirm": MessageLookupByLibrary.simpleMessage("Bestätigen"),
         "Debug": MessageLookupByLibrary.simpleMessage("Debug"),
+        "Delete": MessageLookupByLibrary.simpleMessage("Löschen"),
+        "Edit": MessageLookupByLibrary.simpleMessage("Bearbeiten"),
         "EmptyMessage": MessageLookupByLibrary.simpleMessage("Nichts zu sehen"),
         "Home": MessageLookupByLibrary.simpleMessage("Home"),
         "Item": MessageLookupByLibrary.simpleMessage("Artikel"),
