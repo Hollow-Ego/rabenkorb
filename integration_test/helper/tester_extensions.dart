@@ -33,6 +33,10 @@ extension TesterExtensions on WidgetTester {
     await tapOn(find.text(text));
   }
 
+  Future<void> tapOnIcon(IconData icon) async {
+    await tapOn(find.byIcon(icon));
+  }
+
   Future<void> goToHome() async {
     await goToViaDrawer(Icons.home);
   }
