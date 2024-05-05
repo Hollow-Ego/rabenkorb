@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rabenkorb/features/core/display/list/core_grouped_list.dart';
+import 'package:rabenkorb/features/library/item_template_tile.dart';
 import 'package:rabenkorb/models/grouped_items.dart';
 import 'package:rabenkorb/models/item_category_view_model.dart';
 import 'package:rabenkorb/models/item_template_view_model.dart';
@@ -18,12 +19,7 @@ class LibraryView extends StatelessWidget with WatchItMixin {
     return CoreGroupedList<ItemTemplateViewModel>(
       source: templates.hasData ? templates.data! : [],
       itemContentBuilder: (BuildContext context, ItemTemplateViewModel item) {
-        return Card(
-          key: Key(item.key),
-          child: ListTile(
-            title: Text(item.name),
-          ),
-        );
+        return ItemTemplateTile(item);
       },
       onExpansionChange: (bool isExpanded, ItemCategoryViewModel header, String headerKey) async {
         if (alwaysCollapseCategories) {
