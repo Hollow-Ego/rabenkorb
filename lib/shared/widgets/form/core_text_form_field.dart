@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rabenkorb/shared/extensions.dart';
 
 class CoreTextFormField extends StatelessWidget {
   final String labelText;
@@ -7,6 +8,7 @@ class CoreTextFormField extends StatelessWidget {
   final TextInputAction? textInputAction;
   final String? Function(String?)? validator;
   final String? initialValue;
+  final String? formFieldKey;
   final Function(String)? onChanged;
 
   const CoreTextFormField({
@@ -18,11 +20,13 @@ class CoreTextFormField extends StatelessWidget {
     this.validator,
     this.initialValue,
     this.onChanged,
+    this.formFieldKey,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      key: formFieldKey.isValid() ? Key(formFieldKey!) : null,
       decoration: InputDecoration(
         labelText: labelText,
         icon: icon,

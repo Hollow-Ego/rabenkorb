@@ -17,6 +17,7 @@ class LibraryView extends StatelessWidget with WatchItMixin {
     final alwaysCollapseCategoriesData = watchStream((LibraryStateService p0) => p0.alwaysCollapseCategories, initialValue: false);
     final alwaysCollapseCategories = alwaysCollapseCategoriesData.hasData && alwaysCollapseCategoriesData.data!;
     return CoreGroupedList<ItemTemplateViewModel>(
+      listKey: 'library-item-template-list',
       source: templates.hasData ? templates.data! : [],
       itemContentBuilder: (BuildContext context, ItemTemplateViewModel item) {
         return ItemTemplateTile(item);

@@ -7,8 +7,22 @@ import 'package:rabenkorb/routing/routes.dart';
 import 'package:rabenkorb/services/state/library_state_service.dart';
 import 'package:watch_it/watch_it.dart';
 
+import '../../helper/finder_extensions.dart';
 import '../../helper/test_helper.dart';
 import '../../helper/tester_extensions.dart';
+
+const testTimeout = Timeout(Duration(minutes: 1));
+
+const rumItem = Key('rum-2');
+const alcoholHeader = Key('alcohol-1-header');
+const bakingIngredientsHeader = Key('baking-ingredients-6-header');
+const bakingSodaItem = Key('baking-soda-12');
+const flourItem = Key('flour-5');
+const coffeeItem = Key('coffee-1');
+const beansItem = Key('beans-4');
+const peasItem = Key('peas-15');
+const appleItem = Key('apple-6');
+const itemTemplateList = Key("library-item-template-list");
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -24,62 +38,86 @@ void main() {
     testWidgets('should show item templates in a grouped list', (tester) async {
       await start(tester, routerConfig);
 
-      expect(find.byKey(const Key('alcohol-1-header')), findsOneWidget);
-      expect(find.byKey(const Key('rum-2')), findsOneWidget);
-      expect(find.byKey(const Key('baking-ingredients-6-header')), findsOneWidget);
-      expect(find.byKey(const Key('baking-soda-12')), findsOneWidget);
-      expect(find.byKey(const Key('flour-5')), findsOneWidget);
-    }, timeout: const Timeout(Duration(minutes: 1)));
+      expect(find.byKey(alcoholHeader), findsOneWidget);
+      expect(find.byKey(rumItem), findsOneWidget);
+      expect(find.byKey(bakingIngredientsHeader), findsOneWidget);
+      expect(find.byKey(bakingSodaItem), findsOneWidget);
+      expect(find.byKey(flourItem), findsOneWidget);
+    }, timeout: testTimeout);
 
     testWidgets('should toggle collapse state and remember the state', (tester) async {
       await start(tester, routerConfig);
 
-      final alcoholHeader = find.byKey(const Key('alcohol-1-header'));
-      expect(find.byKey(const Key('rum-2')).hitTestable(), findsOneWidget);
+      final alcoholHeaderWidget = find.byKey(alcoholHeader);
+      expect(find.byKey(rumItem).hitTestable(), findsOneWidget);
 
       // Collapse
-      await tester.tap(alcoholHeader);
+      await tester.tap(alcoholHeaderWidget);
       await tester.wait();
 
-      expect(find.byKey(const Key('rum-2')).hitTestable(), findsNothing);
+      expect(find.byKey(rumItem).hitTestable(), findsNothing);
 
       // Open
-      await tester.tap(alcoholHeader);
+      await tester.tap(alcoholHeaderWidget);
       await tester.wait();
 
-      expect(find.byKey(const Key('rum-2')).hitTestable(), findsOneWidget);
+      expect(find.byKey(rumItem).hitTestable(), findsOneWidget);
 
       // Collapse
-      await tester.tap(alcoholHeader);
+      await tester.tap(alcoholHeaderWidget);
       await tester.wait();
 
-      expect(find.byKey(const Key('rum-2')).hitTestable(), findsNothing);
+      expect(find.byKey(rumItem).hitTestable(), findsNothing);
 
       await tester.goToViaDrawer(Icons.settings);
       await tester.goToHome();
       await tester.tapOnKey('library-destination');
-      expect(find.byKey(const Key('rum-2')).hitTestable(), findsNothing);
-    }, timeout: const Timeout(Duration(minutes: 1)));
+      expect(find.byKey(rumItem).hitTestable(), findsNothing);
+    }, timeout: testTimeout);
 
     testWidgets('should start with all headers collapsed if this is configured', (tester) async {
       di<LibraryStateService>().setAlwaysCollapseCategories(true);
       await start(tester, routerConfig);
 
-      expect(find.byKey(const Key('rum-2')).hitTestable(), findsNothing);
-      expect(find.byKey(const Key('baking-soda-12')).hitTestable(), findsNothing);
-      expect(find.byKey(const Key('coffee-1')).hitTestable(), findsNothing);
-      expect(find.byKey(const Key('beans-4')).hitTestable(), findsNothing);
-      expect(find.byKey(const Key('peas-15')).hitTestable(), findsNothing);
-      expect(find.byKey(const Key('apple-6')).hitTestable(), findsNothing);
-    }, timeout: const Timeout(Duration(minutes: 1)));
+      expect(find.byKey(rumItem).hitTestable(), findsNothing);
+      expect(find.byKey(bakingSodaItem).hitTestable(), findsNothing);
+      expect(find.byKey(coffeeItem).hitTestable(), findsNothing);
+      expect(find.byKey(beansItem).hitTestable(), findsNothing);
+      expect(find.byKey(peasItem).hitTestable(), findsNothing);
+      expect(find.byKey(appleItem).hitTestable(), findsNothing);
+    }, timeout: testTimeout);
 
     testWidgets('should delete item template', (tester) async {
       await start(tester, routerConfig);
       await tester.tapOnKey('rum-2-popup-menu');
       await tester.tapOnKey('rum-2-popup-menu-delete');
 
-      expect(find.byKey(const Key('rum-2')).hitTestable(), findsNothing);
-    }, timeout: const Timeout(Duration(minutes: 1)));
+      expect(find.byKey(rumItem).hitTestable(), findsNothing);
+    }, timeout: testTimeout);
+
+    testWidgets('should filter items based on search', (tester) async {
+      await start(tester, routerConfig);
+
+      await tester.enterInto("library-search-field", "Soda");
+
+      expect(find.byKeyOffstage(rumItem), findsNothing);
+      expect(find.byKeyOffstage(bakingSodaItem), findsOneWidget);
+      expect(find.byKeyOffstage(coffeeItem), findsNothing);
+      expect(find.byKeyOffstage(beansItem), findsNothing);
+      expect(find.byKeyOffstage(peasItem), findsNothing);
+      expect(find.byKeyOffstage(appleItem), findsNothing);
+
+      await tester.tapOnKey("library-search-clear");
+
+      expect(find.byKeyOffstage(rumItem), findsOneWidget);
+      expect(find.byKeyOffstage(bakingSodaItem), findsOneWidget);
+      expect(find.byKeyOffstage(beansItem), findsOneWidget);
+      expect(find.byKeyOffstage(peasItem), findsOneWidget);
+
+      await tester.scrollUntilVisible(find.byKey(appleItem), 100, scrollable: find.getScrollableDescendant(find.byKey(itemTemplateList)));
+      expect(find.byKeyOffstage(coffeeItem), findsOneWidget);
+      expect(find.byKeyOffstage(appleItem), findsOneWidget);
+    }, timeout: testTimeout);
   });
 
   tearDown(() async {

@@ -37,6 +37,12 @@ extension TesterExtensions on WidgetTester {
     await tapOn(find.byIcon(icon));
   }
 
+  Future<void> enterInto(String key, String text) async {
+    await enterText(find.byKey(Key(key)), text);
+    await wait();
+    await testTextInput.receiveAction(TextInputAction.done);
+  }
+
   Future<void> goToHome() async {
     await goToViaDrawer(Icons.home);
   }
