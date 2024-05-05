@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:rabenkorb/features/core/structural/navigation/destination_details.dart';
-import 'package:rabenkorb/features/core/structural/navigation/destinations.dart';
+import 'package:rabenkorb/features/main/navigation/destination_details.dart';
+import 'package:rabenkorb/features/main/navigation/destinations.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:watch_it/watch_it.dart';
 
