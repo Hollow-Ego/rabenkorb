@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rabenkorb/features/core/structural/core_scaffold.dart';
 import 'package:rabenkorb/features/core/structural/drawer/core_drawer.dart';
-import 'package:rabenkorb/features/core/structural/navigation/core_navigation.dart';
-import 'package:rabenkorb/features/core/structural/navigation/destination_details.dart';
+import 'package:rabenkorb/features/main/navigation/core_navigation.dart';
+import 'package:rabenkorb/features/main/navigation/destination_details.dart';
 import 'package:rabenkorb/services/state/navigation_state_service.dart';
 import 'package:watch_it/watch_it.dart';
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rabenkorb/features/core/structural/navigation/destination_details.dart';
+import 'package:rabenkorb/features/main/navigation/destination_details.dart';
 
 class MainPageDetails {
   final int pageIndex;
