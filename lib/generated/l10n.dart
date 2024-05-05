@@ -287,6 +287,40 @@ class S {
     );
   }
 
+  /// `{direction, select, asc{Ascending} desc{Descending}}`
+  String SortDirection(String direction) {
+    return Intl.select(
+      direction,
+      {
+        'asc': 'Ascending',
+        'desc': 'Descending',
+      },
+      name: 'SortDirection',
+      desc: 'The human readable sort direction',
+      args: [direction],
+    );
+  }
+
+  /// `Name`
+  String get SortByName {
+    return Intl.message(
+      'Name',
+      name: 'SortByName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Creation`
+  String get SortByDatabaseOrder {
+    return Intl.message(
+      'Creation',
+      name: 'SortByDatabaseOrder',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Edit`
   String get Edit {
     return Intl.message(

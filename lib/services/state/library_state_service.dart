@@ -21,7 +21,11 @@ class LibraryStateService {
 
   Stream<int?> get sortRuleId => _sortRuleIdSubject.stream;
 
+  int? get sortRuleIdSync => _sortRuleIdSubject.value;
+
   Stream<SortMode> get sortMode => _sortModeSubject.stream;
+
+  SortMode get sortModeSync => _sortModeSubject.value;
 
   Stream<bool> get alwaysCollapseCategories => _alwaysCollapseCategories.stream;
 

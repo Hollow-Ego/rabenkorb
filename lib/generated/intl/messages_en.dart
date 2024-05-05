@@ -20,6 +20,11 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
+  static String m0(direction) => "${Intl.select(direction, {
+            'asc': 'Ascending',
+            'desc': 'Descending',
+          })}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "AlwaysCollapseCategories": MessageLookupByLibrary.simpleMessage("Always Collapse Headers"),
@@ -49,6 +54,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "SettingsBasket": MessageLookupByLibrary.simpleMessage("Basket Settings"),
         "SettingsGeneral": MessageLookupByLibrary.simpleMessage("General Settings"),
         "SettingsLibrary": MessageLookupByLibrary.simpleMessage("Library Settings"),
+        "SortByDatabaseOrder": MessageLookupByLibrary.simpleMessage("Creation"),
+        "SortByName": MessageLookupByLibrary.simpleMessage("Name"),
+        "SortDirection": m0,
         "Template": MessageLookupByLibrary.simpleMessage("Template"),
         "Unnamed": MessageLookupByLibrary.simpleMessage("Unnamed")
       };
