@@ -60,19 +60,27 @@ void main() {
       await tester.tapOnKey('library-destination');
       expect(find.byKey(const Key('rum-2')).hitTestable(), findsNothing);
     }, timeout: const Timeout(Duration(minutes: 1)));
+
+    testWidgets('should start with all headers collapsed if this is configured', (tester) async {
+      di<LibraryStateService>().setAlwaysCollapseCategories(true);
+      await start(tester, routerConfig);
+
+      expect(find.byKey(const Key('rum-2')).hitTestable(), findsNothing);
+      expect(find.byKey(const Key('baking-soda-12')).hitTestable(), findsNothing);
+      expect(find.byKey(const Key('coffee-1')).hitTestable(), findsNothing);
+      expect(find.byKey(const Key('beans-4')).hitTestable(), findsNothing);
+      expect(find.byKey(const Key('peas-15')).hitTestable(), findsNothing);
+      expect(find.byKey(const Key('apple-6')).hitTestable(), findsNothing);
+    }, timeout: const Timeout(Duration(minutes: 1)));
+
+    testWidgets('should delete item template', (tester) async {
+      await start(tester, routerConfig);
+      await tester.tapOnKey('rum-2-popup-menu');
+      await tester.tapOnKey('rum-2-popup-menu-delete');
+
+      expect(find.byKey(const Key('rum-2')).hitTestable(), findsNothing);
+    }, timeout: const Timeout(Duration(minutes: 1)));
   });
-
-  testWidgets('should start with all headers collapsed if this is configured', (tester) async {
-    di<LibraryStateService>().setAlwaysCollapseCategories(true);
-    await start(tester, routerConfig);
-
-    expect(find.byKey(const Key('rum-2')).hitTestable(), findsNothing);
-    expect(find.byKey(const Key('baking-soda-12')).hitTestable(), findsNothing);
-    expect(find.byKey(const Key('coffee-1')).hitTestable(), findsNothing);
-    expect(find.byKey(const Key('beans-4')).hitTestable(), findsNothing);
-    expect(find.byKey(const Key('peas-15')).hitTestable(), findsNothing);
-    expect(find.byKey(const Key('apple-6')).hitTestable(), findsNothing);
-  }, timeout: const Timeout(Duration(minutes: 1)));
 
   tearDown(() async {
     await resetAppState();
