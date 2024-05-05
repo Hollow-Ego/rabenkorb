@@ -3,9 +3,11 @@ import 'dart:io';
 import 'package:rabenkorb/abstracts/image_service.dart';
 import 'package:rabenkorb/models/grouped_items.dart';
 import 'package:rabenkorb/models/item_template_view_model.dart';
+import 'package:rabenkorb/models/sort_rule_view_model.dart';
 import 'package:rabenkorb/models/template_library_view_model.dart';
 import 'package:rabenkorb/services/business/metadata_service.dart';
 import 'package:rabenkorb/services/data_access/item_template_service.dart';
+import 'package:rabenkorb/services/data_access/sort_rule_service.dart';
 import 'package:rabenkorb/services/data_access/template_library_service.dart';
 import 'package:watch_it/watch_it.dart';
 
@@ -14,9 +16,12 @@ class LibraryService {
   final _templateLibraryService = di<TemplateLibraryService>();
   final _itemTemplateService = di<ItemTemplateService>();
   final _metadataService = di<MetadataService>();
+  final _sortRuleService = di<SortRuleService>();
   final _imageService = di<ImageService>();
 
   Stream<List<GroupedItems<ItemTemplateViewModel>>> get itemTemplates => _itemTemplateService.itemTemplates;
+
+  Stream<List<SortRuleViewModel>> get sortRules => _sortRuleService.sortRules;
 
   Future<int> createLibrary(String name) {
     return _templateLibraryService.createTemplateLibrary(name);

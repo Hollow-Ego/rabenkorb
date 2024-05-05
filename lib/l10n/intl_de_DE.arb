@@ -24,6 +24,17 @@
   "PermissionsRequired": "Berechtigungen erforderlich",
   "MessagePermissionRequired": "Um auf Ordner zum Speicher oder Laden von Sicherungen zugreifen zu können, benötigt diese App die Berechtigung auf alle Dateien und Ordner zuzugreifen. Diese wird niemals auf Dateien zugreifen, die nicht zu ihr gehören. \n\nWenn Sie auf \"Berechtigung setzen\" drücken werden Sie zur Berechtigungsverwaltung weitergeleitet. Setzen Sie dort die Berechtigung und kehren zur App zurück, indem Sie auf die Zurück-Taste Ihres Smartphones drücken.",
   "SearchLabel": "Suchen...",
+  "SortDirection": "{direction, select, asc{Aufsteigend} desc{Absteigend}}",
+  "@SortDirection": {
+    "description": "The human readable sort direction",
+    "placeholders": {
+      "direction": {
+        "type": "String"
+      }
+    }
+  },
+  "SortByName": "Name",
+  "SortByDatabaseOrder": "Erstellung",
   "Edit": "Bearbeiten",
   "Delete": "Löschen",
   "Confirm": "Bestätigen",
