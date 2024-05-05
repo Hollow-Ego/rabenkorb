@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:rabenkorb/features/core/inputs/core_primary_button.dart';
-import 'package:rabenkorb/features/core/inputs/core_secondary_button.dart';
 import 'package:rabenkorb/generated/l10n.dart';
 import 'package:rabenkorb/services/state/intl_state_service.dart';
+import 'package:rabenkorb/shared/widgets/inputs/core_primary_button.dart';
+import 'package:rabenkorb/shared/widgets/inputs/core_secondary_button.dart';
 import 'package:watch_it/watch_it.dart';
 
 class LanguageDebug extends StatelessWidget with WatchItMixin {

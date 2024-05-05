@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:rabenkorb/database/database.dart';
-import 'package:rabenkorb/features/core/debug/debug_database_helper.dart';
-import 'package:rabenkorb/features/core/inputs/core_primary_button.dart';
+import 'package:rabenkorb/features/debug/debug_database_helper.dart';
 import 'package:rabenkorb/services/core/snackbar_service.dart';
 import 'package:rabenkorb/shared/helper_functions.dart';
+import 'package:rabenkorb/shared/widgets/inputs/core_primary_button.dart';
 import 'package:watch_it/watch_it.dart';
 
 class DebugDatabase extends StatelessWidget {

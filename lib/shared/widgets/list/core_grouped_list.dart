@@ -2,11 +2,11 @@ import 'package:drag_and_drop_lists/drag_and_drop_list_interface.dart';
 import 'package:drag_and_drop_lists/drag_and_drop_lists.dart';
 import 'package:flutter/material.dart';
 import 'package:rabenkorb/abstracts/data_item.dart';
-import 'package:rabenkorb/features/core/display/list/core_list_ghost.dart';
-import 'package:rabenkorb/features/core/display/list/core_list_header.dart';
-import 'package:rabenkorb/features/core/display/list/core_placeholder.dart';
 import 'package:rabenkorb/models/grouped_items.dart';
 import 'package:rabenkorb/models/item_category_view_model.dart';
+import 'package:rabenkorb/shared/widgets/list/core_list_ghost.dart';
+import 'package:rabenkorb/shared/widgets/list/core_list_header.dart';
+import 'package:rabenkorb/shared/widgets/list/core_placeholder.dart';
 
 class CoreGroupedList<T extends DataItem> extends StatelessWidget {
   final void Function(int, int, int, int)? onItemReorder;

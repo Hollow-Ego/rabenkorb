@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:rabenkorb/features/core/inputs/core_primary_button.dart';
-import 'package:rabenkorb/features/core/inputs/core_secondary_button.dart';
 import 'package:rabenkorb/generated/l10n.dart';
 import 'package:rabenkorb/shared/state_types.dart';
+import 'package:rabenkorb/shared/widgets/inputs/core_primary_button.dart';
+import 'package:rabenkorb/shared/widgets/inputs/core_secondary_button.dart';
 
 class DialogService {
   Future<dynamic> showSuccess({required BuildContext context, required String text, String? title}) {

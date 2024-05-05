@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:rabenkorb/abstracts/preference_service.dart';
 import 'package:rabenkorb/database/database.dart';
 import 'package:rabenkorb/di/di_setup.dart';
-import 'package:rabenkorb/features/core/debug/debug_database_helper.dart';
+import 'package:rabenkorb/features/debug/debug_database_helper.dart';
 import 'package:rabenkorb/services/state/basket_state_service.dart';
 import 'package:rabenkorb/services/state/intl_state_service.dart';
 import 'package:rabenkorb/services/state/library_state_service.dart';
