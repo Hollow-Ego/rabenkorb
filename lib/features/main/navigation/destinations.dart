@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rabenkorb/features/library/library_main_action.dart';
+import 'package:rabenkorb/features/library/library_search.dart';
 import 'package:rabenkorb/features/library/library_view.dart';
 import 'package:rabenkorb/features/main/navigation/destination_details.dart';
 import 'package:rabenkorb/generated/l10n.dart';
@@ -25,6 +26,8 @@ final List<DestinationDetails> mainDestinations = [
     body: const LibraryView(),
     index: 1,
     mainAction: libraryMainAction,
-    appBar: AppBar(),
+    appBar: AppBar(
+      title: LibrarySearch(),
+    ),
   )
 ];
