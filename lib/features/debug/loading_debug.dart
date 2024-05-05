@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:rabenkorb/features/core/inputs/core_secondary_button.dart';
 import 'package:rabenkorb/shared/helper_functions.dart';
+import 'package:rabenkorb/shared/widgets/inputs/core_secondary_button.dart';
 
 class LoadingDebug extends StatefulWidget {
   const LoadingDebug({super.key});

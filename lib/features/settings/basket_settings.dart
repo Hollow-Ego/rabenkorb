@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:rabenkorb/features/core/inputs/core_checkbox.dart';
 import 'package:rabenkorb/generated/l10n.dart';
 import 'package:rabenkorb/services/state/basket_state_service.dart';
+import 'package:rabenkorb/shared/widgets/inputs/core_checkbox.dart';
 import 'package:watch_it/watch_it.dart';
 
 class BasketSettings extends StatelessWidget with WatchItMixin {

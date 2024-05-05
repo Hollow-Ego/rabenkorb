@@ -2,7 +2,7 @@ import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:rabenkorb/abstracts/preference_service.dart';
 import 'package:rabenkorb/database/database.dart';
-import 'package:rabenkorb/features/core/debug/debug_database_helper.dart';
+import 'package:rabenkorb/features/debug/debug_database_helper.dart';
 import 'package:rabenkorb/models/basket_item_view_model.dart';
 import 'package:rabenkorb/models/grouped_items.dart';
 import 'package:rabenkorb/models/item_category_view_model.dart';

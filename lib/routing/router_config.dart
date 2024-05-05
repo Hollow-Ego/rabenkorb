@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rabenkorb/features/backup/backup_page.dart';
-import 'package:rabenkorb/features/core/debug/debug_page.dart';
-import 'package:rabenkorb/features/core/main_page.dart';
+import 'package:rabenkorb/features/debug/debug_page.dart';
+import 'package:rabenkorb/features/main/main_page.dart';
 import 'package:rabenkorb/features/settings/settings_page.dart';
 import 'package:rabenkorb/routing/routes.dart';
 import 'package:rabenkorb/services/state/navigation_state_service.dart';

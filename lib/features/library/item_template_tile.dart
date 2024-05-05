@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:rabenkorb/features/core/display/core_icon.dart';
-import 'package:rabenkorb/features/core/display/item_image.dart';
-import 'package:rabenkorb/features/core/inputs/core_icon_button.dart';
 import 'package:rabenkorb/features/library/item_template_popup_menu.dart';
 import 'package:rabenkorb/models/item_template_view_model.dart';
 import 'package:rabenkorb/shared/extensions.dart';
+import 'package:rabenkorb/shared/widgets/display/core_icon.dart';
+import 'package:rabenkorb/shared/widgets/display/item_image.dart';
+import 'package:rabenkorb/shared/widgets/inputs/core_icon_button.dart';
 
 class ItemTemplateTile extends StatelessWidget {
   final ItemTemplateViewModel item;

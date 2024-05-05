@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:rabenkorb/features/core/debug/debug_database.dart';
-import 'package:rabenkorb/features/core/debug/dialog_debug.dart';
-import 'package:rabenkorb/features/core/debug/environment_debug.dart';
-import 'package:rabenkorb/features/core/debug/language_debug.dart';
-import 'package:rabenkorb/features/core/debug/loading_debug.dart';
-import 'package:rabenkorb/features/core/debug/logging_debug.dart';
-import 'package:rabenkorb/features/core/debug/messaging_debug.dart';
 import 'package:rabenkorb/features/core/structural/core_scaffold.dart';
 import 'package:rabenkorb/features/core/structural/drawer/core_drawer.dart';
+import 'package:rabenkorb/features/debug/debug_database.dart';
+import 'package:rabenkorb/features/debug/dialog_debug.dart';
+import 'package:rabenkorb/features/debug/environment_debug.dart';
+import 'package:rabenkorb/features/debug/language_debug.dart';
+import 'package:rabenkorb/features/debug/loading_debug.dart';
+import 'package:rabenkorb/features/debug/logging_debug.dart';
+import 'package:rabenkorb/features/debug/messaging_debug.dart';
 import 'package:rabenkorb/generated/l10n.dart';
 
 class DebugPage extends StatelessWidget {

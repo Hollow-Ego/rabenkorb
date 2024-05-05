@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rabenkorb/features/core/inputs/core_secondary_button.dart';
+import 'package:rabenkorb/shared/widgets/inputs/core_secondary_button.dart';
 
 class LoggingDebug extends StatelessWidget {
   const LoggingDebug({super.key});
