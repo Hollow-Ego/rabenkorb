@@ -17,6 +17,8 @@ class LibraryStateService {
 
   Stream<String> get search => _searchSubject.stream.debounceTime(const Duration(milliseconds: 300));
 
+  String get currentSearchSync => _searchSubject.value;
+
   Stream<int?> get sortRuleId => _sortRuleIdSubject.stream;
 
   Stream<SortMode> get sortMode => _sortModeSubject.stream;

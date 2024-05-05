@@ -277,6 +277,16 @@ class S {
     );
   }
 
+  /// `Search...`
+  String get SearchLabel {
+    return Intl.message(
+      'Search...',
+      name: 'SearchLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Edit`
   String get Edit {
     return Intl.message(
