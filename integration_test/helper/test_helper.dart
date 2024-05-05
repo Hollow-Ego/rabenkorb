@@ -23,6 +23,7 @@ Future<void> resetAppState() async {
   await di<IntlStateService>().init();
   di<LibraryStateService>().init();
   di<BasketStateService>().init();
+  await setupDatabase();
 }
 
 Future<void> setupEverything() async {

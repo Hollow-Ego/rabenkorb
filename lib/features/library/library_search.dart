@@ -23,6 +23,7 @@ class _LibrarySearchState extends State<LibrarySearch> {
       children: [
         Expanded(
           child: CoreTextFormField(
+            formFieldKey: "library-search-field",
             labelText: S.of(context).SearchLabel,
             textEditingController: _queryController,
             textInputAction: TextInputAction.send,

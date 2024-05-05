@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:rabenkorb/abstracts/data_item.dart';
 import 'package:rabenkorb/models/grouped_items.dart';
 import 'package:rabenkorb/models/item_category_view_model.dart';
+import 'package:rabenkorb/shared/extensions.dart';
 import 'package:rabenkorb/shared/widgets/list/core_list_ghost.dart';
 import 'package:rabenkorb/shared/widgets/list/core_list_header.dart';
 import 'package:rabenkorb/shared/widgets/list/core_placeholder.dart';
@@ -18,6 +19,7 @@ class CoreGroupedList<T extends DataItem> extends StatelessWidget {
 
   final List<GroupedItems<T>> source;
   final Widget Function(BuildContext, T) itemContentBuilder;
+  final String? listKey;
 
   const CoreGroupedList({
     super.key,
@@ -29,6 +31,7 @@ class CoreGroupedList<T extends DataItem> extends StatelessWidget {
     this.canDragList = false,
     this.canDragItem = false,
     this.onExpansionChange,
+    this.listKey,
   });
 
   Widget _buildHeader(String header, String subKey) {
@@ -82,6 +85,7 @@ class CoreGroupedList<T extends DataItem> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DragAndDropLists(
+      key: listKey.isValid() ? Key(listKey!) : null,
       children: _createChildren(context),
       onItemReorder: onItemReorder ?? (int oldItemIndex, int oldListIndex, int newItemIndex, int newListIndex) {},
       onListReorder: _onListReorder,
