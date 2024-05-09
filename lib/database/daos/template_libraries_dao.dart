@@ -27,6 +27,11 @@ class TemplateLibrariesDao extends DatabaseAccessor<AppDatabase> with _$Template
     return toTemplateLibraryViewModel(library);
   }
 
+  Future<int?> getFirstTemplateLibraryId() async {
+    final query = selectOnly(templateLibraries)..addColumns([templateLibraries.id]);
+    return query.map((row) => row.read(templateLibraries.id)).getSingle();
+  }
+
   Future<int> deleteTemplateLibraryWithId(int id) {
     return (delete(templateLibraries)..where((li) => li.id.equals(id))).go();
   }

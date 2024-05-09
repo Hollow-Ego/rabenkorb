@@ -1,4 +1,5 @@
 abstract class PreferenceKeys {
+  static const libraryId = "library:id";
   static const librarySortMode = "library:sort-mode";
   static const librarySortDirection = "library:sort-direction";
   static const librarySortRuleId = "library:sort-rule-id";

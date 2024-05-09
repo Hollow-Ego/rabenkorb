@@ -321,11 +321,161 @@ class S {
     );
   }
 
+  /// `Name`
+  String get Name {
+    return Intl.message(
+      'Name',
+      name: 'Name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Category`
+  String get Category {
+    return Intl.message(
+      'Category',
+      name: 'Category',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Variant`
+  String get Variant {
+    return Intl.message(
+      'Variant',
+      name: 'Variant',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Image`
+  String get Image {
+    return Intl.message(
+      'Image',
+      name: 'Image',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New Item`
+  String get NewItem {
+    return Intl.message(
+      'New Item',
+      name: 'NewItem',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No results`
+  String get NoSearchResult {
+    return Intl.message(
+      'No results',
+      name: 'NoSearchResult',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name must not be empty`
+  String get NameMustNotBeEmpty {
+    return Intl.message(
+      'Name must not be empty',
+      name: 'NameMustNotBeEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose the source`
+  String get ChooseSource {
+    return Intl.message(
+      'Choose the source',
+      name: 'ChooseSource',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Take Picture`
+  String get TakePicture {
+    return Intl.message(
+      'Take Picture',
+      name: 'TakePicture',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `From Gallery`
+  String get FromGallery {
+    return Intl.message(
+      'From Gallery',
+      name: 'FromGallery',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Clear image`
+  String get ClearImage {
+    return Intl.message(
+      'Clear image',
+      name: 'ClearImage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pick an image`
+  String get PickImage {
+    return Intl.message(
+      'Pick an image',
+      name: 'PickImage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New`
+  String get New {
+    return Intl.message(
+      'New',
+      name: 'New',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add`
+  String get Add {
+    return Intl.message(
+      'Add',
+      name: 'Add',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Edit`
   String get Edit {
     return Intl.message(
       'Edit',
       name: 'Edit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save`
+  String get Save {
+    return Intl.message(
+      'Save',
+      name: 'Save',
       desc: '',
       args: [],
     );
