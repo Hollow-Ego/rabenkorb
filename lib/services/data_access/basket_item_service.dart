@@ -5,6 +5,7 @@ import 'package:rabenkorb/models/basket_item_view_model.dart';
 import 'package:rabenkorb/models/grouped_items.dart';
 import 'package:rabenkorb/services/state/basket_state_service.dart';
 import 'package:rabenkorb/shared/filter_details.dart';
+import 'package:rabenkorb/shared/sort_direction.dart';
 import 'package:rabenkorb/shared/sort_mode.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:watch_it/watch_it.dart';
@@ -21,17 +22,19 @@ class BasketItemService implements Disposable {
   Stream<List<GroupedItems<BasketItemViewModel>>> get basketItems => _basketItems.stream;
 
   BasketItemService() {
-    _basketItemsSub = Rx.combineLatest4(
+    _basketItemsSub = Rx.combineLatest5(
       _basketStateService.sortMode,
+      _basketStateService.sortDirection,
       _basketStateService.sortRuleId,
       _basketStateService.search,
       _basketStateService.basketId,
-      (SortMode sortMode, int? sortRuleId, String searchTerm, int? basketId) =>
-          BasketItemFilterDetails(sortMode: sortMode, searchTerm: searchTerm, sortRuleId: sortRuleId, basketId: basketId),
+      (SortMode sortMode, SortDirection sortDirection, int? sortRuleId, String searchTerm, int? basketId) =>
+          BasketItemFilterDetails(sortMode: sortMode, sortDirection: sortDirection, searchTerm: searchTerm, sortRuleId: sortRuleId, basketId: basketId),
     ).switchMap((BasketItemFilterDetails details) {
       return _watchBasketItemsInOrder(
         basketId: details.basketId,
         sortMode: details.sortMode,
+        sortDirection: details.sortDirection,
         sortRuleId: details.sortRuleId,
         searchTerm: details.searchTerm,
       );
@@ -129,10 +132,12 @@ class BasketItemService implements Disposable {
   Stream<List<GroupedItems<BasketItemViewModel>>> _watchBasketItemsInOrder({
     required int? basketId,
     required SortMode sortMode,
+    required SortDirection sortDirection,
     int? sortRuleId,
     String? searchTerm,
   }) {
-    return _db.basketItemsDao.watchBasketItemsInOrder(basketId: basketId, sortMode: sortMode, sortRuleId: sortRuleId, searchTerm: searchTerm);
+    return _db.basketItemsDao
+        .watchBasketItemsInOrder(basketId: basketId, sortMode: sortMode, sortDirection: sortDirection, sortRuleId: sortRuleId, searchTerm: searchTerm);
   }
 
   @override

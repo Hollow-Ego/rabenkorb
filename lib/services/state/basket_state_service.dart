@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:rabenkorb/abstracts/preference_service.dart';
 import 'package:rabenkorb/shared/preference_keys.dart';
+import 'package:rabenkorb/shared/sort_direction.dart';
 import 'package:rabenkorb/shared/sort_mode.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:watch_it/watch_it.dart';
@@ -12,6 +13,7 @@ class BasketStateService {
   final BehaviorSubject<String> _searchSubject = BehaviorSubject<String>.seeded("");
   final BehaviorSubject<int?> _sortRuleIdSubject = BehaviorSubject<int?>.seeded(null);
   final BehaviorSubject<SortMode> _sortModeSubject = BehaviorSubject<SortMode>.seeded(SortMode.name);
+  final BehaviorSubject<SortDirection> _sortDirectionSubject = BehaviorSubject<SortDirection>.seeded(SortDirection.asc);
   final BehaviorSubject<int?> _basketIdSubject = BehaviorSubject<int>();
   final BehaviorSubject<bool> _alwaysCollapseCategories = BehaviorSubject<bool>.seeded(false);
 
@@ -20,6 +22,8 @@ class BasketStateService {
   Stream<int?> get sortRuleId => _sortRuleIdSubject.stream;
 
   Stream<SortMode> get sortMode => _sortModeSubject.stream;
+
+  Stream<SortDirection> get sortDirection => _sortDirectionSubject.stream;
 
   Stream<int?> get basketId => _basketIdSubject.stream;
 
@@ -64,6 +68,11 @@ class BasketStateService {
     _sortRuleIdSubject.add(sortRuleId);
   }
 
+  Future<void> setSortDirection(SortDirection sortDirection) async {
+    await _prefs.setString(PreferenceKeys.basketSortDirection, sortDirection.name);
+    _sortDirectionSubject.add(sortDirection);
+  }
+
   Future<void> setBasketId(int? basketId) async {
     if (basketId == null) {
       await _prefs.remove(PreferenceKeys.basketId);
@@ -105,11 +114,15 @@ class BasketStateService {
     final sortRuleId = _prefs.getInt(PreferenceKeys.basketSortRuleId);
     final basketId = _prefs.getInt(PreferenceKeys.basketId) ?? -1;
 
+    final sortDirectionName = _prefs.getString(PreferenceKeys.librarySortDirection);
+    final sortDirection = sortDirectionName != null ? SortDirection.values.byName(sortDirectionName) : SortDirection.asc;
+
     final collapsedStateString = _prefs.getString(PreferenceKeys.basketCollapsedStates) ?? "";
     _collapsedState = collapsedStateString.isNotEmpty ? jsonDecode(collapsedStateString) : {};
 
     _alwaysCollapseCategories.add(alwaysCollapseCategories);
     _sortModeSubject.add(sortMode);
+    _sortDirectionSubject.add(sortDirection);
     _sortRuleIdSubject.add(sortRuleId);
     _basketIdSubject.add(basketId);
   }

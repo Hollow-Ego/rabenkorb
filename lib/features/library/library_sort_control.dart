@@ -20,6 +20,7 @@ class LibrarySortControl extends StatelessWidget with WatchItMixin {
     final AsyncSnapshot<List<SortRuleViewModel>> availableSortRules = watchStream((LibraryService p0) => p0.sortRules, initialValue: []);
     final sortOrder = watchStream((LibraryStateService p0) => p0.sortRuleId, initialValue: libraryStateService.sortRuleIdSync);
     final sortMode = watchStream((LibraryStateService p0) => p0.sortMode, initialValue: libraryStateService.sortModeSync);
+    final sortDirection = watchStream((LibraryStateService p0) => p0.sortDirection, initialValue: libraryStateService.sortDirectionSync);
     final selectedItem = sortOrder.data ?? (sortMode.data == SortMode.databaseOrder ? sortByDatabasePseudoId : sortByNamePseudoId);
     sortRules.addAll(availableSortRules.data ?? []);
 
@@ -36,8 +37,10 @@ class LibrarySortControl extends StatelessWidget with WatchItMixin {
         ),
         CoreIconTextButton(
           icon: const Icon(Icons.sort),
-          label: Text(S.of(context).SortDirection("asc")),
-          onPressed: () {},
+          label: Text(S.of(context).SortDirection(sortDirection.data?.name ?? "")),
+          onPressed: () async {
+            await libraryStateService.switchSortDirection();
+          },
         ),
       ],
     );
