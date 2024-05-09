@@ -11,11 +11,14 @@ import '../../shared/sort_mode.dart';
 class LibraryStateService {
   final _prefs = di<PreferenceService>();
 
+  final BehaviorSubject<int?> _libraryIdSubject = BehaviorSubject<int?>.seeded(null);
   final BehaviorSubject<String> _searchSubject = BehaviorSubject<String>.seeded("");
   final BehaviorSubject<int?> _sortRuleIdSubject = BehaviorSubject<int?>.seeded(null);
   final BehaviorSubject<SortMode> _sortModeSubject = BehaviorSubject<SortMode>.seeded(SortMode.name);
   final BehaviorSubject<SortDirection> _sortDirectionSubject = BehaviorSubject<SortDirection>.seeded(SortDirection.asc);
   final BehaviorSubject<bool> _alwaysCollapseCategories = BehaviorSubject<bool>.seeded(false);
+
+  int? get libraryIdSync => _libraryIdSubject.value;
 
   Stream<String> get search => _searchSubject.stream.debounceTime(const Duration(milliseconds: 300));
 
@@ -52,6 +55,15 @@ class LibraryStateService {
     service.setSortRuleId(sortRuleId);
 
     return service;
+  }
+
+  Future<void> setLibraryId(int? libraryId) async {
+    if (libraryId == null) {
+      await _prefs.remove(PreferenceKeys.libraryId);
+    } else {
+      await _prefs.setInt(PreferenceKeys.libraryId, libraryId);
+    }
+    _libraryIdSubject.add(libraryId);
   }
 
   Future<void> setSortMode(SortMode? sortMode) async {
@@ -104,6 +116,7 @@ class LibraryStateService {
   void init() {
     final alwaysCollapseCategories = _prefs.getBool(PreferenceKeys.libraryAlwaysCollapseCategories) ?? false;
 
+    final libraryId = _prefs.getInt(PreferenceKeys.libraryId);
     final sortModeName = _prefs.getString(PreferenceKeys.librarySortMode);
     final sortMode = sortModeName != null ? SortMode.values.byName(sortModeName) : SortMode.name;
 
@@ -120,6 +133,7 @@ class LibraryStateService {
       _collapsedState = decodedMap.cast<String, bool>();
     }
 
+    _libraryIdSubject.add(libraryId);
     _alwaysCollapseCategories.add(alwaysCollapseCategories);
     _sortModeSubject.add(sortMode);
     _sortDirectionSubject.add(sortDirection);

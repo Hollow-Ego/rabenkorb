@@ -2,8 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rabenkorb/features/backup/backup_page.dart';
 import 'package:rabenkorb/features/debug/debug_page.dart';
+import 'package:rabenkorb/features/library/details/item_template_details.dart';
 import 'package:rabenkorb/features/main/main_page.dart';
 import 'package:rabenkorb/features/settings/settings_page.dart';
+import 'package:rabenkorb/models/item_template_view_model.dart';
 import 'package:rabenkorb/routing/routes.dart';
 import 'package:rabenkorb/services/state/navigation_state_service.dart';
 import 'package:watch_it/watch_it.dart';
@@ -15,6 +17,15 @@ RouterConfig<Object> goRouterConfig({String initialLocation = Routes.home}) => G
         GoRoute(
           path: Routes.home,
           builder: (context, state) => MainPage(),
+        ),
+        GoRoute(
+          path: Routes.libraryItemTemplateDetails,
+          builder: (context, state) {
+            final itemTemplate = state.extra as ItemTemplateViewModel?;
+            return ItemTemplateDetails(
+              itemTemplate: itemTemplate,
+            );
+          },
         ),
         GoRoute(
           path: Routes.library,

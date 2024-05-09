@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:rabenkorb/exceptions/missing_category.dart';
 import 'package:rabenkorb/exceptions/missing_unit.dart';
 import 'package:rabenkorb/exceptions/missing_variant.dart';
@@ -8,16 +10,28 @@ import 'package:rabenkorb/services/data_access/item_unit_service.dart';
 import 'package:rabenkorb/services/data_access/variant_key_service.dart';
 import 'package:rabenkorb/services/state/basket_state_service.dart';
 import 'package:rabenkorb/services/state/library_state_service.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:watch_it/watch_it.dart';
 
 import '../../database/database.dart';
 
-class MetadataService {
+class MetadataService implements Disposable {
   final _itemUnitService = di<ItemUnitService>();
   final _itemCategoryService = di<ItemCategoryService>();
   final _variantKeyService = di<VariantKeyService>();
   final _libraryStateService = di<LibraryStateService>();
   final _basketStateService = di<BasketStateService>();
+
+  late StreamSubscription _categoriesSub;
+  final _categories = BehaviorSubject<List<ItemCategoryViewModel>>.seeded([]);
+
+  Stream<List<ItemCategoryViewModel>> get categories => _categories.stream;
+
+  MetadataService() {
+    _categoriesSub = watchItemCategories().listen((categories) {
+      _categories.add(categories);
+    });
+  }
 
   Future<int> createItemUnit(String name) {
     return _itemUnitService.createItemUnit(name);
@@ -102,5 +116,10 @@ class MetadataService {
     final unit = await getItemUnitById(unitId);
 
     throwIf(unit == null, MissingUnitException(unitId));
+  }
+
+  @override
+  FutureOr onDispose() {
+    _categoriesSub.cancel();
   }
 }
