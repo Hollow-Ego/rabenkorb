@@ -1,5 +1,4 @@
 import 'package:rabenkorb/database/database.dart';
-import 'package:rabenkorb/database/tables/sort_rules.dart';
 import 'package:rabenkorb/mappers/to_view_model.dart';
 import 'package:rabenkorb/models/basket_item_view_model.dart';
 import 'package:rabenkorb/models/item_category_view_model.dart';
@@ -41,8 +40,8 @@ Map<String, VariantKey> testVariantKeys = {
 };
 
 Map<String, SortRule> testSortRules = {
-  "Aldi": const SortRule(id: 1, name: "Aldi", groupMode: GroupMode.category),
-  "Lidl": const SortRule(id: 2, name: "Lidl", groupMode: GroupMode.category),
+  "Aldi": const SortRule(id: 1, name: "Aldi"),
+  "Lidl": const SortRule(id: 2, name: "Lidl"),
 };
 
 Map<String, ItemTemplate> testItemTemplates = {
