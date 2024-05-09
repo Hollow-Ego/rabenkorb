@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:rabenkorb/abstracts/preference_service.dart';
 import 'package:rabenkorb/shared/preference_keys.dart';
+import 'package:rabenkorb/shared/sort_direction.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:watch_it/watch_it.dart';
 
@@ -13,6 +14,7 @@ class LibraryStateService {
   final BehaviorSubject<String> _searchSubject = BehaviorSubject<String>.seeded("");
   final BehaviorSubject<int?> _sortRuleIdSubject = BehaviorSubject<int?>.seeded(null);
   final BehaviorSubject<SortMode> _sortModeSubject = BehaviorSubject<SortMode>.seeded(SortMode.name);
+  final BehaviorSubject<SortDirection> _sortDirectionSubject = BehaviorSubject<SortDirection>.seeded(SortDirection.asc);
   final BehaviorSubject<bool> _alwaysCollapseCategories = BehaviorSubject<bool>.seeded(false);
 
   Stream<String> get search => _searchSubject.stream.debounceTime(const Duration(milliseconds: 300));
@@ -24,8 +26,11 @@ class LibraryStateService {
   int? get sortRuleIdSync => _sortRuleIdSubject.value;
 
   Stream<SortMode> get sortMode => _sortModeSubject.stream;
-
   SortMode get sortModeSync => _sortModeSubject.value;
+
+  Stream<SortDirection> get sortDirection => _sortDirectionSubject.stream;
+
+  SortDirection get sortDirectionSync => _sortDirectionSubject.value;
 
   Stream<bool> get alwaysCollapseCategories => _alwaysCollapseCategories.stream;
 
@@ -66,6 +71,12 @@ class LibraryStateService {
     _sortRuleIdSubject.add(sortRuleId);
   }
 
+  Future<void> switchSortDirection() async {
+    final newDirection = flipSortDirection(sortDirectionSync);
+    await _prefs.setString(PreferenceKeys.librarySortDirection, newDirection.name);
+    _sortDirectionSubject.add(newDirection);
+  }
+
   Future<void> setAlwaysCollapseCategories(bool alwaysCollapseCategories) async {
     await _prefs.setBool(PreferenceKeys.libraryAlwaysCollapseCategories, alwaysCollapseCategories);
     _alwaysCollapseCategories.add(alwaysCollapseCategories);
@@ -92,10 +103,16 @@ class LibraryStateService {
 
   void init() {
     final alwaysCollapseCategories = _prefs.getBool(PreferenceKeys.libraryAlwaysCollapseCategories) ?? false;
+
     final sortModeName = _prefs.getString(PreferenceKeys.libraryGroupMode);
     final sortMode = sortModeName != null ? SortMode.values.byName(sortModeName) : SortMode.name;
+
     final sortRuleId = _prefs.getInt(PreferenceKeys.librarySortRuleId);
+
     final collapsedStateString = _prefs.getString(PreferenceKeys.libraryCollapsedStates) ?? "";
+
+    final sortDirectionName = _prefs.getString(PreferenceKeys.librarySortDirection);
+    final sortDirection = sortDirectionName != null ? SortDirection.values.byName(sortDirectionName) : SortDirection.asc;
 
     _collapsedState = {};
     if (collapsedStateString.isNotEmpty) {
@@ -105,6 +122,7 @@ class LibraryStateService {
 
     _alwaysCollapseCategories.add(alwaysCollapseCategories);
     _sortModeSubject.add(sortMode);
+    _sortDirectionSubject.add(sortDirection);
     _sortRuleIdSubject.add(sortRuleId);
   }
 }

@@ -5,6 +5,7 @@ import 'package:rabenkorb/models/grouped_items.dart';
 import 'package:rabenkorb/models/item_template_view_model.dart';
 import 'package:rabenkorb/services/state/library_state_service.dart';
 import 'package:rabenkorb/shared/filter_details.dart';
+import 'package:rabenkorb/shared/sort_direction.dart';
 import 'package:rabenkorb/shared/sort_mode.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:watch_it/watch_it.dart';
@@ -19,14 +20,17 @@ class ItemTemplateService implements Disposable {
   Stream<List<GroupedItems<ItemTemplateViewModel>>> get itemTemplates => _itemTemplates.stream;
 
   ItemTemplateService() {
-    _templateSub = Rx.combineLatest3(
+    _templateSub = Rx.combineLatest4(
       _libraryStateService.sortMode,
+      _libraryStateService.sortDirection,
       _libraryStateService.sortRuleId,
       _libraryStateService.search,
-      (SortMode sortMode, int? sortRuleId, String searchTerm) => ItemTemplateFilterDetails(sortMode: sortMode, searchTerm: searchTerm, sortRuleId: sortRuleId),
+      (SortMode sortMode, SortDirection sortDirection, int? sortRuleId, String searchTerm) =>
+          ItemTemplateFilterDetails(sortMode: sortMode, sortDirection: sortDirection, searchTerm: searchTerm, sortRuleId: sortRuleId),
     ).switchMap((ItemTemplateFilterDetails details) {
       return _watchItemTemplatesInOrder(
         details.sortMode,
+        details.sortDirection,
         sortRuleId: details.sortRuleId,
         searchTerm: details.searchTerm,
       );
@@ -107,8 +111,9 @@ class ItemTemplateService implements Disposable {
     return (await _db.itemTemplatesDao.countImagePathUsages(imagePath)) ?? 0;
   }
 
-  Stream<List<GroupedItems<ItemTemplateViewModel>>> _watchItemTemplatesInOrder(SortMode sortMode, {int? sortRuleId, String? searchTerm}) {
-    return _db.itemTemplatesDao.watchItemTemplatesInOrder(sortMode, sortRuleId: sortRuleId, searchTerm: searchTerm);
+  Stream<List<GroupedItems<ItemTemplateViewModel>>> _watchItemTemplatesInOrder(SortMode sortMode, SortDirection sortDirection,
+      {int? sortRuleId, String? searchTerm}) {
+    return _db.itemTemplatesDao.watchItemTemplatesInOrder(sortMode, sortDirection, sortRuleId: sortRuleId, searchTerm: searchTerm);
   }
 
   @override

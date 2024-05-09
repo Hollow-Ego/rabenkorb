@@ -5,6 +5,7 @@ import 'package:rabenkorb/mappers/to_view_model.dart';
 import 'package:rabenkorb/models/basket_item_view_model.dart';
 import 'package:rabenkorb/models/grouped_items.dart';
 import 'package:rabenkorb/models/item_category_view_model.dart';
+import 'package:rabenkorb/shared/sort_direction.dart';
 import 'package:rabenkorb/shared/sort_mode.dart';
 
 part 'basket_items_dao.g.dart';
@@ -97,6 +98,7 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
   Stream<List<GroupedItems<BasketItemViewModel>>> watchBasketItemsInOrder({
     required int? basketId,
     required SortMode sortMode,
+    required SortDirection sortDirection,
     int? sortRuleId,
     String? searchTerm,
   }) {
@@ -119,8 +121,8 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
     );
 
     query.orderBy([
-      OrderingTerm(expression: itemCategories.id.isNull(), mode: OrderingMode.asc),
-      OrderingTerm(expression: attachedDatabase.sortOrders.sortOrder.isNull(), mode: OrderingMode.asc),
+      OrderingTerm(expression: itemCategories.id.isNull(), mode: toOrderingMode(sortDirection)),
+      OrderingTerm(expression: attachedDatabase.sortOrders.sortOrder.isNull(), mode: toOrderingMode(sortDirection)),
       ..._getOrderingTerms(sortMode),
     ]);
 
