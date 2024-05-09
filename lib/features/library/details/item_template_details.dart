@@ -38,12 +38,23 @@ class ItemTemplateDetails extends StatelessWidget {
   Future<void> _onSubmit(String name, File? image, int? categoryId, int? variantKey) async {
     final libraryService = di<LibraryService>();
     final libraryStateService = di<LibraryStateService>();
-
-    await libraryService.createItemTemplate(
-      name,
+    if (itemTemplate == null) {
+      await libraryService.createItemTemplate(
+        name,
+        libraryId: libraryStateService.libraryIdSync,
+        categoryId: categoryId,
+        image: image,
+        variantKeyId: variantKey,
+      );
+      return;
+    }
+    final updateImage = image?.path != itemTemplate!.imagePath;
+    await libraryService.updateItemTemplate(
+      itemTemplate!.id,
+      name: name,
       libraryId: libraryStateService.libraryIdSync,
       categoryId: categoryId,
-      image: image,
+      image: updateImage ? image : null,
       variantKeyId: variantKey,
     );
   }
