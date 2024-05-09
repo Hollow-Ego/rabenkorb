@@ -21,7 +21,9 @@ class LibrarySortControl extends StatelessWidget with WatchItMixin {
     final sortOrder = watchStream((LibraryStateService p0) => p0.sortRuleId, initialValue: libraryStateService.sortRuleIdSync);
     final sortMode = watchStream((LibraryStateService p0) => p0.sortMode, initialValue: libraryStateService.sortModeSync);
     final sortDirection = watchStream((LibraryStateService p0) => p0.sortDirection, initialValue: libraryStateService.sortDirectionSync);
-    final selectedItem = sortOrder.data ?? (sortMode.data == SortMode.databaseOrder ? sortByDatabasePseudoId : sortByNamePseudoId);
+    final selectedItem = sortOrder.hasData && (availableSortRules.data?.length ?? 0) > 0
+        ? sortOrder.data!
+        : (sortMode.data == SortMode.databaseOrder ? sortByDatabasePseudoId : sortByNamePseudoId);
     sortRules.addAll(availableSortRules.data ?? []);
 
     return Row(
