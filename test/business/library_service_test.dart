@@ -11,6 +11,7 @@ import 'package:rabenkorb/services/business/metadata_service.dart';
 import 'package:rabenkorb/services/data_access/item_category_service.dart';
 import 'package:rabenkorb/services/data_access/item_template_service.dart';
 import 'package:rabenkorb/services/data_access/item_unit_service.dart';
+import 'package:rabenkorb/services/data_access/sort_rule_service.dart';
 import 'package:rabenkorb/services/data_access/template_library_service.dart';
 import 'package:rabenkorb/services/data_access/variant_key_service.dart';
 import 'package:rabenkorb/services/state/basket_state_service.dart';
@@ -30,6 +31,7 @@ void main() {
     di.registerSingleton<PreferenceService>(MockPreferenceService());
     di.registerSingleton<ImageService>(MockImageService());
     di.registerSingleton<AppDatabase>(database);
+    di.registerSingleton<SortRuleService>(SortRuleService());
     di.registerSingleton<LibraryStateService>(LibraryStateService());
     di.registerSingleton<BasketStateService>(BasketStateService());
 
