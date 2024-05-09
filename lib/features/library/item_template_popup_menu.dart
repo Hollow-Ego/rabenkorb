@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rabenkorb/generated/l10n.dart';
 import 'package:rabenkorb/models/item_template_view_model.dart';
+import 'package:rabenkorb/routing/routes.dart';
 import 'package:rabenkorb/services/business/library_service.dart';
 import 'package:watch_it/watch_it.dart';
 
@@ -35,7 +37,7 @@ class ItemTemplatePopupMenu extends StatelessWidget {
       onSelected: (ItemTemplatePopupMenuActions action) async {
         switch (action) {
           case ItemTemplatePopupMenuActions.edit:
-            // TODO: Handle this case.
+            context.push(Routes.libraryItemTemplateDetails, extra: item);
             break;
           case ItemTemplatePopupMenuActions.delete:
             await di<LibraryService>().deleteItemTemplateById(item.id);
