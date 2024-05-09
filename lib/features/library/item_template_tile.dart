@@ -28,7 +28,7 @@ class ItemTemplateTile extends StatelessWidget {
               ),
             CoreIconButton(
               icon: CoreIcon(
-                icon: Icons.playlist_add,
+                icon: Icons.shopping_basket,
                 usePrimaryColor: true,
                 iconSize: iconSize,
               ),
