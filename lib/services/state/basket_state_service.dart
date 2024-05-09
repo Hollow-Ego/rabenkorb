@@ -55,7 +55,7 @@ class BasketStateService {
     if (sortMode == null) {
       return;
     }
-    await _prefs.setString(PreferenceKeys.basketGroupMode, sortMode.name);
+    await _prefs.setString(PreferenceKeys.basketSortMode, sortMode.name);
     _sortModeSubject.add(sortMode);
   }
 
@@ -108,7 +108,7 @@ class BasketStateService {
 
   void init() {
     final alwaysCollapseCategories = _prefs.getBool(PreferenceKeys.basketAlwaysCollapseCategories) ?? false;
-    final sortModeName = _prefs.getString(PreferenceKeys.basketGroupMode);
+    final sortModeName = _prefs.getString(PreferenceKeys.basketSortMode);
     final sortMode = sortModeName != null ? SortMode.values.byName(sortModeName) : SortMode.name;
 
     final sortRuleId = _prefs.getInt(PreferenceKeys.basketSortRuleId);

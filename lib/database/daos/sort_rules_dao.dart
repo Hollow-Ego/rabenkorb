@@ -10,12 +10,12 @@ part 'sort_rules_dao.g.dart';
 class SortRulesDao extends DatabaseAccessor<AppDatabase> with _$SortRulesDaoMixin {
   SortRulesDao(super.db);
 
-  Future<int> createSortRule(String name, {GroupMode groupMode = GroupMode.category}) {
-    return into(sortRules).insert(SortRulesCompanion(name: Value(name), groupMode: Value(groupMode)));
+  Future<int> createSortRule(String name) {
+    return into(sortRules).insert(SortRulesCompanion(name: Value(name)));
   }
 
-  Future<void> updateSortRule(int id, String name, {GroupMode groupMode = GroupMode.category}) {
-    return update(sortRules).replace(SortRule(id: id, name: name, groupMode: groupMode));
+  Future<void> updateSortRule(int id, String name) {
+    return update(sortRules).replace(SortRule(id: id, name: name));
   }
 
   Stream<SortRuleViewModel?> watchSortRuleWithId(int id) {

@@ -58,7 +58,7 @@ class LibraryStateService {
     if (sortMode == null) {
       return;
     }
-    await _prefs.setString(PreferenceKeys.libraryGroupMode, sortMode.name);
+    await _prefs.setString(PreferenceKeys.librarySortMode, sortMode.name);
     _sortModeSubject.add(sortMode);
   }
 
@@ -104,7 +104,7 @@ class LibraryStateService {
   void init() {
     final alwaysCollapseCategories = _prefs.getBool(PreferenceKeys.libraryAlwaysCollapseCategories) ?? false;
 
-    final sortModeName = _prefs.getString(PreferenceKeys.libraryGroupMode);
+    final sortModeName = _prefs.getString(PreferenceKeys.librarySortMode);
     final sortMode = sortModeName != null ? SortMode.values.byName(sortModeName) : SortMode.name;
 
     final sortRuleId = _prefs.getInt(PreferenceKeys.librarySortRuleId);
