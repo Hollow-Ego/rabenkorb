@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:rabenkorb/shared/widgets/display/item_image_view.dart';
 
 class ItemImage extends StatelessWidget {
   final String imagePath;
@@ -14,7 +15,16 @@ class ItemImage extends StatelessWidget {
       child: CircleAvatar(
         backgroundImage: FileImage(imageFile),
       ),
-      onTap: () async {},
+      onTap: () async {
+        await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return ItemImageView(
+              image: imageFile,
+            );
+          },
+        );
+      },
     );
   }
 }
