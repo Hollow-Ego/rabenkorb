@@ -8,15 +8,12 @@ class CoreListHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Chip(
+    return Text(
       key: Key("$subKey-header"),
-      label: Text(
-        header,
-        overflow: TextOverflow.ellipsis,
-        textAlign: TextAlign.start,
-        style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 16, fontWeight: FontWeight.w500),
-      ),
-      backgroundColor: Colors.white12,
+      header,
+      overflow: TextOverflow.ellipsis,
+      textAlign: TextAlign.start,
+      style: TextStyle(color: Theme.of(context).colorScheme.primary, fontSize: 16, fontWeight: FontWeight.w500),
     );
   }
 }
