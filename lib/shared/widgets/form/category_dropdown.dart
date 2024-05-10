@@ -9,8 +9,9 @@ class CategoryDropdown extends StatelessWidget with WatchItMixin {
   final ItemCategoryViewModel? selectedCategory;
   final Function(ItemCategoryViewModel? category) onChanged;
   final Function(String)? onNoSearchResultAction;
+  final String? dropdownKey;
 
-  const CategoryDropdown({super.key, this.selectedCategory, required this.onChanged, this.onNoSearchResultAction});
+  const CategoryDropdown({super.key, this.selectedCategory, required this.onChanged, this.onNoSearchResultAction, this.dropdownKey});
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +19,7 @@ class CategoryDropdown extends StatelessWidget with WatchItMixin {
     final categoryList = categories.data ?? List<ItemCategoryViewModel>.empty();
 
     return CoreSearchableDropdown<ItemCategoryViewModel>(
+      key: dropdownKey != null ? Key(dropdownKey!) : null,
       items: categoryList,
       selectedItem: selectedCategory,
       itemAsString: (category) => category.name,

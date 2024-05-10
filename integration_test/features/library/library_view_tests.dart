@@ -118,6 +118,20 @@ void main() {
       expect(find.byKeyOffstage(coffeeItem), findsOneWidget);
       expect(find.byKeyOffstage(appleItem), findsOneWidget);
     }, timeout: testTimeout);
+
+    testWidgets('should create item template without image', (tester) async {
+      const newItemName = "Super Soda";
+      await start(tester, routerConfig);
+
+      await tester.tapOnKey('main-page-fab');
+      await tester.enterInto("item-template-name-input", newItemName);
+      await tester.tapOnKey('item-template-category-dropdown');
+      await tester.tapOn(find.textContaining("Alcohol"));
+      await tester.tapOnKey('item-template-save-button');
+
+      await tester.scrollUntilVisible(find.textContaining(newItemName), 100, scrollable: find.getScrollableDescendant(find.byKey(itemTemplateList)));
+      expect(find.textContaining(newItemName), findsOneWidget);
+    }, timeout: testTimeout);
   });
 
   tearDown(() async {
