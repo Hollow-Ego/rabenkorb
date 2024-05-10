@@ -12,8 +12,9 @@ import 'package:watch_it/watch_it.dart';
 
 class ItemTemplateDetails extends StatelessWidget {
   final ItemTemplateViewModel? itemTemplate;
+  final String? tempItemName;
 
-  const ItemTemplateDetails({super.key, this.itemTemplate});
+  const ItemTemplateDetails({super.key, this.itemTemplate, this.tempItemName});
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +26,7 @@ class ItemTemplateDetails extends StatelessWidget {
             child: ItemTemplateDetailsForm(
               itemTemplate: itemTemplate,
               onSubmit: _onSubmit,
+              tempItemName: tempItemName,
             ),
           ),
         ),

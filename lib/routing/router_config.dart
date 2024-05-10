@@ -22,8 +22,10 @@ RouterConfig<Object> goRouterConfig({String initialLocation = Routes.home}) => G
           path: Routes.libraryItemTemplateDetails,
           builder: (context, state) {
             final itemTemplate = state.extra as ItemTemplateViewModel?;
+            final tempItemName = state.uri.queryParameters['tempItemName'];
             return ItemTemplateDetails(
               itemTemplate: itemTemplate,
+              tempItemName: tempItemName,
             );
           },
         ),
