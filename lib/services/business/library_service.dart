@@ -162,6 +162,37 @@ class LibraryService {
     );
   }
 
+  Future<void> replaceItemTemplate(
+    int templateId, {
+    required String name,
+    int? categoryId,
+    int? libraryId,
+    int? variantKeyId,
+    File? image,
+    bool imageChanged = false,
+  }) async {
+    libraryId = await _ensureExistingLibrary(libraryId);
+    await _metadataService.ensureExistingCategory(categoryId);
+    await _metadataService.ensureExistingVariantKey(variantKeyId);
+
+    if (imageChanged) {
+      await removeItemTemplateImage(templateId);
+    }
+    if (image != null) {
+      // Save new image
+      image = await _imageService.saveImage(image);
+    }
+
+    return _itemTemplateService.replaceItemTemplate(
+      templateId,
+      name: name,
+      categoryId: categoryId,
+      libraryId: libraryId,
+      variantKeyId: variantKeyId,
+      imagePath: image?.path,
+    );
+  }
+
   Future<ItemTemplateViewModel?> getItemTemplateById(int templateId) {
     return _itemTemplateService.getItemTemplateById(templateId);
   }

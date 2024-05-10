@@ -48,14 +48,15 @@ class ItemTemplateDetails extends StatelessWidget {
       );
       return;
     }
-    final updateImage = image?.path != itemTemplate!.imagePath;
-    await libraryService.updateItemTemplate(
+    final imageChanged = image?.path != itemTemplate!.imagePath;
+    await libraryService.replaceItemTemplate(
       itemTemplate!.id,
       name: name,
       libraryId: libraryStateService.libraryIdSync,
       categoryId: categoryId,
-      image: updateImage ? image : null,
+      image: image,
       variantKeyId: variantKey,
+      imageChanged: imageChanged,
     );
   }
 }
