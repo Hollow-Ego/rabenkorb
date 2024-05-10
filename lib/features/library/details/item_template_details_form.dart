@@ -77,6 +77,7 @@ class _ItemTemplateDetailsFormState extends State<ItemTemplateDetailsForm> {
       child: Column(
         children: [
           CoreTextFormField(
+            formFieldKey: "item-template-name-input",
             labelText: S.of(context).Name,
             textEditingController: _nameController,
             validator: (name) {
@@ -88,6 +89,7 @@ class _ItemTemplateDetailsFormState extends State<ItemTemplateDetailsForm> {
           ),
           _gap,
           CategoryDropdown(
+            dropdownKey: "item-template-category-dropdown",
             onChanged: (category) {
               setState(() {
                 _category = category;
@@ -107,6 +109,7 @@ class _ItemTemplateDetailsFormState extends State<ItemTemplateDetailsForm> {
             onSaved: (file) => {_image = file},
           ),
           CorePrimaryButton(
+            key: const Key("item-template-save-button"),
             child: Text(S.of(context).Save),
             onPressed: () => _onSubmit(context),
           ),

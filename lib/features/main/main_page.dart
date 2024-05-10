@@ -32,6 +32,7 @@ class MainPage extends StatelessWidget with WatchItMixin {
       return null;
     }
     return FloatingActionButton(
+      key: const Key("main-page-fab"),
       onPressed: () {
         mainAction.onPressed!(context);
       },
