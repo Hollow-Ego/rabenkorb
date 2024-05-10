@@ -16,9 +16,10 @@ import 'package:watch_it/watch_it.dart';
 
 class ItemTemplateDetailsForm extends StatefulWidget {
   final ItemTemplateViewModel? itemTemplate;
+  final String? tempItemName;
   final Function(String name, File? image, int? categoryId, int? variantKey) onSubmit;
 
-  const ItemTemplateDetailsForm({super.key, required this.itemTemplate, required this.onSubmit});
+  const ItemTemplateDetailsForm({super.key, required this.itemTemplate, required this.onSubmit, this.tempItemName});
 
   @override
   State<ItemTemplateDetailsForm> createState() => _ItemTemplateDetailsFormState();
@@ -35,6 +36,7 @@ class _ItemTemplateDetailsFormState extends State<ItemTemplateDetailsForm> {
   void _setupInitialValues() {
     final itemTemplate = widget.itemTemplate;
     if (itemTemplate == null) {
+      _nameController.text = widget.tempItemName ?? "";
       return;
     }
 
@@ -60,7 +62,7 @@ class _ItemTemplateDetailsFormState extends State<ItemTemplateDetailsForm> {
       }
       state.save();
       widget.onSubmit(_nameController.text, _image, _category?.id, _variant);
-      context.pop();
+      context.pop("saved");
     });
   }
 

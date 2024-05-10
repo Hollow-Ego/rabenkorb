@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rabenkorb/generated/l10n.dart';
+import 'package:rabenkorb/routing/routes.dart';
 import 'package:rabenkorb/services/state/library_state_service.dart';
 import 'package:rabenkorb/shared/widgets/form/core_text_form_field.dart';
 import 'package:rabenkorb/shared/widgets/inputs/core_icon_button.dart';
@@ -33,6 +35,21 @@ class _LibrarySearchState extends State<LibrarySearch> {
             },
           ),
         ),
+        if (_queryController.text.isNotEmpty)
+          CoreIconButton(
+            key: const Key("library-search-add"),
+            icon: const Icon(Icons.add),
+            onPressed: () async {
+              final result =
+                  await context.push(Uri(path: Routes.libraryItemTemplateDetails, queryParameters: {'tempItemName': _queryController.text}).toString());
+              if (result == null) {
+                return;
+              }
+              di<LibraryStateService>().setSearchString(null);
+              FocusManager.instance.primaryFocus?.unfocus();
+              setState(() {});
+            },
+          ),
         if (_queryController.text.isNotEmpty)
           CoreIconButton(
             key: const Key("library-search-clear"),
