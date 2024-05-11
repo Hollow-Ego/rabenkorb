@@ -19,13 +19,12 @@ class SortOrdersDao extends DatabaseAccessor<AppDatabase> with _$SortOrdersDaoMi
       await removeOrders(ruleId);
 
       // Insert the new order
-      for (var i = 0; i < categoryIds.length; i++) {
-        await into(sortOrders).insert(SortOrdersCompanion(
-          categoryId: Value(categoryIds[i]),
-          ruleId: Value(ruleId),
-          sortOrder: Value(i),
-        ));
-      }
+      final rows = categoryIds.map((i) => SortOrdersCompanion(
+            categoryId: Value(i),
+            ruleId: Value(ruleId),
+            sortOrder: Value(categoryIds.indexOf(i)),
+          ));
+      await batch((batch) => batch.insertAll(sortOrders, rows));
     });
   }
 }

@@ -27,6 +27,13 @@ class ShoppingBasketsDao extends DatabaseAccessor<AppDatabase> with _$ShoppingBa
     return toShoppingBasketViewModel(basket);
   }
 
+  Future<int?> getFirstShoppingBasketId() {
+    final query = (selectOnly(shoppingBaskets)
+      ..addColumns([shoppingBaskets.id])
+      ..limit(1));
+    return query.map((row) => row.read(shoppingBaskets.id)).getSingleOrNull();
+  }
+
   Future<int> deleteShoppingBasketWithId(int id) {
     return (delete(shoppingBaskets)..where((li) => li.id.equals(id))).go();
   }

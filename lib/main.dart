@@ -12,14 +12,18 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setupDI();
   FlutterError.onError = di<ErrorHandler>().handleError;
-  runApp(const MainApp());
+  runApp(MainApp(routerConfig: goRouterConfig()));
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class MainApp extends StatelessWidget with WatchItMixin {
+  final RouterConfig<Object> routerConfig;
+
+  const MainApp({super.key, required this.routerConfig});
 
   @override
   Widget build(BuildContext context) {
+    final locale = watchStream((IntlStateService p0) => p0.locale);
+
     return MaterialApp.router(
       localizationsDelegates: const [
         S.delegate,
@@ -28,7 +32,7 @@ class MainApp extends StatelessWidget {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: S.delegate.supportedLocales,
-      locale: di<IntlStateService>().localeSync,
+      locale: locale.data,
       theme: ThemeData(
         useMaterial3: true,
       ),

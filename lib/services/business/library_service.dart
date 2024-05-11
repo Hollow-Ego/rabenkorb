@@ -3,9 +3,11 @@ import 'dart:io';
 import 'package:rabenkorb/abstracts/image_service.dart';
 import 'package:rabenkorb/models/grouped_items.dart';
 import 'package:rabenkorb/models/item_template_view_model.dart';
+import 'package:rabenkorb/models/sort_rule_view_model.dart';
 import 'package:rabenkorb/models/template_library_view_model.dart';
 import 'package:rabenkorb/services/business/metadata_service.dart';
 import 'package:rabenkorb/services/data_access/item_template_service.dart';
+import 'package:rabenkorb/services/data_access/sort_rule_service.dart';
 import 'package:rabenkorb/services/data_access/template_library_service.dart';
 import 'package:watch_it/watch_it.dart';
 
@@ -14,9 +16,14 @@ class LibraryService {
   final _templateLibraryService = di<TemplateLibraryService>();
   final _itemTemplateService = di<ItemTemplateService>();
   final _metadataService = di<MetadataService>();
+  final _sortRuleService = di<SortRuleService>();
   final _imageService = di<ImageService>();
 
   Stream<List<GroupedItems<ItemTemplateViewModel>>> get itemTemplates => _itemTemplateService.itemTemplates;
+
+  List<int> get shownItemIds => _itemTemplateService.itemTemplatesSync.expand((group) => group.items.map((item) => item.id)).toList();
+
+  Stream<List<SortRuleViewModel>> get sortRules => _sortRuleService.sortRules;
 
   Future<int> createLibrary(String name) {
     return _templateLibraryService.createTemplateLibrary(name);
@@ -41,7 +48,7 @@ class LibraryService {
   Future<int> createItemTemplate(
     String name, {
     int? categoryId,
-    required int libraryId,
+    int? libraryId,
     int? variantKeyId,
     File? image,
   }) async {
@@ -58,6 +65,7 @@ class LibraryService {
       libraryId: libraryId,
       imagePath: image?.path,
       variantKeyId: variantKeyId,
+      categoryId: categoryId,
     );
   }
 
@@ -135,9 +143,7 @@ class LibraryService {
     int? variantKeyId,
     File? image,
   }) async {
-    if (libraryId != null) {
-      libraryId = await _ensureExistingLibrary(libraryId);
-    }
+    libraryId = await _ensureExistingLibrary(libraryId);
     await _metadataService.ensureExistingCategory(categoryId);
     await _metadataService.ensureExistingVariantKey(variantKeyId);
 
@@ -158,6 +164,37 @@ class LibraryService {
     );
   }
 
+  Future<void> replaceItemTemplate(
+    int templateId, {
+    required String name,
+    int? categoryId,
+    int? libraryId,
+    int? variantKeyId,
+    File? image,
+    bool imageChanged = false,
+  }) async {
+    libraryId = await _ensureExistingLibrary(libraryId);
+    await _metadataService.ensureExistingCategory(categoryId);
+    await _metadataService.ensureExistingVariantKey(variantKeyId);
+
+    if (imageChanged) {
+      await removeItemTemplateImage(templateId);
+    }
+    if (image != null) {
+      // Save new image
+      image = await _imageService.saveImage(image);
+    }
+
+    return _itemTemplateService.replaceItemTemplate(
+      templateId,
+      name: name,
+      categoryId: categoryId,
+      libraryId: libraryId,
+      variantKeyId: variantKeyId,
+      imagePath: image?.path,
+    );
+  }
+
   Future<ItemTemplateViewModel?> getItemTemplateById(int templateId) {
     return _itemTemplateService.getItemTemplateById(templateId);
   }
@@ -167,11 +204,30 @@ class LibraryService {
     return _itemTemplateService.deleteItemTemplateById(templateId);
   }
 
-  Future<int> _ensureExistingLibrary(int libraryId) async {
+  Future<int> deleteItemTemplates(List<int> templateIds) async {
+    int deletedItems = 0;
+    for (var templateId in templateIds) {
+      await removeItemTemplateImage(templateId);
+      deletedItems += await _itemTemplateService.deleteItemTemplateById(templateId);
+    }
+    return deletedItems;
+  }
+
+  Future<int> _ensureExistingLibrary(int? libraryId) async {
+    libraryId ??= await _templateLibraryService.getFirstTemplateLibraryId();
+
+    if (libraryId == null) {
+      return _createDefaultLibrary();
+    }
+
     final targetLibrary = await _templateLibraryService.getTemplateLibraryById(libraryId);
     if (targetLibrary == null) {
-      return await _templateLibraryService.createTemplateLibrary(defaultLibraryName);
+      return _createDefaultLibrary();
     }
     return libraryId;
+  }
+
+  Future<int> _createDefaultLibrary() async {
+    return await _templateLibraryService.createTemplateLibrary(defaultLibraryName);
   }
 }

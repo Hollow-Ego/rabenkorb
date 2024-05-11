@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - 'main'
+      - 'develop'
 
 env:
   FLUTTER_VERSION: '3.19.4'
@@ -61,14 +62,17 @@ jobs:
           echo "sdk.dir=$ANDROID_HOME" > android/local.properties
           echo "flutter.sdk=$GITHUB_WORKSPACE/flutter" >> android/local.properties
 
-      - name: Set execute permissions on gradlew
-        run: chmod +x android/gradlew
-
-      - name: Run Tests through Fastlane
+      - name: Create Environment
         env:
           ENVIRONMENT: ${{ secrets.ENVIRONMENT }}
         run: |
           echo "env=$ENVIRONMENT" > .env
+
+      - name: Set execute permissions on gradlew
+        run: chmod +x android/gradlew
+
+      - name: Run Tests through Fastlane
+        run: |
           cd android
           bundle exec fastlane android test
 
@@ -121,6 +125,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.ACCESS_TOKEN }}
 
       - name: Upload APK to GitHub Release
+        if: github.ref == 'refs/heads/main'
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}

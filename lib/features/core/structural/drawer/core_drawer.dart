@@ -9,6 +9,7 @@ class CoreDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final drawerEntries = drawerEntriesBuilder(context);
     drawerEntries.sort((a, b) => a.position.compareTo(b.position));
 
     return Drawer(

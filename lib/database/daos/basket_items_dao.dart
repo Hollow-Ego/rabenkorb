@@ -5,6 +5,8 @@ import 'package:rabenkorb/mappers/to_view_model.dart';
 import 'package:rabenkorb/models/basket_item_view_model.dart';
 import 'package:rabenkorb/models/grouped_items.dart';
 import 'package:rabenkorb/models/item_category_view_model.dart';
+import 'package:rabenkorb/shared/default_sort_rules.dart';
+import 'package:rabenkorb/shared/sort_direction.dart';
 import 'package:rabenkorb/shared/sort_mode.dart';
 
 part 'basket_items_dao.g.dart';
@@ -20,7 +22,17 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
     required int basketId,
     String? imagePath,
     int? unitId,
-  }) {
+  }) async {
+    final existingItems = await findBasketItemsByNameCategoryUnit(name, categoryId, unitId);
+    // Exactly one item matching the name, category and unit: assume to add the amount instead of duplicating item
+    if (existingItems.length == 1) {
+      final existingItem = existingItems.first;
+      final id = existingItem.id;
+      final previousAmount = existingItem.amount;
+      final newAmount = previousAmount + amount;
+      updateBasketItem(id, amount: newAmount);
+      return id;
+    }
     final companion = BasketItemsCompanion(
       name: Value(name),
       category: Value(categoryId),
@@ -97,6 +109,7 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
   Stream<List<GroupedItems<BasketItemViewModel>>> watchBasketItemsInOrder({
     required int? basketId,
     required SortMode sortMode,
+    required SortDirection sortDirection,
     int? sortRuleId,
     String? searchTerm,
   }) {
@@ -119,8 +132,8 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
     );
 
     query.orderBy([
-      OrderingTerm(expression: itemCategories.id.isNull(), mode: OrderingMode.asc),
-      OrderingTerm(expression: attachedDatabase.sortOrders.sortOrder.isNull(), mode: OrderingMode.asc),
+      OrderingTerm(expression: itemCategories.id.isNull(), mode: toOrderingMode(sortDirection)),
+      OrderingTerm(expression: attachedDatabase.sortOrders.sortOrder.isNull(), mode: toOrderingMode(sortDirection)),
       ..._getOrderingTerms(sortMode),
     ]);
 
@@ -130,7 +143,7 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
       final Map<int, GroupedItems<BasketItemViewModel>> groupedItems = {};
       for (final row in rows) {
         final viewModel = _rowToViewModel(row)!;
-        final category = viewModel.category ?? ItemCategoryViewModel(0, "Without Category");
+        final category = viewModel.category ?? ItemCategoryViewModel(withoutCategoryId, "Without Category");
 
         groupedItems.putIfAbsent(category.id, () => GroupedItems(category: category, items: []));
         groupedItems[category.id]!.items.add(viewModel);
@@ -158,6 +171,12 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
     final amountOfUsages = basketItems.imagePath.count(filter: basketItems.imagePath.equals(imagePath));
     final query = selectOnly(basketItems)..addColumns([amountOfUsages]);
     return query.map((row) => row.read(amountOfUsages)).getSingle();
+  }
+
+  Future<List<BasketItemViewModel>> findBasketItemsByNameCategoryUnit(String name, int? categoryId, int? unitId) async {
+    final query = select(basketItems)..where((i) => i.name.equals(name) & i.category.equalsNullable(categoryId) & i.unit.equalsNullable(unitId));
+    final rows = await _joinValues(query).get();
+    return _rowsToViewModels(rows);
   }
 
   List<OrderingTerm> _getOrderingTerms<T>(

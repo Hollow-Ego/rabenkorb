@@ -1,5 +1,6 @@
 import 'package:rabenkorb/database/database.dart';
 import 'package:rabenkorb/models/item_category_view_model.dart';
+import 'package:rabenkorb/models/save_delete_result.dart';
 import 'package:watch_it/watch_it.dart';
 
 class ItemCategoryService {
@@ -17,8 +18,13 @@ class ItemCategoryService {
     return _db.itemCategoriesDao.getItemCategoryWithId(id);
   }
 
-  Future<int> deleteItemCategoryById(int id) {
-    return _db.itemCategoriesDao.deleteItemCategoryWithId(id);
+  Future<SaveDeleteResult<ItemCategoryViewModel>> savelyDeleteItemCategoryById(int id) async {
+    final itemCategoryToDelete = await _db.itemCategoriesDao.getItemCategoryWithId(id);
+    final deletedRows = await _db.itemCategoriesDao.deleteItemCategoryWithId(id);
+    return SaveDeleteResult(
+      deletedObject: itemCategoryToDelete,
+      deletedRows: deletedRows,
+    );
   }
 
   Stream<List<ItemCategoryViewModel>> watchItemCategories() {

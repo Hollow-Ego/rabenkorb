@@ -4,6 +4,10 @@
   "AppTitle": "Rabenkorb",
   "Menu": "Menü",
   "Settings": "Einstellungen",
+  "SettingsGeneral": "Allgemeine Einstellungen",
+  "SettingsLibrary": "Bibliothek Einstellungen",
+  "SettingsBasket": "Einkaufskorb Einstellungen",
+  "AlwaysCollapseCategories": "Kategorien immer zuklappen",
   "Home": "Home",
   "Language": "Sprache",
   "EmptyMessage": "Nichts zu sehen",
@@ -14,6 +18,55 @@
   "Unnamed": "Unbenannt",
   "MissingString": "<Leer>",
   "Debug": "Debug",
+  "Backup": "Backup",
+  "BackupCreate": "Backup erstellen",
+  "SetPermission": "Berechtigung erteilen",
+  "PermissionsRequired": "Berechtigungen erforderlich",
+  "MessagePermissionRequired": "Um auf Ordner zum Speicher oder Laden von Sicherungen zugreifen zu können, benötigt diese App die Berechtigung auf alle Dateien und Ordner zuzugreifen. Diese wird niemals auf Dateien zugreifen, die nicht zu ihr gehören. \n\nWenn Sie auf \"Berechtigung setzen\" drücken werden Sie zur Berechtigungsverwaltung weitergeleitet. Setzen Sie dort die Berechtigung und kehren zur App zurück, indem Sie auf die Zurück-Taste Ihres Smartphones drücken.",
+  "SearchLabel": "Suchen...",
+  "SortDirection": "{direction, select, asc{Aufsteigend} desc{Absteigend}}",
+  "@SortDirection": {
+    "description": "The human readable sort direction",
+    "placeholders": {
+      "direction": {
+        "type": "String"
+      }
+    }
+  },
+  "SortByName": "Name",
+  "SortByDatabaseOrder": "Erstellung",
+  "Name": "Name",
+  "Category": "Kategorie",
+  "Variant": "Variante",
+  "Image": "Bild",
+  "Amount": "Menge",
+  "Unit": "Einheit",
+  "NewItem": "Neuer Artikel",
+  "NoSearchResult": "Keine Ergebnisse",
+  "NameMustNotBeEmpty": "Name darf nicht leer sein",
+  "ChooseSource": "Quelle wählen",
+  "TakePicture": "Bild aufnehmen",
+  "FromGallery": "Aus Gallerie",
+  "ClearImage": "Bild zurücksetzen",
+  "PickImage": "Bild auswählen",
+  "ItemAddedToCard": "{itemName} hinzugefügt",
+  "@ItemAddedToCard": {
+    "description": "Item added to card snackbar message",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
+  "SelectAll": "Alle auswählen",
+  "DeselectAll": "Alle abwählen",
+  "DeleteSelected": "Ausgewählte löschen",
+  "EnterMultiSelect": "Mehrere auswählen",
+  "New": "Neu",
+  "Add": "Hinzufügen",
+  "Edit": "Bearbeiten",
+  "Save": "Speichern",
+  "Delete": "Löschen",
   "Confirm": "Bestätigen",
   "Cancel": "Abbrechen"
 }

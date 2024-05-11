@@ -1,8 +1,7 @@
 import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:rabenkorb/database/database.dart';
-
-import 'database_helper.dart';
+import 'package:rabenkorb/features/debug/debug_database_helper.dart';
 
 void main() {
   late AppDatabase database;

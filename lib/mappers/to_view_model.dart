@@ -44,7 +44,7 @@ ShoppingBasketViewModel? toShoppingBasketViewModel(ShoppingBasket? basket) {
 }
 
 SortRuleViewModel? toSortRuleViewModel(SortRule? rule) {
-  return rule != null ? SortRuleViewModel(rule.id, rule.name, rule.groupMode) : null;
+  return rule != null ? SortRuleViewModel(rule.id, rule.name) : null;
 }
 
 TemplateLibraryViewModel? toTemplateLibraryViewModel(TemplateLibrary? library) {

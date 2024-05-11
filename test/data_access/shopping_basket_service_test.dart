@@ -11,7 +11,9 @@ void main() {
   setUp(() async {
     database = AppDatabase.forTesting(NativeDatabase.memory());
     di.registerSingleton<AppDatabase>(database);
-    sut = ShoppingBasketService();
+
+    di.registerSingleton<ShoppingBasketService>(ShoppingBasketService());
+    sut = di<ShoppingBasketService>();
   });
 
   test('shopping baskets can be created', () async {
