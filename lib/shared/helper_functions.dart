@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:rabenkorb/abstracts/data_item.dart';
 import 'package:rabenkorb/generated/l10n.dart';
+import 'package:rabenkorb/models/grouped_items.dart';
+import 'package:rabenkorb/services/data_access/sort_order_service.dart';
+import 'package:rabenkorb/services/state/library_state_service.dart';
 import 'package:rabenkorb/services/state/loading_state.dart';
+import 'package:rabenkorb/shared/default_sort_rules.dart';
 import 'package:watch_it/watch_it.dart';
 
 Future<T> doWithLoadingIndicator<T>(Future<T> Function() operation) async {
@@ -54,4 +59,17 @@ Future<XFile?> pickImage(ImageSource source) async {
   );
 
   return image;
+}
+
+void reorderGroupedItems<T extends DataItem>(int oldIndex, int newIndex, List<GroupedItems<T>> list, int? activeSortRuleId) async {
+  if (activeSortRuleId == null) {
+    return;
+  }
+
+  final reorderedItem = list.removeAt(oldIndex);
+  list.insert(newIndex, reorderedItem);
+
+  final newOrder = list.where((e) => e.category.id != withoutCategoryId).map((e) => e.category.id).toList();
+  await di<SortOrderService>().setOrder(activeSortRuleId, newOrder);
+  await di<LibraryStateService>().setSortRuleId(activeSortRuleId);
 }
