@@ -4,7 +4,7 @@ import 'package:watch_it/watch_it.dart';
 
 class VersionService {
   static const String _styleVersion = "0";
-  static const String _debugSuffix = ".db-8";
+  static const String _debugSuffix = ".db-0";
 
   late String _packageVersion;
 
