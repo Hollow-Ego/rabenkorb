@@ -5,6 +5,7 @@ import 'package:rabenkorb/mappers/to_view_model.dart';
 import 'package:rabenkorb/models/grouped_items.dart';
 import 'package:rabenkorb/models/item_category_view_model.dart';
 import 'package:rabenkorb/models/item_template_view_model.dart';
+import 'package:rabenkorb/shared/default_sort_rules.dart';
 import 'package:rabenkorb/shared/sort_direction.dart';
 import 'package:rabenkorb/shared/sort_mode.dart';
 
@@ -120,7 +121,7 @@ class ItemTemplatesDao extends DatabaseAccessor<AppDatabase> with _$ItemTemplate
       final Map<int, GroupedItems<ItemTemplateViewModel>> groupedItems = {};
       for (final row in rows) {
         final viewModel = _rowToViewModel(row)!;
-        final category = viewModel.category ?? ItemCategoryViewModel(0, "Without Category");
+        final category = viewModel.category ?? ItemCategoryViewModel(withoutCategoryId, "Without Category");
         groupedItems.putIfAbsent(category.id, () => GroupedItems(category: category, items: []));
         groupedItems[category.id]!.items.add(viewModel);
       }

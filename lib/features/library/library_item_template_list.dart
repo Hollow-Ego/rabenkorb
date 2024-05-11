@@ -5,6 +5,7 @@ import 'package:rabenkorb/models/item_category_view_model.dart';
 import 'package:rabenkorb/models/item_template_view_model.dart';
 import 'package:rabenkorb/services/business/library_service.dart';
 import 'package:rabenkorb/services/state/library_state_service.dart';
+import 'package:rabenkorb/shared/helper_functions.dart';
 import 'package:rabenkorb/shared/widgets/list/core_grouped_list.dart';
 import 'package:watch_it/watch_it.dart';
 
@@ -16,11 +17,15 @@ class LibraryItemTemplateList extends StatelessWidget with WatchItMixin {
     final AsyncSnapshot<List<GroupedItems<ItemTemplateViewModel>>> templates = watchStream((LibraryService p0) => p0.itemTemplates, initialValue: []);
     final alwaysCollapseCategoriesData = watchStream((LibraryStateService p0) => p0.alwaysCollapseCategories, initialValue: false);
     final alwaysCollapseCategories = alwaysCollapseCategoriesData.hasData && alwaysCollapseCategoriesData.data!;
-
+    final activeSortRule = di<LibraryStateService>().sortRuleIdSync;
     return Expanded(
       child: CoreGroupedList<ItemTemplateViewModel>(
         listKey: 'library-item-template-list',
         source: templates.hasData ? templates.data! : [],
+        onListReorder: (int oldIndex, int newIndex, List<GroupedItems<ItemTemplateViewModel>> list) async {
+          reorderGroupedItems(oldIndex, newIndex, list, activeSortRule);
+        },
+        canDragList: activeSortRule != null,
         itemContentBuilder: (BuildContext context, ItemTemplateViewModel item) {
           return ItemTemplateTile(item);
         },
