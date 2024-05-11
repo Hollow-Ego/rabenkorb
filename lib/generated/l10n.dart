@@ -97,6 +97,36 @@ class S {
     );
   }
 
+  /// `Library Settings`
+  String get SettingsLibrary {
+    return Intl.message(
+      'Library Settings',
+      name: 'SettingsLibrary',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Basket Settings`
+  String get SettingsBasket {
+    return Intl.message(
+      'Basket Settings',
+      name: 'SettingsBasket',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Always Collapse Headers`
+  String get AlwaysCollapseCategories {
+    return Intl.message(
+      'Always Collapse Headers',
+      name: 'AlwaysCollapseCategories',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Home`
   String get Home {
     return Intl.message(
@@ -242,6 +272,290 @@ class S {
     return Intl.message(
       'To access folders for saving or loading backup this app the permission to access files and folders. This app will never access any files that are not related to it. \n\nIf you click on "Set Permission" you will be redirect to the permission screen of your phone. Please set the permission and return to this app by pressing the Back Button of your Smartphone.',
       name: 'MessagePermissionRequired',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search...`
+  String get SearchLabel {
+    return Intl.message(
+      'Search...',
+      name: 'SearchLabel',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{direction, select, asc{Ascending} desc{Descending}}`
+  String SortDirection(String direction) {
+    return Intl.select(
+      direction,
+      {
+        'asc': 'Ascending',
+        'desc': 'Descending',
+      },
+      name: 'SortDirection',
+      desc: 'The human readable sort direction',
+      args: [direction],
+    );
+  }
+
+  /// `Name`
+  String get SortByName {
+    return Intl.message(
+      'Name',
+      name: 'SortByName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Creation`
+  String get SortByDatabaseOrder {
+    return Intl.message(
+      'Creation',
+      name: 'SortByDatabaseOrder',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name`
+  String get Name {
+    return Intl.message(
+      'Name',
+      name: 'Name',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Category`
+  String get Category {
+    return Intl.message(
+      'Category',
+      name: 'Category',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Variant`
+  String get Variant {
+    return Intl.message(
+      'Variant',
+      name: 'Variant',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Image`
+  String get Image {
+    return Intl.message(
+      'Image',
+      name: 'Image',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Amount`
+  String get Amount {
+    return Intl.message(
+      'Amount',
+      name: 'Amount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unit`
+  String get Unit {
+    return Intl.message(
+      'Unit',
+      name: 'Unit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New Item`
+  String get NewItem {
+    return Intl.message(
+      'New Item',
+      name: 'NewItem',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No results`
+  String get NoSearchResult {
+    return Intl.message(
+      'No results',
+      name: 'NoSearchResult',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Name must not be empty`
+  String get NameMustNotBeEmpty {
+    return Intl.message(
+      'Name must not be empty',
+      name: 'NameMustNotBeEmpty',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Choose the source`
+  String get ChooseSource {
+    return Intl.message(
+      'Choose the source',
+      name: 'ChooseSource',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Take Picture`
+  String get TakePicture {
+    return Intl.message(
+      'Take Picture',
+      name: 'TakePicture',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `From Gallery`
+  String get FromGallery {
+    return Intl.message(
+      'From Gallery',
+      name: 'FromGallery',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Clear image`
+  String get ClearImage {
+    return Intl.message(
+      'Clear image',
+      name: 'ClearImage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Pick an image`
+  String get PickImage {
+    return Intl.message(
+      'Pick an image',
+      name: 'PickImage',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `{itemName} added`
+  String ItemAddedToCard(String itemName) {
+    return Intl.message(
+      '$itemName added',
+      name: 'ItemAddedToCard',
+      desc: 'Item added to card snackbar message',
+      args: [itemName],
+    );
+  }
+
+  /// `Select all`
+  String get SelectAll {
+    return Intl.message(
+      'Select all',
+      name: 'SelectAll',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deselect all`
+  String get DeselectAll {
+    return Intl.message(
+      'Deselect all',
+      name: 'DeselectAll',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete selected`
+  String get DeleteSelected {
+    return Intl.message(
+      'Delete selected',
+      name: 'DeleteSelected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select multiple`
+  String get EnterMultiSelect {
+    return Intl.message(
+      'Select multiple',
+      name: 'EnterMultiSelect',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New`
+  String get New {
+    return Intl.message(
+      'New',
+      name: 'New',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add`
+  String get Add {
+    return Intl.message(
+      'Add',
+      name: 'Add',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit`
+  String get Edit {
+    return Intl.message(
+      'Edit',
+      name: 'Edit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save`
+  String get Save {
+    return Intl.message(
+      'Save',
+      name: 'Save',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete`
+  String get Delete {
+    return Intl.message(
+      'Delete',
+      name: 'Delete',
       desc: '',
       args: [],
     );

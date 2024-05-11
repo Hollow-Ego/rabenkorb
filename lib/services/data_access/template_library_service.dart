@@ -17,6 +17,10 @@ class TemplateLibraryService {
     return _db.templateLibrariesDao.getTemplateLibraryWithId(id);
   }
 
+  Future<int?> getFirstTemplateLibraryId() {
+    return _db.templateLibrariesDao.getFirstTemplateLibraryId();
+  }
+
   Future<int> deleteTemplateLibraryById(int id) {
     return _db.templateLibrariesDao.deleteTemplateLibraryWithId(id);
   }

@@ -1,19 +1,24 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:rabenkorb/features/core/structural/navigation/destination_details.dart';
-import 'package:rabenkorb/features/core/structural/navigation/destinations.dart';
+import 'package:rabenkorb/features/main/navigation/destination_details.dart';
+import 'package:rabenkorb/features/main/navigation/destinations.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:watch_it/watch_it.dart';
 
-class NavigationStateService {
+import '../../models/main_page_details.dart';
+
+class NavigationStateService implements Disposable {
   final BehaviorSubject<int> _currentPageIndex = BehaviorSubject<int>.seeded(0);
+  final BehaviorSubject<MainPageDetails?> _mainPageDetails = BehaviorSubject<MainPageDetails?>.seeded(null);
 
-  Stream<int> get currentPageIndex => _currentPageIndex.stream.distinct();
+  late StreamSubscription _mainPageDetailsSub;
 
-  Stream<Widget?> get bodyWidget => _currentPageIndex.switchMap((index) => Stream<Widget?>.value(_destinations[index].body));
-  Stream<MainAction?> get mainAction => _currentPageIndex.switchMap((index) => Stream<MainAction?>.value(_destinations[index].mainAction));
+  int get currentPageIndexSync => _currentPageIndex.value;
 
-  Stream<PreferredSizeWidget?> get appBar => _currentPageIndex.switchMap((index) => Stream<PreferredSizeWidget?>.value(_destinations[index].appBar));
+  Stream<MainPageDetails?> get mainPageDetails => _mainPageDetails.stream;
 
-  setCurrentPageIndex(int index) {
+  void setCurrentPageIndex(int index) {
     _currentPageIndex.add(index);
   }
 
@@ -23,5 +28,22 @@ class NavigationStateService {
 
   NavigationStateService() {
     _destinations.sort((a, b) => a.index.compareTo(b.index));
+
+    _mainPageDetailsSub = _currentPageIndex.distinct().listen((index) {
+      final destination = _destinations[index];
+      _mainPageDetails.add(MainPageDetails(
+        pageIndex: index,
+        body: destination.body,
+        mainAction: destination.mainAction,
+        appBar: destination.appBar,
+      ));
+    });
+  }
+
+  @override
+  FutureOr onDispose() {
+    _mainPageDetailsSub.cancel();
+    _currentPageIndex.close();
+    _mainPageDetails.close();
   }
 }

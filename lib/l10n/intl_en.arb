@@ -5,6 +5,9 @@
   "Menu": "Menu",
   "Settings": "Settings",
   "SettingsGeneral": "General Settings",
+  "SettingsLibrary": "Library Settings",
+  "SettingsBasket": "Basket Settings",
+  "AlwaysCollapseCategories": "Always Collapse Headers",
   "Home": "Home",
   "Language": "Language",
   "EmptyMessage": "Nothing to see",
@@ -20,6 +23,50 @@
   "SetPermission": "Set Permission",
   "PermissionsRequired": "Permissions required",
   "MessagePermissionRequired": "To access folders for saving or loading backup this app the permission to access files and folders. This app will never access any files that are not related to it. \n\nIf you click on \"Set Permission\" you will be redirect to the permission screen of your phone. Please set the permission and return to this app by pressing the Back Button of your Smartphone.",
+  "SearchLabel": "Search...",
+  "SortDirection": "{direction, select, asc{Ascending} desc{Descending}}",
+  "@SortDirection": {
+    "description": "The human readable sort direction",
+    "placeholders": {
+      "direction": {
+        "type": "String"
+      }
+    }
+  },
+  "SortByName": "Name",
+  "SortByDatabaseOrder": "Creation",
+  "Name": "Name",
+  "Category": "Category",
+  "Variant": "Variant",
+  "Image": "Image",
+  "Amount": "Amount",
+  "Unit": "Unit",
+  "NewItem": "New Item",
+  "NoSearchResult": "No results",
+  "NameMustNotBeEmpty": "Name must not be empty",
+  "ChooseSource": "Choose the source",
+  "TakePicture": "Take Picture",
+  "FromGallery": "From Gallery",
+  "ClearImage": "Clear image",
+  "PickImage": "Pick an image",
+  "ItemAddedToCard": "{itemName} added",
+  "@ItemAddedToCard": {
+    "description": "Item added to card snackbar message",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
+  "SelectAll": "Select all",
+  "DeselectAll": "Deselect all",
+  "DeleteSelected": "Delete selected",
+  "EnterMultiSelect": "Select multiple",
+  "New": "New",
+  "Add": "Add",
+  "Edit": "Edit",
+  "Save": "Save",
+  "Delete": "Delete",
   "Confirm": "Confirm",
   "Cancel": "Cancel"
 }

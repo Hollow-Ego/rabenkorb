@@ -5,6 +5,7 @@ import 'package:rabenkorb/abstracts/preference_service.dart';
 import 'package:rabenkorb/database/database.dart';
 import 'package:rabenkorb/exceptions/missing_category.dart';
 import 'package:rabenkorb/exceptions/missing_unit.dart';
+import 'package:rabenkorb/features/debug/debug_database_helper.dart';
 import 'package:rabenkorb/services/business/basket_service.dart';
 import 'package:rabenkorb/services/business/metadata_service.dart';
 import 'package:rabenkorb/services/data_access/basket_item_service.dart';
@@ -13,9 +14,9 @@ import 'package:rabenkorb/services/data_access/item_unit_service.dart';
 import 'package:rabenkorb/services/data_access/shopping_basket_service.dart';
 import 'package:rabenkorb/services/data_access/variant_key_service.dart';
 import 'package:rabenkorb/services/state/basket_state_service.dart';
+import 'package:rabenkorb/services/state/library_state_service.dart';
 import 'package:watch_it/watch_it.dart';
 
-import '../database_helper.dart';
 import '../mock_image_service.dart';
 import '../mock_preferences_service.dart';
 
@@ -29,6 +30,7 @@ void main() {
     di.registerSingleton<ImageService>(MockImageService());
     di.registerSingleton<AppDatabase>(database);
     di.registerSingleton<BasketStateService>(BasketStateService());
+    di.registerSingleton<LibraryStateService>(LibraryStateService());
 
     di.registerSingleton<BasketItemService>(BasketItemService());
     di.registerSingleton<ItemUnitService>(ItemUnitService());
@@ -39,8 +41,8 @@ void main() {
     di.registerSingleton<ShoppingBasketService>(ShoppingBasketService());
 
     await seedDatabase(database);
-
-    sut = BasketService();
+    di.registerSingleton<BasketService>(BasketService());
+    sut = di<BasketService>();
   });
 
   test("basket items targeting a non-existent basket will create a basket with a default name", () async {

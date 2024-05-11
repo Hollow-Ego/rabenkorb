@@ -20,18 +20,39 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
+  static String m0(itemName) => "${itemName} added";
+
+  static String m1(direction) => "${Intl.select(direction, {
+            'asc': 'Ascending',
+            'desc': 'Descending',
+          })}";
+
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "Add": MessageLookupByLibrary.simpleMessage("Add"),
+        "AlwaysCollapseCategories": MessageLookupByLibrary.simpleMessage("Always Collapse Headers"),
+        "Amount": MessageLookupByLibrary.simpleMessage("Amount"),
         "AppTitle": MessageLookupByLibrary.simpleMessage("Rabenkorb"),
         "Backup": MessageLookupByLibrary.simpleMessage("Backup"),
         "BackupCreate": MessageLookupByLibrary.simpleMessage("Create Backup"),
         "Basket": MessageLookupByLibrary.simpleMessage("Basket"),
         "Cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "Category": MessageLookupByLibrary.simpleMessage("Category"),
+        "ChooseSource": MessageLookupByLibrary.simpleMessage("Choose the source"),
+        "ClearImage": MessageLookupByLibrary.simpleMessage("Clear image"),
         "Confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
         "Debug": MessageLookupByLibrary.simpleMessage("Debug"),
+        "Delete": MessageLookupByLibrary.simpleMessage("Delete"),
+        "DeleteSelected": MessageLookupByLibrary.simpleMessage("Delete selected"),
+        "DeselectAll": MessageLookupByLibrary.simpleMessage("Deselect all"),
+        "Edit": MessageLookupByLibrary.simpleMessage("Edit"),
         "EmptyMessage": MessageLookupByLibrary.simpleMessage("Nothing to see"),
+        "EnterMultiSelect": MessageLookupByLibrary.simpleMessage("Select multiple"),
+        "FromGallery": MessageLookupByLibrary.simpleMessage("From Gallery"),
         "Home": MessageLookupByLibrary.simpleMessage("Home"),
+        "Image": MessageLookupByLibrary.simpleMessage("Image"),
         "Item": MessageLookupByLibrary.simpleMessage("Item"),
+        "ItemAddedToCard": m0,
         "Language": MessageLookupByLibrary.simpleMessage("Language"),
         "LanguageDisplayName": MessageLookupByLibrary.simpleMessage("English"),
         "Library": MessageLookupByLibrary.simpleMessage("Library"),
@@ -39,11 +60,28 @@ class MessageLookup extends MessageLookupByLibrary {
         "MessagePermissionRequired": MessageLookupByLibrary.simpleMessage(
             "To access folders for saving or loading backup this app the permission to access files and folders. This app will never access any files that are not related to it. \n\nIf you click on \"Set Permission\" you will be redirect to the permission screen of your phone. Please set the permission and return to this app by pressing the Back Button of your Smartphone."),
         "MissingString": MessageLookupByLibrary.simpleMessage("<Empty>"),
+        "Name": MessageLookupByLibrary.simpleMessage("Name"),
+        "NameMustNotBeEmpty": MessageLookupByLibrary.simpleMessage("Name must not be empty"),
+        "New": MessageLookupByLibrary.simpleMessage("New"),
+        "NewItem": MessageLookupByLibrary.simpleMessage("New Item"),
+        "NoSearchResult": MessageLookupByLibrary.simpleMessage("No results"),
         "PermissionsRequired": MessageLookupByLibrary.simpleMessage("Permissions required"),
+        "PickImage": MessageLookupByLibrary.simpleMessage("Pick an image"),
+        "Save": MessageLookupByLibrary.simpleMessage("Save"),
+        "SearchLabel": MessageLookupByLibrary.simpleMessage("Search..."),
+        "SelectAll": MessageLookupByLibrary.simpleMessage("Select all"),
         "SetPermission": MessageLookupByLibrary.simpleMessage("Set Permission"),
         "Settings": MessageLookupByLibrary.simpleMessage("Settings"),
+        "SettingsBasket": MessageLookupByLibrary.simpleMessage("Basket Settings"),
         "SettingsGeneral": MessageLookupByLibrary.simpleMessage("General Settings"),
+        "SettingsLibrary": MessageLookupByLibrary.simpleMessage("Library Settings"),
+        "SortByDatabaseOrder": MessageLookupByLibrary.simpleMessage("Creation"),
+        "SortByName": MessageLookupByLibrary.simpleMessage("Name"),
+        "SortDirection": m1,
+        "TakePicture": MessageLookupByLibrary.simpleMessage("Take Picture"),
         "Template": MessageLookupByLibrary.simpleMessage("Template"),
-        "Unnamed": MessageLookupByLibrary.simpleMessage("Unnamed")
+        "Unit": MessageLookupByLibrary.simpleMessage("Unit"),
+        "Unnamed": MessageLookupByLibrary.simpleMessage("Unnamed"),
+        "Variant": MessageLookupByLibrary.simpleMessage("Variant")
       };
 }

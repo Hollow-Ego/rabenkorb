@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:rabenkorb/features/core/inputs/core_secondary_button.dart';
 import 'package:rabenkorb/services/core/dialog_service.dart';
 import 'package:rabenkorb/shared/state_types.dart';
+import 'package:rabenkorb/shared/widgets/inputs/core_secondary_button.dart';
 import 'package:watch_it/watch_it.dart';
 
 class DialogDebug extends StatefulWidget {

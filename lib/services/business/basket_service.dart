@@ -6,6 +6,7 @@ import 'package:rabenkorb/models/grouped_items.dart';
 import 'package:rabenkorb/models/shopping_basket_view_model.dart';
 import 'package:rabenkorb/services/data_access/basket_item_service.dart';
 import 'package:rabenkorb/services/data_access/shopping_basket_service.dart';
+import 'package:rabenkorb/services/state/basket_state_service.dart';
 import 'package:watch_it/watch_it.dart';
 
 import 'metadata_service.dart';
@@ -16,8 +17,11 @@ class BasketService {
   final _basketItemService = di<BasketItemService>();
   final _metadataService = di<MetadataService>();
   final _imageService = di<ImageService>();
+  final _basketStateService = di<BasketStateService>();
 
   Stream<List<GroupedItems<BasketItemViewModel>>> get basketItems => _basketItemService.basketItems;
+
+  Stream<List<ShoppingBasketViewModel>> get baskets => _shoppingBasketService.baskets;
 
   Future<int> createShoppingBasket(String name) {
     return _shoppingBasketService.createShoppingBasket(name);
@@ -27,8 +31,17 @@ class BasketService {
     return _shoppingBasketService.updateShoppingBasket(id, name);
   }
 
-  Future<ShoppingBasketViewModel?> getShoppingBasketById(int id) {
+  Future<ShoppingBasketViewModel?> getShoppingBasketById(int? id) {
+    if (id == null) {
+      return Future(() => null);
+    }
     return _shoppingBasketService.getShoppingBasketById(id);
+  }
+
+  Future<int?> setFirstShoppingBasketActive() async {
+    final firstBasketId = await _shoppingBasketService.getFirstShoppingBasketId();
+    await _basketStateService.setBasketId(firstBasketId);
+    return firstBasketId;
   }
 
   Future<int> deleteShoppingBasketById(int id) {
@@ -43,8 +56,9 @@ class BasketService {
     String name, {
     double amount = 0,
     int? categoryId,
-    required int basketId,
+    required int? basketId,
     File? image,
+    String? imagePath,
     int? unitId,
   }) async {
     basketId = await _ensureExistingBasket(basketId);
@@ -53,6 +67,7 @@ class BasketService {
 
     if (image != null) {
       image = await _imageService.saveImage(image);
+      imagePath = image?.path;
     }
 
     return _basketItemService.createBasketItem(
@@ -60,7 +75,7 @@ class BasketService {
       amount: amount,
       categoryId: categoryId,
       basketId: basketId,
-      imagePath: image?.path,
+      imagePath: imagePath,
       unitId: unitId,
     );
   }
@@ -148,11 +163,21 @@ class BasketService {
     return _basketItemService.removeAllItemsFromBasket(basketId);
   }
 
-  Future<int> _ensureExistingBasket(int basketId) async {
+  Future<int> _ensureExistingBasket(int? basketId) async {
+    basketId ??= await _shoppingBasketService.getFirstShoppingBasketId();
+
+    if (basketId == null) {
+      return _createDefaultBasket();
+    }
+
     final targetLibrary = await _shoppingBasketService.getShoppingBasketById(basketId);
     if (targetLibrary == null) {
-      return await _shoppingBasketService.createShoppingBasket(defaultBasketName);
+      return _createDefaultBasket();
     }
     return basketId;
+  }
+
+  Future<int> _createDefaultBasket() async {
+    return await _shoppingBasketService.createShoppingBasket(defaultBasketName);
   }
 }

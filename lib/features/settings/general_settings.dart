@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:rabenkorb/features/core/inputs/core_dropdown.dart';
 import 'package:rabenkorb/generated/l10n.dart';
 import 'package:rabenkorb/services/state/intl_state_service.dart';
+import 'package:rabenkorb/shared/widgets/inputs/core_dropdown.dart';
 import 'package:watch_it/watch_it.dart';
 
-class GeneralSettings extends StatelessWidget with WatchItMixin {
+class GeneralSettings extends StatelessWidget {
   const GeneralSettings({super.key});
 
   @override
