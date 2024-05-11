@@ -361,6 +361,26 @@ class S {
     );
   }
 
+  /// `Amount`
+  String get Amount {
+    return Intl.message(
+      'Amount',
+      name: 'Amount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Unit`
+  String get Unit {
+    return Intl.message(
+      'Unit',
+      name: 'Unit',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `New Item`
   String get NewItem {
     return Intl.message(
@@ -438,6 +458,16 @@ class S {
       name: 'PickImage',
       desc: '',
       args: [],
+    );
+  }
+
+  /// `{itemName} added`
+  String ItemAddedToCard(String itemName) {
+    return Intl.message(
+      '$itemName added',
+      name: 'ItemAddedToCard',
+      desc: 'Item added to card snackbar message',
+      args: [itemName],
     );
   }
 

@@ -39,6 +39,8 @@
   "Category": "Category",
   "Variant": "Variant",
   "Image": "Image",
+  "Amount": "Amount",
+  "Unit": "Unit",
   "NewItem": "New Item",
   "NoSearchResult": "No results",
   "NameMustNotBeEmpty": "Name must not be empty",
@@ -47,6 +49,15 @@
   "FromGallery": "From Gallery",
   "ClearImage": "Clear image",
   "PickImage": "Pick an image",
+  "ItemAddedToCard": "{itemName} added",
+  "@ItemAddedToCard": {
+    "description": "Item added to card snackbar message",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
   "New": "New",
   "Add": "Add",
   "Edit": "Edit",

@@ -27,6 +27,8 @@ class BasketStateService {
 
   Stream<int?> get basketId => _basketIdSubject.stream;
 
+  int? get basketIdSync => _basketIdSubject.value;
+
   Stream<bool> get alwaysCollapseCategories => _alwaysCollapseCategories.stream;
 
   Map<String, bool> _collapsedState = <String, bool>{};

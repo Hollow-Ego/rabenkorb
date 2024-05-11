@@ -24,12 +24,20 @@ class MetadataService implements Disposable {
 
   late StreamSubscription _categoriesSub;
   final _categories = BehaviorSubject<List<ItemCategoryViewModel>>.seeded([]);
-
   Stream<List<ItemCategoryViewModel>> get categories => _categories.stream;
+
+  late StreamSubscription _unitsSub;
+  final _units = BehaviorSubject<List<ItemUnitViewModel>>.seeded([]);
+
+  Stream<List<ItemUnitViewModel>> get units => _units.stream;
 
   MetadataService() {
     _categoriesSub = watchItemCategories().listen((categories) {
       _categories.add(categories);
+    });
+
+    _unitsSub = watchItemUnits().listen((units) {
+      _units.add(units);
     });
   }
 
@@ -121,5 +129,6 @@ class MetadataService implements Disposable {
   @override
   FutureOr onDispose() {
     _categoriesSub.cancel();
+    _unitsSub.cancel();
   }
 }
