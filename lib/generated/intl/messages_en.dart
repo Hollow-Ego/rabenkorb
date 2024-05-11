@@ -20,7 +20,9 @@ typedef String MessageIfAbsent(String messageStr, List<dynamic> args);
 class MessageLookup extends MessageLookupByLibrary {
   String get localeName => 'en';
 
-  static String m0(direction) => "${Intl.select(direction, {
+  static String m0(itemName) => "${itemName} added";
+
+  static String m1(direction) => "${Intl.select(direction, {
             'asc': 'Ascending',
             'desc': 'Descending',
           })}";
@@ -29,6 +31,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "Add": MessageLookupByLibrary.simpleMessage("Add"),
         "AlwaysCollapseCategories": MessageLookupByLibrary.simpleMessage("Always Collapse Headers"),
+        "Amount": MessageLookupByLibrary.simpleMessage("Amount"),
         "AppTitle": MessageLookupByLibrary.simpleMessage("Rabenkorb"),
         "Backup": MessageLookupByLibrary.simpleMessage("Backup"),
         "BackupCreate": MessageLookupByLibrary.simpleMessage("Create Backup"),
@@ -46,6 +49,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Home": MessageLookupByLibrary.simpleMessage("Home"),
         "Image": MessageLookupByLibrary.simpleMessage("Image"),
         "Item": MessageLookupByLibrary.simpleMessage("Item"),
+        "ItemAddedToCard": m0,
         "Language": MessageLookupByLibrary.simpleMessage("Language"),
         "LanguageDisplayName": MessageLookupByLibrary.simpleMessage("English"),
         "Library": MessageLookupByLibrary.simpleMessage("Library"),
@@ -69,9 +73,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "SettingsLibrary": MessageLookupByLibrary.simpleMessage("Library Settings"),
         "SortByDatabaseOrder": MessageLookupByLibrary.simpleMessage("Creation"),
         "SortByName": MessageLookupByLibrary.simpleMessage("Name"),
-        "SortDirection": m0,
+        "SortDirection": m1,
         "TakePicture": MessageLookupByLibrary.simpleMessage("Take Picture"),
         "Template": MessageLookupByLibrary.simpleMessage("Template"),
+        "Unit": MessageLookupByLibrary.simpleMessage("Unit"),
         "Unnamed": MessageLookupByLibrary.simpleMessage("Unnamed"),
         "Variant": MessageLookupByLibrary.simpleMessage("Variant")
       };

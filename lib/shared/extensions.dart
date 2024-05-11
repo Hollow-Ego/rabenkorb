@@ -8,6 +8,10 @@ extension NullableStrings on String? {
   bool isValid() {
     return this != null && this!.isNotEmpty;
   }
+
+  double toDoubleOrZero() {
+    return double.tryParse(this!) ?? 0;
+  }
 }
 
 extension FirstWhereExt<T> on List<T> {

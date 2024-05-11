@@ -8,6 +8,7 @@ import 'package:rabenkorb/models/item_template_view_model.dart';
 import 'package:rabenkorb/services/business/metadata_service.dart';
 import 'package:rabenkorb/shared/extensions.dart';
 import 'package:rabenkorb/shared/helper_functions.dart';
+import 'package:rabenkorb/shared/widgets/constant_widgets.dart';
 import 'package:rabenkorb/shared/widgets/form/category_dropdown.dart';
 import 'package:rabenkorb/shared/widgets/form/core_image_form_field.dart';
 import 'package:rabenkorb/shared/widgets/form/core_text_form_field.dart';
@@ -26,7 +27,6 @@ class ItemTemplateDetailsForm extends StatefulWidget {
 }
 
 class _ItemTemplateDetailsFormState extends State<ItemTemplateDetailsForm> {
-  final _gap = const SizedBox(height: 10);
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   ItemCategoryViewModel? _category;
@@ -89,7 +89,7 @@ class _ItemTemplateDetailsFormState extends State<ItemTemplateDetailsForm> {
               return S.of(context).NameMustNotBeEmpty;
             },
           ),
-          _gap,
+          gap,
           CategoryDropdown(
             dropdownKey: "item-template-category-dropdown",
             onChanged: (category) {
@@ -105,7 +105,7 @@ class _ItemTemplateDetailsFormState extends State<ItemTemplateDetailsForm> {
               });
             },
           ),
-          _gap,
+          gap,
           ImageFormField(
             initialValue: _image,
             onSaved: (file) => {_image = file},

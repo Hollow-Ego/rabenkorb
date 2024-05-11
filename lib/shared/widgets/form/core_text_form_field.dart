@@ -10,6 +10,7 @@ class CoreTextFormField extends StatelessWidget {
   final String? initialValue;
   final String? formFieldKey;
   final Function(String)? onChanged;
+  final TextInputType keyboardType;
 
   const CoreTextFormField({
     super.key,
@@ -21,6 +22,7 @@ class CoreTextFormField extends StatelessWidget {
     this.initialValue,
     this.onChanged,
     this.formFieldKey,
+    this.keyboardType = TextInputType.text,
   });
 
   @override
@@ -36,6 +38,7 @@ class CoreTextFormField extends StatelessWidget {
       validator: validator,
       initialValue: initialValue,
       onChanged: onChanged,
+      keyboardType: keyboardType,
     );
   }
 }

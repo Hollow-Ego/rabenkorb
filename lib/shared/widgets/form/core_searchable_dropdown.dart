@@ -85,7 +85,11 @@ class CoreSearchableDropdown<T> extends StatelessWidget {
           ),
         ),
       ),
-      dropdownDecoratorProps: DropDownDecoratorProps(dropdownSearchDecoration: inputDecoration),
+      dropdownDecoratorProps: DropDownDecoratorProps(
+        dropdownSearchDecoration: inputDecoration?.copyWith(
+          floatingLabelBehavior: FloatingLabelBehavior.auto,
+        ),
+      ),
     );
   }
 }

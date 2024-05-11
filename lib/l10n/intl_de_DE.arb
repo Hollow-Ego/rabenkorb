@@ -39,6 +39,8 @@
   "Category": "Kategorie",
   "Variant": "Variante",
   "Image": "Bild",
+  "Amount": "Menge",
+  "Unit": "Einheit",
   "NewItem": "Neuer Artikel",
   "NoSearchResult": "Keine Ergebnisse",
   "NameMustNotBeEmpty": "Name darf nicht leer sein",
@@ -47,6 +49,15 @@
   "FromGallery": "Aus Gallerie",
   "ClearImage": "Bild zurücksetzen",
   "PickImage": "Bild auswählen",
+  "ItemAddedToCard": "{itemName} hinzugefügt",
+  "@ItemAddedToCard": {
+    "description": "Item added to card snackbar message",
+    "placeholders": {
+      "itemName": {
+        "type": "String"
+      }
+    }
+  },
   "New": "Neu",
   "Add": "Hinzufügen",
   "Edit": "Bearbeiten",
