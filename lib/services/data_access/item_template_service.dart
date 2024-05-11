@@ -19,6 +19,8 @@ class ItemTemplateService implements Disposable {
 
   Stream<List<GroupedItems<ItemTemplateViewModel>>> get itemTemplates => _itemTemplates.stream;
 
+  List<GroupedItems<ItemTemplateViewModel>> get itemTemplatesSync => _itemTemplates.value;
+
   ItemTemplateService() {
     _templateSub = Rx.combineLatest4(
       _libraryStateService.sortMode,

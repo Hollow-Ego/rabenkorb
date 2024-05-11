@@ -21,6 +21,8 @@ class LibraryService {
 
   Stream<List<GroupedItems<ItemTemplateViewModel>>> get itemTemplates => _itemTemplateService.itemTemplates;
 
+  List<int> get shownItemIds => _itemTemplateService.itemTemplatesSync.expand((group) => group.items.map((item) => item.id)).toList();
+
   Stream<List<SortRuleViewModel>> get sortRules => _sortRuleService.sortRules;
 
   Future<int> createLibrary(String name) {
@@ -200,6 +202,15 @@ class LibraryService {
   Future<int> deleteItemTemplateById(int templateId) async {
     await removeItemTemplateImage(templateId);
     return _itemTemplateService.deleteItemTemplateById(templateId);
+  }
+
+  Future<int> deleteItemTemplates(List<int> templateIds) async {
+    int deletedItems = 0;
+    for (var templateId in templateIds) {
+      await removeItemTemplateImage(templateId);
+      deletedItems += await _itemTemplateService.deleteItemTemplateById(templateId);
+    }
+    return deletedItems;
   }
 
   Future<int> _ensureExistingLibrary(int? libraryId) async {

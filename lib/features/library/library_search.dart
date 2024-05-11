@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rabenkorb/features/library/library_popup_menu.dart';
 import 'package:rabenkorb/generated/l10n.dart';
 import 'package:rabenkorb/routing/routes.dart';
 import 'package:rabenkorb/services/state/library_state_service.dart';
@@ -59,6 +60,7 @@ class _LibrarySearchState extends State<LibrarySearch> {
               setState(() {});
             },
           ),
+        if (_queryController.text.isEmpty) const LibraryPopupMenu(),
       ],
     );
   }

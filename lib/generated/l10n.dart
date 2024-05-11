@@ -471,6 +471,46 @@ class S {
     );
   }
 
+  /// `Select all`
+  String get SelectAll {
+    return Intl.message(
+      'Select all',
+      name: 'SelectAll',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deselect all`
+  String get DeselectAll {
+    return Intl.message(
+      'Deselect all',
+      name: 'DeselectAll',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete selected`
+  String get DeleteSelected {
+    return Intl.message(
+      'Delete selected',
+      name: 'DeleteSelected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select multiple`
+  String get EnterMultiSelect {
+    return Intl.message(
+      'Select multiple',
+      name: 'EnterMultiSelect',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `New`
   String get New {
     return Intl.message(

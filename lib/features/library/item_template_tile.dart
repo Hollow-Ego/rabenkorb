@@ -4,17 +4,26 @@ import 'package:rabenkorb/features/library/item_template_popup_menu.dart';
 import 'package:rabenkorb/models/item_template_view_model.dart';
 import 'package:rabenkorb/services/business/basket_service.dart';
 import 'package:rabenkorb/services/state/basket_state_service.dart';
+import 'package:rabenkorb/services/state/library_state_service.dart';
 import 'package:rabenkorb/shared/extensions.dart';
 import 'package:rabenkorb/shared/widgets/display/core_icon.dart';
 import 'package:rabenkorb/shared/widgets/display/item_image.dart';
+import 'package:rabenkorb/shared/widgets/inputs/core_checkbox.dart';
 import 'package:rabenkorb/shared/widgets/inputs/core_icon_button.dart';
 import 'package:watch_it/watch_it.dart';
 
 class ItemTemplateTile extends StatelessWidget {
   final ItemTemplateViewModel item;
   final double iconSize = 26;
+  final bool isMultiSelectMode;
+  final bool isSelected;
 
-  const ItemTemplateTile(this.item, {super.key});
+  const ItemTemplateTile(
+    this.item, {
+    super.key,
+    this.isMultiSelectMode = false,
+    this.isSelected = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +61,17 @@ class ItemTemplateTile extends StatelessWidget {
                 }
               },
             ),
-            ItemTemplatePopupMenu(item),
+            if (!isMultiSelectMode) ItemTemplatePopupMenu(item),
+            if (isMultiSelectMode)
+              CoreCheckbox(
+                value: isSelected,
+                onChanged: (value) {
+                  if (value == null) {
+                    return;
+                  }
+                  di<LibraryStateService>().setSelectionState(item.id, value);
+                },
+              ),
           ],
         ),
       ),

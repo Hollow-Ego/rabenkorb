@@ -58,6 +58,10 @@
       }
     }
   },
+  "SelectAll": "Alle auswählen",
+  "DeselectAll": "Alle abwählen",
+  "DeleteSelected": "Ausgewählte löschen",
+  "EnterMultiSelect": "Mehrere auswählen",
   "New": "Neu",
   "Add": "Hinzufügen",
   "Edit": "Bearbeiten",
