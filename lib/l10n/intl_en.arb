@@ -58,6 +58,10 @@
       }
     }
   },
+  "SelectAll": "Select all",
+  "DeselectAll": "Deselect all",
+  "DeleteSelected": "Delete selected",
+  "EnterMultiSelect": "Select multiple",
   "New": "New",
   "Add": "Add",
   "Edit": "Edit",

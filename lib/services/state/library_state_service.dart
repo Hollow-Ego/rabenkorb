@@ -17,6 +17,8 @@ class LibraryStateService {
   final BehaviorSubject<SortMode> _sortModeSubject = BehaviorSubject<SortMode>.seeded(SortMode.name);
   final BehaviorSubject<SortDirection> _sortDirectionSubject = BehaviorSubject<SortDirection>.seeded(SortDirection.asc);
   final BehaviorSubject<bool> _alwaysCollapseCategories = BehaviorSubject<bool>.seeded(false);
+  final BehaviorSubject<bool> _multiSelectMode = BehaviorSubject<bool>.seeded(false);
+  final BehaviorSubject<Map<int, bool>> _selectedItems = BehaviorSubject<Map<int, bool>>.seeded({});
 
   int? get libraryIdSync => _libraryIdSubject.value;
 
@@ -29,6 +31,7 @@ class LibraryStateService {
   int? get sortRuleIdSync => _sortRuleIdSubject.value;
 
   Stream<SortMode> get sortMode => _sortModeSubject.stream;
+
   SortMode get sortModeSync => _sortModeSubject.value;
 
   Stream<SortDirection> get sortDirection => _sortDirectionSubject.stream;
@@ -36,6 +39,12 @@ class LibraryStateService {
   SortDirection get sortDirectionSync => _sortDirectionSubject.value;
 
   Stream<bool> get alwaysCollapseCategories => _alwaysCollapseCategories.stream;
+
+  Stream<bool> get isMultiSelectMode => _multiSelectMode.stream;
+
+  Stream<Map<int, bool>> get selectedItemsMap => _selectedItems.stream;
+
+  List<int> get selectedItemsSync => _selectedItems.value.entries.where((e) => e.value).map((e) => e.key).toList();
 
   Map<String, bool> _collapsedState = <String, bool>{};
 
@@ -111,6 +120,34 @@ class LibraryStateService {
 
   bool isCollapsed(String headerKey) {
     return _collapsedState[headerKey] ?? false;
+  }
+
+  void enterMultiSelectMode() {
+    _multiSelectMode.add(true);
+  }
+
+  void leaveMultiSelectMode() {
+    _multiSelectMode.add(false);
+    _selectedItems.add({});
+  }
+
+  void setSelectionState(int id, bool state) {
+    final selectedItems = _selectedItems.value;
+    selectedItems[id] = state;
+    _selectedItems.add(selectedItems);
+  }
+
+  void selectAll(List<int> ids) {
+    Map<int, bool> selectedItems = {};
+
+    for (var id in ids) {
+      selectedItems[id] = true;
+    }
+    _selectedItems.add(selectedItems);
+  }
+
+  void deselectAll() {
+    _selectedItems.add({});
   }
 
   void init() {

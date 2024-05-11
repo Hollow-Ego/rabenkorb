@@ -18,6 +18,13 @@ class LibraryItemTemplateList extends StatelessWidget with WatchItMixin {
     final alwaysCollapseCategoriesData = watchStream((LibraryStateService p0) => p0.alwaysCollapseCategories, initialValue: false);
     final alwaysCollapseCategories = alwaysCollapseCategoriesData.hasData && alwaysCollapseCategoriesData.data!;
     final activeSortRule = di<LibraryStateService>().sortRuleIdSync;
+
+    final multiSelectMode = watchStream((LibraryStateService p0) => p0.isMultiSelectMode, initialValue: false);
+    final isMultiSelectMode = multiSelectMode.data ?? false;
+
+    AsyncSnapshot<Map<int, bool>> selectedItems = watchStream((LibraryStateService p0) => p0.selectedItemsMap, initialValue: {});
+    final selectedItemsMap = selectedItems.data ?? {};
+
     return Expanded(
       child: CoreGroupedList<ItemTemplateViewModel>(
         listKey: 'library-item-template-list',
@@ -27,7 +34,11 @@ class LibraryItemTemplateList extends StatelessWidget with WatchItMixin {
         },
         canDragList: activeSortRule != null,
         itemContentBuilder: (BuildContext context, ItemTemplateViewModel item) {
-          return ItemTemplateTile(item);
+          return ItemTemplateTile(
+            item,
+            isMultiSelectMode: isMultiSelectMode,
+            isSelected: selectedItemsMap[item.id] ?? false,
+          );
         },
         onExpansionChange: (bool isExpanded, ItemCategoryViewModel header, String headerKey) async {
           if (alwaysCollapseCategories) {
