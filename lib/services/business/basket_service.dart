@@ -35,6 +35,8 @@ class BasketService implements Disposable {
 
   Stream<ShoppingBasketViewModel?> get activeBasket => _activeBasket.stream;
 
+  ShoppingBasketViewModel? get activeBasketSync => _activeBasket.value;
+
   Stream<List<SortRuleViewModel>> get sortRules => _sortRuleService.sortRules;
 
   BasketService() {

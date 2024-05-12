@@ -13,6 +13,7 @@ enum BasketPopupMenuActions {
   enterMultiSelect,
   deleteMarked,
   deleteAll,
+  renameBasket,
 }
 
 class BasketPopupMenu extends StatelessWidget with WatchItMixin {
@@ -62,7 +63,7 @@ class BasketPopupMenu extends StatelessWidget with WatchItMixin {
             if (basketId == null) {
               return;
             }
-            doWithConfirmation(
+            await doWithConfirmation(
               context,
               text: S.of(context).ConfirmDeleteAllItems,
               title: S.of(context).Confirm,
@@ -71,6 +72,25 @@ class BasketPopupMenu extends StatelessWidget with WatchItMixin {
               },
             );
 
+            return;
+          case BasketPopupMenuActions.renameBasket:
+            final activeBasket = basketService.activeBasketSync;
+            if (activeBasket == null) {
+              return;
+            }
+            final initialName = activeBasket.name;
+            final id = activeBasket.id;
+
+            await showRenameDialog(
+              context,
+              initialName: initialName,
+              onConfirm: (String? newName, bool nameChanged) async {
+                if (!nameChanged || newName == null) {
+                  return;
+                }
+                await basketService.updateShoppingBasket(id, newName);
+              },
+            );
             return;
         }
       },
@@ -114,6 +134,11 @@ class BasketPopupMenu extends StatelessWidget with WatchItMixin {
 
   List<PopupMenuEntry<BasketPopupMenuActions>> _normalItems(BuildContext context) {
     return <PopupMenuEntry<BasketPopupMenuActions>>[
+      PopupMenuItem<BasketPopupMenuActions>(
+        key: const Key("basket-popup-menu-rename-basket"),
+        value: BasketPopupMenuActions.renameBasket,
+        child: Text(S.of(context).Rename),
+      ),
       PopupMenuItem<BasketPopupMenuActions>(
         key: const Key("basket-popup-menu-enter-multiselect"),
         value: BasketPopupMenuActions.enterMultiSelect,

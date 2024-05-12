@@ -551,6 +551,16 @@ class S {
     );
   }
 
+  /// `Rename`
+  String get Rename {
+    return Intl.message(
+      'Rename',
+      name: 'Rename',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `New`
   String get New {
     return Intl.message(

@@ -9,6 +9,7 @@ import 'package:rabenkorb/services/state/library_state_service.dart';
 import 'package:rabenkorb/services/state/loading_state.dart';
 import 'package:rabenkorb/shared/default_sort_rules.dart';
 import 'package:rabenkorb/shared/state_types.dart';
+import 'package:rabenkorb/shared/widgets/rename_dialog.dart';
 import 'package:watch_it/watch_it.dart';
 
 Future<T> doWithLoadingIndicator<T>(Future<T> Function() operation) async {
@@ -36,6 +37,27 @@ Future<void> doWithConfirmation(
     type: type,
     onConfirm: onConfirm,
     onCancel: onCancel,
+  );
+}
+
+Future<void> showRenameDialog(
+  BuildContext context, {
+  String? initialName,
+  required Future<void> Function(String? newName, bool nameChanged) onConfirm,
+  Future<void> Function()? onCancel,
+}) {
+  return showDialog<String?>(
+    context: context,
+    builder: (BuildContext context) {
+      return RenameDialog(
+        initialName: initialName,
+        onConfirm: (String? newName) async {
+          bool nameChanged = newName != initialName;
+          onConfirm(newName, nameChanged);
+        },
+        onCancel: onCancel,
+      );
+    },
   );
 }
 
