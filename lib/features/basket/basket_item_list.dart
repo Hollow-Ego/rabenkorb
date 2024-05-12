@@ -20,6 +20,10 @@ class BasketItemList extends StatelessWidget with WatchItMixin {
     final activeSortRule = di<BasketStateService>().sortRuleIdSync;
     final isShoppingModeStream = watchStream((BasketStateService p0) => p0.isShoppingMode, initialValue: false);
     final isShoppingMode = isShoppingModeStream.data ?? false;
+    final multiSelectMode = watchStream((BasketStateService p0) => p0.isMultiSelectMode, initialValue: false);
+    final isMultiSelectMode = multiSelectMode.data ?? false;
+    AsyncSnapshot<Map<int, bool>> selectedItems = watchStream((BasketStateService p0) => p0.selectedItemsMap, initialValue: {});
+    final selectedItemsMap = selectedItems.data ?? {};
 
     return Expanded(
       child: CoreGroupedList<BasketItemViewModel>(
@@ -32,7 +36,9 @@ class BasketItemList extends StatelessWidget with WatchItMixin {
         itemContentBuilder: (BuildContext context, BasketItemViewModel item) {
           return BasketItemTile(
             item,
+            isMultiSelectMode: isMultiSelectMode,
             isShoppingMode: isShoppingMode,
+            isSelected: selectedItemsMap[item.id] ?? false,
           );
         },
         onExpansionChange: (bool isExpanded, ItemCategoryViewModel header, String headerKey) async {

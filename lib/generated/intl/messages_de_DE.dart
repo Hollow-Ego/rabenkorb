@@ -43,6 +43,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "Confirm": MessageLookupByLibrary.simpleMessage("Bestätigen"),
         "Debug": MessageLookupByLibrary.simpleMessage("Debug"),
         "Delete": MessageLookupByLibrary.simpleMessage("Löschen"),
+        "DeleteAll": MessageLookupByLibrary.simpleMessage("Alle löschen"),
+        "DeleteMarked": MessageLookupByLibrary.simpleMessage("Markierte Artikel löschen"),
         "DeleteSelected": MessageLookupByLibrary.simpleMessage("Ausgewählte löschen"),
         "DeselectAll": MessageLookupByLibrary.simpleMessage("Alle abwählen"),
         "Edit": MessageLookupByLibrary.simpleMessage("Bearbeiten"),

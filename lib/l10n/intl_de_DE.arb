@@ -63,6 +63,8 @@
   "DeleteSelected": "Ausgewählte löschen",
   "EnterMultiSelect": "Mehrere auswählen",
   "NoShoppingBasketSelected": "Keinen Korb ausgewählt",
+  "DeleteMarked": "Markierte Artikel löschen",
+  "DeleteAll": "Alle löschen",
   "New": "Neu",
   "Add": "Hinzufügen",
   "Edit": "Bearbeiten",

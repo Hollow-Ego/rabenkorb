@@ -21,6 +21,8 @@ class BasketItemService implements Disposable {
 
   Stream<List<GroupedItems<BasketItemViewModel>>> get basketItems => _basketItems.stream;
 
+  List<GroupedItems<BasketItemViewModel>> get basketItemsSync => _basketItems.value;
+
   BasketItemService() {
     _basketItemsSub = Rx.combineLatest5(
       _basketStateService.sortMode,

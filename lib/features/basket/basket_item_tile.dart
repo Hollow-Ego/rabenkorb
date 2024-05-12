@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rabenkorb/features/basket/basket_item_popup_menu.dart';
 import 'package:rabenkorb/models/basket_item_view_model.dart';
 import 'package:rabenkorb/services/business/basket_service.dart';
+import 'package:rabenkorb/services/state/basket_state_service.dart';
 import 'package:rabenkorb/shared/extensions.dart';
 import 'package:rabenkorb/shared/widgets/display/item_image.dart';
 import 'package:rabenkorb/shared/widgets/inputs/core_checkbox.dart';
@@ -45,6 +46,7 @@ class BasketItemTile extends StatelessWidget {
                   if (value == null) {
                     return;
                   }
+                  di<BasketStateService>().setSelectionState(item.id, value);
                 },
               ),
             if (isShoppingMode)

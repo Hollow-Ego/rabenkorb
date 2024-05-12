@@ -11,8 +11,17 @@ class BasketDropdown extends StatelessWidget with WatchItMixin {
   final Function(String)? onNoSearchResultAction;
   final String? dropdownKey;
   final InputDecoration? inputDecoration;
+  final bool disabled;
 
-  const BasketDropdown({super.key, this.selectedBasket, required this.onChanged, this.onNoSearchResultAction, this.dropdownKey, this.inputDecoration});
+  const BasketDropdown({
+    super.key,
+    this.selectedBasket,
+    required this.onChanged,
+    this.onNoSearchResultAction,
+    this.dropdownKey,
+    this.inputDecoration,
+    this.disabled = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +42,7 @@ class BasketDropdown extends StatelessWidget with WatchItMixin {
             labelText: S.of(context).Basket,
           ),
       allowEmptyValue: false,
+      disabled: disabled,
     );
   }
 }

@@ -521,6 +521,26 @@ class S {
     );
   }
 
+  /// `Delete marked items`
+  String get DeleteMarked {
+    return Intl.message(
+      'Delete marked items',
+      name: 'DeleteMarked',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete all`
+  String get DeleteAll {
+    return Intl.message(
+      'Delete all',
+      name: 'DeleteAll',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `New`
   String get New {
     return Intl.message(

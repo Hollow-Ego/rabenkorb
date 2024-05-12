@@ -63,6 +63,8 @@
   "DeleteSelected": "Delete selected",
   "EnterMultiSelect": "Select multiple",
   "NoShoppingBasketSelected": "No basket selected",
+  "DeleteMarked": "Delete marked items",
+  "DeleteAll": "Delete all",
   "New": "New",
   "Add": "Add",
   "Edit": "Edit",

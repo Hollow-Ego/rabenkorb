@@ -26,6 +26,8 @@ class BasketService implements Disposable {
 
   Stream<List<GroupedItems<BasketItemViewModel>>> get basketItems => _basketItemService.basketItems;
 
+  List<int> get shownItemIds => _basketItemService.basketItemsSync.expand((group) => group.items.map((item) => item.id)).toList();
+
   Stream<List<ShoppingBasketViewModel>> get baskets => _shoppingBasketService.baskets;
 
   late StreamSubscription _activeBasketSub;
@@ -189,6 +191,15 @@ class BasketService implements Disposable {
 
   Future<int> removeAllItemsFromBasket(int basketId) {
     return _basketItemService.removeAllItemsFromBasket(basketId);
+  }
+
+  Future<int> deleteBasketItems(List<int> templateIds) async {
+    int deletedItems = 0;
+    for (var templateId in templateIds) {
+      await removeBasketItemImage(templateId);
+      deletedItems += await _basketItemService.deleteBasketItemById(templateId);
+    }
+    return deletedItems;
   }
 
   Future<int> _ensureExistingBasket(int? basketId) async {

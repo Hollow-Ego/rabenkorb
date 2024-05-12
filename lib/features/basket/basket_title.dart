@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rabenkorb/features/basket/basket_popup_menu.dart';
 import 'package:rabenkorb/features/basket/shopping_mode_toggle.dart';
 import 'package:rabenkorb/models/shopping_basket_view_model.dart';
 import 'package:rabenkorb/services/business/basket_service.dart';
@@ -12,6 +13,13 @@ class BasketTitle extends StatelessWidget with WatchItMixin {
   @override
   Widget build(BuildContext context) {
     final activeBasket = watchStream((BasketService p0) => p0.activeBasket, initialValue: null);
+
+    final isShoppingModeStream = watchStream((BasketStateService p0) => p0.isShoppingMode, initialValue: false);
+    final isShoppingMode = isShoppingModeStream.data ?? false;
+
+    final isMultiSelectModeStream = watchStream((BasketStateService p0) => p0.isMultiSelectMode, initialValue: false);
+    final isMultiSelectMode = isMultiSelectModeStream.data ?? false;
+
     return Row(
       mainAxisSize: MainAxisSize.max,
       children: [
@@ -28,9 +36,14 @@ class BasketTitle extends StatelessWidget with WatchItMixin {
             inputDecoration: const InputDecoration(
               border: InputBorder.none,
             ),
+            disabled: isMultiSelectMode || isShoppingMode,
           ),
         ),
-        const Expanded(child: ShoppingModeToggle())
+        ShoppingModeToggle(disabled: isMultiSelectMode),
+        BasketPopupMenu(
+          isShoppingMode: isShoppingMode,
+          isMultiSelectMode: isMultiSelectMode,
+        ),
       ],
     );
   }

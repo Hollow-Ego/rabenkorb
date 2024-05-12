@@ -17,6 +17,8 @@ class BasketStateService {
   final BehaviorSubject<int?> _basketIdSubject = BehaviorSubject<int>();
   final BehaviorSubject<bool> _alwaysCollapseCategories = BehaviorSubject<bool>.seeded(false);
   final BehaviorSubject<bool> _isShoppingMode = BehaviorSubject<bool>.seeded(false);
+  final BehaviorSubject<bool> _multiSelectMode = BehaviorSubject<bool>.seeded(false);
+  final BehaviorSubject<Map<int, bool>> _selectedItems = BehaviorSubject<Map<int, bool>>.seeded({});
 
   Stream<String> get search => _searchSubject.stream.debounceTime(const Duration(milliseconds: 300));
 
@@ -41,6 +43,12 @@ class BasketStateService {
   Map<String, bool> _collapsedState = <String, bool>{};
 
   Stream<bool> get isShoppingMode => _isShoppingMode.stream;
+
+  Stream<bool> get isMultiSelectMode => _multiSelectMode.stream;
+
+  Stream<Map<int, bool>> get selectedItemsMap => _selectedItems.stream;
+
+  List<int> get selectedItemsSync => _selectedItems.value.entries.where((e) => e.value).map((e) => e.key).toList();
 
   BasketStateService() {
     init();
@@ -128,6 +136,34 @@ class BasketStateService {
     final newValue = !current;
     _prefs.setBool(PreferenceKeys.basketShoppingMode, newValue);
     _isShoppingMode.add(newValue);
+  }
+
+  void enterMultiSelectMode() {
+    _multiSelectMode.add(true);
+  }
+
+  void leaveMultiSelectMode() {
+    _multiSelectMode.add(false);
+    _selectedItems.add({});
+  }
+
+  void setSelectionState(int id, bool state) {
+    final selectedItems = _selectedItems.value;
+    selectedItems[id] = state;
+    _selectedItems.add(selectedItems);
+  }
+
+  void selectAll(List<int> ids) {
+    Map<int, bool> selectedItems = {};
+
+    for (var id in ids) {
+      selectedItems[id] = true;
+    }
+    _selectedItems.add(selectedItems);
+  }
+
+  void deselectAll() {
+    _selectedItems.add({});
   }
 
   void init() {
