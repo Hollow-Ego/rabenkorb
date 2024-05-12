@@ -541,6 +541,16 @@ class S {
     );
   }
 
+  /// `Are you sure you want to delete all items?`
+  String get ConfirmDeleteAllItems {
+    return Intl.message(
+      'Are you sure you want to delete all items?',
+      name: 'ConfirmDeleteAllItems',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `New`
   String get New {
     return Intl.message(

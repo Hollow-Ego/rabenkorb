@@ -65,6 +65,7 @@
   "NoShoppingBasketSelected": "No basket selected",
   "DeleteMarked": "Delete marked items",
   "DeleteAll": "Delete all",
+  "ConfirmDeleteAllItems": "Are you sure you want to delete all items?",
   "New": "New",
   "Add": "Add",
   "Edit": "Edit",

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rabenkorb/generated/l10n.dart';
 import 'package:rabenkorb/services/business/basket_service.dart';
 import 'package:rabenkorb/services/state/basket_state_service.dart';
+import 'package:rabenkorb/shared/helper_functions.dart';
 import 'package:watch_it/watch_it.dart';
 
 enum BasketPopupMenuActions {
@@ -61,7 +62,15 @@ class BasketPopupMenu extends StatelessWidget with WatchItMixin {
             if (basketId == null) {
               return;
             }
-            basketService.removeAllItemsFromBasket(basketId);
+            doWithConfirmation(
+              context,
+              text: S.of(context).ConfirmDeleteAllItems,
+              title: S.of(context).Confirm,
+              onConfirm: () async {
+                basketService.removeAllItemsFromBasket(basketId);
+              },
+            );
+
             return;
         }
       },

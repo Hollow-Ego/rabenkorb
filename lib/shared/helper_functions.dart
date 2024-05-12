@@ -3,10 +3,12 @@ import 'package:image_picker/image_picker.dart';
 import 'package:rabenkorb/abstracts/data_item.dart';
 import 'package:rabenkorb/generated/l10n.dart';
 import 'package:rabenkorb/models/grouped_items.dart';
+import 'package:rabenkorb/services/core/dialog_service.dart';
 import 'package:rabenkorb/services/data_access/sort_order_service.dart';
 import 'package:rabenkorb/services/state/library_state_service.dart';
 import 'package:rabenkorb/services/state/loading_state.dart';
 import 'package:rabenkorb/shared/default_sort_rules.dart';
+import 'package:rabenkorb/shared/state_types.dart';
 import 'package:watch_it/watch_it.dart';
 
 Future<T> doWithLoadingIndicator<T>(Future<T> Function() operation) async {
@@ -17,6 +19,24 @@ Future<T> doWithLoadingIndicator<T>(Future<T> Function() operation) async {
   } finally {
     di<LoadingIndicatorState>().stop();
   }
+}
+
+Future<void> doWithConfirmation(
+  BuildContext context, {
+  required Future<void> Function() onConfirm,
+  required String text,
+  String? title,
+  StateType type = StateType.warning,
+  Future<void> Function()? onCancel,
+}) async {
+  return await di<DialogService>().showConfirm(
+    context: context,
+    text: text,
+    title: title,
+    type: type,
+    onConfirm: onConfirm,
+    onCancel: onCancel,
+  );
 }
 
 Future<ImageSource?> pickImageSource(BuildContext context) async {
