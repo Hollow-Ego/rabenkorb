@@ -24,6 +24,7 @@ class BasketItemTile extends StatelessWidget {
       key: Key(item.key),
       child: ListTile(
         title: Text(item.name),
+        subtitle: _subtitle(),
         trailing: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           mainAxisSize: MainAxisSize.min,
@@ -46,5 +47,16 @@ class BasketItemTile extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Widget? _subtitle() {
+    final unit = item.unit;
+    final amount = item.amount;
+    final hasAmount = amount > 0;
+    if (unit == null && !hasAmount) {
+      return null;
+    }
+    final subtitle = "${hasAmount ? amount.toFormattedString() : ''} ${unit?.name ?? ''}";
+    return Text(subtitle.trim());
   }
 }

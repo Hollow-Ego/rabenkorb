@@ -14,6 +14,16 @@ extension NullableStrings on String? {
   }
 }
 
+extension DoubleTransformation on double {
+  String toFormattedString() {
+    var text = toString();
+    if (text.contains('.') && double.parse(text) == truncateToDouble()) {
+      return text.substring(0, text.indexOf('.'));
+    }
+    return text;
+  }
+}
+
 extension FirstWhereExt<T> on List<T> {
   /// The first element satisfying [test], or `null` if there are none.
   T? firstWhereOrNull(bool Function(T element) test) {
