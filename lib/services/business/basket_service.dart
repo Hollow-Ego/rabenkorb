@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:rabenkorb/abstracts/image_service.dart';
@@ -7,11 +8,12 @@ import 'package:rabenkorb/models/shopping_basket_view_model.dart';
 import 'package:rabenkorb/services/data_access/basket_item_service.dart';
 import 'package:rabenkorb/services/data_access/shopping_basket_service.dart';
 import 'package:rabenkorb/services/state/basket_state_service.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:watch_it/watch_it.dart';
 
 import 'metadata_service.dart';
 
-class BasketService {
+class BasketService implements Disposable {
   static const defaultBasketName = "Unnamed Basket";
   final _shoppingBasketService = di<ShoppingBasketService>();
   final _basketItemService = di<BasketItemService>();
@@ -23,7 +25,21 @@ class BasketService {
 
   Stream<List<ShoppingBasketViewModel>> get baskets => _shoppingBasketService.baskets;
 
-  Future<int> createShoppingBasket(String name) {
+  late StreamSubscription _activeBasketSub;
+  final BehaviorSubject<ShoppingBasketViewModel?> _activeBasket = BehaviorSubject<ShoppingBasketViewModel?>.seeded(null);
+
+  Stream<ShoppingBasketViewModel?> get activeBasket => _activeBasket.stream;
+
+  BasketService() {
+    _activeBasketSub = _basketStateService.basketId.switchMap((basketId) => watchShoppingBasketById(basketId)).listen((basket) {
+      _activeBasket.add(basket);
+    });
+  }
+
+  Future<int> createShoppingBasket(String? name) {
+    if (name == null) {
+      return _createDefaultBasket();
+    }
     return _shoppingBasketService.createShoppingBasket(name);
   }
 
@@ -36,6 +52,13 @@ class BasketService {
       return Future(() => null);
     }
     return _shoppingBasketService.getShoppingBasketById(id);
+  }
+
+  Stream<ShoppingBasketViewModel?> watchShoppingBasketById(int? id) {
+    if (id == null) {
+      return Stream.value(null);
+    }
+    return _shoppingBasketService.watchShoppingBasketById(id);
   }
 
   Future<int?> setFirstShoppingBasketActive() async {
@@ -164,7 +187,12 @@ class BasketService {
   }
 
   Future<int> _ensureExistingBasket(int? basketId) async {
-    basketId ??= await _shoppingBasketService.getFirstShoppingBasketId();
+    if (basketId == null) {
+      basketId = await _shoppingBasketService.getFirstShoppingBasketId();
+      if (basketId != null) {
+        await _basketStateService.setBasketId(basketId);
+      }
+    }
 
     if (basketId == null) {
       return _createDefaultBasket();
@@ -178,6 +206,13 @@ class BasketService {
   }
 
   Future<int> _createDefaultBasket() async {
-    return await _shoppingBasketService.createShoppingBasket(defaultBasketName);
+    final newBasketId = await _shoppingBasketService.createShoppingBasket(defaultBasketName);
+    await _basketStateService.setBasketId(newBasketId);
+    return newBasketId;
+  }
+
+  @override
+  FutureOr onDispose() {
+    _activeBasketSub.cancel();
   }
 }

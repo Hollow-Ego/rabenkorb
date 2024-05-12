@@ -511,6 +511,16 @@ class S {
     );
   }
 
+  /// `No basket selected`
+  String get NoShoppingBasketSelected {
+    return Intl.message(
+      'No basket selected',
+      name: 'NoShoppingBasketSelected',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `New`
   String get New {
     return Intl.message(

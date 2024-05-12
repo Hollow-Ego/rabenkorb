@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rabenkorb/features/basket/basket_title.dart';
 import 'package:rabenkorb/features/basket/basket_view.dart';
 import 'package:rabenkorb/features/library/library_main_action.dart';
 import 'package:rabenkorb/features/library/library_search.dart';
@@ -13,7 +14,9 @@ final List<DestinationDetails> mainDestinations = [
       label: S.current.Basket,
     ),
     body: const BasketView(),
-    appBar: AppBar(),
+    appBar: AppBar(
+      title: const BasketTitle(),
+    ),
     index: 0,
   ),
   DestinationDetails(

@@ -65,6 +65,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "New": MessageLookupByLibrary.simpleMessage("Neu"),
         "NewItem": MessageLookupByLibrary.simpleMessage("Neuer Artikel"),
         "NoSearchResult": MessageLookupByLibrary.simpleMessage("Keine Ergebnisse"),
+        "NoShoppingBasketSelected": MessageLookupByLibrary.simpleMessage("Keinen Korb ausgewählt"),
         "PermissionsRequired": MessageLookupByLibrary.simpleMessage("Berechtigungen erforderlich"),
         "PickImage": MessageLookupByLibrary.simpleMessage("Bild auswählen"),
         "Save": MessageLookupByLibrary.simpleMessage("Speichern"),

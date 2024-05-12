@@ -21,6 +21,8 @@ class BasketStateService {
 
   Stream<int?> get sortRuleId => _sortRuleIdSubject.stream;
 
+  int? get sortRuleIdSync => _sortRuleIdSubject.value;
+
   Stream<SortMode> get sortMode => _sortModeSubject.stream;
 
   Stream<SortDirection> get sortDirection => _sortDirectionSubject.stream;
@@ -104,7 +106,7 @@ class BasketStateService {
     await _prefs.setString(PreferenceKeys.basketCollapsedStates, jsonEncode(_collapsedState));
   }
 
-  bool isExpanded(String headerKey) {
+  bool isCollapsed(String headerKey) {
     return _collapsedState[headerKey] ?? false;
   }
 

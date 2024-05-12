@@ -37,6 +37,13 @@ RouterConfig<Object> goRouterConfig({String initialLocation = Routes.home}) => G
           },
         ),
         GoRoute(
+          path: Routes.basket,
+          redirect: (context, state) {
+            di<NavigationStateService>().setCurrentPageIndex(0);
+            return Routes.home;
+          },
+        ),
+        GoRoute(
           path: Routes.backup,
           builder: (context, state) => const BackupPage(),
         ),
