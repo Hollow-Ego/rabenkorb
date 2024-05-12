@@ -47,7 +47,7 @@ class _RenameDialogState extends State<RenameDialog> {
   Future<void> _confirm(BuildContext context, Future<void> Function(String) onConfirm) async {
     Navigator.pop(context);
 
-    await onConfirm(_nameController.text);
+    await onConfirm(_nameController.text.trim());
   }
 
   Future<void> _cancel(BuildContext context, Future<void> Function()? onCancel) async {
