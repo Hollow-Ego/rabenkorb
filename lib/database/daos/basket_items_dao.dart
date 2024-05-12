@@ -23,7 +23,7 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
     String? imagePath,
     int? unitId,
   }) async {
-    final existingItems = await findBasketItemsByNameCategoryUnit(name, categoryId, unitId);
+    final existingItems = await findBasketItemsByNameCategoryUnit(name, basketId, categoryId, unitId);
     // Exactly one item matching the name, category and unit: assume to add the amount instead of duplicating item
     if (existingItems.length == 1) {
       final existingItem = existingItems.first;
@@ -173,8 +173,9 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
     return query.map((row) => row.read(amountOfUsages)).getSingle();
   }
 
-  Future<List<BasketItemViewModel>> findBasketItemsByNameCategoryUnit(String name, int? categoryId, int? unitId) async {
-    final query = select(basketItems)..where((i) => i.name.equals(name) & i.category.equalsNullable(categoryId) & i.unit.equalsNullable(unitId));
+  Future<List<BasketItemViewModel>> findBasketItemsByNameCategoryUnit(String name, int basketId, int? categoryId, int? unitId) async {
+    final query = select(basketItems)
+      ..where((i) => i.name.equals(name) & i.basket.equals(basketId) & i.category.equalsNullable(categoryId) & i.unit.equalsNullable(unitId));
     final rows = await _joinValues(query).get();
     return _rowsToViewModels(rows);
   }
