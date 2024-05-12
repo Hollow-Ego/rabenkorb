@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rabenkorb/features/basket/shopping_mode_toggle.dart';
 import 'package:rabenkorb/models/shopping_basket_view_model.dart';
 import 'package:rabenkorb/services/business/basket_service.dart';
 import 'package:rabenkorb/services/state/basket_state_service.dart';
@@ -29,6 +30,7 @@ class BasketTitle extends StatelessWidget with WatchItMixin {
             ),
           ),
         ),
+        const Expanded(child: ShoppingModeToggle())
       ],
     );
   }

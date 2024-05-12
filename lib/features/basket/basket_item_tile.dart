@@ -1,21 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:rabenkorb/features/basket/basket_item_popup_menu.dart';
 import 'package:rabenkorb/models/basket_item_view_model.dart';
+import 'package:rabenkorb/services/business/basket_service.dart';
 import 'package:rabenkorb/shared/extensions.dart';
 import 'package:rabenkorb/shared/widgets/display/item_image.dart';
 import 'package:rabenkorb/shared/widgets/inputs/core_checkbox.dart';
+import 'package:watch_it/watch_it.dart';
 
 class BasketItemTile extends StatelessWidget {
   final BasketItemViewModel item;
   final double iconSize = 26;
   final bool isMultiSelectMode;
   final bool isSelected;
+  final bool isShoppingMode;
 
   const BasketItemTile(
     this.item, {
     super.key,
     this.isMultiSelectMode = false,
     this.isSelected = false,
+    required this.isShoppingMode,
   });
 
   @override
@@ -33,14 +37,24 @@ class BasketItemTile extends StatelessWidget {
               ItemImage(
                 imagePath: item.imagePath!,
               ),
-            if (!isMultiSelectMode) BasketItemPopupMenu(item),
-            if (isMultiSelectMode)
+            if (!isMultiSelectMode && !isShoppingMode) BasketItemPopupMenu(item),
+            if (isMultiSelectMode && !isShoppingMode)
               CoreCheckbox(
                 value: isSelected,
                 onChanged: (value) {
                   if (value == null) {
                     return;
                   }
+                },
+              ),
+            if (isShoppingMode)
+              CoreCheckbox(
+                value: item.isChecked,
+                onChanged: (value) async {
+                  if (value == null) {
+                    return;
+                  }
+                  await di<BasketService>().setBasketItemCheckedState(item.id, value);
                 },
               ),
           ],

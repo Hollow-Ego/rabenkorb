@@ -16,6 +16,7 @@ class BasketStateService {
   final BehaviorSubject<SortDirection> _sortDirectionSubject = BehaviorSubject<SortDirection>.seeded(SortDirection.asc);
   final BehaviorSubject<int?> _basketIdSubject = BehaviorSubject<int>();
   final BehaviorSubject<bool> _alwaysCollapseCategories = BehaviorSubject<bool>.seeded(false);
+  final BehaviorSubject<bool> _isShoppingMode = BehaviorSubject<bool>.seeded(false);
 
   Stream<String> get search => _searchSubject.stream.debounceTime(const Duration(milliseconds: 300));
 
@@ -38,6 +39,8 @@ class BasketStateService {
   Stream<bool> get alwaysCollapseCategories => _alwaysCollapseCategories.stream;
 
   Map<String, bool> _collapsedState = <String, bool>{};
+
+  Stream<bool> get isShoppingMode => _isShoppingMode.stream;
 
   BasketStateService() {
     init();
@@ -120,6 +123,13 @@ class BasketStateService {
     _sortDirectionSubject.add(newDirection);
   }
 
+  Future<void> toggleShoppingMode() async {
+    final current = _isShoppingMode.value;
+    final newValue = !current;
+    _prefs.setBool(PreferenceKeys.basketShoppingMode, newValue);
+    _isShoppingMode.add(newValue);
+  }
+
   void init() {
     final alwaysCollapseCategories = _prefs.getBool(PreferenceKeys.basketAlwaysCollapseCategories) ?? false;
     final sortModeName = _prefs.getString(PreferenceKeys.basketSortMode);
@@ -134,10 +144,13 @@ class BasketStateService {
     final collapsedStateString = _prefs.getString(PreferenceKeys.basketCollapsedStates) ?? "";
     _collapsedState = collapsedStateString.isNotEmpty ? jsonDecode(collapsedStateString) : {};
 
+    final isShoppingMode = _prefs.getBool(PreferenceKeys.basketShoppingMode) ?? false;
+
     _alwaysCollapseCategories.add(alwaysCollapseCategories);
     _sortModeSubject.add(sortMode);
     _sortDirectionSubject.add(sortDirection);
     _sortRuleIdSubject.add(sortRuleId);
     _basketIdSubject.add(basketId);
+    _isShoppingMode.add(isShoppingMode);
   }
 }
