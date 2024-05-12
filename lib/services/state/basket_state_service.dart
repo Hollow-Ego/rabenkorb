@@ -25,7 +25,11 @@ class BasketStateService {
 
   Stream<SortMode> get sortMode => _sortModeSubject.stream;
 
+  SortMode get sortModeSync => _sortModeSubject.value;
+
   Stream<SortDirection> get sortDirection => _sortDirectionSubject.stream;
+
+  SortDirection get sortDirectionSync => _sortDirectionSubject.value;
 
   Stream<int?> get basketId => _basketIdSubject.stream;
 
@@ -110,6 +114,12 @@ class BasketStateService {
     return _collapsedState[headerKey] ?? false;
   }
 
+  Future<void> switchSortDirection() async {
+    final newDirection = flipSortDirection(sortDirectionSync);
+    await _prefs.setString(PreferenceKeys.basketSortDirection, newDirection.name);
+    _sortDirectionSubject.add(newDirection);
+  }
+
   void init() {
     final alwaysCollapseCategories = _prefs.getBool(PreferenceKeys.basketAlwaysCollapseCategories) ?? false;
     final sortModeName = _prefs.getString(PreferenceKeys.basketSortMode);
@@ -118,7 +128,7 @@ class BasketStateService {
     final sortRuleId = _prefs.getInt(PreferenceKeys.basketSortRuleId);
     final basketId = _prefs.getInt(PreferenceKeys.basketId) ?? -1;
 
-    final sortDirectionName = _prefs.getString(PreferenceKeys.librarySortDirection);
+    final sortDirectionName = _prefs.getString(PreferenceKeys.basketSortDirection);
     final sortDirection = sortDirectionName != null ? SortDirection.values.byName(sortDirectionName) : SortDirection.asc;
 
     final collapsedStateString = _prefs.getString(PreferenceKeys.basketCollapsedStates) ?? "";

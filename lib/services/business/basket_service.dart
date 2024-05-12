@@ -5,8 +5,10 @@ import 'package:rabenkorb/abstracts/image_service.dart';
 import 'package:rabenkorb/models/basket_item_view_model.dart';
 import 'package:rabenkorb/models/grouped_items.dart';
 import 'package:rabenkorb/models/shopping_basket_view_model.dart';
+import 'package:rabenkorb/models/sort_rule_view_model.dart';
 import 'package:rabenkorb/services/data_access/basket_item_service.dart';
 import 'package:rabenkorb/services/data_access/shopping_basket_service.dart';
+import 'package:rabenkorb/services/data_access/sort_rule_service.dart';
 import 'package:rabenkorb/services/state/basket_state_service.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:watch_it/watch_it.dart';
@@ -20,6 +22,7 @@ class BasketService implements Disposable {
   final _metadataService = di<MetadataService>();
   final _imageService = di<ImageService>();
   final _basketStateService = di<BasketStateService>();
+  final _sortRuleService = di<SortRuleService>();
 
   Stream<List<GroupedItems<BasketItemViewModel>>> get basketItems => _basketItemService.basketItems;
 
@@ -29,6 +32,8 @@ class BasketService implements Disposable {
   final BehaviorSubject<ShoppingBasketViewModel?> _activeBasket = BehaviorSubject<ShoppingBasketViewModel?>.seeded(null);
 
   Stream<ShoppingBasketViewModel?> get activeBasket => _activeBasket.stream;
+
+  Stream<List<SortRuleViewModel>> get sortRules => _sortRuleService.sortRules;
 
   BasketService() {
     _activeBasketSub = _basketStateService.basketId.switchMap((basketId) => watchShoppingBasketById(basketId)).listen((basket) {
