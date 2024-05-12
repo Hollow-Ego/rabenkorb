@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rabenkorb/features/basket/basket_view.dart';
 import 'package:rabenkorb/features/library/library_main_action.dart';
 import 'package:rabenkorb/features/library/library_search.dart';
 import 'package:rabenkorb/features/library/library_view.dart';
@@ -8,12 +9,10 @@ import 'package:rabenkorb/generated/l10n.dart';
 final List<DestinationDetails> mainDestinations = [
   DestinationDetails(
     destination: NavigationDestination(
-      icon: const Icon(Icons.bug_report),
-      label: S.current.Debug,
+      icon: const Icon(Icons.shopping_basket),
+      label: S.current.Basket,
     ),
-    body: const Center(
-      child: Text("Debug 1"),
-    ),
+    body: const BasketView(),
     appBar: AppBar(),
     index: 0,
   ),
@@ -27,7 +26,7 @@ final List<DestinationDetails> mainDestinations = [
     index: 1,
     mainAction: libraryMainAction,
     appBar: AppBar(
-      title: LibrarySearch(),
+      title: const LibrarySearch(),
     ),
   )
 ];
