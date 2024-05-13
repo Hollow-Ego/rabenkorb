@@ -27,8 +27,12 @@ class BasketItemTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       key: Key(item.key),
+      color: item.isChecked ? Theme.of(context).colorScheme.surface.withAlpha(220) : null,
       child: ListTile(
-        title: Text(item.name),
+        title: Text(
+          item.name,
+          style: TextStyle(decoration: item.isChecked ? TextDecoration.lineThrough : null),
+        ),
         subtitle: _subtitle(),
         trailing: Row(
           mainAxisAlignment: MainAxisAlignment.end,
