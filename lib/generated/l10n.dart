@@ -561,6 +561,16 @@ class S {
     );
   }
 
+  /// `New Basket`
+  String get NewBasket {
+    return Intl.message(
+      'New Basket',
+      name: 'NewBasket',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `New`
   String get New {
     return Intl.message(

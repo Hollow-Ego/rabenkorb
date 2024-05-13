@@ -66,6 +66,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Name": MessageLookupByLibrary.simpleMessage("Name"),
         "NameMustNotBeEmpty": MessageLookupByLibrary.simpleMessage("Name darf nicht leer sein"),
         "New": MessageLookupByLibrary.simpleMessage("Neu"),
+        "NewBasket": MessageLookupByLibrary.simpleMessage("Neuer Korb"),
         "NewItem": MessageLookupByLibrary.simpleMessage("Neuer Artikel"),
         "NoSearchResult": MessageLookupByLibrary.simpleMessage("Keine Ergebnisse"),
         "NoShoppingBasketSelected": MessageLookupByLibrary.simpleMessage("Keinen Korb ausgewählt"),

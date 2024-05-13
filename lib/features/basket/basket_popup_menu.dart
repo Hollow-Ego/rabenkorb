@@ -14,6 +14,7 @@ enum BasketPopupMenuActions {
   deleteMarked,
   deleteAll,
   renameBasket,
+  createBasket,
 }
 
 class BasketPopupMenu extends StatelessWidget with WatchItMixin {
@@ -92,6 +93,14 @@ class BasketPopupMenu extends StatelessWidget with WatchItMixin {
               },
             );
             return;
+          case BasketPopupMenuActions.createBasket:
+            await showRenameDialog(
+              context,
+              onConfirm: (String? newName, bool _) async {
+                final newId = await basketService.createShoppingBasket(newName);
+                await basketStateService.setBasketId(newId);
+              },
+            );
         }
       },
     );
@@ -134,6 +143,11 @@ class BasketPopupMenu extends StatelessWidget with WatchItMixin {
 
   List<PopupMenuEntry<BasketPopupMenuActions>> _normalItems(BuildContext context) {
     return <PopupMenuEntry<BasketPopupMenuActions>>[
+      PopupMenuItem<BasketPopupMenuActions>(
+        key: const Key("basket-popup-menu-create-basket"),
+        value: BasketPopupMenuActions.createBasket,
+        child: Text(S.of(context).NewBasket),
+      ),
       PopupMenuItem<BasketPopupMenuActions>(
         key: const Key("basket-popup-menu-rename-basket"),
         value: BasketPopupMenuActions.renameBasket,
