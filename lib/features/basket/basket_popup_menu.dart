@@ -15,6 +15,7 @@ enum BasketPopupMenuActions {
   deleteAll,
   renameBasket,
   createBasket,
+  deleteBasket,
 }
 
 class BasketPopupMenu extends StatelessWidget with WatchItMixin {
@@ -101,6 +102,21 @@ class BasketPopupMenu extends StatelessWidget with WatchItMixin {
                 await basketStateService.setBasketId(newId);
               },
             );
+            return;
+          case BasketPopupMenuActions.deleteBasket:
+            if (basketId == null) {
+              return;
+            }
+            await doWithConfirmation(
+              context,
+              text: S.of(context).ConfirmDeleteBasket,
+              title: S.of(context).Confirm,
+              onConfirm: () async {
+                await basketService.deleteShoppingBasketById(basketId);
+                basketService.setFirstShoppingBasketActive();
+              },
+            );
+            return;
         }
       },
     );
@@ -152,6 +168,11 @@ class BasketPopupMenu extends StatelessWidget with WatchItMixin {
         key: const Key("basket-popup-menu-rename-basket"),
         value: BasketPopupMenuActions.renameBasket,
         child: Text(S.of(context).Rename),
+      ),
+      PopupMenuItem<BasketPopupMenuActions>(
+        key: const Key("basket-popup-menu-delete-basket"),
+        value: BasketPopupMenuActions.deleteBasket,
+        child: Text(S.of(context).Delete),
       ),
       PopupMenuItem<BasketPopupMenuActions>(
         key: const Key("basket-popup-menu-enter-multiselect"),

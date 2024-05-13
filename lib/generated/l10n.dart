@@ -551,6 +551,16 @@ class S {
     );
   }
 
+  /// `Are you sure you want to delete this basket?`
+  String get ConfirmDeleteBasket {
+    return Intl.message(
+      'Are you sure you want to delete this basket?',
+      name: 'ConfirmDeleteBasket',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Rename`
   String get Rename {
     return Intl.message(

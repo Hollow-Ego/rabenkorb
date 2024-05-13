@@ -42,6 +42,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "ClearImage": MessageLookupByLibrary.simpleMessage("Bild zurücksetzen"),
         "Confirm": MessageLookupByLibrary.simpleMessage("Bestätigen"),
         "ConfirmDeleteAllItems": MessageLookupByLibrary.simpleMessage("Bist du sicher, dass du alle Artikel löschen willst?"),
+        "ConfirmDeleteBasket": MessageLookupByLibrary.simpleMessage("Bist du sicher, dass du diesen Korb löschen willst?"),
         "Debug": MessageLookupByLibrary.simpleMessage("Debug"),
         "Delete": MessageLookupByLibrary.simpleMessage("Löschen"),
         "DeleteAll": MessageLookupByLibrary.simpleMessage("Alle löschen"),

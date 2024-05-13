@@ -66,6 +66,7 @@
   "DeleteMarked": "Delete marked items",
   "DeleteAll": "Delete all",
   "ConfirmDeleteAllItems": "Are you sure you want to delete all items?",
+  "ConfirmDeleteBasket": "Are you sure you want to delete this basket?",
   "Rename": "Rename",
   "NewBasket": "New Basket",
   "New": "New",

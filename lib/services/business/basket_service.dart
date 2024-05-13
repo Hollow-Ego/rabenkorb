@@ -64,7 +64,7 @@ class BasketService implements Disposable {
   }
 
   Stream<ShoppingBasketViewModel?> watchShoppingBasketById(int? id) {
-    if (id == null) {
+    if (id == null || id < 0) {
       return Stream.value(null);
     }
     return _shoppingBasketService.watchShoppingBasketById(id);

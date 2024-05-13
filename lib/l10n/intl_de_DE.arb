@@ -66,6 +66,7 @@
   "DeleteMarked": "Markierte Artikel löschen",
   "DeleteAll": "Alle löschen",
   "ConfirmDeleteAllItems": "Bist du sicher, dass du alle Artikel löschen willst?",
+  "ConfirmDeleteBasket": "Bist du sicher, dass du diesen Korb löschen willst?",
   "Rename": "Umbenennen",
   "NewBasket": "Neuer Korb",
   "New": "Neu",

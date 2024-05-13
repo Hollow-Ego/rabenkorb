@@ -14,7 +14,7 @@ class BasketStateService {
   final BehaviorSubject<int?> _sortRuleIdSubject = BehaviorSubject<int?>.seeded(null);
   final BehaviorSubject<SortMode> _sortModeSubject = BehaviorSubject<SortMode>.seeded(SortMode.name);
   final BehaviorSubject<SortDirection> _sortDirectionSubject = BehaviorSubject<SortDirection>.seeded(SortDirection.asc);
-  final BehaviorSubject<int?> _basketIdSubject = BehaviorSubject<int>();
+  final BehaviorSubject<int?> _basketIdSubject = BehaviorSubject<int?>();
   final BehaviorSubject<bool> _alwaysCollapseCategories = BehaviorSubject<bool>.seeded(false);
   final BehaviorSubject<bool> _isShoppingMode = BehaviorSubject<bool>.seeded(false);
   final BehaviorSubject<bool> _multiSelectMode = BehaviorSubject<bool>.seeded(false);
@@ -172,7 +172,7 @@ class BasketStateService {
     final sortMode = sortModeName != null ? SortMode.values.byName(sortModeName) : SortMode.name;
 
     final sortRuleId = _prefs.getInt(PreferenceKeys.basketSortRuleId);
-    final basketId = _prefs.getInt(PreferenceKeys.basketId) ?? -1;
+    final basketId = _prefs.getInt(PreferenceKeys.basketId);
 
     final sortDirectionName = _prefs.getString(PreferenceKeys.basketSortDirection);
     final sortDirection = sortDirectionName != null ? SortDirection.values.byName(sortDirectionName) : SortDirection.asc;
