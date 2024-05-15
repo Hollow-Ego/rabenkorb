@@ -74,6 +74,23 @@ class AppDatabase extends _$AppDatabase {
 
     await customStatement('VACUUM INTO ?', [file.path]);
   }
+
+  Future<int?> countImagePathUsages(String imagePath) async {
+    // Count usages in basketItems
+    final amountOfUsagesInBasketItems = basketItems.imagePath.count(filter: basketItems.imagePath.equals(imagePath));
+    final basketItemsQuery = selectOnly(basketItems)..addColumns([amountOfUsagesInBasketItems]);
+
+    // Count usages in itemTemplates
+    final amountOfUsagesInItemTemplates = itemTemplates.imagePath.count(filter: itemTemplates.imagePath.equals(imagePath));
+    final itemTemplatesQuery = selectOnly(itemTemplates)..addColumns([amountOfUsagesInItemTemplates]);
+
+    // Execute queries
+    final basketItemsCount = await basketItemsQuery.map((row) => row.read(amountOfUsagesInBasketItems)).getSingle() ?? 0;
+    final itemTemplatesCount = await itemTemplatesQuery.map((row) => row.read(amountOfUsagesInItemTemplates)).getSingle() ?? 0;
+
+    // Return the sum of both counts
+    return basketItemsCount + itemTemplatesCount;
+  }
 }
 
 LazyDatabase _openConnection() {

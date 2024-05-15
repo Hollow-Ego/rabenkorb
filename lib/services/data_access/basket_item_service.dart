@@ -128,7 +128,7 @@ class BasketItemService implements Disposable {
   }
 
   Future<int> countImagePathUsages(String imagePath) async {
-    return (await _db.basketItemsDao.countImagePathUsages(imagePath)) ?? 0;
+    return (await _db.countImagePathUsages(imagePath)) ?? 0;
   }
 
   Stream<List<GroupedItems<BasketItemViewModel>>> _watchBasketItemsInOrder({
