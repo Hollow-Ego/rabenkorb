@@ -6,6 +6,8 @@ class DestinationDetails {
   final PreferredSizeWidget? appBar;
   final int index;
   final MainAction? mainAction;
+  final Widget? floatingActionButton;
+  final bool hideFabInShoppingMode;
 
   const DestinationDetails({
     required this.destination,
@@ -13,6 +15,8 @@ class DestinationDetails {
     required this.index,
     this.appBar,
     this.mainAction,
+    this.floatingActionButton,
+    this.hideFabInShoppingMode = false,
   });
 }
 
