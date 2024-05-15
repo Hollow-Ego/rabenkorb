@@ -32,7 +32,7 @@ class BasketItemList extends StatelessWidget with WatchItMixin {
         onListReorder: (int oldIndex, int newIndex, List<GroupedItems<BasketItemViewModel>> list) async {
           reorderGroupedItems(oldIndex, newIndex, list, activeSortRule);
         },
-        canDragList: activeSortRule != null,
+        // canDragList: activeSortRule != null,
         itemContentBuilder: (BuildContext context, BasketItemViewModel item) {
           return BasketItemTile(
             item,
