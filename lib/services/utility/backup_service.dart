@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:intl/intl.dart';
+import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:rabenkorb/abstracts/image_service.dart';
 import 'package:rabenkorb/database/database.dart';
@@ -9,6 +10,7 @@ import 'package:rabenkorb/di/di_setup.dart';
 import 'package:rabenkorb/exceptions/incompatible_app_version.dart';
 import 'package:rabenkorb/models/backup.dart';
 import 'package:rabenkorb/services/core/version_service.dart';
+import 'package:sqlite3/sqlite3.dart';
 import 'package:watch_it/watch_it.dart';
 
 // ToDo: Write integration test
@@ -27,26 +29,40 @@ class BackupService {
     final backupName = _getBackupName(_exportTime);
     final backup = Backup(
       appVersion: _versionService.publicAppVersion,
-      fileName: backupName,
+      fileName: "$backupName.sqlite",
       base64Images: base64Images,
     );
 
     _saveBackup(exportPath, backup);
   }
 
-  Future<void> restore(String importFile) async {
-    final backupFile = File(importFile);
-    Map<String, dynamic> backup = jsonDecode(backupFile.readAsStringSync());
-    String appVersion = backup["appVersion"];
+  Future<void> restore(String importPath) async {
+    final directory = Directory(importPath);
+    final backupJson = _getBackupJson(directory);
+    if (backupJson == null) {
+      return;
+    }
+    final backup = Backup.fromJson(backupJson);
+    String appVersion = backup.appVersion;
 
     throwIf(_incompatibleVersions.contains(appVersion), IncompatibleAppVersionException(appVersion));
 
-    String fileName = backup["fileName"];
-    String importPath = backupFile.parent.path;
-    Map<String, String> base64Images = backup["base64Images"];
-
+    String fileName = backup.fileName;
+    Map<String, String> base64Images = backup.base64Images;
     await _decodeImages(base64Images);
     await _importFrom(importPath, fileName);
+  }
+
+  Map<String, dynamic>? _getBackupJson(Directory directory) {
+    try {
+      var fileList = directory.listSync();
+      var fileEntity = fileList.firstWhere((element) {
+        return p.extension(element.path).toLowerCase().contains(".json");
+      });
+      return jsonDecode(File(fileEntity.path).readAsStringSync());
+    } catch (e) {
+      return null;
+    }
   }
 
   Future<void> _saveBackup(String exportPath, Backup backup) async {
@@ -65,7 +81,7 @@ class BackupService {
   }
 
   File _createBackupDbFile(String exportPath, String backupName) {
-    return File("$exportPath/$backupName/$backupName.sqlite");
+    return File("$exportPath/$backupName/$backupName");
   }
 
   String _getBackupName(DateTime exportTime) {
@@ -98,13 +114,24 @@ class BackupService {
 
   Future<void> _importFrom(String importPath, String fileName) async {
     await _database.close();
+
+    final backupDbPath = p.join(importPath, fileName);
+    final backupDb = sqlite3.open(backupDbPath);
+
+    // Vacuum it into a temporary location first to make sure it's working.
+    final tempPath = await getTemporaryDirectory();
+    final tempDb = p.join(tempPath.path, 'import.db');
+    backupDb
+      ..execute('VACUUM INTO ?', [tempDb])
+      ..dispose();
+
+    // Then replace the existing database file with it.
+    final tempDbFile = File(tempDb);
     final dbFolder = await getApplicationDocumentsDirectory();
-    final importDb = AppDatabase.forImport(importPath);
-    importDb.exportInto(File(dbFolder.path));
+    final appDbFile = File(p.join(dbFolder.path, AppDatabase.databaseFileName));
+    await tempDbFile.copy(appDbFile.path);
+    await tempDbFile.delete();
 
-    await importDb.close();
-
-    await di.reset(dispose: true);
-    await setupDI();
+    await reinitializeDataRegistrations();
   }
 }

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:rabenkorb/generated/l10n.dart';
 
-class ItemTemplateDetailsTitle extends StatelessWidget {
+class BasketItemDetailsTitle extends StatelessWidget {
   final bool isNewItem;
 
-  const ItemTemplateDetailsTitle({super.key, required this.isNewItem});
+  const BasketItemDetailsTitle({super.key, required this.isNewItem});
 
   @override
   Widget build(BuildContext context) {

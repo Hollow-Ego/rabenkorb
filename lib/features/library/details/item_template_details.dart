@@ -32,7 +32,9 @@ class ItemTemplateDetails extends StatelessWidget {
         ),
       ),
       appBar: AppBar(
-        title: const ItemTemplateDetailsTitle(),
+        title: ItemTemplateDetailsTitle(
+          isNewItem: itemTemplate == null,
+        ),
       ),
     );
   }

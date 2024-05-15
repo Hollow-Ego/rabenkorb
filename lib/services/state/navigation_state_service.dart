@@ -36,6 +36,7 @@ class NavigationStateService implements Disposable {
         body: destination.body,
         mainAction: destination.mainAction,
         appBar: destination.appBar,
+        hideFabInShoppingMode: destination.hideFabInShoppingMode,
       ));
     });
   }

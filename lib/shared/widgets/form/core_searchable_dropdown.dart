@@ -13,6 +13,7 @@ class CoreSearchableDropdown<T> extends StatelessWidget {
   final bool Function(T, T)? compareFn;
   final void Function(String)? onNoSearchResultAction;
   final bool allowEmptyValue;
+  final bool disabled;
   final InputDecoration? inputDecoration;
 
   CoreSearchableDropdown({
@@ -26,6 +27,7 @@ class CoreSearchableDropdown<T> extends StatelessWidget {
     this.onNoSearchResultAction,
     this.allowEmptyValue = true,
     this.inputDecoration,
+    this.disabled = false,
   });
 
   final _searchTextController = TextEditingController();
@@ -42,6 +44,7 @@ class CoreSearchableDropdown<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return DropdownSearch<T>(
       key: _dropdownStateKey,
+      enabled: !disabled,
       items: items,
       selectedItem: selectedItem,
       itemAsString: itemAsString,

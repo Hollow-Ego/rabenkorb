@@ -14,16 +14,25 @@ class BasketStateService {
   final BehaviorSubject<int?> _sortRuleIdSubject = BehaviorSubject<int?>.seeded(null);
   final BehaviorSubject<SortMode> _sortModeSubject = BehaviorSubject<SortMode>.seeded(SortMode.name);
   final BehaviorSubject<SortDirection> _sortDirectionSubject = BehaviorSubject<SortDirection>.seeded(SortDirection.asc);
-  final BehaviorSubject<int?> _basketIdSubject = BehaviorSubject<int>();
+  final BehaviorSubject<int?> _basketIdSubject = BehaviorSubject<int?>();
   final BehaviorSubject<bool> _alwaysCollapseCategories = BehaviorSubject<bool>.seeded(false);
+  final BehaviorSubject<bool> _isShoppingMode = BehaviorSubject<bool>.seeded(false);
+  final BehaviorSubject<bool> _multiSelectMode = BehaviorSubject<bool>.seeded(false);
+  final BehaviorSubject<Map<int, bool>> _selectedItems = BehaviorSubject<Map<int, bool>>.seeded({});
 
   Stream<String> get search => _searchSubject.stream.debounceTime(const Duration(milliseconds: 300));
 
   Stream<int?> get sortRuleId => _sortRuleIdSubject.stream;
 
+  int? get sortRuleIdSync => _sortRuleIdSubject.value;
+
   Stream<SortMode> get sortMode => _sortModeSubject.stream;
 
+  SortMode get sortModeSync => _sortModeSubject.value;
+
   Stream<SortDirection> get sortDirection => _sortDirectionSubject.stream;
+
+  SortDirection get sortDirectionSync => _sortDirectionSubject.value;
 
   Stream<int?> get basketId => _basketIdSubject.stream;
 
@@ -32,6 +41,14 @@ class BasketStateService {
   Stream<bool> get alwaysCollapseCategories => _alwaysCollapseCategories.stream;
 
   Map<String, bool> _collapsedState = <String, bool>{};
+
+  Stream<bool> get isShoppingMode => _isShoppingMode.stream;
+
+  Stream<bool> get isMultiSelectMode => _multiSelectMode.stream;
+
+  Stream<Map<int, bool>> get selectedItemsMap => _selectedItems.stream;
+
+  List<int> get selectedItemsSync => _selectedItems.value.entries.where((e) => e.value).map((e) => e.key).toList();
 
   BasketStateService() {
     init();
@@ -104,8 +121,49 @@ class BasketStateService {
     await _prefs.setString(PreferenceKeys.basketCollapsedStates, jsonEncode(_collapsedState));
   }
 
-  bool isExpanded(String headerKey) {
+  bool isCollapsed(String headerKey) {
     return _collapsedState[headerKey] ?? false;
+  }
+
+  Future<void> switchSortDirection() async {
+    final newDirection = flipSortDirection(sortDirectionSync);
+    await _prefs.setString(PreferenceKeys.basketSortDirection, newDirection.name);
+    _sortDirectionSubject.add(newDirection);
+  }
+
+  Future<void> toggleShoppingMode() async {
+    final current = _isShoppingMode.value;
+    final newValue = !current;
+    _prefs.setBool(PreferenceKeys.basketShoppingMode, newValue);
+    _isShoppingMode.add(newValue);
+  }
+
+  void enterMultiSelectMode() {
+    _multiSelectMode.add(true);
+  }
+
+  void leaveMultiSelectMode() {
+    _multiSelectMode.add(false);
+    _selectedItems.add({});
+  }
+
+  void setSelectionState(int id, bool state) {
+    final selectedItems = _selectedItems.value;
+    selectedItems[id] = state;
+    _selectedItems.add(selectedItems);
+  }
+
+  void selectAll(List<int> ids) {
+    Map<int, bool> selectedItems = {};
+
+    for (var id in ids) {
+      selectedItems[id] = true;
+    }
+    _selectedItems.add(selectedItems);
+  }
+
+  void deselectAll() {
+    _selectedItems.add({});
   }
 
   void init() {
@@ -114,18 +172,21 @@ class BasketStateService {
     final sortMode = sortModeName != null ? SortMode.values.byName(sortModeName) : SortMode.name;
 
     final sortRuleId = _prefs.getInt(PreferenceKeys.basketSortRuleId);
-    final basketId = _prefs.getInt(PreferenceKeys.basketId) ?? -1;
+    final basketId = _prefs.getInt(PreferenceKeys.basketId);
 
-    final sortDirectionName = _prefs.getString(PreferenceKeys.librarySortDirection);
+    final sortDirectionName = _prefs.getString(PreferenceKeys.basketSortDirection);
     final sortDirection = sortDirectionName != null ? SortDirection.values.byName(sortDirectionName) : SortDirection.asc;
 
     final collapsedStateString = _prefs.getString(PreferenceKeys.basketCollapsedStates) ?? "";
     _collapsedState = collapsedStateString.isNotEmpty ? jsonDecode(collapsedStateString) : {};
+
+    final isShoppingMode = _prefs.getBool(PreferenceKeys.basketShoppingMode) ?? false;
 
     _alwaysCollapseCategories.add(alwaysCollapseCategories);
     _sortModeSubject.add(sortMode);
     _sortDirectionSubject.add(sortDirection);
     _sortRuleIdSubject.add(sortRuleId);
     _basketIdSubject.add(basketId);
+    _isShoppingMode.add(isShoppingMode);
   }
 }

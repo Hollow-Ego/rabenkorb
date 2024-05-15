@@ -50,11 +50,12 @@ part 'database.g.dart';
   ],
 )
 class AppDatabase extends _$AppDatabase {
+  static const databaseFileName = 'db.sqlite';
   AppDatabase() : super(_openConnection());
 
   AppDatabase.forTesting(super.e);
 
-  AppDatabase.forImport(String path) : super(_openImportDatabase(path));
+  AppDatabase.forImport(String path, String fileName) : super(_openImportDatabase(path, fileName));
 
   @override
   int get schemaVersion => 1;
@@ -73,19 +74,36 @@ class AppDatabase extends _$AppDatabase {
 
     await customStatement('VACUUM INTO ?', [file.path]);
   }
+
+  Future<int?> countImagePathUsages(String imagePath) async {
+    // Count usages in basketItems
+    final amountOfUsagesInBasketItems = basketItems.imagePath.count(filter: basketItems.imagePath.equals(imagePath));
+    final basketItemsQuery = selectOnly(basketItems)..addColumns([amountOfUsagesInBasketItems]);
+
+    // Count usages in itemTemplates
+    final amountOfUsagesInItemTemplates = itemTemplates.imagePath.count(filter: itemTemplates.imagePath.equals(imagePath));
+    final itemTemplatesQuery = selectOnly(itemTemplates)..addColumns([amountOfUsagesInItemTemplates]);
+
+    // Execute queries
+    final basketItemsCount = await basketItemsQuery.map((row) => row.read(amountOfUsagesInBasketItems)).getSingle() ?? 0;
+    final itemTemplatesCount = await itemTemplatesQuery.map((row) => row.read(amountOfUsagesInItemTemplates)).getSingle() ?? 0;
+
+    // Return the sum of both counts
+    return basketItemsCount + itemTemplatesCount;
+  }
 }
 
 LazyDatabase _openConnection() {
   return LazyDatabase(() async {
     final dbFolder = await getApplicationDocumentsDirectory();
-    final file = File(p.join(dbFolder.path, 'db.sqlite'));
+    final file = File(p.join(dbFolder.path, AppDatabase.databaseFileName));
     return NativeDatabase.createInBackground(file);
   });
 }
 
-LazyDatabase _openImportDatabase(String path) {
+LazyDatabase _openImportDatabase(String path, String filename) {
   return LazyDatabase(() async {
-    final file = File(p.join(path, 'db.sqlite'));
+    final file = File(p.join(path, filename));
     return NativeDatabase.createInBackground(file);
   });
 }

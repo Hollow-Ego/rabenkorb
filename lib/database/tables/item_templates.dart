@@ -1,4 +1,5 @@
 import 'package:drift/drift.dart';
+import 'package:rabenkorb/database/constants.dart';
 import 'package:rabenkorb/database/tables/item_categories.dart';
 import 'package:rabenkorb/database/tables/template_libraries.dart';
 import 'package:rabenkorb/database/tables/variant_keys.dart';
@@ -7,7 +8,7 @@ import 'package:rabenkorb/database/tables/variant_keys.dart';
 class ItemTemplates extends Table {
   IntColumn get id => integer().autoIncrement()();
 
-  TextColumn get name => text().withLength(min: 1, max: 32)();
+  TextColumn get name => text().withLength(min: 1, max: maxNameLength)();
 
   TextColumn get imagePath => text().nullable()();
 

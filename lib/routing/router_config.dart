@@ -1,10 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rabenkorb/features/backup/backup_page.dart';
+import 'package:rabenkorb/features/backup/backup_restore_screen.dart';
+import 'package:rabenkorb/features/basket/details/basket_item_details.dart';
 import 'package:rabenkorb/features/debug/debug_page.dart';
 import 'package:rabenkorb/features/library/details/item_template_details.dart';
 import 'package:rabenkorb/features/main/main_page.dart';
 import 'package:rabenkorb/features/settings/settings_page.dart';
+import 'package:rabenkorb/models/basket_item_view_model.dart';
 import 'package:rabenkorb/models/item_template_view_model.dart';
 import 'package:rabenkorb/routing/routes.dart';
 import 'package:rabenkorb/services/state/navigation_state_service.dart';
@@ -35,6 +38,28 @@ RouterConfig<Object> goRouterConfig({String initialLocation = Routes.home}) => G
             di<NavigationStateService>().setCurrentPageIndex(1);
             return Routes.home;
           },
+        ),
+        GoRoute(
+          path: Routes.basketItemDetails,
+          builder: (context, state) {
+            final itemTemplate = state.extra as BasketItemViewModel?;
+            final tempItemName = state.uri.queryParameters['tempItemName'];
+            return BasketItemDetails(
+              basketItem: itemTemplate,
+              tempItemName: tempItemName,
+            );
+          },
+        ),
+        GoRoute(
+          path: Routes.basket,
+          redirect: (context, state) {
+            di<NavigationStateService>().setCurrentPageIndex(0);
+            return Routes.home;
+          },
+        ),
+        GoRoute(
+          path: Routes.backupRestore,
+          builder: (context, state) => const BackupRestoreScreen(),
         ),
         GoRoute(
           path: Routes.backup,
