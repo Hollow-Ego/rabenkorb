@@ -16,6 +16,9 @@ extension NullableStrings on String? {
 
 extension DoubleTransformation on double {
   String toFormattedString() {
+    if (this == 0) {
+      return "";
+    }
     var text = toString();
     if (text.contains('.') && double.parse(text) == truncateToDouble()) {
       return text.substring(0, text.indexOf('.'));

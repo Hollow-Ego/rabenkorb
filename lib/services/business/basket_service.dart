@@ -153,9 +153,6 @@ class BasketService implements Disposable {
     int? unitId,
     bool? isChecked,
   }) async {
-    if (basketId != null) {
-      basketId = await _ensureExistingBasket(basketId);
-    }
     await _metadataService.ensureExistingCategory(categoryId);
     await _metadataService.ensureExistingUnit(unitId);
 
@@ -167,6 +164,43 @@ class BasketService implements Disposable {
     }
 
     return _basketItemService.updateBasketItem(
+      id,
+      name: name,
+      amount: amount,
+      categoryId: categoryId,
+      basketId: basketId,
+      imagePath: image?.path,
+      unitId: unitId,
+      isChecked: isChecked,
+    );
+  }
+
+  Future<void> replaceBasketItem(
+    int id, {
+    required String name,
+    double? amount,
+    int? categoryId,
+    int? basketId,
+    File? image,
+    int? unitId,
+    bool? isChecked,
+    bool imageChanged = false,
+  }) async {
+    basketId = await _ensureExistingBasket(basketId);
+    await _metadataService.ensureExistingCategory(categoryId);
+    await _metadataService.ensureExistingUnit(unitId);
+
+    // Delete old image if new one was provided
+    if (imageChanged) {
+      await removeBasketItemImage(id);
+      // Save new image
+    }
+    if (image != null) {
+      // Save new image
+      image = await _imageService.saveImage(image);
+    }
+
+    return _basketItemService.replaceBasketItem(
       id,
       name: name,
       amount: amount,
