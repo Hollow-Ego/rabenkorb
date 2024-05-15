@@ -16,9 +16,7 @@ class MainPage extends StatelessWidget with WatchItMixin {
 
     final isShoppingModeStream = watchStream((BasketStateService p0) => p0.isShoppingMode, initialValue: false);
     final isShoppingMode = isShoppingModeStream.data ?? false;
-    final multiSelectMode = watchStream((BasketStateService p0) => p0.isMultiSelectMode, initialValue: false);
-    final isMultiSelectMode = multiSelectMode.data ?? false;
-    final hideFab = (isShoppingMode && details.data?.hideFabInShoppingMode == true) || isMultiSelectMode;
+    final hideFab = isShoppingMode && details.data?.hideFabInShoppingMode == true;
 
     final pageIndex = details.data?.pageIndex ?? 0;
     final body = details.data?.body;
