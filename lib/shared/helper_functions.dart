@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:rabenkorb/abstracts/data_item.dart';
 import 'package:rabenkorb/generated/l10n.dart';
 import 'package:rabenkorb/models/grouped_items.dart';
@@ -59,6 +60,33 @@ Future<void> showRenameDialog(
       );
     },
   );
+}
+
+Future<bool> confirmPermissions(BuildContext context) async {
+  if (await Permission.manageExternalStorage.isGranted) {
+    return true;
+  }
+
+  if (!context.mounted) {
+    return false;
+  }
+  var askForPermission = false;
+  await di<DialogService>().showConfirm(
+    context: context,
+    confirmBtnText: S.of(context).SetPermission,
+    title: S.of(context).PermissionsRequired,
+    text: S.of(context).MessagePermissionRequired,
+    type: StateType.warning,
+    onConfirm: () async {
+      askForPermission = true;
+    },
+  );
+
+  if (!askForPermission) {
+    return false;
+  }
+
+  return await Permission.manageExternalStorage.request().isGranted;
 }
 
 Future<ImageSource?> pickImageSource(BuildContext context) async {

@@ -31,6 +31,7 @@ dependencies:
   drag_and_drop_lists: ^0.3.3
   dropdown_search: ^5.0.6
   image_picker: ^1.1.1
+  sqlite3: ^2.4.3
 
 dev_dependencies:
   flutter_test:

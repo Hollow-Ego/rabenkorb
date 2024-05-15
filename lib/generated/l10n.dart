@@ -237,11 +237,91 @@ class S {
     );
   }
 
-  /// `Create Backup`
+  /// `Create`
   String get BackupCreate {
     return Intl.message(
-      'Create Backup',
+      'Create',
       name: 'BackupCreate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Restore`
+  String get BackupImport {
+    return Intl.message(
+      'Restore',
+      name: 'BackupImport',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Backup Options`
+  String get BackupOption {
+    return Intl.message(
+      'Backup Options',
+      name: 'BackupOption',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Overwrite existing data`
+  String get BackupOverwriteExisting {
+    return Intl.message(
+      'Overwrite existing data',
+      name: 'BackupOverwriteExisting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `By importing a backup your current state will be overwritten! Uncheck the option for overwriting data above, if you want to add the imported data to your library.`
+  String get BackupOverwriteWarning {
+    return Intl.message(
+      'By importing a backup your current state will be overwritten! Uncheck the option for overwriting data above, if you want to add the imported data to your library.',
+      name: 'BackupOverwriteWarning',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Import failed!`
+  String get BackupImportFailed {
+    return Intl.message(
+      'Import failed!',
+      name: 'BackupImportFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Backup created successfully`
+  String get BackupCreated {
+    return Intl.message(
+      'Backup created successfully',
+      name: 'BackupCreated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Backup imported successfully`
+  String get BackupImported {
+    return Intl.message(
+      'Backup imported successfully',
+      name: 'BackupImported',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select backup location`
+  String get SelectBackup {
+    return Intl.message(
+      'Select backup location',
+      name: 'SelectBackup',
       desc: '',
       args: [],
     );

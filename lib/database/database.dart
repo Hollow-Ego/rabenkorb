@@ -50,11 +50,12 @@ part 'database.g.dart';
   ],
 )
 class AppDatabase extends _$AppDatabase {
+  static const databaseFileName = 'db.sqlite';
   AppDatabase() : super(_openConnection());
 
   AppDatabase.forTesting(super.e);
 
-  AppDatabase.forImport(String path) : super(_openImportDatabase(path));
+  AppDatabase.forImport(String path, String fileName) : super(_openImportDatabase(path, fileName));
 
   @override
   int get schemaVersion => 1;
@@ -78,14 +79,14 @@ class AppDatabase extends _$AppDatabase {
 LazyDatabase _openConnection() {
   return LazyDatabase(() async {
     final dbFolder = await getApplicationDocumentsDirectory();
-    final file = File(p.join(dbFolder.path, 'db.sqlite'));
+    final file = File(p.join(dbFolder.path, AppDatabase.databaseFileName));
     return NativeDatabase.createInBackground(file);
   });
 }
 
-LazyDatabase _openImportDatabase(String path) {
+LazyDatabase _openImportDatabase(String path, String filename) {
   return LazyDatabase(() async {
-    final file = File(p.join(path, 'db.sqlite'));
+    final file = File(p.join(path, filename));
     return NativeDatabase.createInBackground(file);
   });
 }

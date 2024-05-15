@@ -48,6 +48,17 @@ Future<void> setupDI() async {
   await di.allReady();
 }
 
+Future<void> reinitializeDataRegistrations() async {
+  await _unregisterBusinessServices();
+  await _unregisterDataAccessServices();
+  await _unregisterDatabase();
+
+  _registerDatabase();
+  _registerDataAccessServices();
+  _registerBusinessServices();
+  await di.allReady();
+}
+
 Future<void> _registerCoreServices() async {
   di.registerSingleton<EnvironmentService>(EnvironmentService());
   di.registerSingleton<SnackBarService>(SnackBarService());
@@ -128,4 +139,27 @@ void _registerErrorHandling() {
   ]);
 
   di.registerSingleton<ErrorHandler>(ErrorHandler());
+}
+
+Future<void> _unregisterBusinessServices() async {
+  await di.unregister<BasketService>();
+  await di.unregister<LibraryService>();
+  await di.unregister<MetadataService>();
+  await di.unregister<SortService>();
+}
+
+Future<void> _unregisterDataAccessServices() async {
+  await di.unregister<BasketItemService>();
+  await di.unregister<ItemCategoryService>();
+  await di.unregister<ItemTemplateService>();
+  await di.unregister<ItemUnitService>();
+  await di.unregister<ShoppingBasketService>();
+  await di.unregister<SortOrderService>();
+  await di.unregister<SortRuleService>();
+  await di.unregister<TemplateLibraryService>();
+  await di.unregister<VariantKeyService>();
+}
+
+Future<void> _unregisterDatabase() async {
+  await di.unregister<AppDatabase>();
 }

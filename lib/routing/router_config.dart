@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:go_router/go_router.dart';
 import 'package:rabenkorb/features/backup/backup_page.dart';
+import 'package:rabenkorb/features/backup/backup_restore_screen.dart';
 import 'package:rabenkorb/features/debug/debug_page.dart';
 import 'package:rabenkorb/features/library/details/item_template_details.dart';
 import 'package:rabenkorb/features/main/main_page.dart';
@@ -42,6 +43,10 @@ RouterConfig<Object> goRouterConfig({String initialLocation = Routes.home}) => G
             di<NavigationStateService>().setCurrentPageIndex(0);
             return Routes.home;
           },
+        ),
+        GoRoute(
+          path: Routes.backupRestore,
+          builder: (context, state) => const BackupRestoreScreen(),
         ),
         GoRoute(
           path: Routes.backup,

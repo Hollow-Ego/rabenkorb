@@ -6,5 +6,6 @@ abstract class Routes {
   static const String basketItemDetails = "$library/item";
   static const String debug = "/debug";
   static const String backup = "/backup";
+  static const String backupRestore = "$backup/import";
   static const String settings = "/settings";
 }
