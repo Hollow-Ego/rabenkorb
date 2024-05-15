@@ -42,12 +42,12 @@ class _BasketItemDetailsFormState extends State<BasketItemDetailsForm> {
 
   void _setupInitialValues() {
     final basketItem = widget.basketItem;
+    _basket = basketItem?.basket ?? di<BasketService>().activeBasketSync;
+
     if (basketItem == null) {
       _nameController.text = widget.tempItemName ?? "";
       return;
     }
-
-    _basket = di<BasketService>().activeBasketSync;
 
     _nameController.text = basketItem.name;
     _category = basketItem.category;
