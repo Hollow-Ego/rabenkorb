@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rabenkorb/generated/l10n.dart';
 import 'package:rabenkorb/models/sort_rule_view_model.dart';
 import 'package:rabenkorb/services/business/basket_service.dart';
+import 'package:rabenkorb/services/data_access/sort_rule_service.dart';
 import 'package:rabenkorb/services/state/basket_state_service.dart';
 import 'package:rabenkorb/shared/default_sort_rules.dart';
 import 'package:rabenkorb/shared/sort_mode.dart';
@@ -43,6 +44,10 @@ class BasketSortControl extends StatelessWidget with WatchItMixin {
                 border: InputBorder.none,
               ),
               allowEmptyValue: false,
+              onNoSearchResultAction: (String searchValue) async {
+                final newId = await di<SortRuleService>().createSortRule(searchValue);
+                await di<BasketStateService>().setSortRuleId(newId);
+              },
             ),
           ),
           CoreIconTextButton(
