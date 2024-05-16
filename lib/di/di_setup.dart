@@ -127,7 +127,7 @@ Future<void> _registerStateServices() async {
 
 void _registerUtilityServices() {
   di.registerSingleton<ImageService>(LocalImageService());
-  di.registerLazySingleton<BackupService>(() => BackupService());
+  di.registerFactory<BackupService>(() => BackupService());
 }
 
 void _addLogging() {

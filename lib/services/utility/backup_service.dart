@@ -93,7 +93,7 @@ class BackupService {
     Map<String, String> imageMap = {};
 
     final templateImages = await _database.itemTemplatesDao.getImagePaths();
-    final basketImages = await _database.itemTemplatesDao.getImagePaths();
+    final basketImages = await _database.basketItemsDao.getImagePaths();
 
     final uniqueImages = <String>{...templateImages, ...basketImages};
     for (var img in uniqueImages) {
