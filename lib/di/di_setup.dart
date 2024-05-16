@@ -53,10 +53,15 @@ Future<void> reinitializeDataRegistrations() async {
   await _unregisterDataAccessServices();
   await _unregisterDatabase();
 
+  di<LibraryStateService>().reset();
+  di<BasketStateService>().reset();
+
   _registerDatabase();
   _registerDataAccessServices();
   _registerBusinessServices();
   await di.allReady();
+
+  await di<BasketService>().setFirstShoppingBasketActive();
 }
 
 Future<void> _registerCoreServices() async {

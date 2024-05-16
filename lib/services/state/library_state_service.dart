@@ -176,4 +176,14 @@ class LibraryStateService {
     _sortDirectionSubject.add(sortDirection);
     _sortRuleIdSubject.add(sortRuleId);
   }
+
+  Future<void> reset() async {
+    await _prefs.remove(PreferenceKeys.libraryId);
+    await _prefs.remove(PreferenceKeys.librarySortMode);
+    await _prefs.remove(PreferenceKeys.librarySortDirection);
+    await _prefs.remove(PreferenceKeys.librarySortRuleId);
+    await _prefs.remove(PreferenceKeys.libraryCollapsedStates);
+
+    init();
+  }
 }

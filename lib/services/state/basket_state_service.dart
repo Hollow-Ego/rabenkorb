@@ -189,4 +189,14 @@ class BasketStateService {
     _basketIdSubject.add(basketId);
     _isShoppingMode.add(isShoppingMode);
   }
+
+  Future<void> reset() async {
+    await _prefs.remove(PreferenceKeys.basketSortMode);
+    await _prefs.remove(PreferenceKeys.basketSortDirection);
+    await _prefs.remove(PreferenceKeys.basketSortRuleId);
+    await _prefs.remove(PreferenceKeys.basketId);
+    await _prefs.remove(PreferenceKeys.basketCollapsedStates);
+    await _prefs.remove(PreferenceKeys.basketShoppingMode);
+    init();
+  }
 }
