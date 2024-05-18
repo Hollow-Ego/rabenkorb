@@ -1,28 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:rabenkorb/features/core/structural/core_scaffold.dart';
 import 'package:rabenkorb/features/core/structural/drawer/core_drawer.dart';
-import 'package:rabenkorb/services/state/basket_state_service.dart';
-import 'package:rabenkorb/services/state/main_navigation_state_service.dart';
+import 'package:rabenkorb/services/state/data_management_navigation_state_service.dart';
 import 'package:rabenkorb/shared/destination_details.dart';
 import 'package:rabenkorb/shared/widgets/core_navigation.dart';
 import 'package:watch_it/watch_it.dart';
 
-class MainPage extends StatelessWidget with WatchItMixin {
-  MainPage({super.key});
+class DataManagementPage extends StatelessWidget with WatchItMixin {
+  const DataManagementPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final details = watchStream((MainNavigationStateService p0) => p0.mainPageDetails);
-
-    final isShoppingModeStream = watchStream((BasketStateService p0) => p0.isShoppingMode, initialValue: false);
-    final isShoppingMode = isShoppingModeStream.data ?? false;
-    final hideFab = isShoppingMode && details.data?.hideFabInShoppingMode == true;
+    final details = watchStream((DataManagementNavigationStateService p0) => p0.dataManagementPageDetails);
 
     final pageIndex = details.data?.pageIndex ?? 0;
     final body = details.data?.body;
-    final mainAction = hideFab ? null : details.data?.mainAction;
+    final mainAction = details.data?.mainAction;
     final appBar = details.data?.appBar;
-    final state = di<MainNavigationStateService>();
+    final state = di<DataManagementNavigationStateService>();
 
     return CoreScaffold(
       body: body,
@@ -41,7 +36,7 @@ class MainPage extends StatelessWidget with WatchItMixin {
       return null;
     }
     return FloatingActionButton(
-      key: const Key("main-page-fab"),
+      key: const Key("data-management-page-fab"),
       onPressed: () {
         mainAction.onPressed!(context);
       },

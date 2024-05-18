@@ -46,12 +46,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "Basket": MessageLookupByLibrary.simpleMessage("Korb"),
         "BasketOverview": MessageLookupByLibrary.simpleMessage("Korb Übersicht"),
         "Cancel": MessageLookupByLibrary.simpleMessage("Abbrechen"),
+        "Categories": MessageLookupByLibrary.simpleMessage("Kategorien"),
         "Category": MessageLookupByLibrary.simpleMessage("Kategorie"),
         "ChooseSource": MessageLookupByLibrary.simpleMessage("Quelle wählen"),
         "ClearImage": MessageLookupByLibrary.simpleMessage("Bild zurücksetzen"),
         "Confirm": MessageLookupByLibrary.simpleMessage("Bestätigen"),
         "ConfirmDeleteAllItems": MessageLookupByLibrary.simpleMessage("Bist du sicher, dass du alle Artikel löschen willst?"),
         "ConfirmDeleteBasket": MessageLookupByLibrary.simpleMessage("Bist du sicher, dass du diesen Korb löschen willst?"),
+        "DataManagement": MessageLookupByLibrary.simpleMessage("Datenverwaltung"),
         "Debug": MessageLookupByLibrary.simpleMessage("Debug"),
         "Delete": MessageLookupByLibrary.simpleMessage("Löschen"),
         "DeleteAll": MessageLookupByLibrary.simpleMessage("Alle löschen"),
@@ -99,6 +101,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "TakePicture": MessageLookupByLibrary.simpleMessage("Bild aufnehmen"),
         "Template": MessageLookupByLibrary.simpleMessage("Template"),
         "Unit": MessageLookupByLibrary.simpleMessage("Einheit"),
+        "Units": MessageLookupByLibrary.simpleMessage("Einheiten"),
         "Unnamed": MessageLookupByLibrary.simpleMessage("Unbenannt"),
         "Variant": MessageLookupByLibrary.simpleMessage("Variante")
       };

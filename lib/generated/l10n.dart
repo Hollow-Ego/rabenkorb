@@ -187,6 +187,16 @@ class S {
     );
   }
 
+  /// `Data Management`
+  String get DataManagement {
+    return Intl.message(
+      'Data Management',
+      name: 'DataManagement',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Item`
   String get Item {
     return Intl.message(
@@ -441,6 +451,16 @@ class S {
     );
   }
 
+  /// `Categories`
+  String get Categories {
+    return Intl.message(
+      'Categories',
+      name: 'Categories',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Variant`
   String get Variant {
     return Intl.message(
@@ -476,6 +496,16 @@ class S {
     return Intl.message(
       'Unit',
       name: 'Unit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Units`
+  String get Units {
+    return Intl.message(
+      'Units',
+      name: 'Units',
       desc: '',
       args: [],
     );
