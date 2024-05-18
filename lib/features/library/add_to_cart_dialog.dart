@@ -40,10 +40,13 @@ class _AddToCardDialogState extends State<AddToCardDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
+    return AlertDialog(
       key: Key("${widget.item.key}-dialog"),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
+      title: Text(_item.name),
+      insetPadding: const EdgeInsets.all(24.0),
+      contentPadding: const EdgeInsets.all(16.0),
+      content: SizedBox(
+        width: MediaQuery.of(context).size.width,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -92,7 +95,7 @@ class _AddToCardDialogState extends State<AddToCardDialog> {
                   context.pop();
                 }
               },
-            )
+            ),
           ],
         ),
       ),
