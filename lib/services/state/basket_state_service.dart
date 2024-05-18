@@ -178,7 +178,12 @@ class BasketStateService {
     final sortDirection = sortDirectionName != null ? SortDirection.values.byName(sortDirectionName) : SortDirection.asc;
 
     final collapsedStateString = _prefs.getString(PreferenceKeys.basketCollapsedStates) ?? "";
-    _collapsedState = collapsedStateString.isNotEmpty ? jsonDecode(collapsedStateString) : {};
+
+    _collapsedState = {};
+    if (collapsedStateString.isNotEmpty) {
+      final decodedMap = jsonDecode(collapsedStateString);
+      _collapsedState = decodedMap.cast<String, bool>();
+    }
 
     final isShoppingMode = _prefs.getBool(PreferenceKeys.basketShoppingMode) ?? false;
 
