@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:rabenkorb/features/backup/backup_page.dart';
 import 'package:rabenkorb/features/backup/backup_restore_screen.dart';
 import 'package:rabenkorb/features/basket/details/basket_item_details.dart';
+import 'package:rabenkorb/features/basket/overview/basket_overview_page.dart';
 import 'package:rabenkorb/features/debug/debug_page.dart';
 import 'package:rabenkorb/features/library/details/item_template_details.dart';
 import 'package:rabenkorb/features/main/main_page.dart';
@@ -48,6 +49,12 @@ RouterConfig<Object> goRouterConfig({String initialLocation = Routes.home}) => G
               basketItem: itemTemplate,
               tempItemName: tempItemName,
             );
+          },
+        ),
+        GoRoute(
+          path: Routes.basketOverview,
+          builder: (context, state) {
+            return const BasketOverviewPage();
           },
         ),
         GoRoute(

@@ -44,6 +44,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "BackupOverwriteWarning": MessageLookupByLibrary.simpleMessage(
             "By importing a backup your current state will be overwritten! Uncheck the option for overwriting data above, if you want to add the imported data to your library."),
         "Basket": MessageLookupByLibrary.simpleMessage("Basket"),
+        "BasketOverview": MessageLookupByLibrary.simpleMessage("Basket Overview"),
         "Cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
         "Category": MessageLookupByLibrary.simpleMessage("Category"),
         "ChooseSource": MessageLookupByLibrary.simpleMessage("Choose the source"),

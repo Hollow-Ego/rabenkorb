@@ -167,6 +167,16 @@ class S {
     );
   }
 
+  /// `Basket Overview`
+  String get BasketOverview {
+    return Intl.message(
+      'Basket Overview',
+      name: 'BasketOverview',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Library`
   String get Library {
     return Intl.message(
