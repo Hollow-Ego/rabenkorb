@@ -174,6 +174,12 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
     return _rowsToViewModels(rows);
   }
 
+  Future<int> countItemsInBasket(int basketId) async {
+    final itemsInBasket = basketItems.basket.count(filter: basketItems.basket.equals(basketId));
+    final itemsInBasketQuery = selectOnly(basketItems)..addColumns([itemsInBasket]);
+    return await itemsInBasketQuery.map((row) => row.read(itemsInBasket)).getSingle() ?? 0;
+  }
+
   List<OrderingTerm> _getOrderingTerms<T>(
     SortMode sortMode,
   ) {

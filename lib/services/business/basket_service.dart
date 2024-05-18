@@ -238,6 +238,10 @@ class BasketService implements Disposable {
     return deletedItems;
   }
 
+  Future<int> countItemsInBasket(int basketId) {
+    return _basketItemService.countItemsInBasket(basketId);
+  }
+
   Future<int> _ensureExistingBasket(int? basketId) async {
     if (basketId == null) {
       basketId = await _shoppingBasketService.getFirstShoppingBasketId();

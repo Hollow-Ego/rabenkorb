@@ -197,6 +197,16 @@ class S {
     );
   }
 
+  /// `Items`
+  String get Items {
+    return Intl.message(
+      'Items',
+      name: 'Items',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Template`
   String get Template {
     return Intl.message(

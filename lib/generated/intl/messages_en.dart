@@ -66,6 +66,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Image": MessageLookupByLibrary.simpleMessage("Image"),
         "Item": MessageLookupByLibrary.simpleMessage("Item"),
         "ItemAddedToCard": m0,
+        "Items": MessageLookupByLibrary.simpleMessage("Items"),
         "Language": MessageLookupByLibrary.simpleMessage("Language"),
         "LanguageDisplayName": MessageLookupByLibrary.simpleMessage("English"),
         "Library": MessageLookupByLibrary.simpleMessage("Library"),
