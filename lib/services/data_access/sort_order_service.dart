@@ -11,4 +11,8 @@ class SortOrderService {
   Future<void> setOrder(int id, List<int> categoryIds) {
     return _db.sortOrdersDao.setOrder(id, categoryIds);
   }
+
+  Future<void> updateOrderSingle(int sortRuleId, int targetId, {int? placeBeforeId, int? placeAfterId}) {
+    return _db.sortOrdersDao.updateOrderSingle(sortRuleId, targetId, placeBeforeId: placeBeforeId, placeAfterId: placeAfterId);
+  }
 }

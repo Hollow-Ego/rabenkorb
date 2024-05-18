@@ -4,8 +4,8 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:rabenkorb/abstracts/data_item.dart';
 import 'package:rabenkorb/generated/l10n.dart';
 import 'package:rabenkorb/models/grouped_items.dart';
+import 'package:rabenkorb/services/business/sort_service.dart';
 import 'package:rabenkorb/services/core/dialog_service.dart';
-import 'package:rabenkorb/services/data_access/sort_order_service.dart';
 import 'package:rabenkorb/services/state/library_state_service.dart';
 import 'package:rabenkorb/services/state/loading_state.dart';
 import 'package:rabenkorb/shared/default_sort_rules.dart';
@@ -132,14 +132,24 @@ Future<XFile?> pickImage(ImageSource source) async {
 }
 
 void reorderGroupedItems<T extends DataItem>(int oldIndex, int newIndex, List<GroupedItems<T>> list, int? activeSortRuleId) async {
-  if (activeSortRuleId == null) {
+  if (activeSortRuleId == null || newIndex == oldIndex) {
     return;
   }
+  // New index would be relative to the list without the item being reordered
+  newIndex--;
+  final filteredList = list.where((e) => e.category.id != withoutCategoryId).toList();
+  final reorderedItem = filteredList[oldIndex];
+  final placeAfterItem = newIndex < filteredList.length && newIndex >= 0
+      ? filteredList[newIndex]
+      : newIndex >= filteredList.length
+          ? filteredList.last
+          : null;
+  final placeBeforeItem = newIndex < 0 ? filteredList.first : null;
 
-  final reorderedItem = list.removeAt(oldIndex);
-  list.insert(newIndex, reorderedItem);
+  final targetId = reorderedItem.category.id;
+  final placeAfterId = placeAfterItem?.category.id;
+  final placeBeforeId = placeBeforeItem?.category.id;
 
-  final newOrder = list.where((e) => e.category.id != withoutCategoryId).map((e) => e.category.id).toList();
-  await di<SortOrderService>().setOrder(activeSortRuleId, newOrder);
+  await di<SortService>().updateOrderSingle(activeSortRuleId, targetId, placeBeforeId: placeBeforeId, placeAfterId: placeAfterId);
   await di<LibraryStateService>().setSortRuleId(activeSortRuleId);
 }

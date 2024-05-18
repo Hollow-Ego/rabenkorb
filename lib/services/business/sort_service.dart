@@ -38,4 +38,8 @@ class SortService {
   Future<void> setOrder(int id, List<int> categoryIds) {
     return _sortOrderService.setOrder(id, categoryIds);
   }
+
+  Future<void> updateOrderSingle(int sortRuleId, int targetId, {int? placeBeforeId, int? placeAfterId}) {
+    return _sortOrderService.updateOrderSingle(sortRuleId, targetId, placeBeforeId: placeBeforeId, placeAfterId: placeAfterId);
+  }
 }
