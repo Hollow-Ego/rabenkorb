@@ -25,6 +25,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m1(direction) => "${Intl.select(direction, {
             'asc': 'Ascending',
             'desc': 'Descending',
+            'other': 'Unknown',
           })}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);

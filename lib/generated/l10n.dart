@@ -397,13 +397,14 @@ class S {
     );
   }
 
-  /// `{direction, select, asc{Ascending} desc{Descending}}`
+  /// `{direction, select, asc{Ascending} desc{Descending} other{Unknown}}`
   String SortDirection(String direction) {
     return Intl.select(
       direction,
       {
         'asc': 'Ascending',
         'desc': 'Descending',
+        'other': 'Unknown',
       },
       name: 'SortDirection',
       desc: 'The human readable sort direction',
