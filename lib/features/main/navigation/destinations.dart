@@ -5,8 +5,8 @@ import 'package:rabenkorb/features/basket/basket_view.dart';
 import 'package:rabenkorb/features/library/library_main_action.dart';
 import 'package:rabenkorb/features/library/library_search.dart';
 import 'package:rabenkorb/features/library/library_view.dart';
-import 'package:rabenkorb/features/main/navigation/destination_details.dart';
 import 'package:rabenkorb/generated/l10n.dart';
+import 'package:rabenkorb/shared/destination_details.dart';
 
 final List<DestinationDetails> mainDestinations = [
   DestinationDetails(

@@ -167,6 +167,16 @@ class S {
     );
   }
 
+  /// `Basket Overview`
+  String get BasketOverview {
+    return Intl.message(
+      'Basket Overview',
+      name: 'BasketOverview',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Library`
   String get Library {
     return Intl.message(
@@ -177,11 +187,31 @@ class S {
     );
   }
 
+  /// `Data Management`
+  String get DataManagement {
+    return Intl.message(
+      'Data Management',
+      name: 'DataManagement',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Item`
   String get Item {
     return Intl.message(
       'Item',
       name: 'Item',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Items`
+  String get Items {
+    return Intl.message(
+      'Items',
+      name: 'Items',
       desc: '',
       args: [],
     );
@@ -421,6 +451,16 @@ class S {
     );
   }
 
+  /// `Categories`
+  String get Categories {
+    return Intl.message(
+      'Categories',
+      name: 'Categories',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Variant`
   String get Variant {
     return Intl.message(
@@ -456,6 +496,56 @@ class S {
     return Intl.message(
       'Unit',
       name: 'Unit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Units`
+  String get Units {
+    return Intl.message(
+      'Units',
+      name: 'Units',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sort Rule`
+  String get SortRule {
+    return Intl.message(
+      'Sort Rule',
+      name: 'SortRule',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sort Rules`
+  String get SortRules {
+    return Intl.message(
+      'Sort Rules',
+      name: 'SortRules',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select a Sort Rule`
+  String get SelectSortRule {
+    return Intl.message(
+      'Select a Sort Rule',
+      name: 'SelectSortRule',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No Selection`
+  String get NoSelection {
+    return Intl.message(
+      'No Selection',
+      name: 'NoSelection',
       desc: '',
       args: [],
     );
@@ -636,6 +726,36 @@ class S {
     return Intl.message(
       'Are you sure you want to delete this basket?',
       name: 'ConfirmDeleteBasket',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to delete this category?`
+  String get ConfirmDeleteCategory {
+    return Intl.message(
+      'Are you sure you want to delete this category?',
+      name: 'ConfirmDeleteCategory',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to delete this unit?`
+  String get ConfirmDeleteUnit {
+    return Intl.message(
+      'Are you sure you want to delete this unit?',
+      name: 'ConfirmDeleteUnit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to delete this sort rule?`
+  String get ConfirmDeleteSortRule {
+    return Intl.message(
+      'Are you sure you want to delete this sort rule?',
+      name: 'ConfirmDeleteSortRule',
       desc: '',
       args: [],
     );

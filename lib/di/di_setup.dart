@@ -9,6 +9,7 @@ import 'package:rabenkorb/features/core/logging/core_logger.dart';
 import 'package:rabenkorb/features/core/logging/sinks/mongo_db_sink.dart';
 import 'package:rabenkorb/features/core/logging/sinks/void_sink.dart';
 import 'package:rabenkorb/services/business/basket_service.dart';
+import 'package:rabenkorb/services/business/data_management_service.dart';
 import 'package:rabenkorb/services/business/library_service.dart';
 import 'package:rabenkorb/services/business/metadata_service.dart';
 import 'package:rabenkorb/services/business/sort_service.dart';
@@ -27,10 +28,12 @@ import 'package:rabenkorb/services/data_access/sort_rule_service.dart';
 import 'package:rabenkorb/services/data_access/template_library_service.dart';
 import 'package:rabenkorb/services/data_access/variant_key_service.dart';
 import 'package:rabenkorb/services/state/basket_state_service.dart';
+import 'package:rabenkorb/services/state/data_management_navigation_state_service.dart';
+import 'package:rabenkorb/services/state/data_management_state_service.dart';
 import 'package:rabenkorb/services/state/intl_state_service.dart';
 import 'package:rabenkorb/services/state/library_state_service.dart';
 import 'package:rabenkorb/services/state/loading_state.dart';
-import 'package:rabenkorb/services/state/navigation_state_service.dart';
+import 'package:rabenkorb/services/state/main_navigation_state_service.dart';
 import 'package:rabenkorb/services/state/shared_preference_service.dart';
 import 'package:rabenkorb/services/utility/backup_service.dart';
 import 'package:rabenkorb/services/utility/image_service.dart';
@@ -111,6 +114,7 @@ void _registerBusinessServices() {
 
   di.registerSingletonWithDependencies<LibraryService>(() => LibraryService(), dependsOn: [ItemTemplateService, MetadataService]);
   di.registerSingletonWithDependencies<BasketService>(() => BasketService(), dependsOn: [BasketItemService, MetadataService]);
+  di.registerSingletonWithDependencies<DataManagementService>(() => DataManagementService(), dependsOn: [MetadataService]);
 }
 
 Future<void> _registerStateServices() async {
@@ -122,7 +126,9 @@ Future<void> _registerStateServices() async {
     await intlService.init();
     return intlService;
   }, dependsOn: [PreferenceService]);
-  di.registerSingletonWithDependencies<NavigationStateService>(() => NavigationStateService(), dependsOn: [IntlStateService]);
+  di.registerSingletonWithDependencies<MainNavigationStateService>(() => MainNavigationStateService(), dependsOn: [IntlStateService]);
+  di.registerSingletonWithDependencies<DataManagementNavigationStateService>(() => DataManagementNavigationStateService(), dependsOn: [IntlStateService]);
+  di.registerLazySingleton<DataManagementStateService>(() => DataManagementStateService());
 }
 
 void _registerUtilityServices() {

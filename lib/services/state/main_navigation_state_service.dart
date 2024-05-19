@@ -1,22 +1,23 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:rabenkorb/features/main/navigation/destination_details.dart';
+import 'package:rabenkorb/abstracts/navigation_state_service.dart';
 import 'package:rabenkorb/features/main/navigation/destinations.dart';
+import 'package:rabenkorb/shared/destination_details.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:watch_it/watch_it.dart';
 
 import '../../models/main_page_details.dart';
 
-class NavigationStateService implements Disposable {
+class MainNavigationStateService implements Disposable, NavigationStateService {
   final BehaviorSubject<int> _currentPageIndex = BehaviorSubject<int>.seeded(0);
-  final BehaviorSubject<MainPageDetails?> _mainPageDetails = BehaviorSubject<MainPageDetails?>.seeded(null);
+  final BehaviorSubject<NavigationPageDetails?> _mainPageDetails = BehaviorSubject<NavigationPageDetails?>.seeded(null);
 
   late StreamSubscription _mainPageDetailsSub;
 
   int get currentPageIndexSync => _currentPageIndex.value;
 
-  Stream<MainPageDetails?> get mainPageDetails => _mainPageDetails.stream;
+  Stream<NavigationPageDetails?> get mainPageDetails => _mainPageDetails.stream;
 
   void setCurrentPageIndex(int index) {
     _currentPageIndex.add(index);
@@ -26,12 +27,12 @@ class NavigationStateService implements Disposable {
 
   List<NavigationDestination> get destinations => _destinations.map((e) => e.destination).toList();
 
-  NavigationStateService() {
+  MainNavigationStateService() {
     _destinations.sort((a, b) => a.index.compareTo(b.index));
 
     _mainPageDetailsSub = _currentPageIndex.distinct().listen((index) {
       final destination = _destinations[index];
-      _mainPageDetails.add(MainPageDetails(
+      _mainPageDetails.add(NavigationPageDetails(
         pageIndex: index,
         body: destination.body,
         mainAction: destination.mainAction,
