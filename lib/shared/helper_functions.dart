@@ -4,6 +4,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:rabenkorb/abstracts/data_item.dart';
 import 'package:rabenkorb/generated/l10n.dart';
 import 'package:rabenkorb/models/grouped_items.dart';
+import 'package:rabenkorb/models/item_category_view_model.dart';
 import 'package:rabenkorb/services/business/sort_service.dart';
 import 'package:rabenkorb/services/core/dialog_service.dart';
 import 'package:rabenkorb/services/state/library_state_service.dart';
@@ -149,6 +150,29 @@ void reorderGroupedItems<T extends DataItem>(int oldIndex, int newIndex, List<Gr
   final targetId = reorderedItem.category.id;
   final placeAfterId = placeAfterItem?.category.id;
   final placeBeforeId = placeBeforeItem?.category.id;
+
+  await di<SortService>().updateOrderSingle(activeSortRuleId, targetId, placeBeforeId: placeBeforeId, placeAfterId: placeAfterId);
+  await di<LibraryStateService>().setSortRuleId(activeSortRuleId);
+}
+
+void reorderCategories(int oldIndex, int newIndex, List<ItemCategoryViewModel> list, int? activeSortRuleId) async {
+  if (activeSortRuleId == null || newIndex == oldIndex) {
+    return;
+  }
+  // New index would be relative to the list without the item being reordered
+  newIndex--;
+
+  final reorderedItem = list[oldIndex];
+  final placeAfterItem = newIndex < list.length && newIndex >= 0
+      ? list[newIndex]
+      : newIndex >= list.length
+          ? list.last
+          : null;
+  final placeBeforeItem = newIndex < 0 ? list.first : null;
+
+  final targetId = reorderedItem.id;
+  final placeAfterId = placeAfterItem?.id;
+  final placeBeforeId = placeBeforeItem?.id;
 
   await di<SortService>().updateOrderSingle(activeSortRuleId, targetId, placeBeforeId: placeBeforeId, placeAfterId: placeAfterId);
   await di<LibraryStateService>().setSortRuleId(activeSortRuleId);
