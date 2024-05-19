@@ -2,19 +2,16 @@ import 'package:mongo_dart/mongo_dart.dart';
 import 'package:rabenkorb/abstracts/log_sink.dart';
 import 'package:rabenkorb/models/app_info.dart';
 import 'package:rabenkorb/models/log_data.dart';
+import 'package:rabenkorb/services/core/environment_service.dart';
+import 'package:watch_it/watch_it.dart';
 
 class MongoDbSink implements LogSinks {
   static const String _mongoAppDataDatabase = "app-data";
   static const String _mongoLogCollection = "logs";
   static const String _mongoAppInfoCollection = "app-info";
-  static const String _connectionStringEnvName = 'MONGO_CONNECTION_STRING';
 
-  String get _mongoConnectionString => "${const String.fromEnvironment(_connectionStringEnvName)}/$_mongoAppDataDatabase";
-  bool hasConnectionString = false;
-
-  MongoDbSink() {
-    hasConnectionString = const bool.hasEnvironment(_connectionStringEnvName);
-  }
+  String get _mongoConnectionString => "${di<EnvironmentService>().mongoConnectionString}/$_mongoAppDataDatabase";
+  final bool hasConnectionString = di<EnvironmentService>().hasConnectionString;
 
   @override
   Future<void> sendAppInfo(AppInfo appInfo) async {

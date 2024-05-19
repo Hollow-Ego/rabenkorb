@@ -17,6 +17,9 @@ class EnvironmentDebug extends StatelessWidget {
             ListTile(
               title: Text(di<EnvironmentService>().environment),
             ),
+            ListTile(
+              title: Text("Has MongoDb Connection String: ${di<EnvironmentService>().hasConnectionString}"),
+            ),
           ],
         ),
       ),

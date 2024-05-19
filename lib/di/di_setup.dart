@@ -40,6 +40,7 @@ import 'package:rabenkorb/services/utility/image_service.dart';
 import 'package:watch_it/watch_it.dart';
 
 Future<void> setupDI() async {
+  _addEnvironment();
   _addLogging();
   _registerErrorHandling();
   await _registerCoreServices();
@@ -67,8 +68,11 @@ Future<void> reinitializeDataRegistrations() async {
   await di<BasketService>().setFirstShoppingBasketActive();
 }
 
-Future<void> _registerCoreServices() async {
+void _addEnvironment() {
   di.registerSingleton<EnvironmentService>(EnvironmentService());
+}
+
+Future<void> _registerCoreServices() async {
   di.registerSingleton<SnackBarService>(SnackBarService());
   di.registerSingleton<DialogService>(DialogService());
 
