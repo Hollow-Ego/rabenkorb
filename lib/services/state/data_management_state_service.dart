@@ -5,7 +5,7 @@ import '../../shared/sort_mode.dart';
 
 class DataManagementStateService {
   final BehaviorSubject<int?> _sortRuleIdSubject = BehaviorSubject<int?>.seeded(null);
-  final BehaviorSubject<SortMode> _sortModeSubject = BehaviorSubject<SortMode>.seeded(SortMode.name);
+  final BehaviorSubject<SortMode> _sortModeSubject = BehaviorSubject<SortMode>.seeded(SortMode.custom);
   final BehaviorSubject<SortDirection> _sortDirectionSubject = BehaviorSubject<SortDirection>.seeded(SortDirection.asc);
 
   Stream<int?> get sortRuleId => _sortRuleIdSubject.stream;

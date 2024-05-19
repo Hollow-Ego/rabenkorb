@@ -12,4 +12,5 @@ abstract class Routes {
   static const String dataManagement = "/data-management";
   static const String dataManagementCategory = "/data-management/category";
   static const String dataManagementUnit = "/data-management/unit";
+  static const String dataManagementSortRule = "/data-management/sort-rule";
 }

@@ -511,6 +511,46 @@ class S {
     );
   }
 
+  /// `Sort Rule`
+  String get SortRule {
+    return Intl.message(
+      'Sort Rule',
+      name: 'SortRule',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sort Rules`
+  String get SortRules {
+    return Intl.message(
+      'Sort Rules',
+      name: 'SortRules',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select a Sort Rule`
+  String get SelectSortRule {
+    return Intl.message(
+      'Select a Sort Rule',
+      name: 'SelectSortRule',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No Selection`
+  String get NoSelection {
+    return Intl.message(
+      'No Selection',
+      name: 'NoSelection',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `New Item`
   String get NewItem {
     return Intl.message(
@@ -706,6 +746,16 @@ class S {
     return Intl.message(
       'Are you sure you want to delete this unit?',
       name: 'ConfirmDeleteUnit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to delete this sort rule?`
+  String get ConfirmDeleteSortRule {
+    return Intl.message(
+      'Are you sure you want to delete this sort rule?',
+      name: 'ConfirmDeleteSortRule',
       desc: '',
       args: [],
     );

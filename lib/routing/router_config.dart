@@ -97,6 +97,13 @@ RouterConfig<Object> goRouterConfig({String initialLocation = Routes.home}) => G
           },
         ),
         GoRoute(
+          path: Routes.dataManagementSortRule,
+          redirect: (context, state) {
+            di<DataManagementNavigationStateService>().setCurrentPageIndex(2);
+            return Routes.dataManagement;
+          },
+        ),
+        GoRoute(
           path: Routes.dataManagement,
           builder: (context, state) => const DataManagementPage(),
         ),

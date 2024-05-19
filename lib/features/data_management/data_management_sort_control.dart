@@ -10,8 +10,11 @@ import 'package:rabenkorb/shared/widgets/sort_rule_dropdown.dart';
 import 'package:watch_it/watch_it.dart';
 
 class DataManagementSortControl extends StatelessWidget with WatchItMixin {
+  final bool customRulesOnly;
+
   const DataManagementSortControl({
     super.key,
+    this.customRulesOnly = false,
   });
 
   @override
@@ -28,15 +31,17 @@ class DataManagementSortControl extends StatelessWidget with WatchItMixin {
         mainAxisSize: MainAxisSize.max,
         children: [
           Expanded(
-              child: SortRuleDropdown(
-            sortMode: sortMode.data,
-            sortRuleId: sortRuleId.data,
-            availableSortRules: availableSortRules.data ?? [],
-            updateSortRuleDetails: _updateSortDetails,
-            onNewSortRule: (int newId) async {
-              await di<DataManagementStateService>().setSortRuleId(newId);
-            },
-          )),
+            child: SortRuleDropdown(
+              customRulesOnly: customRulesOnly,
+              sortMode: sortMode.data,
+              sortRuleId: sortRuleId.data,
+              availableSortRules: availableSortRules.data ?? [],
+              updateSortRuleDetails: _updateSortDetails,
+              onNewSortRule: (int newId) async {
+                await di<DataManagementStateService>().setSortRuleId(newId);
+              },
+            ),
+          ),
           CoreIconTextButton(
             icon: const Icon(Icons.sort),
             label: Text(S.of(context).SortDirection(sortDirection.data?.name ?? "")),
