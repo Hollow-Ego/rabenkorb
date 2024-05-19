@@ -1,6 +1,8 @@
 import 'package:drift/drift.dart';
 import 'package:rabenkorb/database/database.dart';
 import 'package:rabenkorb/database/tables/sort_orders.dart';
+import 'package:rabenkorb/models/item_category_view_model.dart';
+import 'package:rabenkorb/shared/default_sort_rules.dart';
 
 part 'sort_orders_dao.g.dart';
 
@@ -28,51 +30,63 @@ class SortOrdersDao extends DatabaseAccessor<AppDatabase> with _$SortOrdersDaoMi
     });
   }
 
-  Future<void> updateOrderSingle(int sortRuleId, int targetId, {int? placeBeforeId, int? placeAfterId}) async {
+  Future<void> updateOrderSingle(int sortRuleId, List<ItemCategoryViewModel> visibleCategories, int oldIndex, int newIndex) async {
     await transaction(() async {
+      // Fetch current sort orders for the given sort rule
       final allOrders = await (select(sortOrders)
             ..where((tbl) => tbl.ruleId.equals(sortRuleId))
             ..orderBy([(tbl) => OrderingTerm(expression: tbl.sortOrder)]))
           .get();
 
-      // Find target, placeBefore, and placeAfter indices
-      final targetIndex = allOrders.indexWhere((order) => order.categoryId == targetId);
-      final placeBeforeIndex = placeBeforeId != null ? allOrders.indexWhere((order) => order.categoryId == placeBeforeId) : -1;
-      final placeAfterIndex = placeAfterId != null ? allOrders.indexWhere((order) => order.categoryId == placeAfterId) : -1;
+      // Create a map of categoryId to its sort order
+      final orderMap = {for (var order in allOrders) order.categoryId: order};
 
-      if (targetIndex == -1) {
-        throw ArgumentError("Target ID $targetId not found.");
+      // Filter out the pseudo-category with id -1 from visibleCategories
+      visibleCategories = visibleCategories.where((category) => category.id != withoutCategoryId).toList();
+
+      // Validate indices
+      if (oldIndex < 0 || oldIndex >= visibleCategories.length || newIndex < 0 || newIndex >= visibleCategories.length) {
+        throw ArgumentError("Invalid indices provided.");
       }
 
-      if (placeBeforeId == null && placeAfterId == null) {
-        // No reordering needed
-        return;
+      // Reorder the visible categories based on the indices provided
+      final targetCategory = visibleCategories.removeAt(oldIndex);
+      visibleCategories.insert(newIndex, targetCategory);
+
+      // Ensure all categories within the range have sort orders
+      for (int i = 0; i < visibleCategories.length; i++) {
+        final category = visibleCategories[i];
+        if (orderMap.containsKey(category.id)) {
+          // Update existing sort order
+          orderMap[category.id] = orderMap[category.id]!.copyWith(sortOrder: i + 1);
+        } else {
+          // Create a new sort order
+          orderMap[category.id] = SortOrder(
+            categoryId: category.id,
+            ruleId: sortRuleId,
+            sortOrder: i + 1,
+          );
+        }
       }
 
-      final targetOrder = allOrders.removeAt(targetIndex);
+      // Handle unsorted categories not visible but should be ordered sequentially after visible ones
+      final sortedOrderCategories = orderMap.values.toList();
+      sortedOrderCategories.sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
+      int nextSortOrder = sortedOrderCategories.length + 1;
 
-      // Determine the new position for targetOrder
-      int newIndex;
-      if (placeBeforeIndex != -1) {
-        newIndex = placeBeforeIndex > targetIndex ? placeBeforeIndex - 1 : placeBeforeIndex;
-      } else if (placeAfterIndex != -1) {
-        newIndex = placeAfterIndex > targetIndex ? placeAfterIndex : placeAfterIndex + 1;
-      } else {
-        // If both are null, it means we shouldn't be here due to the previous check
-        return;
+      final unsortedCategories = await (select(itemCategories)..where((tbl) => (tbl.id.isIn(orderMap.keys.toList()) & tbl.id.isNotValue(-1)).not())).get();
+
+      for (var category in unsortedCategories) {
+        orderMap[category.id] = SortOrder(
+          categoryId: category.id,
+          ruleId: sortRuleId,
+          sortOrder: nextSortOrder++,
+        );
       }
 
-      // Insert the target order at the new position
-      allOrders.insert(newIndex, targetOrder);
-
-      // Update sortOrder to ensure no gaps
-      for (int i = 0; i < allOrders.length; i++) {
-        allOrders[i] = allOrders[i].copyWith(sortOrder: i + 1);
-      }
-
-      // Update the database
-      for (var order in allOrders) {
-        await (update(sortOrders)..where((tbl) => tbl.categoryId.equals(order.categoryId) & tbl.ruleId.equals(sortRuleId))).write(order);
+      // Update the database with new and updated sort orders
+      for (var order in orderMap.values) {
+        await (into(sortOrders).insertOnConflictUpdate(order));
       }
     });
   }

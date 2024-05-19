@@ -1,3 +1,4 @@
+import 'package:rabenkorb/models/item_category_view_model.dart';
 import 'package:rabenkorb/models/sort_rule_view_model.dart';
 import 'package:rabenkorb/services/data_access/sort_order_service.dart';
 import 'package:rabenkorb/services/data_access/sort_rule_service.dart';
@@ -39,7 +40,7 @@ class SortService {
     return _sortOrderService.setOrder(id, categoryIds);
   }
 
-  Future<void> updateOrderSingle(int sortRuleId, int targetId, {int? placeBeforeId, int? placeAfterId}) {
-    return _sortOrderService.updateOrderSingle(sortRuleId, targetId, placeBeforeId: placeBeforeId, placeAfterId: placeAfterId);
+  Future<void> updateOrderSingle(int sortRuleId, List<ItemCategoryViewModel> visibleCategories, int oldIndex, int newIndex) {
+    return _sortOrderService.updateOrderSingle(sortRuleId, visibleCategories, oldIndex, newIndex);
   }
 }
