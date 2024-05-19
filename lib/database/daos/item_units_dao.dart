@@ -32,6 +32,8 @@ class ItemUnitsDao extends DatabaseAccessor<AppDatabase> with _$ItemUnitsDaoMixi
   }
 
   Stream<List<ItemUnitViewModel>> watchItemUnits() {
-    return (select(itemUnits)).watch().map((units) => units.map((unit) => toItemUnitViewModel(unit)!).toList());
+    return (select(itemUnits)..orderBy([(tbl) => OrderingTerm(expression: tbl.name)]))
+        .watch()
+        .map((units) => units.map((unit) => toItemUnitViewModel(unit)!).toList());
   }
 }

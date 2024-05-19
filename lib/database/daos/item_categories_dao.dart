@@ -34,7 +34,9 @@ class ItemCategoriesDao extends DatabaseAccessor<AppDatabase> with _$ItemCategor
   }
 
   Stream<List<ItemCategoryViewModel>> watchItemCategories() {
-    return (select(itemCategories)).watch().map((categories) => categories.map((category) => toItemCategoryViewModel(category)!).toList());
+    return (select(itemCategories)..orderBy([(tbl) => OrderingTerm(expression: tbl.name)]))
+        .watch()
+        .map((categories) => categories.map((category) => toItemCategoryViewModel(category)!).toList());
   }
 
   Stream<List<ItemCategoryViewModel>> watchItemCategoriesInOrder(SortMode sortMode, SortDirection sortDirection, {int? sortRuleId}) {
