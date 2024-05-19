@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rabenkorb/features/data_management/categories/catgory_management_view.dart';
+import 'package:rabenkorb/features/data_management/units/unit_management_view.dart';
 import 'package:rabenkorb/generated/l10n.dart';
 import 'package:rabenkorb/services/business/metadata_service.dart';
 import 'package:rabenkorb/shared/destination_details.dart';
@@ -36,11 +37,23 @@ final List<DestinationDetails> dataManagementDestinations = [
       icon: const Icon(Icons.square_foot),
       label: S.current.Units,
     ),
-    body: const Text("B"),
+    body: const UnitManagementView(),
     index: 1,
-    mainAction: null,
+    mainAction: MainAction(
+      onPressed: (BuildContext context) async {
+        await showRenameDialog(
+          context,
+          onConfirm: (String? newName, bool _) async {
+            if (newName == null) {
+              return;
+            }
+            await di<MetadataService>().createItemUnit(newName);
+          },
+        );
+      },
+    ),
     appBar: AppBar(
-      title: null,
+      title: Text(S.current.Units),
     ),
   )
 ];

@@ -701,6 +701,16 @@ class S {
     );
   }
 
+  /// `Are you sure you want to delete this unit?`
+  String get ConfirmDeleteUnit {
+    return Intl.message(
+      'Are you sure you want to delete this unit?',
+      name: 'ConfirmDeleteUnit',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Rename`
   String get Rename {
     return Intl.message(

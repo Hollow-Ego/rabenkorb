@@ -81,6 +81,7 @@
   "ConfirmDeleteAllItems": "Are you sure you want to delete all items?",
   "ConfirmDeleteBasket": "Are you sure you want to delete this basket?",
   "ConfirmDeleteCategory": "Are you sure you want to delete this category?",
+  "ConfirmDeleteUnit": "Are you sure you want to delete this unit?",
   "Rename": "Rename",
   "NewBasket": "New Basket",
   "New": "New",

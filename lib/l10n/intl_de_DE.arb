@@ -81,6 +81,7 @@
   "ConfirmDeleteAllItems": "Bist du sicher, dass du alle Artikel löschen willst?",
   "ConfirmDeleteBasket": "Bist du sicher, dass du diesen Korb löschen willst?",
   "ConfirmDeleteCategory": "Bist du sicher, dass du diese Kategorie löschen willst?",
+  "ConfirmDeleteUnit": "Bist du sicher, dass du diese Einheit löschen willst?",
   "Rename": "Umbenennen",
   "NewBasket": "Neuer Korb",
   "New": "Neu",
