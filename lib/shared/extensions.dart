@@ -10,7 +10,11 @@ extension NullableStrings on String? {
   }
 
   double toDoubleOrZero() {
-    return double.tryParse(this!) ?? 0;
+    final cleanedDecimalString = this?.replaceAll(',', '.');
+    if (cleanedDecimalString == null) {
+      return 0;
+    }
+    return double.tryParse(cleanedDecimalString) ?? 0;
   }
 }
 
@@ -19,7 +23,7 @@ extension DoubleTransformation on double {
     if (this == 0) {
       return "";
     }
-    var text = toString();
+    var text = toString().replaceAll(',', '.');
     if (text.contains('.') && double.parse(text) == truncateToDouble()) {
       return text.substring(0, text.indexOf('.'));
     }

@@ -136,7 +136,7 @@ class _BasketItemDetailsFormState extends State<BasketItemDetailsForm> {
             labelText: S.of(context).Amount,
             textEditingController: _amountController,
             formFieldKey: "amount-input",
-            keyboardType: TextInputType.number,
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
             textInputAction: TextInputAction.done,
           ),
           gap,

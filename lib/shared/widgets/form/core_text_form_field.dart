@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:rabenkorb/shared/extensions.dart';
 
 class CoreTextFormField extends StatelessWidget {
@@ -27,6 +29,7 @@ class CoreTextFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localeDecimalPoint = NumberFormat.decimalPattern().symbols.DECIMAL_SEP;
     return TextFormField(
       key: formFieldKey.isValid() ? Key(formFieldKey!) : null,
       decoration: InputDecoration(
@@ -39,6 +42,19 @@ class CoreTextFormField extends StatelessWidget {
       initialValue: initialValue,
       onChanged: onChanged,
       keyboardType: keyboardType,
+      inputFormatters: [
+        if (keyboardType.decimal == true) FilteringTextInputFormatter.allow(RegExp('[0-9$localeDecimalPoint]')),
+        if (keyboardType.decimal == true)
+          TextInputFormatter.withFunction(
+            (oldValue, newValue) {
+              // Ensures there's only one decimal point
+              if (newValue.text.split(localeDecimalPoint).length > 2) {
+                return oldValue;
+              }
+              return newValue;
+            },
+          ),
+      ],
     );
   }
 }

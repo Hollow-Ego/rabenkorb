@@ -63,7 +63,7 @@ class _AddToCardDialogState extends State<AddToCardDialog> {
               labelText: S.of(context).Amount,
               textEditingController: _amountController,
               formFieldKey: "amount-input",
-              keyboardType: TextInputType.number,
+              keyboardType: const TextInputType.numberWithOptions(decimal: true),
               textInputAction: TextInputAction.done,
             ),
             gap,
