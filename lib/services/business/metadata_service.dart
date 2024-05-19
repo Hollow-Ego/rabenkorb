@@ -10,6 +10,8 @@ import 'package:rabenkorb/services/data_access/item_unit_service.dart';
 import 'package:rabenkorb/services/data_access/variant_key_service.dart';
 import 'package:rabenkorb/services/state/basket_state_service.dart';
 import 'package:rabenkorb/services/state/library_state_service.dart';
+import 'package:rabenkorb/shared/sort_direction.dart';
+import 'package:rabenkorb/shared/sort_mode.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:watch_it/watch_it.dart';
 
@@ -85,6 +87,10 @@ class MetadataService implements Disposable {
 
   Stream<List<ItemCategoryViewModel>> watchItemCategories() {
     return _itemCategoryService.watchItemCategories();
+  }
+
+  Stream<List<ItemCategoryViewModel>> watchItemCategoriesInOrder(SortMode sortMode, SortDirection sortDirection, {int? sortRuleId}) {
+    return _itemCategoryService.watchItemCategoriesInOrder(sortMode, sortDirection, sortRuleId: sortRuleId);
   }
 
   Future<int> createVariantKey(String name) {
