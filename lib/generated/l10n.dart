@@ -691,6 +691,16 @@ class S {
     );
   }
 
+  /// `Are you sure you want to delete this category?`
+  String get ConfirmDeleteCategory {
+    return Intl.message(
+      'Are you sure you want to delete this category?',
+      name: 'ConfirmDeleteCategory',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Rename`
   String get Rename {
     return Intl.message(

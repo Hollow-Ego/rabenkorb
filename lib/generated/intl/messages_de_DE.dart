@@ -53,6 +53,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Confirm": MessageLookupByLibrary.simpleMessage("Bestätigen"),
         "ConfirmDeleteAllItems": MessageLookupByLibrary.simpleMessage("Bist du sicher, dass du alle Artikel löschen willst?"),
         "ConfirmDeleteBasket": MessageLookupByLibrary.simpleMessage("Bist du sicher, dass du diesen Korb löschen willst?"),
+        "ConfirmDeleteCategory": MessageLookupByLibrary.simpleMessage("Bist du sicher, dass du diese Kategorie löschen willst?"),
         "DataManagement": MessageLookupByLibrary.simpleMessage("Datenverwaltung"),
         "Debug": MessageLookupByLibrary.simpleMessage("Debug"),
         "Delete": MessageLookupByLibrary.simpleMessage("Löschen"),

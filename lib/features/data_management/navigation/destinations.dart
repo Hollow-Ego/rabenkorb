@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rabenkorb/features/data_management/categories/catgory_management_view.dart';
 import 'package:rabenkorb/generated/l10n.dart';
 import 'package:rabenkorb/shared/destination_details.dart';
 
@@ -8,10 +9,10 @@ final List<DestinationDetails> dataManagementDestinations = [
       icon: const Icon(Icons.category),
       label: S.current.Categories,
     ),
-    body: const Text("A"),
+    body: const CategoryManagementView(),
     mainAction: null,
     appBar: AppBar(
-      title: null,
+      title: Text(S.current.Categories),
     ),
     index: 0,
   ),

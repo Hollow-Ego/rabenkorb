@@ -3,6 +3,8 @@ import 'package:rabenkorb/database/database.dart';
 import 'package:rabenkorb/database/tables/item_categories.dart';
 import 'package:rabenkorb/mappers/to_view_model.dart';
 import 'package:rabenkorb/models/item_category_view_model.dart';
+import 'package:rabenkorb/shared/sort_direction.dart';
+import 'package:rabenkorb/shared/sort_mode.dart';
 
 part 'item_categories_dao.g.dart';
 
@@ -33,5 +35,48 @@ class ItemCategoriesDao extends DatabaseAccessor<AppDatabase> with _$ItemCategor
 
   Stream<List<ItemCategoryViewModel>> watchItemCategories() {
     return (select(itemCategories)).watch().map((categories) => categories.map((category) => toItemCategoryViewModel(category)!).toList());
+  }
+
+  Stream<List<ItemCategoryViewModel>> watchItemCategoriesInOrder(SortMode sortMode, SortDirection sortDirection, {int? sortRuleId}) {
+    final sourceQuery = select(itemCategories);
+
+    final query = sourceQuery.join(
+      [
+        leftOuterJoin(attachedDatabase.sortOrders,
+            itemCategories.id.equalsExp(attachedDatabase.sortOrders.categoryId) & attachedDatabase.sortOrders.ruleId.equalsNullable(sortRuleId)),
+      ],
+    );
+    query.orderBy([
+      OrderingTerm(expression: itemCategories.id.isNull(), mode: toOrderingMode(sortDirection)),
+      OrderingTerm(expression: attachedDatabase.sortOrders.sortOrder.isNull(), mode: toOrderingMode(sortDirection)),
+      ..._getOrderingTerms(sortMode),
+    ]);
+
+    return query.watch().map((rows) => rows.map((row) => toItemCategoryViewModel(row.readTable(itemCategories))!).toList());
+  }
+
+  List<OrderingTerm> _getOrderingTerms<T>(
+    SortMode sortMode,
+  ) {
+    switch (sortMode) {
+      case SortMode.databaseOrder:
+        return [_byId()];
+      case SortMode.name:
+        return [_byName()];
+      case SortMode.custom:
+        return [_bySortOrder(), _byName()];
+    }
+  }
+
+  OrderingTerm _byId() {
+    return OrderingTerm(expression: itemCategories.id);
+  }
+
+  OrderingTerm _byName() {
+    return OrderingTerm(expression: itemCategories.name);
+  }
+
+  OrderingTerm _bySortOrder() {
+    return OrderingTerm(expression: attachedDatabase.sortOrders.sortOrder);
   }
 }
