@@ -90,6 +90,7 @@ class BasketService implements Disposable {
     int? categoryId,
     required int? basketId,
     File? image,
+    String? note,
     String? imagePath,
     int? unitId,
   }) async {
@@ -108,6 +109,7 @@ class BasketService implements Disposable {
       categoryId: categoryId,
       basketId: basketId,
       imagePath: imagePath,
+      note: note,
       unitId: unitId,
     );
   }
@@ -131,6 +133,7 @@ class BasketService implements Disposable {
         categoryId: originalBasketItem.category?.id,
         basketId: originalBasketItem.basket.id,
         imagePath: null,
+        note: originalBasketItem.note,
         isChecked: originalBasketItem.isChecked,
         unitId: originalBasketItem.unit?.id,
         amount: originalBasketItem.amount);
@@ -150,6 +153,7 @@ class BasketService implements Disposable {
     int? categoryId,
     int? basketId,
     File? image,
+    String? note,
     int? unitId,
     bool? isChecked,
   }) async {
@@ -170,6 +174,7 @@ class BasketService implements Disposable {
       categoryId: categoryId,
       basketId: basketId,
       imagePath: image?.path,
+      note: note,
       unitId: unitId,
       isChecked: isChecked,
     );
@@ -182,6 +187,7 @@ class BasketService implements Disposable {
     int? categoryId,
     int? basketId,
     File? image,
+    String? note,
     int? unitId,
     bool? isChecked,
     bool imageChanged = false,
@@ -207,6 +213,7 @@ class BasketService implements Disposable {
       categoryId: categoryId,
       basketId: basketId,
       imagePath: image?.path,
+      note: note,
       unitId: unitId,
       isChecked: isChecked,
     );

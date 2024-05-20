@@ -18,7 +18,7 @@ import 'package:watch_it/watch_it.dart';
 class ItemTemplateDetailsForm extends StatefulWidget {
   final ItemTemplateViewModel? itemTemplate;
   final String? tempItemName;
-  final Function(String name, File? image, int? categoryId, int? variantKey) onSubmit;
+  final Function(String name, File? image, int? categoryId) onSubmit;
 
   const ItemTemplateDetailsForm({super.key, required this.itemTemplate, required this.onSubmit, this.tempItemName});
 
@@ -42,7 +42,6 @@ class _ItemTemplateDetailsFormState extends State<ItemTemplateDetailsForm> {
 
     _nameController.text = itemTemplate.name;
     _category = itemTemplate.category;
-    _variant = itemTemplate.variantKey;
 
     final imagePath = itemTemplate.imagePath;
     if (imagePath != null) {
@@ -61,7 +60,7 @@ class _ItemTemplateDetailsFormState extends State<ItemTemplateDetailsForm> {
         return;
       }
       state.save();
-      widget.onSubmit(_nameController.text, _image, _category?.id, _variant);
+      widget.onSubmit(_nameController.text, _image, _category?.id);
       context.pop("saved");
     });
   }

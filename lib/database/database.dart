@@ -12,7 +12,6 @@ import 'package:rabenkorb/database/daos/shopping_baskets_dao.dart';
 import 'package:rabenkorb/database/daos/sort_orders_dao.dart';
 import 'package:rabenkorb/database/daos/sort_rules_dao.dart';
 import 'package:rabenkorb/database/daos/template_libraries_dao.dart';
-import 'package:rabenkorb/database/daos/variant_keys_dao.dart';
 import 'package:rabenkorb/database/tables/basket_items.dart';
 import 'package:rabenkorb/database/tables/item_categories.dart';
 import 'package:rabenkorb/database/tables/item_templates.dart';
@@ -21,7 +20,6 @@ import 'package:rabenkorb/database/tables/shopping_basket.dart';
 import 'package:rabenkorb/database/tables/sort_orders.dart';
 import 'package:rabenkorb/database/tables/sort_rules.dart';
 import 'package:rabenkorb/database/tables/template_libraries.dart';
-import 'package:rabenkorb/database/tables/variant_keys.dart';
 
 part 'database.g.dart';
 
@@ -35,7 +33,6 @@ part 'database.g.dart';
     SortOrders,
     SortRules,
     TemplateLibraries,
-    VariantKeys,
   ],
   daos: [
     ItemCategoriesDao,
@@ -46,11 +43,11 @@ part 'database.g.dart';
     SortOrdersDao,
     SortRulesDao,
     TemplateLibrariesDao,
-    VariantKeysDao,
   ],
 )
 class AppDatabase extends _$AppDatabase {
   static const databaseFileName = 'db.sqlite';
+
   AppDatabase() : super(_openConnection());
 
   AppDatabase.forTesting(super.e);
@@ -58,12 +55,24 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forImport(String path, String fileName) : super(_openImportDatabase(path, fileName));
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   @override
-  MigrationStrategy get migration => MigrationStrategy(beforeOpen: (details) async {
+  MigrationStrategy get migration {
+    return MigrationStrategy(
+      beforeOpen: (details) async {
         await customStatement('PRAGMA foreign_keys = ON');
-      });
+      },
+      onUpgrade: (Migrator m, int from, int to) async {
+        if (from < 2) {
+          m.deleteTable("variant_keys");
+          await m.addColumn(basketItems, basketItems.note);
+          await m.alterTable(TableMigration(basketItems));
+          await m.alterTable(TableMigration(itemTemplates));
+        }
+      },
+    );
+  }
 
   Future<void> exportInto(File file) async {
     await file.parent.create(recursive: true);

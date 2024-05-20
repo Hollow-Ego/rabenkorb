@@ -12,6 +12,7 @@ BasketItemViewModel toBasketItemViewModel(BasketItem item, ItemCategory? categor
     id: item.id,
     name: item.name,
     imagePath: item.imagePath,
+    note: item.note,
     amount: item.amount,
     category: toItemCategoryViewModel(category),
     basket: toShoppingBasketViewModel(basket)!,
@@ -27,7 +28,6 @@ ItemTemplateViewModel toItemTemplateViewModel(ItemTemplate item, ItemCategory? c
     imagePath: item.imagePath,
     category: toItemCategoryViewModel(category),
     library: toTemplateLibraryViewModel(library)!,
-    variantKey: item.variantKey,
   );
 }
 

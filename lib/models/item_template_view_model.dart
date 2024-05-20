@@ -7,7 +7,6 @@ class ItemTemplateViewModel extends DataItem {
   final int id;
   final String name;
   final String? imagePath;
-  final int? variantKey;
   final ItemCategoryViewModel? category;
   final TemplateLibraryViewModel library;
 
@@ -18,7 +17,6 @@ class ItemTemplateViewModel extends DataItem {
     required this.id,
     required this.name,
     required this.imagePath,
-    required this.variantKey,
     required this.category,
     required this.library,
   });
@@ -29,7 +27,6 @@ class ItemTemplateViewModel extends DataItem {
       "id": id,
       "name": name,
       "imagePath": imagePath,
-      "variantKey": variantKey,
       "category": category?.toJson(),
       "library": library.toJson(),
     };

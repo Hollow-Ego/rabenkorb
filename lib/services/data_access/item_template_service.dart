@@ -45,14 +45,12 @@ class ItemTemplateService implements Disposable {
     String name, {
     int? categoryId,
     required int libraryId,
-    int? variantKeyId,
     String? imagePath,
   }) {
     return _db.itemTemplatesDao.createItemTemplate(
       name,
       categoryId: categoryId,
       libraryId: libraryId,
-      variantKeyId: variantKeyId,
       imagePath: imagePath,
     );
   }
@@ -62,7 +60,6 @@ class ItemTemplateService implements Disposable {
     String? name,
     int? categoryId,
     int? libraryId,
-    int? variantKeyId,
     String? imagePath,
   }) {
     return _db.itemTemplatesDao.updateItemTemplate(
@@ -70,7 +67,6 @@ class ItemTemplateService implements Disposable {
       name: name,
       categoryId: categoryId,
       libraryId: libraryId,
-      variantKeyId: variantKeyId,
       imagePath: imagePath,
     );
   }
@@ -80,7 +76,6 @@ class ItemTemplateService implements Disposable {
     required String name,
     int? categoryId,
     required int libraryId,
-    int? variantKeyId,
     String? imagePath,
   }) {
     return _db.itemTemplatesDao.replaceItemTemplate(
@@ -88,17 +83,12 @@ class ItemTemplateService implements Disposable {
       name: name,
       categoryId: categoryId,
       libraryId: libraryId,
-      variantKeyId: variantKeyId,
       imagePath: imagePath,
     );
   }
 
   Future<ItemTemplateViewModel?> getItemTemplateById(int id) {
     return _db.itemTemplatesDao.getItemTemplateWithId(id);
-  }
-
-  Future<List<ItemTemplateViewModel>> getItemTemplatesByVariantKey(int variantKeyId) {
-    return _db.itemTemplatesDao.getItemTemplatesByVariantKey(variantKeyId);
   }
 
   Future<int> deleteItemTemplateById(int id) {

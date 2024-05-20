@@ -23,7 +23,7 @@ import 'package:watch_it/watch_it.dart';
 class BasketItemDetailsForm extends StatefulWidget {
   final BasketItemViewModel? basketItem;
   final String? tempItemName;
-  final Function(String name, double amount, File? image, int? categoryId, int? unitId, int? basketId) onSubmit;
+  final Function(String name, double amount, File? image, String? note, int? categoryId, int? unitId, int? basketId) onSubmit;
 
   const BasketItemDetailsForm({super.key, required this.basketItem, required this.onSubmit, this.tempItemName});
 
@@ -34,6 +34,7 @@ class BasketItemDetailsForm extends StatefulWidget {
 class _BasketItemDetailsFormState extends State<BasketItemDetailsForm> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _noteController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
   ShoppingBasketViewModel? _basket;
   ItemCategoryViewModel? _category;
@@ -75,6 +76,7 @@ class _BasketItemDetailsFormState extends State<BasketItemDetailsForm> {
         _nameController.text,
         _amountController.text.toDoubleOrZero(),
         _image,
+        _noteController.text,
         _category?.id,
         _unit?.id,
         _basket?.id,

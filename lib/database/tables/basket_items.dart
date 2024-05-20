@@ -12,6 +12,8 @@ class BasketItems extends Table {
 
   TextColumn get imagePath => text().nullable()();
 
+  TextColumn get note => text().nullable()();
+
   RealColumn get amount => real()();
 
   IntColumn get category => integer().nullable().references(ItemCategories, #id, onDelete: KeyAction.setNull)();

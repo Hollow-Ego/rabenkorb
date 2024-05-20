@@ -4,7 +4,6 @@ import 'package:rabenkorb/abstracts/image_service.dart';
 import 'package:rabenkorb/abstracts/preference_service.dart';
 import 'package:rabenkorb/database/database.dart';
 import 'package:rabenkorb/exceptions/missing_category.dart';
-import 'package:rabenkorb/exceptions/missing_variant.dart';
 import 'package:rabenkorb/features/debug/debug_database_helper.dart';
 import 'package:rabenkorb/services/business/library_service.dart';
 import 'package:rabenkorb/services/business/metadata_service.dart';
@@ -13,7 +12,6 @@ import 'package:rabenkorb/services/data_access/item_template_service.dart';
 import 'package:rabenkorb/services/data_access/item_unit_service.dart';
 import 'package:rabenkorb/services/data_access/sort_rule_service.dart';
 import 'package:rabenkorb/services/data_access/template_library_service.dart';
-import 'package:rabenkorb/services/data_access/variant_key_service.dart';
 import 'package:rabenkorb/services/state/basket_state_service.dart';
 import 'package:rabenkorb/services/state/library_state_service.dart';
 import 'package:watch_it/watch_it.dart';
@@ -23,7 +21,6 @@ import '../mock_preferences_service.dart';
 
 void main() {
   late LibraryService sut;
-  late MetadataService metadataService;
   late AppDatabase database;
 
   setUp(() async {
@@ -38,10 +35,8 @@ void main() {
     di.registerSingleton<ItemTemplateService>(ItemTemplateService());
     di.registerSingleton<ItemUnitService>(ItemUnitService());
     di.registerSingleton<ItemCategoryService>(ItemCategoryService());
-    di.registerSingleton<VariantKeyService>(VariantKeyService());
 
     di.registerSingleton<MetadataService>(MetadataService());
-    metadataService = di<MetadataService>();
     di.registerSingleton<TemplateLibraryService>(TemplateLibraryService());
 
     await seedDatabase(database);
@@ -68,25 +63,6 @@ void main() {
       sut.createItemTemplate("Test Item", libraryId: 1, categoryId: 99),
       throwsA(isA<MissingCategoryException>()),
     );
-  });
-
-  test("throw an exception if the variant key doesn't exist", () {
-    expectLater(
-      sut.createItemTemplate("Test Item", libraryId: 1, variantKeyId: 99),
-      throwsA(isA<MissingVariantException>()),
-    );
-  });
-
-  test("remove no longer needed variant keys after removing it for one template", () async {
-    final itemTemplateId = testItemTemplates["Peas - Frozen"]!.id;
-    final connectedItemTemplateId = testItemTemplates["Peas - Canned"]!.id;
-    await sut.removeItemTemplateVariant(itemTemplateId);
-
-    final previouslyConnectedItem = await sut.getItemTemplateById(connectedItemTemplateId);
-    expect(previouslyConnectedItem!.variantKey, null);
-
-    final variant = await metadataService.getVariantKeyById(testVariantKeys["Key 1"]!.id);
-    expect(variant, null);
   });
 
   tearDown(() async {

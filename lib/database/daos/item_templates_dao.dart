@@ -19,14 +19,12 @@ class ItemTemplatesDao extends DatabaseAccessor<AppDatabase> with _$ItemTemplate
     String name, {
     int? categoryId,
     required int libraryId,
-    int? variantKeyId,
     String? imagePath,
   }) {
     final companion = ItemTemplatesCompanion(
       name: Value(name),
       category: Value(categoryId),
       library: Value(libraryId),
-      variantKey: Value(variantKeyId),
       imagePath: Value(imagePath),
     );
     return into(itemTemplates).insert(companion);
@@ -37,14 +35,12 @@ class ItemTemplatesDao extends DatabaseAccessor<AppDatabase> with _$ItemTemplate
     String? name,
     int? categoryId,
     int? libraryId,
-    int? variantKeyId,
     String? imagePath,
   }) {
     final companion = ItemTemplatesCompanion(
         name: Value.absentIfNull(name),
         category: Value.absentIfNull(categoryId),
         library: Value.absentIfNull(libraryId),
-        variantKey: Value.absentIfNull(variantKeyId),
         imagePath: Value.absentIfNull(imagePath));
     return (update(itemTemplates)..where((li) => li.id.equals(id))).write(companion);
   }
@@ -54,7 +50,6 @@ class ItemTemplatesDao extends DatabaseAccessor<AppDatabase> with _$ItemTemplate
     required String name,
     int? categoryId,
     required int libraryId,
-    int? variantKeyId,
     String? imagePath,
   }) {
     final newItemTemplate = ItemTemplatesCompanion(
@@ -62,7 +57,6 @@ class ItemTemplatesDao extends DatabaseAccessor<AppDatabase> with _$ItemTemplate
       name: Value(name),
       category: Value(categoryId),
       library: Value(libraryId),
-      variantKey: Value(variantKeyId),
       imagePath: Value(imagePath),
     );
     return update(itemTemplates).replace(newItemTemplate);
@@ -75,11 +69,6 @@ class ItemTemplatesDao extends DatabaseAccessor<AppDatabase> with _$ItemTemplate
   Future<ItemTemplateViewModel?> getItemTemplateWithId(int id) async {
     final row = await _joinValues(select(itemTemplates)..where((li) => li.id.equals(id))).getSingleOrNull();
     return _rowToViewModel(row);
-  }
-
-  Future<List<ItemTemplateViewModel>> getItemTemplatesByVariantKey(int variantKeyId) async {
-    final rows = await _joinValues(select(itemTemplates)..where((li) => li.variantKey.equals(variantKeyId))).get();
-    return _rowsToViewModels(rows);
   }
 
   Future<int> deleteItemTemplateWithId(int id) {

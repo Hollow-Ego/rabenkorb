@@ -8,6 +8,7 @@ class BasketItemViewModel extends DataItem {
   final int id;
   final String name;
   final String? imagePath;
+  final String? note;
   final double amount;
   final ItemCategoryViewModel? category;
   final ShoppingBasketViewModel basket;
@@ -21,6 +22,7 @@ class BasketItemViewModel extends DataItem {
     required this.id,
     required this.name,
     required this.imagePath,
+    required this.note,
     required this.amount,
     required this.category,
     required this.basket,
@@ -34,6 +36,7 @@ class BasketItemViewModel extends DataItem {
       "id": id,
       "name": name,
       "imagePath": imagePath,
+      "note": note,
       "amount": amount,
       "category": category,
       "basket": basket,

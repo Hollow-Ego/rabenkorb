@@ -27,6 +27,7 @@ class AddToCardDialog extends StatefulWidget {
 
 class _AddToCardDialogState extends State<AddToCardDialog> {
   final TextEditingController _amountController = TextEditingController();
+  final TextEditingController _noteController = TextEditingController();
   late ItemTemplateViewModel _item;
   ItemUnitViewModel? _unit;
   ShoppingBasketViewModel? _basket;
@@ -87,6 +88,7 @@ class _AddToCardDialogState extends State<AddToCardDialog> {
                     basketId: _basket?.id,
                     categoryId: _item.category?.id,
                     imagePath: _item.imagePath,
+                    note: _noteController.text,
                     amount: _amountController.text.toDoubleOrZero(),
                     unitId: _unit?.id,
                   );

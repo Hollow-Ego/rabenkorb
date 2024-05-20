@@ -2,12 +2,10 @@ import 'dart:async';
 
 import 'package:rabenkorb/exceptions/missing_category.dart';
 import 'package:rabenkorb/exceptions/missing_unit.dart';
-import 'package:rabenkorb/exceptions/missing_variant.dart';
 import 'package:rabenkorb/models/item_category_view_model.dart';
 import 'package:rabenkorb/models/item_unit_view_model.dart';
 import 'package:rabenkorb/services/data_access/item_category_service.dart';
 import 'package:rabenkorb/services/data_access/item_unit_service.dart';
-import 'package:rabenkorb/services/data_access/variant_key_service.dart';
 import 'package:rabenkorb/services/state/basket_state_service.dart';
 import 'package:rabenkorb/services/state/library_state_service.dart';
 import 'package:rabenkorb/shared/sort_direction.dart';
@@ -15,12 +13,9 @@ import 'package:rabenkorb/shared/sort_mode.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:watch_it/watch_it.dart';
 
-import '../../database/database.dart';
-
 class MetadataService implements Disposable {
   final _itemUnitService = di<ItemUnitService>();
   final _itemCategoryService = di<ItemCategoryService>();
-  final _variantKeyService = di<VariantKeyService>();
   final _libraryStateService = di<LibraryStateService>();
   final _basketStateService = di<BasketStateService>();
 
@@ -93,18 +88,6 @@ class MetadataService implements Disposable {
     return _itemCategoryService.watchItemCategoriesInOrder(sortMode, sortDirection, sortRuleId: sortRuleId);
   }
 
-  Future<int> createVariantKey(String name) {
-    return _variantKeyService.createVariantKey(name);
-  }
-
-  Future<VariantKey?> getVariantKeyById(int id) {
-    return _variantKeyService.getVariantKeyById(id);
-  }
-
-  Future<int> deleteVariantKeyById(int id) {
-    return _variantKeyService.deleteVariantKeyById(id);
-  }
-
   Future<void> ensureExistingCategory(int? categoryId) async {
     if (categoryId == null) {
       return;
@@ -112,15 +95,6 @@ class MetadataService implements Disposable {
     final category = await getItemCategoryById(categoryId);
 
     throwIf(category == null, MissingCategoryException(categoryId));
-  }
-
-  Future<void> ensureExistingVariantKey(int? variantId) async {
-    if (variantId == null) {
-      return;
-    }
-    final variant = await getVariantKeyById(variantId);
-
-    throwIf(variant == null, MissingVariantException(variantId));
   }
 
   Future<void> ensureExistingUnit(int? unitId) async {
