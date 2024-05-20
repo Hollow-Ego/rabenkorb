@@ -170,6 +170,7 @@ Future<void> _unregisterDataAccessServices() async {
   await di.unregister<SortOrderService>();
   await di.unregister<SortRuleService>();
   await di.unregister<TemplateLibraryService>();
+  await di.unregister<DataManagementService>();
 }
 
 Future<void> _unregisterDatabase() async {
