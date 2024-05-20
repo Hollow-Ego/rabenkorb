@@ -4,6 +4,7 @@ import 'package:rabenkorb/di/di_setup.dart';
 import 'package:rabenkorb/features/core/error/error_handler.dart';
 import 'package:rabenkorb/routing/router_config.dart';
 import 'package:rabenkorb/services/state/intl_state_service.dart';
+import 'package:rabenkorb/themes/core_theme.dart';
 import 'package:watch_it/watch_it.dart';
 
 import 'generated/l10n.dart';
@@ -33,9 +34,11 @@ class MainApp extends StatelessWidget with WatchItMixin {
       ],
       supportedLocales: S.delegate.supportedLocales,
       locale: locale.data,
-      theme: ThemeData(
-        useMaterial3: true,
-      ),
+      theme: const MaterialTheme(TextTheme()).light(),
+      darkTheme: const MaterialTheme(TextTheme()).dark(),
+      highContrastTheme: const MaterialTheme(TextTheme()).lightHighContrast(),
+      highContrastDarkTheme: const MaterialTheme(TextTheme()).darkHighContrast(),
+      themeMode: ThemeMode.light,
       routerConfig: routerConfig,
     );
   }
