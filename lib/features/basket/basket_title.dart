@@ -50,10 +50,11 @@ class BasketTitle extends StatelessWidget with WatchItMixin {
             disabled: isMultiSelectMode || isShoppingMode,
           ),
         ),
-        ShoppingModeToggle(disabled: isMultiSelectMode),
+        ShoppingModeToggle(disabled: isMultiSelectMode || !activeBasket.hasData),
         BasketPopupMenu(
           isShoppingMode: isShoppingMode,
           isMultiSelectMode: isMultiSelectMode,
+          disabled: !activeBasket.hasData,
         ),
       ],
     );
