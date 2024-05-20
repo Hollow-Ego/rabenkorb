@@ -54,6 +54,7 @@ class _BasketItemDetailsFormState extends State<BasketItemDetailsForm> {
     _category = basketItem.category;
     _unit = basketItem.unit;
     _amountController.text = basketItem.amount.toFormattedString();
+    _noteController.text = basketItem.note ?? "";
 
     final imagePath = basketItem.imagePath;
     if (imagePath != null) {
@@ -72,11 +73,12 @@ class _BasketItemDetailsFormState extends State<BasketItemDetailsForm> {
         return;
       }
       state.save();
+      final note = _noteController.text.isEmpty ? null : _noteController.text;
       widget.onSubmit(
         _nameController.text,
         _amountController.text.toDoubleOrZero(),
         _image,
-        _noteController.text,
+        note,
         _category?.id,
         _unit?.id,
         _basket?.id,
@@ -110,6 +112,7 @@ class _BasketItemDetailsFormState extends State<BasketItemDetailsForm> {
             formFieldKey: "basket-item-name-input",
             labelText: S.of(context).Name,
             textEditingController: _nameController,
+            textInputAction: TextInputAction.next,
             validator: (name) {
               if (name.isValid()) {
                 return null;
@@ -135,11 +138,18 @@ class _BasketItemDetailsFormState extends State<BasketItemDetailsForm> {
           ),
           gap,
           CoreTextFormField(
+            labelText: S.of(context).Note,
+            textEditingController: _noteController,
+            formFieldKey: "note-input",
+            textInputAction: TextInputAction.next,
+          ),
+          gap,
+          CoreTextFormField(
             labelText: S.of(context).Amount,
             textEditingController: _amountController,
             formFieldKey: "amount-input",
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            textInputAction: TextInputAction.done,
+            textInputAction: TextInputAction.next,
           ),
           gap,
           UnitDropdown(

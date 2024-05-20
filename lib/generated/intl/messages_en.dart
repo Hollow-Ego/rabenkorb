@@ -88,6 +88,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "NoSearchResult": MessageLookupByLibrary.simpleMessage("No results"),
         "NoSelection": MessageLookupByLibrary.simpleMessage("No Selection"),
         "NoShoppingBasketSelected": MessageLookupByLibrary.simpleMessage("No basket selected"),
+        "Note": MessageLookupByLibrary.simpleMessage("Note"),
         "PermissionsRequired": MessageLookupByLibrary.simpleMessage("Permissions required"),
         "PickImage": MessageLookupByLibrary.simpleMessage("Pick an image"),
         "Rename": MessageLookupByLibrary.simpleMessage("Rename"),

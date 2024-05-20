@@ -492,6 +492,16 @@ class S {
     );
   }
 
+  /// `Note`
+  String get Note {
+    return Intl.message(
+      'Note',
+      name: 'Note',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Unit`
   String get Unit {
     return Intl.message(

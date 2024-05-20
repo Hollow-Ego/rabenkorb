@@ -52,6 +52,7 @@
   "Variant": "Variant",
   "Image": "Image",
   "Amount": "Amount",
+  "Note": "Note",
   "Unit": "Unit",
   "Units": "Units",
   "SortRule": "Sort Rule",
