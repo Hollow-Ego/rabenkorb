@@ -1,8 +1,10 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:path/path.dart' as p;
 import 'package:rabenkorb/features/core/structural/core_scaffold.dart';
 import 'package:rabenkorb/generated/l10n.dart';
+import 'package:rabenkorb/services/core/snackbar_service.dart';
 import 'package:rabenkorb/services/utility/backup_service.dart';
 import 'package:rabenkorb/shared/helper_functions.dart';
 import 'package:rabenkorb/shared/widgets/constant_widgets.dart';
@@ -114,9 +116,18 @@ class _BackupRestoreScreenState extends State<BackupRestoreScreen> {
     if (_backupFile == null) {
       return;
     }
-
+    bool importSuccess = false;
     await doWithLoadingIndicator(() async {
-      await di<BackupService>().restore(_backupFile!);
+      importSuccess = await di<BackupService>().restore(_backupFile!);
     });
+    if (!context.mounted) {
+      return;
+    }
+    if (importSuccess) {
+      di<SnackBarService>().show(context: context, text: S.of(context).BackupImported);
+      context.pop();
+      return;
+    }
+    di<SnackBarService>().show(context: context, text: S.of(context).BackupImportFailed);
   }
 }

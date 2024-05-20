@@ -29,6 +29,7 @@
   "BackupOverwriteWarning": "Wenn du ein Backup importierst wird dein derzeitiger Stand überschrieben! Wähle oben die Option zum Überschreiben alter Data ab, wenn du die importierten Daten zu deiner Bibliothek hinzufügen willst.",
   "BackupImportFailed": "Import fehlgeschlagen!",
   "BackupCreated": "Backup erfolgrecih erstellt",
+  "BackupCreationFailed": "Backup Erstellung fehlgeschlagen!",
   "BackupImported": "Backup erfolgreich importiert",
   "SelectBackup": "Backup-Ort auswählen",
   "SetPermission": "Berechtigung erteilen",

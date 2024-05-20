@@ -37,6 +37,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Backup": MessageLookupByLibrary.simpleMessage("Backup"),
         "BackupCreate": MessageLookupByLibrary.simpleMessage("Erstellen"),
         "BackupCreated": MessageLookupByLibrary.simpleMessage("Backup erfolgrecih erstellt"),
+        "BackupCreationFailed": MessageLookupByLibrary.simpleMessage("Backup Erstellung fehlgeschlagen!"),
         "BackupImport": MessageLookupByLibrary.simpleMessage("Wiederherstellen"),
         "BackupImportFailed": MessageLookupByLibrary.simpleMessage("Import fehlgeschlagen!"),
         "BackupImported": MessageLookupByLibrary.simpleMessage("Backup erfolgreich importiert"),

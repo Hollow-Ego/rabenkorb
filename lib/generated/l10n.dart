@@ -337,6 +337,16 @@ class S {
     );
   }
 
+  /// `Backup creation failed!`
+  String get BackupCreationFailed {
+    return Intl.message(
+      'Backup creation failed!',
+      name: 'BackupCreationFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Backup imported successfully`
   String get BackupImported {
     return Intl.message(

@@ -29,6 +29,7 @@
   "BackupOverwriteWarning": "By importing a backup your current state will be overwritten! Uncheck the option for overwriting data above, if you want to add the imported data to your library.",
   "BackupImportFailed": "Import failed!",
   "BackupCreated": "Backup created successfully",
+  "BackupCreationFailed": "Backup creation failed!",
   "BackupImported": "Backup imported successfully",
   "SelectBackup": "Select backup location",
   "SetPermission": "Set Permission",
