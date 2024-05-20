@@ -15,16 +15,19 @@ class MainNavigationStateService implements Disposable, NavigationStateService {
 
   late StreamSubscription _mainPageDetailsSub;
 
+  @override
   int get currentPageIndexSync => _currentPageIndex.value;
 
   Stream<NavigationPageDetails?> get mainPageDetails => _mainPageDetails.stream;
 
+  @override
   void setCurrentPageIndex(int index) {
     _currentPageIndex.add(index);
   }
 
   final List<DestinationDetails> _destinations = mainDestinations;
 
+  @override
   List<NavigationDestination> get destinations => _destinations.map((e) => e.destination).toList();
 
   MainNavigationStateService() {
