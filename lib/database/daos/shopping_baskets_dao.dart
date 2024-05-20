@@ -19,7 +19,7 @@ class ShoppingBasketsDao extends DatabaseAccessor<AppDatabase> with _$ShoppingBa
   }
 
   Stream<ShoppingBasketViewModel?> watchShoppingBasketWithId(int id) {
-    return (select(shoppingBaskets)..where((li) => li.id.equals(id))).watchSingle().map((basket) => toShoppingBasketViewModel(basket));
+    return (select(shoppingBaskets)..where((li) => li.id.equals(id))).watchSingleOrNull().map((basket) => toShoppingBasketViewModel(basket));
   }
 
   Future<ShoppingBasketViewModel?> getShoppingBasketWithId(int id) async {

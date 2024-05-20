@@ -180,7 +180,7 @@ class LibraryService {
     if (imageChanged) {
       await removeItemTemplateImage(templateId);
     }
-    if (image != null) {
+    if (image != null && imageChanged) {
       // Save new image
       image = await _imageService.saveImage(image);
     }

@@ -31,6 +31,10 @@ class ShoppingBasketService implements Disposable {
     return _db.shoppingBasketsDao.getShoppingBasketWithId(id);
   }
 
+  Stream<ShoppingBasketViewModel?> watchShoppingBasketById(int id) {
+    return _db.shoppingBasketsDao.watchShoppingBasketWithId(id);
+  }
+
   Future<int?> getFirstShoppingBasketId() {
     return _db.shoppingBasketsDao.getFirstShoppingBasketId();
   }

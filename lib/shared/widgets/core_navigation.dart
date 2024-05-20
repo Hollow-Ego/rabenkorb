@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:rabenkorb/services/state/navigation_state_service.dart';
-import 'package:watch_it/watch_it.dart';
+import 'package:rabenkorb/abstracts/navigation_state_service.dart';
 
 class CoreNavigation extends StatelessWidget {
   final int pageIndex;
+  final NavigationStateService state;
 
-  const CoreNavigation({super.key, required this.pageIndex});
+  const CoreNavigation({super.key, required this.pageIndex, required this.state});
 
   @override
   Widget build(BuildContext context) {
-    final state = di<NavigationStateService>();
-
     return NavigationBar(
       onDestinationSelected: (int index) {
         state.setCurrentPageIndex(index);

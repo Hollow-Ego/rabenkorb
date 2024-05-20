@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:rabenkorb/features/core/structural/core_scaffold.dart';
 import 'package:rabenkorb/features/core/structural/drawer/core_drawer.dart';
-import 'package:rabenkorb/features/main/navigation/core_navigation.dart';
-import 'package:rabenkorb/features/main/navigation/destination_details.dart';
-import 'package:rabenkorb/services/state/navigation_state_service.dart';
+import 'package:rabenkorb/services/state/basket_state_service.dart';
+import 'package:rabenkorb/services/state/main_navigation_state_service.dart';
+import 'package:rabenkorb/shared/destination_details.dart';
+import 'package:rabenkorb/shared/widgets/core_navigation.dart';
 import 'package:watch_it/watch_it.dart';
 
 class MainPage extends StatelessWidget with WatchItMixin {
@@ -11,16 +12,24 @@ class MainPage extends StatelessWidget with WatchItMixin {
 
   @override
   Widget build(BuildContext context) {
-    final details = watchStream((NavigationStateService p0) => p0.mainPageDetails);
+    final details = watchStream((MainNavigationStateService p0) => p0.mainPageDetails);
+
+    final isShoppingModeStream = watchStream((BasketStateService p0) => p0.isShoppingMode, initialValue: false);
+    final isShoppingMode = isShoppingModeStream.data ?? false;
+    final hideFab = isShoppingMode && details.data?.hideFabInShoppingMode == true;
 
     final pageIndex = details.data?.pageIndex ?? 0;
     final body = details.data?.body;
-    final mainAction = details.data?.mainAction;
+    final mainAction = hideFab ? null : details.data?.mainAction;
     final appBar = details.data?.appBar;
+    final state = di<MainNavigationStateService>();
 
     return CoreScaffold(
       body: body,
-      bottomNavigationBar: CoreNavigation(pageIndex: pageIndex),
+      bottomNavigationBar: CoreNavigation(
+        pageIndex: pageIndex,
+        state: state,
+      ),
       floatingActionButton: toFloatingActionButton(context, mainAction),
       drawer: const CoreDrawer(),
       appBar: appBar,

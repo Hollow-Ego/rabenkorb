@@ -23,7 +23,7 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
     String? imagePath,
     int? unitId,
   }) async {
-    final existingItems = await findBasketItemsByNameCategoryUnit(name, categoryId, unitId);
+    final existingItems = await findBasketItemsByNameCategoryUnit(name, basketId, categoryId, unitId);
     // Exactly one item matching the name, category and unit: assume to add the amount instead of duplicating item
     if (existingItems.length == 1) {
       final existingItem = existingItems.first;
@@ -167,16 +167,17 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
     return query.map((row) => row.imagePath!).get();
   }
 
-  Future<int?> countImagePathUsages(String imagePath) async {
-    final amountOfUsages = basketItems.imagePath.count(filter: basketItems.imagePath.equals(imagePath));
-    final query = selectOnly(basketItems)..addColumns([amountOfUsages]);
-    return query.map((row) => row.read(amountOfUsages)).getSingle();
-  }
-
-  Future<List<BasketItemViewModel>> findBasketItemsByNameCategoryUnit(String name, int? categoryId, int? unitId) async {
-    final query = select(basketItems)..where((i) => i.name.equals(name) & i.category.equalsNullable(categoryId) & i.unit.equalsNullable(unitId));
+  Future<List<BasketItemViewModel>> findBasketItemsByNameCategoryUnit(String name, int basketId, int? categoryId, int? unitId) async {
+    final query = select(basketItems)
+      ..where((i) => i.name.equals(name) & i.basket.equals(basketId) & i.category.equalsNullable(categoryId) & i.unit.equalsNullable(unitId));
     final rows = await _joinValues(query).get();
     return _rowsToViewModels(rows);
+  }
+
+  Future<int> countItemsInBasket(int basketId) async {
+    final itemsInBasket = basketItems.basket.count(filter: basketItems.basket.equals(basketId));
+    final itemsInBasketQuery = selectOnly(basketItems)..addColumns([itemsInBasket]);
+    return await itemsInBasketQuery.map((row) => row.read(itemsInBasket)).getSingle() ?? 0;
   }
 
   List<OrderingTerm> _getOrderingTerms<T>(

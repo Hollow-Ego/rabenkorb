@@ -9,6 +9,7 @@ import 'package:rabenkorb/features/core/logging/core_logger.dart';
 import 'package:rabenkorb/features/core/logging/sinks/mongo_db_sink.dart';
 import 'package:rabenkorb/features/core/logging/sinks/void_sink.dart';
 import 'package:rabenkorb/services/business/basket_service.dart';
+import 'package:rabenkorb/services/business/data_management_service.dart';
 import 'package:rabenkorb/services/business/library_service.dart';
 import 'package:rabenkorb/services/business/metadata_service.dart';
 import 'package:rabenkorb/services/business/sort_service.dart';
@@ -27,16 +28,19 @@ import 'package:rabenkorb/services/data_access/sort_rule_service.dart';
 import 'package:rabenkorb/services/data_access/template_library_service.dart';
 import 'package:rabenkorb/services/data_access/variant_key_service.dart';
 import 'package:rabenkorb/services/state/basket_state_service.dart';
+import 'package:rabenkorb/services/state/data_management_navigation_state_service.dart';
+import 'package:rabenkorb/services/state/data_management_state_service.dart';
 import 'package:rabenkorb/services/state/intl_state_service.dart';
 import 'package:rabenkorb/services/state/library_state_service.dart';
 import 'package:rabenkorb/services/state/loading_state.dart';
-import 'package:rabenkorb/services/state/navigation_state_service.dart';
+import 'package:rabenkorb/services/state/main_navigation_state_service.dart';
 import 'package:rabenkorb/services/state/shared_preference_service.dart';
 import 'package:rabenkorb/services/utility/backup_service.dart';
 import 'package:rabenkorb/services/utility/image_service.dart';
 import 'package:watch_it/watch_it.dart';
 
 Future<void> setupDI() async {
+  _addEnvironment();
   _addLogging();
   _registerErrorHandling();
   await _registerCoreServices();
@@ -48,8 +52,27 @@ Future<void> setupDI() async {
   await di.allReady();
 }
 
-Future<void> _registerCoreServices() async {
+Future<void> reinitializeDataRegistrations() async {
+  await _unregisterBusinessServices();
+  await _unregisterDataAccessServices();
+  await _unregisterDatabase();
+
+  di<LibraryStateService>().reset();
+  di<BasketStateService>().reset();
+
+  _registerDatabase();
+  _registerDataAccessServices();
+  _registerBusinessServices();
+  await di.allReady();
+
+  await di<BasketService>().setFirstShoppingBasketActive();
+}
+
+void _addEnvironment() {
   di.registerSingleton<EnvironmentService>(EnvironmentService());
+}
+
+Future<void> _registerCoreServices() async {
   di.registerSingleton<SnackBarService>(SnackBarService());
   di.registerSingleton<DialogService>(DialogService());
 
@@ -95,6 +118,7 @@ void _registerBusinessServices() {
 
   di.registerSingletonWithDependencies<LibraryService>(() => LibraryService(), dependsOn: [ItemTemplateService, MetadataService]);
   di.registerSingletonWithDependencies<BasketService>(() => BasketService(), dependsOn: [BasketItemService, MetadataService]);
+  di.registerSingletonWithDependencies<DataManagementService>(() => DataManagementService(), dependsOn: [MetadataService]);
 }
 
 Future<void> _registerStateServices() async {
@@ -106,12 +130,14 @@ Future<void> _registerStateServices() async {
     await intlService.init();
     return intlService;
   }, dependsOn: [PreferenceService]);
-  di.registerSingletonWithDependencies<NavigationStateService>(() => NavigationStateService(), dependsOn: [IntlStateService]);
+  di.registerSingletonWithDependencies<MainNavigationStateService>(() => MainNavigationStateService(), dependsOn: [IntlStateService]);
+  di.registerSingletonWithDependencies<DataManagementNavigationStateService>(() => DataManagementNavigationStateService(), dependsOn: [IntlStateService]);
+  di.registerLazySingleton<DataManagementStateService>(() => DataManagementStateService());
 }
 
 void _registerUtilityServices() {
   di.registerSingleton<ImageService>(LocalImageService());
-  di.registerLazySingleton<BackupService>(() => BackupService());
+  di.registerFactory<BackupService>(() => BackupService());
 }
 
 void _addLogging() {
@@ -128,4 +154,27 @@ void _registerErrorHandling() {
   ]);
 
   di.registerSingleton<ErrorHandler>(ErrorHandler());
+}
+
+Future<void> _unregisterBusinessServices() async {
+  await di.unregister<BasketService>();
+  await di.unregister<LibraryService>();
+  await di.unregister<MetadataService>();
+  await di.unregister<SortService>();
+}
+
+Future<void> _unregisterDataAccessServices() async {
+  await di.unregister<BasketItemService>();
+  await di.unregister<ItemCategoryService>();
+  await di.unregister<ItemTemplateService>();
+  await di.unregister<ItemUnitService>();
+  await di.unregister<ShoppingBasketService>();
+  await di.unregister<SortOrderService>();
+  await di.unregister<SortRuleService>();
+  await di.unregister<TemplateLibraryService>();
+  await di.unregister<VariantKeyService>();
+}
+
+Future<void> _unregisterDatabase() async {
+  await di.unregister<AppDatabase>();
 }

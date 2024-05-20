@@ -21,6 +21,8 @@ class BasketItemService implements Disposable {
 
   Stream<List<GroupedItems<BasketItemViewModel>>> get basketItems => _basketItems.stream;
 
+  List<GroupedItems<BasketItemViewModel>> get basketItemsSync => _basketItems.value;
+
   BasketItemService() {
     _basketItemsSub = Rx.combineLatest5(
       _basketStateService.sortMode,
@@ -126,7 +128,11 @@ class BasketItemService implements Disposable {
   }
 
   Future<int> countImagePathUsages(String imagePath) async {
-    return (await _db.basketItemsDao.countImagePathUsages(imagePath)) ?? 0;
+    return (await _db.countImagePathUsages(imagePath)) ?? 0;
+  }
+
+  Future<int> countItemsInBasket(int basketId) {
+    return _db.basketItemsDao.countItemsInBasket(basketId);
   }
 
   Stream<List<GroupedItems<BasketItemViewModel>>> _watchBasketItemsInOrder({

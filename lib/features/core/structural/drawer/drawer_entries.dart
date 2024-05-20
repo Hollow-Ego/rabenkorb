@@ -15,6 +15,18 @@ List<DrawerEntry> drawerEntriesBuilder(BuildContext context) => [
         leading: const Icon(Icons.home),
       ),
       DrawerEntry(
+        title: S.of(context).BasketOverview,
+        position: 1,
+        onTap: (BuildContext context) => context.go(Routes.basketOverview),
+        leading: const Icon(Icons.list),
+      ),
+      DrawerEntry(
+        title: S.of(context).DataManagement,
+        position: 1,
+        onTap: (BuildContext context) => context.go(Routes.dataManagement),
+        leading: const Icon(Icons.dataset),
+      ),
+      DrawerEntry(
         title: S.of(context).Settings,
         position: 1,
         onTap: (BuildContext context) => context.go(Routes.settings),

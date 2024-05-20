@@ -1,29 +1,54 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:rabenkorb/abstracts/image_service.dart';
 import 'package:rabenkorb/models/basket_item_view_model.dart';
 import 'package:rabenkorb/models/grouped_items.dart';
 import 'package:rabenkorb/models/shopping_basket_view_model.dart';
+import 'package:rabenkorb/models/sort_rule_view_model.dart';
 import 'package:rabenkorb/services/data_access/basket_item_service.dart';
 import 'package:rabenkorb/services/data_access/shopping_basket_service.dart';
+import 'package:rabenkorb/services/data_access/sort_rule_service.dart';
 import 'package:rabenkorb/services/state/basket_state_service.dart';
+import 'package:rxdart/rxdart.dart';
 import 'package:watch_it/watch_it.dart';
 
 import 'metadata_service.dart';
 
-class BasketService {
+class BasketService implements Disposable {
   static const defaultBasketName = "Unnamed Basket";
   final _shoppingBasketService = di<ShoppingBasketService>();
   final _basketItemService = di<BasketItemService>();
   final _metadataService = di<MetadataService>();
   final _imageService = di<ImageService>();
   final _basketStateService = di<BasketStateService>();
+  final _sortRuleService = di<SortRuleService>();
 
   Stream<List<GroupedItems<BasketItemViewModel>>> get basketItems => _basketItemService.basketItems;
 
+  List<int> get shownItemIds => _basketItemService.basketItemsSync.expand((group) => group.items.map((item) => item.id)).toList();
+
   Stream<List<ShoppingBasketViewModel>> get baskets => _shoppingBasketService.baskets;
 
-  Future<int> createShoppingBasket(String name) {
+  late StreamSubscription _activeBasketSub;
+  final BehaviorSubject<ShoppingBasketViewModel?> _activeBasket = BehaviorSubject<ShoppingBasketViewModel?>.seeded(null);
+
+  Stream<ShoppingBasketViewModel?> get activeBasket => _activeBasket.stream;
+
+  ShoppingBasketViewModel? get activeBasketSync => _activeBasket.value;
+
+  Stream<List<SortRuleViewModel>> get sortRules => _sortRuleService.sortRules;
+
+  BasketService() {
+    _activeBasketSub = _basketStateService.basketId.switchMap((basketId) => watchShoppingBasketById(basketId)).listen((basket) {
+      _activeBasket.add(basket);
+    });
+  }
+
+  Future<int> createShoppingBasket(String? name) {
+    if (name == null) {
+      return _createDefaultBasket();
+    }
     return _shoppingBasketService.createShoppingBasket(name);
   }
 
@@ -36,6 +61,13 @@ class BasketService {
       return Future(() => null);
     }
     return _shoppingBasketService.getShoppingBasketById(id);
+  }
+
+  Stream<ShoppingBasketViewModel?> watchShoppingBasketById(int? id) {
+    if (id == null || id < 0) {
+      return Stream.value(null);
+    }
+    return _shoppingBasketService.watchShoppingBasketById(id);
   }
 
   Future<int?> setFirstShoppingBasketActive() async {
@@ -121,9 +153,6 @@ class BasketService {
     int? unitId,
     bool? isChecked,
   }) async {
-    if (basketId != null) {
-      basketId = await _ensureExistingBasket(basketId);
-    }
     await _metadataService.ensureExistingCategory(categoryId);
     await _metadataService.ensureExistingUnit(unitId);
 
@@ -135,6 +164,43 @@ class BasketService {
     }
 
     return _basketItemService.updateBasketItem(
+      id,
+      name: name,
+      amount: amount,
+      categoryId: categoryId,
+      basketId: basketId,
+      imagePath: image?.path,
+      unitId: unitId,
+      isChecked: isChecked,
+    );
+  }
+
+  Future<void> replaceBasketItem(
+    int id, {
+    required String name,
+    double? amount,
+    int? categoryId,
+    int? basketId,
+    File? image,
+    int? unitId,
+    bool? isChecked,
+    bool imageChanged = false,
+  }) async {
+    basketId = await _ensureExistingBasket(basketId);
+    await _metadataService.ensureExistingCategory(categoryId);
+    await _metadataService.ensureExistingUnit(unitId);
+
+    // Delete old image if new one was provided
+    if (imageChanged) {
+      await removeBasketItemImage(id);
+      // Save new image
+    }
+    if (image != null && imageChanged) {
+      // Save new image
+      image = await _imageService.saveImage(image);
+    }
+
+    return _basketItemService.replaceBasketItem(
       id,
       name: name,
       amount: amount,
@@ -163,8 +229,26 @@ class BasketService {
     return _basketItemService.removeAllItemsFromBasket(basketId);
   }
 
+  Future<int> deleteBasketItems(List<int> templateIds) async {
+    int deletedItems = 0;
+    for (var templateId in templateIds) {
+      await removeBasketItemImage(templateId);
+      deletedItems += await _basketItemService.deleteBasketItemById(templateId);
+    }
+    return deletedItems;
+  }
+
+  Future<int> countItemsInBasket(int basketId) {
+    return _basketItemService.countItemsInBasket(basketId);
+  }
+
   Future<int> _ensureExistingBasket(int? basketId) async {
-    basketId ??= await _shoppingBasketService.getFirstShoppingBasketId();
+    if (basketId == null) {
+      basketId = await _shoppingBasketService.getFirstShoppingBasketId();
+      if (basketId != null) {
+        await _basketStateService.setBasketId(basketId);
+      }
+    }
 
     if (basketId == null) {
       return _createDefaultBasket();
@@ -178,6 +262,13 @@ class BasketService {
   }
 
   Future<int> _createDefaultBasket() async {
-    return await _shoppingBasketService.createShoppingBasket(defaultBasketName);
+    final newBasketId = await _shoppingBasketService.createShoppingBasket(defaultBasketName);
+    await _basketStateService.setBasketId(newBasketId);
+    return newBasketId;
+  }
+
+  @override
+  FutureOr onDispose() {
+    _activeBasketSub.cancel();
   }
 }

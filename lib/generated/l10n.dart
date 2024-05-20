@@ -167,6 +167,16 @@ class S {
     );
   }
 
+  /// `Basket Overview`
+  String get BasketOverview {
+    return Intl.message(
+      'Basket Overview',
+      name: 'BasketOverview',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Library`
   String get Library {
     return Intl.message(
@@ -177,11 +187,31 @@ class S {
     );
   }
 
+  /// `Data Management`
+  String get DataManagement {
+    return Intl.message(
+      'Data Management',
+      name: 'DataManagement',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Item`
   String get Item {
     return Intl.message(
       'Item',
       name: 'Item',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Items`
+  String get Items {
+    return Intl.message(
+      'Items',
+      name: 'Items',
       desc: '',
       args: [],
     );
@@ -237,11 +267,91 @@ class S {
     );
   }
 
-  /// `Create Backup`
+  /// `Create`
   String get BackupCreate {
     return Intl.message(
-      'Create Backup',
+      'Create',
       name: 'BackupCreate',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Restore`
+  String get BackupImport {
+    return Intl.message(
+      'Restore',
+      name: 'BackupImport',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Backup Options`
+  String get BackupOption {
+    return Intl.message(
+      'Backup Options',
+      name: 'BackupOption',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Overwrite existing data`
+  String get BackupOverwriteExisting {
+    return Intl.message(
+      'Overwrite existing data',
+      name: 'BackupOverwriteExisting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `By importing a backup your current state will be overwritten! Uncheck the option for overwriting data above, if you want to add the imported data to your library.`
+  String get BackupOverwriteWarning {
+    return Intl.message(
+      'By importing a backup your current state will be overwritten! Uncheck the option for overwriting data above, if you want to add the imported data to your library.',
+      name: 'BackupOverwriteWarning',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Import failed!`
+  String get BackupImportFailed {
+    return Intl.message(
+      'Import failed!',
+      name: 'BackupImportFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Backup created successfully`
+  String get BackupCreated {
+    return Intl.message(
+      'Backup created successfully',
+      name: 'BackupCreated',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Backup imported successfully`
+  String get BackupImported {
+    return Intl.message(
+      'Backup imported successfully',
+      name: 'BackupImported',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select backup location`
+  String get SelectBackup {
+    return Intl.message(
+      'Select backup location',
+      name: 'SelectBackup',
       desc: '',
       args: [],
     );
@@ -341,6 +451,16 @@ class S {
     );
   }
 
+  /// `Categories`
+  String get Categories {
+    return Intl.message(
+      'Categories',
+      name: 'Categories',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Variant`
   String get Variant {
     return Intl.message(
@@ -376,6 +496,56 @@ class S {
     return Intl.message(
       'Unit',
       name: 'Unit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Units`
+  String get Units {
+    return Intl.message(
+      'Units',
+      name: 'Units',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sort Rule`
+  String get SortRule {
+    return Intl.message(
+      'Sort Rule',
+      name: 'SortRule',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sort Rules`
+  String get SortRules {
+    return Intl.message(
+      'Sort Rules',
+      name: 'SortRules',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select a Sort Rule`
+  String get SelectSortRule {
+    return Intl.message(
+      'Select a Sort Rule',
+      name: 'SelectSortRule',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No Selection`
+  String get NoSelection {
+    return Intl.message(
+      'No Selection',
+      name: 'NoSelection',
       desc: '',
       args: [],
     );
@@ -506,6 +676,106 @@ class S {
     return Intl.message(
       'Select multiple',
       name: 'EnterMultiSelect',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No basket selected`
+  String get NoShoppingBasketSelected {
+    return Intl.message(
+      'No basket selected',
+      name: 'NoShoppingBasketSelected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete marked items`
+  String get DeleteMarked {
+    return Intl.message(
+      'Delete marked items',
+      name: 'DeleteMarked',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete all`
+  String get DeleteAll {
+    return Intl.message(
+      'Delete all',
+      name: 'DeleteAll',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to delete all items?`
+  String get ConfirmDeleteAllItems {
+    return Intl.message(
+      'Are you sure you want to delete all items?',
+      name: 'ConfirmDeleteAllItems',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to delete this basket?`
+  String get ConfirmDeleteBasket {
+    return Intl.message(
+      'Are you sure you want to delete this basket?',
+      name: 'ConfirmDeleteBasket',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to delete this category?`
+  String get ConfirmDeleteCategory {
+    return Intl.message(
+      'Are you sure you want to delete this category?',
+      name: 'ConfirmDeleteCategory',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to delete this unit?`
+  String get ConfirmDeleteUnit {
+    return Intl.message(
+      'Are you sure you want to delete this unit?',
+      name: 'ConfirmDeleteUnit',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to delete this sort rule?`
+  String get ConfirmDeleteSortRule {
+    return Intl.message(
+      'Are you sure you want to delete this sort rule?',
+      name: 'ConfirmDeleteSortRule',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rename`
+  String get Rename {
+    return Intl.message(
+      'Rename',
+      name: 'Rename',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `New Basket`
+  String get NewBasket {
+    return Intl.message(
+      'New Basket',
+      name: 'NewBasket',
       desc: '',
       args: [],
     );

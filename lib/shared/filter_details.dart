@@ -30,3 +30,15 @@ class BasketItemFilterDetails {
     this.basketId,
   });
 }
+
+class ItemCategoryFilterDetails {
+  SortMode sortMode;
+  SortDirection sortDirection;
+  int? sortRuleId;
+
+  ItemCategoryFilterDetails({
+    required this.sortMode,
+    required this.sortDirection,
+    this.sortRuleId,
+  });
+}

@@ -12,6 +12,7 @@ abstract class PreferenceKeys {
   static const basketId = "basket:id";
   static const basketAlwaysCollapseCategories = "basket:collapse-headers";
   static const basketCollapsedStates = "basket:collapsed-states";
+  static const basketShoppingMode = "basket:shopping-mode";
 
   static const intlLocale = "intl:locale";
 }

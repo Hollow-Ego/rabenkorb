@@ -39,7 +39,10 @@ class SortRuleService implements Disposable {
     return _db.sortRulesDao.watchSortRules();
   }
 
-  Stream<SortRuleViewModel?> watchSortRuleWithId(int id) {
+  Stream<SortRuleViewModel?> watchSortRuleWithId(int? id) {
+    if (id == null || id < 0) {
+      return Stream.value(null);
+    }
     return _db.sortRulesDao.watchSortRuleWithId(id);
   }
 

@@ -110,7 +110,7 @@ class ItemTemplateService implements Disposable {
   }
 
   Future<int> countImagePathUsages(String imagePath) async {
-    return (await _db.itemTemplatesDao.countImagePathUsages(imagePath)) ?? 0;
+    return (await _db.countImagePathUsages(imagePath)) ?? 0;
   }
 
   Stream<List<GroupedItems<ItemTemplateViewModel>>> _watchItemTemplatesInOrder(SortMode sortMode, SortDirection sortDirection,

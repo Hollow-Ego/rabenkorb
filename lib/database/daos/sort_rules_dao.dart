@@ -32,6 +32,8 @@ class SortRulesDao extends DatabaseAccessor<AppDatabase> with _$SortRulesDaoMixi
   }
 
   Stream<List<SortRuleViewModel>> watchSortRules() {
-    return (select(sortRules)).watch().map((rules) => rules.map((rule) => toSortRuleViewModel(rule)!).toList());
+    return (select(sortRules)..orderBy([(tbl) => OrderingTerm(expression: tbl.name)]))
+        .watch()
+        .map((rules) => rules.map((rule) => toSortRuleViewModel(rule)!).toList());
   }
 }

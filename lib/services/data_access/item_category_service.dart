@@ -1,6 +1,8 @@
 import 'package:rabenkorb/database/database.dart';
 import 'package:rabenkorb/models/item_category_view_model.dart';
 import 'package:rabenkorb/models/save_delete_result.dart';
+import 'package:rabenkorb/shared/sort_direction.dart';
+import 'package:rabenkorb/shared/sort_mode.dart';
 import 'package:watch_it/watch_it.dart';
 
 class ItemCategoryService {
@@ -29,5 +31,9 @@ class ItemCategoryService {
 
   Stream<List<ItemCategoryViewModel>> watchItemCategories() {
     return _db.itemCategoriesDao.watchItemCategories();
+  }
+
+  Stream<List<ItemCategoryViewModel>> watchItemCategoriesInOrder(SortMode sortMode, SortDirection sortDirection, {int? sortRuleId}) {
+    return _db.itemCategoriesDao.watchItemCategoriesInOrder(sortMode, sortDirection, sortRuleId: sortRuleId);
   }
 }
