@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rabenkorb/features/core/display/loading_overlay.dart';
+import 'package:rabenkorb/shared/widgets/display/background_image.dart';
 
 class CoreScaffold extends StatelessWidget {
   final String? titleText;
@@ -28,18 +29,21 @@ class CoreScaffold extends StatelessWidget {
     return LoadingOverlay(
       child: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-        child: Scaffold(
-          key: scaffoldKey,
-          // backgroundColor: Colors.transparent,
-          appBar: appBar,
-          body: body != null
-              ? SafeArea(
-                  child: body!,
-                )
-              : null,
-          drawer: drawer,
-          bottomNavigationBar: bottomNavigationBar,
-          floatingActionButton: floatingActionButton,
+        child: BackgroundImage(
+          image: "assets/images/background.png",
+          child: Scaffold(
+            key: scaffoldKey,
+            backgroundColor: Colors.transparent,
+            appBar: appBar,
+            body: body != null
+                ? SafeArea(
+                    child: body!,
+                  )
+                : null,
+            drawer: drawer,
+            bottomNavigationBar: bottomNavigationBar,
+            floatingActionButton: floatingActionButton,
+          ),
         ),
       ),
     );
