@@ -103,8 +103,17 @@ class _BasketItemDetailsFormState extends State<BasketItemDetailsForm> {
             dropdownKey: 'basket-dropdown',
             selectedBasket: _basket,
             onNoSearchResultAction: (String searchValue) async {
-              final newId = await di<BasketService>().createShoppingBasket(searchValue);
-              _setBasket(ShoppingBasketViewModel(newId, searchValue));
+              await showRenameDialog(
+                context,
+                initialName: searchValue,
+                onConfirm: (newName, nameChanged) async {
+                  if (!newName.isValid()) {
+                    return;
+                  }
+                  final newId = await di<BasketService>().createShoppingBasket(newName!);
+                  _setBasket(ShoppingBasketViewModel(newId, newName));
+                },
+              );
             },
             onChanged: _setBasket,
           ),
@@ -130,10 +139,19 @@ class _BasketItemDetailsFormState extends State<BasketItemDetailsForm> {
             },
             selectedCategory: _category,
             onNoSearchResultAction: (String searchValue) async {
-              final newId = await di<MetadataService>().createItemCategory(searchValue);
-              setState(() {
-                _category = ItemCategoryViewModel(newId, searchValue);
-              });
+              await showRenameDialog(
+                context,
+                initialName: searchValue,
+                onConfirm: (newName, nameChanged) async {
+                  if (!newName.isValid()) {
+                    return;
+                  }
+                  final newId = await di<MetadataService>().createItemCategory(newName!);
+                  setState(() {
+                    _category = ItemCategoryViewModel(newId, newName);
+                  });
+                },
+              );
             },
           ),
           gap,
@@ -156,8 +174,17 @@ class _BasketItemDetailsFormState extends State<BasketItemDetailsForm> {
             dropdownKey: 'unit-dropdown',
             selectedUnit: _unit,
             onNoSearchResultAction: (String searchValue) async {
-              final newId = await di<MetadataService>().createItemUnit(searchValue);
-              _setUnit(ItemUnitViewModel(newId, searchValue));
+              await showRenameDialog(
+                context,
+                initialName: searchValue,
+                onConfirm: (newName, nameChanged) async {
+                  if (!newName.isValid()) {
+                    return;
+                  }
+                  final newId = await di<MetadataService>().createItemUnit(newName!);
+                  _setUnit(ItemUnitViewModel(newId, newName));
+                },
+              );
             },
             onChanged: _setUnit,
           ),

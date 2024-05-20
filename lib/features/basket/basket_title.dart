@@ -4,6 +4,8 @@ import 'package:rabenkorb/features/basket/shopping_mode_toggle.dart';
 import 'package:rabenkorb/models/shopping_basket_view_model.dart';
 import 'package:rabenkorb/services/business/basket_service.dart';
 import 'package:rabenkorb/services/state/basket_state_service.dart';
+import 'package:rabenkorb/shared/extensions.dart';
+import 'package:rabenkorb/shared/helper_functions.dart';
 import 'package:rabenkorb/shared/widgets/form/basket_dropdown.dart';
 import 'package:watch_it/watch_it.dart';
 
@@ -29,8 +31,17 @@ class BasketTitle extends StatelessWidget with WatchItMixin {
               await di<BasketStateService>().setBasketId(basket?.id);
             },
             onNoSearchResultAction: (String searchValue) async {
-              final newId = await di<BasketService>().createShoppingBasket(searchValue);
-              await di<BasketStateService>().setBasketId(newId);
+              await showRenameDialog(
+                context,
+                initialName: searchValue,
+                onConfirm: (newName, nameChanged) async {
+                  if (!newName.isValid()) {
+                    return;
+                  }
+                  final newId = await di<BasketService>().createShoppingBasket(newName);
+                  await di<BasketStateService>().setBasketId(newId);
+                },
+              );
             },
             selectedBasket: activeBasket.data,
             inputDecoration: const InputDecoration(

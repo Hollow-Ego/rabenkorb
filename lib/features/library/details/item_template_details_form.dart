@@ -98,10 +98,19 @@ class _ItemTemplateDetailsFormState extends State<ItemTemplateDetailsForm> {
             },
             selectedCategory: _category,
             onNoSearchResultAction: (String searchValue) async {
-              final newId = await di<MetadataService>().createItemCategory(searchValue);
-              setState(() {
-                _category = ItemCategoryViewModel(newId, searchValue);
-              });
+              await showRenameDialog(
+                context,
+                initialName: searchValue,
+                onConfirm: (newName, nameChanged) async {
+                  if (!newName.isValid()) {
+                    return;
+                  }
+                  final newId = await di<MetadataService>().createItemCategory(newName!);
+                  setState(() {
+                    _category = ItemCategoryViewModel(newId, newName);
+                  });
+                },
+              );
             },
           ),
           gap,

@@ -4,6 +4,7 @@ import 'package:rabenkorb/models/sort_rule_view_model.dart';
 import 'package:rabenkorb/services/data_access/sort_rule_service.dart';
 import 'package:rabenkorb/shared/default_sort_rules.dart';
 import 'package:rabenkorb/shared/extensions.dart';
+import 'package:rabenkorb/shared/helper_functions.dart';
 import 'package:rabenkorb/shared/sort_mode.dart';
 import 'package:rabenkorb/shared/widgets/form/core_searchable_dropdown.dart';
 import 'package:watch_it/watch_it.dart';
@@ -44,8 +45,17 @@ class SortRuleDropdown extends StatelessWidget {
       ),
       allowEmptyValue: false,
       onNoSearchResultAction: (String searchValue) async {
-        final newId = await di<SortRuleService>().createSortRule(searchValue);
-        await onNewSortRule(newId);
+        await showRenameDialog(
+          context,
+          initialName: searchValue,
+          onConfirm: (newName, nameChanged) async {
+            if (!newName.isValid()) {
+              return;
+            }
+            final newId = await di<SortRuleService>().createSortRule(newName!);
+            await onNewSortRule(newId);
+          },
+        );
       },
     );
   }
