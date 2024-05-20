@@ -8,6 +8,7 @@ import 'package:rabenkorb/services/business/basket_service.dart';
 import 'package:rabenkorb/services/business/metadata_service.dart';
 import 'package:rabenkorb/services/core/snackbar_service.dart';
 import 'package:rabenkorb/shared/extensions.dart';
+import 'package:rabenkorb/shared/helper_functions.dart';
 import 'package:rabenkorb/shared/widgets/constant_widgets.dart';
 import 'package:rabenkorb/shared/widgets/form/basket_dropdown.dart';
 import 'package:rabenkorb/shared/widgets/form/core_text_form_field.dart';
@@ -27,6 +28,7 @@ class AddToCardDialog extends StatefulWidget {
 
 class _AddToCardDialogState extends State<AddToCardDialog> {
   final TextEditingController _amountController = TextEditingController();
+  final TextEditingController _noteController = TextEditingController();
   late ItemTemplateViewModel _item;
   ItemUnitViewModel? _unit;
   ShoppingBasketViewModel? _basket;
@@ -54,8 +56,17 @@ class _AddToCardDialogState extends State<AddToCardDialog> {
               dropdownKey: 'basket-dropdown',
               selectedBasket: _basket,
               onNoSearchResultAction: (String searchValue) async {
-                final newId = await di<BasketService>().createShoppingBasket(searchValue);
-                _setBasket(ShoppingBasketViewModel(newId, searchValue));
+                await showRenameDialog(
+                  context,
+                  initialName: searchValue,
+                  onConfirm: (newName, nameChanged) async {
+                    if (!newName.isValid()) {
+                      return;
+                    }
+                    final newId = await di<BasketService>().createShoppingBasket(newName!);
+                    _setBasket(ShoppingBasketViewModel(newId, newName));
+                  },
+                );
               },
               onChanged: _setBasket,
             ),
@@ -71,8 +82,17 @@ class _AddToCardDialogState extends State<AddToCardDialog> {
               dropdownKey: 'unit-dropdown',
               selectedUnit: _unit,
               onNoSearchResultAction: (String searchValue) async {
-                final newId = await di<MetadataService>().createItemUnit(searchValue);
-                _setUnit(ItemUnitViewModel(newId, searchValue));
+                await showRenameDialog(
+                  context,
+                  initialName: searchValue,
+                  onConfirm: (newName, nameChanged) async {
+                    if (!newName.isValid()) {
+                      return;
+                    }
+                    final newId = await di<MetadataService>().createItemUnit(newName!);
+                    _setUnit(ItemUnitViewModel(newId, newName));
+                  },
+                );
               },
               onChanged: _setUnit,
             ),
@@ -87,6 +107,7 @@ class _AddToCardDialogState extends State<AddToCardDialog> {
                     basketId: _basket?.id,
                     categoryId: _item.category?.id,
                     imagePath: _item.imagePath,
+                    note: _noteController.text,
                     amount: _amountController.text.toDoubleOrZero(),
                     unitId: _unit?.id,
                   );

@@ -47,19 +47,19 @@ void main() {
   });
 
   test('item units can be watched', () async {
-    const unitOne = "Liter";
-    const unitTwo = "Packages";
     const unitThree = "Gram";
     const unitThreeModified = "Kilogram";
+    const unitOne = "Liter";
+    const unitTwo = "Packages";
     const unitFour = "Pieces";
 
     const expectedValues = [
       [],
       [unitOne],
       [unitOne, unitTwo],
-      [unitOne, unitTwo, unitThree],
-      [unitOne, unitTwo, unitThree, unitFour],
-      [unitOne, unitTwo, unitThreeModified, unitFour],
+      [unitThree, unitOne, unitTwo],
+      [unitThree, unitOne, unitTwo, unitFour],
+      [unitThreeModified, unitOne, unitTwo, unitFour],
     ];
 
     expectLater(

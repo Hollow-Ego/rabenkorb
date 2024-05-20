@@ -23,7 +23,7 @@ import 'package:watch_it/watch_it.dart';
 class BasketItemDetailsForm extends StatefulWidget {
   final BasketItemViewModel? basketItem;
   final String? tempItemName;
-  final Function(String name, double amount, File? image, int? categoryId, int? unitId, int? basketId) onSubmit;
+  final Function(String name, double amount, File? image, String? note, int? categoryId, int? unitId, int? basketId) onSubmit;
 
   const BasketItemDetailsForm({super.key, required this.basketItem, required this.onSubmit, this.tempItemName});
 
@@ -34,6 +34,7 @@ class BasketItemDetailsForm extends StatefulWidget {
 class _BasketItemDetailsFormState extends State<BasketItemDetailsForm> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _noteController = TextEditingController();
   final TextEditingController _amountController = TextEditingController();
   ShoppingBasketViewModel? _basket;
   ItemCategoryViewModel? _category;
@@ -53,6 +54,7 @@ class _BasketItemDetailsFormState extends State<BasketItemDetailsForm> {
     _category = basketItem.category;
     _unit = basketItem.unit;
     _amountController.text = basketItem.amount.toFormattedString();
+    _noteController.text = basketItem.note ?? "";
 
     final imagePath = basketItem.imagePath;
     if (imagePath != null) {
@@ -71,10 +73,12 @@ class _BasketItemDetailsFormState extends State<BasketItemDetailsForm> {
         return;
       }
       state.save();
+      final note = _noteController.text.isEmpty ? null : _noteController.text;
       widget.onSubmit(
         _nameController.text,
         _amountController.text.toDoubleOrZero(),
         _image,
+        note,
         _category?.id,
         _unit?.id,
         _basket?.id,
@@ -99,8 +103,17 @@ class _BasketItemDetailsFormState extends State<BasketItemDetailsForm> {
             dropdownKey: 'basket-dropdown',
             selectedBasket: _basket,
             onNoSearchResultAction: (String searchValue) async {
-              final newId = await di<BasketService>().createShoppingBasket(searchValue);
-              _setBasket(ShoppingBasketViewModel(newId, searchValue));
+              await showRenameDialog(
+                context,
+                initialName: searchValue,
+                onConfirm: (newName, nameChanged) async {
+                  if (!newName.isValid()) {
+                    return;
+                  }
+                  final newId = await di<BasketService>().createShoppingBasket(newName!);
+                  _setBasket(ShoppingBasketViewModel(newId, newName));
+                },
+              );
             },
             onChanged: _setBasket,
           ),
@@ -108,6 +121,7 @@ class _BasketItemDetailsFormState extends State<BasketItemDetailsForm> {
             formFieldKey: "basket-item-name-input",
             labelText: S.of(context).Name,
             textEditingController: _nameController,
+            textInputAction: TextInputAction.next,
             validator: (name) {
               if (name.isValid()) {
                 return null;
@@ -125,11 +139,27 @@ class _BasketItemDetailsFormState extends State<BasketItemDetailsForm> {
             },
             selectedCategory: _category,
             onNoSearchResultAction: (String searchValue) async {
-              final newId = await di<MetadataService>().createItemCategory(searchValue);
-              setState(() {
-                _category = ItemCategoryViewModel(newId, searchValue);
-              });
+              await showRenameDialog(
+                context,
+                initialName: searchValue,
+                onConfirm: (newName, nameChanged) async {
+                  if (!newName.isValid()) {
+                    return;
+                  }
+                  final newId = await di<MetadataService>().createItemCategory(newName!);
+                  setState(() {
+                    _category = ItemCategoryViewModel(newId, newName);
+                  });
+                },
+              );
             },
+          ),
+          gap,
+          CoreTextFormField(
+            labelText: S.of(context).Note,
+            textEditingController: _noteController,
+            formFieldKey: "note-input",
+            textInputAction: TextInputAction.next,
           ),
           gap,
           CoreTextFormField(
@@ -137,15 +167,24 @@ class _BasketItemDetailsFormState extends State<BasketItemDetailsForm> {
             textEditingController: _amountController,
             formFieldKey: "amount-input",
             keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            textInputAction: TextInputAction.done,
+            textInputAction: TextInputAction.next,
           ),
           gap,
           UnitDropdown(
             dropdownKey: 'unit-dropdown',
             selectedUnit: _unit,
             onNoSearchResultAction: (String searchValue) async {
-              final newId = await di<MetadataService>().createItemUnit(searchValue);
-              _setUnit(ItemUnitViewModel(newId, searchValue));
+              await showRenameDialog(
+                context,
+                initialName: searchValue,
+                onConfirm: (newName, nameChanged) async {
+                  if (!newName.isValid()) {
+                    return;
+                  }
+                  final newId = await di<MetadataService>().createItemUnit(newName!);
+                  _setUnit(ItemUnitViewModel(newId, newName));
+                },
+              );
             },
             onChanged: _setUnit,
           ),

@@ -51,6 +51,7 @@ class BasketItemService implements Disposable {
     int? categoryId,
     required int basketId,
     String? imagePath,
+    String? note,
     int? unitId,
   }) {
     return _db.basketItemsDao.createBasketItem(
@@ -59,6 +60,7 @@ class BasketItemService implements Disposable {
       categoryId: categoryId,
       basketId: basketId,
       imagePath: imagePath,
+      note: note,
       unitId: unitId,
     );
   }
@@ -70,6 +72,7 @@ class BasketItemService implements Disposable {
     int? categoryId,
     int? basketId,
     String? imagePath,
+    String? note,
     int? unitId,
     bool? isChecked,
   }) {
@@ -80,6 +83,7 @@ class BasketItemService implements Disposable {
       categoryId: categoryId,
       basketId: basketId,
       imagePath: imagePath,
+      note: note,
       unitId: unitId,
       isChecked: isChecked,
     );
@@ -92,6 +96,7 @@ class BasketItemService implements Disposable {
     int? categoryId,
     required int basketId,
     String? imagePath,
+    String? note,
     int? unitId,
     bool? isChecked,
   }) {
@@ -102,6 +107,7 @@ class BasketItemService implements Disposable {
       categoryId: categoryId,
       basketId: basketId,
       imagePath: imagePath,
+      note: note,
       unitId: unitId,
       isChecked: isChecked,
     );

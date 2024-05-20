@@ -337,6 +337,16 @@ class S {
     );
   }
 
+  /// `Backup creation failed!`
+  String get BackupCreationFailed {
+    return Intl.message(
+      'Backup creation failed!',
+      name: 'BackupCreationFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Backup imported successfully`
   String get BackupImported {
     return Intl.message(
@@ -397,13 +407,14 @@ class S {
     );
   }
 
-  /// `{direction, select, asc{Ascending} desc{Descending}}`
+  /// `{direction, select, asc{Ascending} desc{Descending} other{Unknown}}`
   String SortDirection(String direction) {
     return Intl.select(
       direction,
       {
         'asc': 'Ascending',
         'desc': 'Descending',
+        'other': 'Unknown',
       },
       name: 'SortDirection',
       desc: 'The human readable sort direction',
@@ -486,6 +497,16 @@ class S {
     return Intl.message(
       'Amount',
       name: 'Amount',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Note`
+  String get Note {
+    return Intl.message(
+      'Note',
+      name: 'Note',
       desc: '',
       args: [],
     );

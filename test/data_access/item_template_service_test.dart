@@ -47,14 +47,12 @@ void main() {
     const name = "Milk";
     const categoryId = 1;
     const libraryId = 1;
-    const variantKeyId = 1;
     const imagePath = "/img.png";
 
     final id = await sut.createItemTemplate(
       name,
       categoryId: categoryId,
       libraryId: libraryId,
-      variantKeyId: variantKeyId,
       imagePath: imagePath,
     );
 
@@ -62,7 +60,6 @@ void main() {
     expect(itemTemplate?.name, name);
     expect(itemTemplate?.category?.id, categoryId);
     expect(itemTemplate?.library.id, libraryId);
-    expect(itemTemplate?.variantKey, variantKeyId);
     expect(itemTemplate?.imagePath, imagePath);
   });
 
@@ -84,7 +81,6 @@ void main() {
     const nameOne = "Milk";
     const categoryId = 1;
     const libraryId = 1;
-    const variantKeyId = 1;
     const imagePath = "/img.png";
 
     final id = await sut.createItemTemplate(nameOne, libraryId: libraryId);
@@ -95,7 +91,6 @@ void main() {
     await sut.updateItemTemplate(
       id,
       categoryId: categoryId,
-      variantKeyId: variantKeyId,
       imagePath: imagePath,
     );
 
@@ -103,7 +98,6 @@ void main() {
     expect(itemTemplate?.name, nameOne);
     expect(itemTemplate?.category?.id, categoryId);
     expect(itemTemplate?.library.id, libraryId);
-    expect(itemTemplate?.variantKey, variantKeyId);
     expect(itemTemplate?.imagePath, imagePath);
 
     const modifiedCategory = 2;
@@ -116,7 +110,6 @@ void main() {
     expect(itemTemplate?.name, nameOne);
     expect(itemTemplate?.category?.id, modifiedCategory);
     expect(itemTemplate?.library.id, libraryId);
-    expect(itemTemplate?.variantKey, variantKeyId);
     expect(itemTemplate?.imagePath, imagePath);
   });
 
@@ -124,14 +117,12 @@ void main() {
     const name = "Milk";
     const categoryId = 1;
     const libraryId = 1;
-    const variantKeyId = 1;
     const imagePath = "/img.png";
 
     final id = await sut.createItemTemplate(
       name,
       categoryId: categoryId,
       libraryId: libraryId,
-      variantKeyId: variantKeyId,
       imagePath: imagePath,
     );
 
@@ -139,7 +130,6 @@ void main() {
     expect(itemTemplate?.name, name);
     expect(itemTemplate?.category?.id, categoryId);
     expect(itemTemplate?.library.id, libraryId);
-    expect(itemTemplate?.variantKey, variantKeyId);
     expect(itemTemplate?.imagePath, imagePath);
 
     await sut.replaceItemTemplate(
@@ -152,7 +142,6 @@ void main() {
     expect(itemTemplate?.name, name);
     expect(itemTemplate?.category?.id, null);
     expect(itemTemplate?.library.id, libraryId);
-    expect(itemTemplate?.variantKey, null);
     expect(itemTemplate?.imagePath, null);
   });
 

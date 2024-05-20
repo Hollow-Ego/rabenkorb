@@ -49,12 +49,10 @@ class LibraryService {
     String name, {
     int? categoryId,
     int? libraryId,
-    int? variantKeyId,
     File? image,
   }) async {
     libraryId = await _ensureExistingLibrary(libraryId);
     await _metadataService.ensureExistingCategory(categoryId);
-    await _metadataService.ensureExistingVariantKey(variantKeyId);
 
     if (image != null) {
       image = await _imageService.saveImage(image);
@@ -64,7 +62,6 @@ class LibraryService {
       name,
       libraryId: libraryId,
       imagePath: image?.path,
-      variantKeyId: variantKeyId,
       categoryId: categoryId,
     );
   }
@@ -80,34 +77,7 @@ class LibraryService {
       categoryId: null,
       libraryId: originalItemTemplate.library.id,
       imagePath: originalItemTemplate.imagePath,
-      variantKeyId: originalItemTemplate.variantKey,
     );
-  }
-
-  Future<void> removeItemTemplateVariant(int templateId) async {
-    final originalItemTemplate = await _itemTemplateService.getItemTemplateById(templateId);
-    if (originalItemTemplate == null) {
-      return;
-    }
-    final variantKeyId = originalItemTemplate.variantKey;
-    if (variantKeyId == null) {
-      return;
-    }
-    await _itemTemplateService.replaceItemTemplate(
-      templateId,
-      name: originalItemTemplate.name,
-      categoryId: originalItemTemplate.category?.id,
-      libraryId: originalItemTemplate.library.id,
-      imagePath: originalItemTemplate.imagePath,
-      variantKeyId: null,
-    );
-
-    final remainingItemTemplatesWithVariantKey = await _itemTemplateService.getItemTemplatesByVariantKey(variantKeyId);
-    if (remainingItemTemplatesWithVariantKey.length > 1) {
-      return;
-    }
-
-    await _metadataService.deleteVariantKeyById(variantKeyId);
   }
 
   Future<void> removeItemTemplateImage(int templateId) async {
@@ -125,7 +95,6 @@ class LibraryService {
       categoryId: originalItemTemplate.category?.id,
       libraryId: originalItemTemplate.library.id,
       imagePath: null,
-      variantKeyId: originalItemTemplate.variantKey,
     );
     // Check if the same image is used by other items;
     final usageCount = await _itemTemplateService.countImagePathUsages(imagePath);
@@ -140,12 +109,10 @@ class LibraryService {
     String? name,
     int? categoryId,
     int? libraryId,
-    int? variantKeyId,
     File? image,
   }) async {
     libraryId = await _ensureExistingLibrary(libraryId);
     await _metadataService.ensureExistingCategory(categoryId);
-    await _metadataService.ensureExistingVariantKey(variantKeyId);
 
     // Delete old image if new one was provided
     if (image != null) {
@@ -159,7 +126,6 @@ class LibraryService {
       name: name,
       categoryId: categoryId,
       libraryId: libraryId,
-      variantKeyId: variantKeyId,
       imagePath: image?.path,
     );
   }
@@ -169,13 +135,11 @@ class LibraryService {
     required String name,
     int? categoryId,
     int? libraryId,
-    int? variantKeyId,
     File? image,
     bool imageChanged = false,
   }) async {
     libraryId = await _ensureExistingLibrary(libraryId);
     await _metadataService.ensureExistingCategory(categoryId);
-    await _metadataService.ensureExistingVariantKey(variantKeyId);
 
     if (imageChanged) {
       await removeItemTemplateImage(templateId);
@@ -190,7 +154,6 @@ class LibraryService {
       name: name,
       categoryId: categoryId,
       libraryId: libraryId,
-      variantKeyId: variantKeyId,
       imagePath: image?.path,
     );
   }

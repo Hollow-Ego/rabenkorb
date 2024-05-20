@@ -15,16 +15,19 @@ class DataManagementNavigationStateService implements Disposable, NavigationStat
 
   late StreamSubscription _dataManagementPageDetailsSub;
 
+  @override
   int get currentPageIndexSync => _currentPageIndex.value;
 
   Stream<NavigationPageDetails?> get dataManagementPageDetails => _dataManagementPageDetails.stream;
 
+  @override
   void setCurrentPageIndex(int index) {
     _currentPageIndex.add(index);
   }
 
   final List<DestinationDetails> _destinations = dataManagementDestinations;
 
+  @override
   List<NavigationDestination> get destinations => _destinations.map((e) => e.destination).toList();
 
   DataManagementNavigationStateService() {

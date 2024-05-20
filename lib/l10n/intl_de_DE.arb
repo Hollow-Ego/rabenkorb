@@ -29,13 +29,14 @@
   "BackupOverwriteWarning": "Wenn du ein Backup importierst wird dein derzeitiger Stand überschrieben! Wähle oben die Option zum Überschreiben alter Data ab, wenn du die importierten Daten zu deiner Bibliothek hinzufügen willst.",
   "BackupImportFailed": "Import fehlgeschlagen!",
   "BackupCreated": "Backup erfolgrecih erstellt",
+  "BackupCreationFailed": "Backup Erstellung fehlgeschlagen!",
   "BackupImported": "Backup erfolgreich importiert",
   "SelectBackup": "Backup-Ort auswählen",
   "SetPermission": "Berechtigung erteilen",
   "PermissionsRequired": "Berechtigungen erforderlich",
   "MessagePermissionRequired": "Um auf Ordner zum Speicher oder Laden von Sicherungen zugreifen zu können, benötigt diese App die Berechtigung auf alle Dateien und Ordner zuzugreifen. Diese wird niemals auf Dateien zugreifen, die nicht zu ihr gehören. \n\nWenn Sie auf \"Berechtigung setzen\" drücken werden Sie zur Berechtigungsverwaltung weitergeleitet. Setzen Sie dort die Berechtigung und kehren zur App zurück, indem Sie auf die Zurück-Taste Ihres Smartphones drücken.",
   "SearchLabel": "Suchen...",
-  "SortDirection": "{direction, select, asc{Aufsteigend} desc{Absteigend}}",
+  "SortDirection": "{direction, select, asc{Aufsteigend} desc{Absteigend}  other{Unbekannt}}",
   "@SortDirection": {
     "description": "The human readable sort direction",
     "placeholders": {
@@ -52,6 +53,7 @@
   "Variant": "Variante",
   "Image": "Bild",
   "Amount": "Menge",
+  "Note": "Notiz",
   "Unit": "Einheit",
   "Units": "Einheiten",
   "SortRule": "Sortierregel",

@@ -19,10 +19,9 @@ class IsEqualToItemTemplate extends Matcher {
 
     final nameMatches = actualItem.name == expectedItem.name;
     final categoryMatches = actualItem.category?.id == expectedItem.category?.id;
-    final variantMatches = actualItem.variantKey == expectedItem.variantKey;
     final imagePathMatches = actualItem.imagePath == expectedItem.imagePath;
 
-    final matches = nameMatches && categoryMatches && variantMatches && imagePathMatches;
+    final matches = nameMatches && categoryMatches && imagePathMatches;
 
     if (!matches) {
       print("Expected Item: ${expectedItem.toJson()}");

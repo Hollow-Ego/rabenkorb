@@ -47,19 +47,19 @@ void main() {
   });
 
   test('item categories can be watched', () async {
+    const categoryFour = "Baked Goods";
     const categoryOne = "Dairy";
     const categoryTwo = "Fresh Products";
     const categoryThree = "Pasta";
     const categoryThreeModified = "Spaghetti";
-    const categoryFour = "Baked Goods";
 
     const expectedValues = [
       [],
       [categoryOne],
       [categoryOne, categoryTwo],
       [categoryOne, categoryTwo, categoryThree],
-      [categoryOne, categoryTwo, categoryThree, categoryFour],
-      [categoryOne, categoryTwo, categoryThreeModified, categoryFour],
+      [categoryFour, categoryOne, categoryTwo, categoryThree],
+      [categoryFour, categoryOne, categoryTwo, categoryThreeModified],
     ];
 
     expectLater(

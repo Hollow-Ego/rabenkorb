@@ -39,7 +39,7 @@ class ItemTemplateDetails extends StatelessWidget {
     );
   }
 
-  Future<void> _onSubmit(String name, File? image, int? categoryId, int? variantKey) async {
+  Future<void> _onSubmit(String name, File? image, int? categoryId) async {
     final libraryService = di<LibraryService>();
     final libraryStateService = di<LibraryStateService>();
     if (itemTemplate == null) {
@@ -48,7 +48,6 @@ class ItemTemplateDetails extends StatelessWidget {
         libraryId: libraryStateService.libraryIdSync,
         categoryId: categoryId,
         image: image,
-        variantKeyId: variantKey,
       );
       return;
     }
@@ -59,7 +58,6 @@ class ItemTemplateDetails extends StatelessWidget {
       libraryId: libraryStateService.libraryIdSync,
       categoryId: categoryId,
       image: image,
-      variantKeyId: variantKey,
       imageChanged: imageChanged,
     );
   }

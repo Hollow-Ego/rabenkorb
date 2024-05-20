@@ -95,10 +95,6 @@ Map<String, TemplateLibrary> exampleLibraries = {
   "Library One": const TemplateLibrary(id: 1, name: "Library One"),
 };
 
-Map<String, VariantKey> exampleVariantKeys = {
-  "Key 1": const VariantKey(id: 1),
-};
-
 List<ItemTemplate> exampleItemTemplates = [
   ItemTemplate(id: 1, name: "Kartoffelwedges", category: exampleCategories["Tiefkühl"]?.id, library: 1),
   ItemTemplate(id: 2, name: "Aufschnitt", category: exampleCategories["KühlthekeTeil1"]?.id, library: 1),
@@ -354,7 +350,6 @@ Future<void> seedDatabaseWithExampleData(AppDatabase db) async {
     batch.insertAll(db.itemCategories, exampleCategories.values);
     batch.insertAll(db.itemUnits, exampleUnits.values);
     batch.insertAll(db.templateLibraries, exampleLibraries.values);
-    batch.insertAll(db.variantKeys, exampleVariantKeys.values);
     batch.insertAll(db.sortRules, exampleSortRules.values);
     batch.insertAll(db.sortOrders, exampleSortOrdersRuleOne);
     batch.insertAll(db.itemTemplates, exampleItemTemplates);

@@ -35,10 +35,6 @@ Map<String, ShoppingBasket> testBaskets = {
   "Lidl": const ShoppingBasket(id: 2, name: "Lidl"),
 };
 
-Map<String, VariantKey> testVariantKeys = {
-  "Key 1": const VariantKey(id: 1),
-};
-
 Map<String, SortRule> testSortRules = {
   "Aldi": const SortRule(id: 1, name: "Aldi"),
   "Lidl": const SortRule(id: 2, name: "Lidl"),
@@ -125,14 +121,12 @@ Map<String, ItemTemplate> testItemTemplates = {
     name: "Peas",
     category: testCategories["Canned Food"]!.id,
     library: 1,
-    variantKey: testVariantKeys["Key 1"]!.id,
   ),
   "Peas - Frozen": ItemTemplate(
     id: 15,
     name: "Peas",
     category: testCategories["Frozen Food"]!.id,
     library: 1,
-    variantKey: testVariantKeys["Key 1"]!.id,
   ),
 };
 
@@ -141,6 +135,7 @@ Map<String, BasketItem> testBasketItemsOne = {
     id: 1,
     name: "Coffee",
     category: testCategories["Hot Drinks"]!.id,
+    note: "Beans",
     amount: 0,
     basket: testBaskets["Aldi"]!.id,
     isChecked: false,
@@ -156,6 +151,7 @@ Map<String, BasketItem> testBasketItemsOne = {
   "Apple - Aldi": BasketItem(
     id: 6,
     name: "Apple",
+    note: "Braeburn",
     amount: 0,
     unit: testUnits["Pieces"]!.id,
     basket: testBaskets["Aldi"]!.id,
@@ -322,7 +318,6 @@ Future<void> seedDatabase(AppDatabase db) async {
     batch.insertAll(db.itemCategories, testCategories.values);
     batch.insertAll(db.itemUnits, testUnits.values);
     batch.insertAll(db.templateLibraries, testLibraries.values);
-    batch.insertAll(db.variantKeys, testVariantKeys.values);
     batch.insertAll(db.sortRules, testSortRules.values);
     batch.insertAll(db.sortOrders, testSortOrdersRuleOne);
     batch.insertAll(db.sortOrders, testSortOrdersRuleTwo);
@@ -338,7 +333,6 @@ Future<void> clearDatabase(AppDatabase db) async {
     batch.deleteAll(db.itemCategories);
     batch.deleteAll(db.itemUnits);
     batch.deleteAll(db.templateLibraries);
-    batch.deleteAll(db.variantKeys);
     batch.deleteAll(db.sortRules);
     batch.deleteAll(db.sortOrders);
     batch.deleteAll(db.sortOrders);

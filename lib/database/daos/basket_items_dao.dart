@@ -21,6 +21,7 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
     int? categoryId,
     required int basketId,
     String? imagePath,
+    String? note,
     int? unitId,
   }) async {
     final existingItems = await findBasketItemsByNameCategoryUnit(name, basketId, categoryId, unitId);
@@ -38,6 +39,7 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
       category: Value(categoryId),
       basket: Value(basketId),
       imagePath: Value(imagePath),
+      note: Value(note),
       unit: Value(unitId),
       amount: Value(amount),
     );
@@ -51,6 +53,7 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
     int? categoryId,
     int? basketId,
     String? imagePath,
+    String? note,
     int? unitId,
     bool? isChecked,
   }) {
@@ -59,6 +62,7 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
       category: Value.absentIfNull(categoryId),
       basket: Value.absentIfNull(basketId),
       imagePath: Value.absentIfNull(imagePath),
+      note: Value.absentIfNull(note),
       unit: Value.absentIfNull(unitId),
       amount: Value.absentIfNull(amount),
       isChecked: Value.absentIfNull(isChecked),
@@ -73,6 +77,7 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
     int? categoryId,
     required int basketId,
     String? imagePath,
+    String? note,
     int? unitId,
     bool? isChecked,
   }) {
@@ -82,6 +87,7 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
       category: Value(categoryId),
       basket: Value(basketId),
       imagePath: Value(imagePath),
+      note: Value(note),
       unit: Value(unitId),
       amount: Value(amount ?? 0),
       isChecked: Value(isChecked ?? false),

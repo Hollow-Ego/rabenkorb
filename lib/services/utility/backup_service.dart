@@ -24,33 +24,43 @@ class BackupService {
 
   final List<String> _incompatibleVersions = [];
 
-  Future<void> backup(String exportPath) async {
-    final base64Images = await _encodeImages();
-    final backupName = _getBackupName(_exportTime);
-    final backup = Backup(
-      appVersion: _versionService.publicAppVersion,
-      fileName: "$backupName.sqlite",
-      base64Images: base64Images,
-    );
+  Future<bool> backup(String exportPath) async {
+    try {
+      final base64Images = await _encodeImages();
+      final backupName = _getBackupName(_exportTime);
+      final backup = Backup(
+        appVersion: _versionService.publicAppVersion,
+        fileName: "$backupName.sqlite",
+        base64Images: base64Images,
+      );
 
-    _saveBackup(exportPath, backup);
+      _saveBackup(exportPath, backup);
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
-  Future<void> restore(String importPath) async {
-    final directory = Directory(importPath);
-    final backupJson = _getBackupJson(directory);
-    if (backupJson == null) {
-      return;
+  Future<bool> restore(String importPath) async {
+    try {
+      final directory = Directory(importPath);
+      final backupJson = _getBackupJson(directory);
+      if (backupJson == null) {
+        return false;
+      }
+      final backup = Backup.fromJson(backupJson);
+      String appVersion = backup.appVersion;
+
+      throwIf(_incompatibleVersions.contains(appVersion), IncompatibleAppVersionException(appVersion));
+
+      String fileName = backup.fileName;
+      Map<String, String> base64Images = backup.base64Images;
+      await _decodeImages(base64Images);
+      await _importFrom(importPath, fileName);
+      return true;
+    } catch (e) {
+      return false;
     }
-    final backup = Backup.fromJson(backupJson);
-    String appVersion = backup.appVersion;
-
-    throwIf(_incompatibleVersions.contains(appVersion), IncompatibleAppVersionException(appVersion));
-
-    String fileName = backup.fileName;
-    Map<String, String> base64Images = backup.base64Images;
-    await _decodeImages(base64Images);
-    await _importFrom(importPath, fileName);
   }
 
   Map<String, dynamic>? _getBackupJson(Directory directory) {

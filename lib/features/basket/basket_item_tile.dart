@@ -25,6 +25,7 @@ class BasketItemTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final extraWidget = _extra();
     return Card(
       key: Key(item.key),
       color: item.isChecked ? Theme.of(context).colorScheme.surface.withAlpha(220) : null,
@@ -38,6 +39,7 @@ class BasketItemTile extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.end,
           mainAxisSize: MainAxisSize.min,
           children: [
+            if (extraWidget != null) extraWidget,
             if (item.imagePath.isValid())
               ItemImage(
                 imagePath: item.imagePath!,
@@ -69,7 +71,7 @@ class BasketItemTile extends StatelessWidget {
     );
   }
 
-  Widget? _subtitle() {
+  Widget? _amountUnit() {
     final unit = item.unit;
     final amount = item.amount;
     final hasAmount = amount > 0;
@@ -78,5 +80,25 @@ class BasketItemTile extends StatelessWidget {
     }
     final subtitle = "${hasAmount ? amount.toFormattedString() : ''} ${unit?.name ?? ''}";
     return Text(subtitle.trim());
+  }
+
+  Widget? _note() {
+    final note = item.note;
+    if (!note.isValid()) {
+      return null;
+    }
+    final subtitle = note!;
+    return Text(
+      subtitle.trim(),
+      style: const TextStyle(fontSize: 14),
+    );
+  }
+
+  Widget? _subtitle() {
+    return _amountUnit();
+  }
+
+  Widget? _extra() {
+    return _note();
   }
 }

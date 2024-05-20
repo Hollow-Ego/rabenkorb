@@ -21,13 +21,15 @@ enum BasketPopupMenuActions {
 class BasketPopupMenu extends StatelessWidget with WatchItMixin {
   final bool isShoppingMode;
   final bool isMultiSelectMode;
+  final bool disabled;
 
-  const BasketPopupMenu({super.key, required this.isShoppingMode, required this.isMultiSelectMode});
+  const BasketPopupMenu({super.key, required this.isShoppingMode, required this.isMultiSelectMode, this.disabled = false});
 
   @override
   Widget build(BuildContext context) {
     return PopupMenuButton<BasketPopupMenuActions>(
       key: const Key("basket-popup-menu"),
+      enabled: !disabled,
       itemBuilder: isShoppingMode
           ? _shoppingModeItems
           : isMultiSelectMode

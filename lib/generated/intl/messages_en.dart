@@ -25,6 +25,7 @@ class MessageLookup extends MessageLookupByLibrary {
   static String m1(direction) => "${Intl.select(direction, {
             'asc': 'Ascending',
             'desc': 'Descending',
+            'other': 'Unknown',
           })}";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
@@ -36,6 +37,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Backup": MessageLookupByLibrary.simpleMessage("Backup"),
         "BackupCreate": MessageLookupByLibrary.simpleMessage("Create"),
         "BackupCreated": MessageLookupByLibrary.simpleMessage("Backup created successfully"),
+        "BackupCreationFailed": MessageLookupByLibrary.simpleMessage("Backup creation failed!"),
         "BackupImport": MessageLookupByLibrary.simpleMessage("Restore"),
         "BackupImportFailed": MessageLookupByLibrary.simpleMessage("Import failed!"),
         "BackupImported": MessageLookupByLibrary.simpleMessage("Backup imported successfully"),
@@ -87,6 +89,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "NoSearchResult": MessageLookupByLibrary.simpleMessage("No results"),
         "NoSelection": MessageLookupByLibrary.simpleMessage("No Selection"),
         "NoShoppingBasketSelected": MessageLookupByLibrary.simpleMessage("No basket selected"),
+        "Note": MessageLookupByLibrary.simpleMessage("Note"),
         "PermissionsRequired": MessageLookupByLibrary.simpleMessage("Permissions required"),
         "PickImage": MessageLookupByLibrary.simpleMessage("Pick an image"),
         "Rename": MessageLookupByLibrary.simpleMessage("Rename"),
