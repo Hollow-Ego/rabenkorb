@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:rabenkorb/generated/l10n.dart';
 import 'package:rabenkorb/models/sort_rule_view_model.dart';
 import 'package:rabenkorb/services/business/basket_service.dart';
 import 'package:rabenkorb/services/state/basket_state_service.dart';
 import 'package:rabenkorb/shared/default_sort_rules.dart';
+import 'package:rabenkorb/shared/sort_direction.dart';
 import 'package:rabenkorb/shared/sort_mode.dart';
-import 'package:rabenkorb/shared/widgets/inputs/core_icon_text_button.dart';
-import 'package:rabenkorb/shared/widgets/sort_rule_dropdown.dart';
+import 'package:rabenkorb/shared/widgets/core_sort_control.dart';
 import 'package:watch_it/watch_it.dart';
 
 class BasketSortControl extends StatelessWidget with WatchItMixin {
@@ -20,30 +19,18 @@ class BasketSortControl extends StatelessWidget with WatchItMixin {
     final sortMode = watchStream((BasketStateService p0) => p0.sortMode, initialValue: basketStateService.sortModeSync);
     final sortDirection = watchStream((BasketStateService p0) => p0.sortDirection, initialValue: basketStateService.sortDirectionSync);
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Row(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Expanded(
-              child: SortRuleDropdown(
-            sortMode: sortMode.data,
-            sortRuleId: sortRuleId.data,
-            availableSortRules: availableSortRules.data ?? [],
-            updateSortRuleDetails: _updateSortDetails,
-            onNewSortRule: (int newId) async {
-              await di<BasketStateService>().setSortRuleId(newId);
-            },
-          )),
-          CoreIconTextButton(
-            icon: const Icon(Icons.sort),
-            label: Text(S.of(context).SortDirection(sortDirection.data?.name ?? "")),
-            onPressed: () async {
-              await basketStateService.switchSortDirection();
-            },
-          ),
-        ],
-      ),
+    return CoreSortControl(
+      sortRuleId: sortRuleId.data,
+      sortMode: sortMode.data,
+      sortDirection: sortDirection.data ?? SortDirection.asc,
+      onNewSortRule: (int newId) async {
+        await di<BasketStateService>().setSortRuleId(newId);
+      },
+      updateSortRuleDetails: _updateSortDetails,
+      availableSortRules: availableSortRules.data ?? [],
+      onSwitchSortDirection: () async {
+        await basketStateService.switchSortDirection();
+      },
     );
   }
 
