@@ -38,6 +38,7 @@ class MainApp extends StatelessWidget with WatchItMixin {
       darkTheme: const MaterialTheme(TextTheme()).dark(),
       highContrastTheme: const MaterialTheme(TextTheme()).lightHighContrast(),
       highContrastDarkTheme: const MaterialTheme(TextTheme()).darkHighContrast(),
+      themeMode: ThemeMode.light,
       routerConfig: routerConfig,
     );
   }
