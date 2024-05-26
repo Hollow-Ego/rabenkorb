@@ -241,8 +241,9 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
     }
     final item = row.readTable(basketItems);
     final category = row.readTableOrNull(itemCategories);
+    final subCategory = row.readTableOrNull(itemSubCategories);
     final basket = row.readTable(shoppingBaskets);
     final unit = row.readTableOrNull(itemUnits);
-    return toBasketItemViewModel(item, category, basket, unit);
+    return toBasketItemViewModel(item, category, subCategory, basket, unit);
   }
 }
