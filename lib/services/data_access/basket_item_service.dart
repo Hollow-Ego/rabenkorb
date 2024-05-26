@@ -141,6 +141,10 @@ class BasketItemService implements Disposable {
     return _db.basketItemsDao.countItemsInBasket(basketId);
   }
 
+  Future<int> moveItemsToBasket(int targetBasketId, List<int> templateIds) async {
+    return _db.basketItemsDao.moveItemsToBasket(targetBasketId, templateIds);
+  }
+
   Stream<List<GroupedItems<BasketItemViewModel>>> _watchBasketItemsInOrder({
     required int? basketId,
     required SortMode sortMode,
