@@ -31,6 +31,7 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "Add": MessageLookupByLibrary.simpleMessage("Hinzufügen"),
+        "AddToCart": MessageLookupByLibrary.simpleMessage("Zum Korb hinzufügen"),
         "AlwaysCollapseCategories": MessageLookupByLibrary.simpleMessage("Kategorien immer zuklappen"),
         "Amount": MessageLookupByLibrary.simpleMessage("Menge"),
         "AppTitle": MessageLookupByLibrary.simpleMessage("Rabenkorb"),

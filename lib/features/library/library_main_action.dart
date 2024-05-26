@@ -4,7 +4,7 @@ import 'package:rabenkorb/routing/routes.dart';
 import 'package:rabenkorb/shared/destination_details.dart';
 
 final libraryMainAction = MainAction(
-  onPressed: (BuildContext context) {
-    context.push(Routes.libraryItemTemplateDetails);
+  onPressed: (BuildContext context) async {
+    final item = await context.push(Routes.libraryItemTemplateDetails);
   },
 );
