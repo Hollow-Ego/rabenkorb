@@ -41,8 +41,11 @@ class BasketItemTile extends StatelessWidget {
           children: [
             if (extraWidget != null) extraWidget,
             if (item.imagePath.isValid())
-              ItemImage(
-                imagePath: item.imagePath!,
+              Padding(
+                padding: EdgeInsets.only(left: extraWidget != null ? 8 : 0),
+                child: ItemImage(
+                  imagePath: item.imagePath!,
+                ),
               ),
             if (!isMultiSelectMode && !isShoppingMode) BasketItemPopupMenu(item),
             if (isMultiSelectMode && !isShoppingMode)
