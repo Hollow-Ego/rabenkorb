@@ -164,6 +164,7 @@ Future<void> _unregisterBusinessServices() async {
 Future<void> _unregisterDataAccessServices() async {
   await di.unregister<BasketItemService>();
   await di.unregister<ItemCategoryService>();
+  await di.unregister<ItemSubCategoryService>();
   await di.unregister<ItemTemplateService>();
   await di.unregister<ItemUnitService>();
   await di.unregister<ShoppingBasketService>();
