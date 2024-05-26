@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:rabenkorb/features/basket/basket_main_action.dart';
+import 'package:rabenkorb/features/basket/basket_floating_action_button.dart';
 import 'package:rabenkorb/features/basket/basket_title.dart';
 import 'package:rabenkorb/features/basket/basket_view.dart';
 import 'package:rabenkorb/features/library/library_main_action.dart';
@@ -16,7 +16,7 @@ final List<DestinationDetails> mainDestinations = [
     ),
     body: const BasketView(),
     hideFabInShoppingMode: true,
-    mainAction: basketMainAction,
+    floatingActionButton: const BasketFloatingActionButton(),
     appBar: AppBar(
       title: const BasketTitle(),
     ),
