@@ -70,6 +70,14 @@ class _AddToCardDialogState extends State<AddToCardDialog> {
               },
               onChanged: _setBasket,
             ),
+            gap,
+            CoreTextFormField(
+              labelText: S.of(context).Note,
+              textEditingController: _noteController,
+              formFieldKey: "note-input",
+              textInputAction: TextInputAction.next,
+            ),
+            gap,
             CoreTextFormField(
               labelText: S.of(context).Amount,
               textEditingController: _amountController,
