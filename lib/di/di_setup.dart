@@ -19,6 +19,7 @@ import 'package:rabenkorb/services/core/snackbar_service.dart';
 import 'package:rabenkorb/services/core/version_service.dart';
 import 'package:rabenkorb/services/data_access/basket_item_service.dart';
 import 'package:rabenkorb/services/data_access/item_category_service.dart';
+import 'package:rabenkorb/services/data_access/item_sub_category_service.dart';
 import 'package:rabenkorb/services/data_access/item_template_service.dart';
 import 'package:rabenkorb/services/data_access/item_unit_service.dart';
 import 'package:rabenkorb/services/data_access/shopping_basket_service.dart';
@@ -101,6 +102,7 @@ void _registerDatabase() {
 void _registerDataAccessServices() {
   di.registerSingletonWithDependencies<BasketItemService>(() => BasketItemService(), dependsOn: [BasketStateService]);
   di.registerSingleton<ItemCategoryService>(ItemCategoryService());
+  di.registerSingleton<ItemSubCategoryService>(ItemSubCategoryService());
   di.registerSingletonWithDependencies<ItemTemplateService>(() => ItemTemplateService(), dependsOn: [LibraryStateService]);
   di.registerSingleton<ItemUnitService>(ItemUnitService());
   di.registerSingleton<ShoppingBasketService>(ShoppingBasketService());

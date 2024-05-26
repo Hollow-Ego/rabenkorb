@@ -376,5 +376,5 @@ BasketItemViewModel testBasketItem(String key, String basketName) {
   var basket = testBaskets.values.firstWhere((c) => c.id == item.basket);
   var unit = item.unit != null ? testUnits.values.firstWhere((c) => c.id == item.unit) : null;
 
-  return toBasketItemViewModel(item, category, basket, unit);
+  return toBasketItemViewModel(item, category, null, basket, unit);
 }

@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:rabenkorb/database/constants.dart';
 import 'package:rabenkorb/database/tables/item_categories.dart';
+import 'package:rabenkorb/database/tables/item_sub_category.dart';
 import 'package:rabenkorb/database/tables/item_units.dart';
 import 'package:rabenkorb/database/tables/shopping_basket.dart';
 
@@ -17,6 +18,8 @@ class BasketItems extends Table {
   RealColumn get amount => real()();
 
   IntColumn get category => integer().nullable().references(ItemCategories, #id, onDelete: KeyAction.setNull)();
+
+  IntColumn get subCategory => integer().nullable().references(ItemSubCategories, #id, onDelete: KeyAction.setNull)();
 
   IntColumn get basket => integer().references(ShoppingBaskets, #id, onDelete: KeyAction.cascade)();
 
