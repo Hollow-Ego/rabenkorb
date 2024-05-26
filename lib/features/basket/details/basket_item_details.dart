@@ -39,12 +39,18 @@ class BasketItemDetails extends StatelessWidget {
     );
   }
 
-  Future<void> _onSubmit(String name, double amount, File? image, String? note, int? categoryId, int? unitId, int? basketId) async {
+  Future<void> _onSubmit(String name, double amount, File? image, String? note, int? categoryId, int? subCategoryId, int? unitId, int? basketId) async {
     final basketService = di<BasketService>();
     final basketStateService = di<BasketStateService>();
     if (basketItem == null) {
       await basketService.createBasketItem(name,
-          basketId: basketStateService.basketIdSync, categoryId: categoryId, image: image, unitId: unitId, amount: amount, note: note);
+          basketId: basketStateService.basketIdSync,
+          categoryId: categoryId,
+          subCategoryId: subCategoryId,
+          image: image,
+          unitId: unitId,
+          amount: amount,
+          note: note);
       return;
     }
     final imageChanged = image?.path != basketItem!.imagePath;
@@ -53,6 +59,7 @@ class BasketItemDetails extends StatelessWidget {
       name: name,
       basketId: basketId,
       categoryId: categoryId,
+      subCategoryId: subCategoryId,
       image: image,
       note: note,
       imageChanged: imageChanged,

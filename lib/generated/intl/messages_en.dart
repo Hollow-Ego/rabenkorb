@@ -112,6 +112,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "SortDirection": m1,
         "SortRule": MessageLookupByLibrary.simpleMessage("Sort Rule"),
         "SortRules": MessageLookupByLibrary.simpleMessage("Sort Rules"),
+        "SubCategory": MessageLookupByLibrary.simpleMessage("Sub-Category"),
         "TakePicture": MessageLookupByLibrary.simpleMessage("Take Picture"),
         "Template": MessageLookupByLibrary.simpleMessage("Template"),
         "Unit": MessageLookupByLibrary.simpleMessage("Unit"),

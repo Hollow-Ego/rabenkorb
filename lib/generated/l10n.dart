@@ -462,6 +462,16 @@ class S {
     );
   }
 
+  /// `Sub-Category`
+  String get SubCategory {
+    return Intl.message(
+      'Sub-Category',
+      name: 'SubCategory',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Categories`
   String get Categories {
     return Intl.message(

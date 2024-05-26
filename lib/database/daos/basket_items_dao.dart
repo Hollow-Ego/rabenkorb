@@ -19,12 +19,13 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
     String name, {
     double amount = 0,
     int? categoryId,
+    int? subCategoryId,
     required int basketId,
     String? imagePath,
     String? note,
     int? unitId,
   }) async {
-    final existingItems = await findBasketItemsByNameCategoryUnit(name, basketId, categoryId, unitId);
+    final existingItems = await findBasketItemsByNameCategoryUnit(name, basketId, categoryId, subCategoryId, unitId);
     // Exactly one item matching the name, category and unit: assume to add the amount instead of duplicating item
     if (existingItems.length == 1) {
       final existingItem = existingItems.first;
@@ -37,6 +38,7 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
     final companion = BasketItemsCompanion(
       name: Value(name),
       category: Value(categoryId),
+      subCategory: Value(subCategoryId),
       basket: Value(basketId),
       imagePath: Value(imagePath),
       note: Value(note),
@@ -51,6 +53,7 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
     String? name,
     double? amount,
     int? categoryId,
+    int? subCategoryId,
     int? basketId,
     String? imagePath,
     String? note,
@@ -60,6 +63,7 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
     final companion = BasketItemsCompanion(
       name: Value.absentIfNull(name),
       category: Value.absentIfNull(categoryId),
+      subCategory: Value.absentIfNull(subCategoryId),
       basket: Value.absentIfNull(basketId),
       imagePath: Value.absentIfNull(imagePath),
       note: Value.absentIfNull(note),
@@ -75,6 +79,7 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
     required String name,
     double? amount,
     int? categoryId,
+    int? subCategoryId,
     required int basketId,
     String? imagePath,
     String? note,
@@ -85,6 +90,7 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
       id: Value(id),
       name: Value(name),
       category: Value(categoryId),
+      subCategory: Value(subCategoryId),
       basket: Value(basketId),
       imagePath: Value(imagePath),
       note: Value(note),
@@ -173,9 +179,14 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
     return query.map((row) => row.imagePath!).get();
   }
 
-  Future<List<BasketItemViewModel>> findBasketItemsByNameCategoryUnit(String name, int basketId, int? categoryId, int? unitId) async {
+  Future<List<BasketItemViewModel>> findBasketItemsByNameCategoryUnit(String name, int basketId, int? categoryId, int? subCategoryId, int? unitId) async {
     final query = select(basketItems)
-      ..where((i) => i.name.equals(name) & i.basket.equals(basketId) & i.category.equalsNullable(categoryId) & i.unit.equalsNullable(unitId));
+      ..where((i) =>
+          i.name.equals(name) &
+          i.basket.equals(basketId) &
+          i.category.equalsNullable(categoryId) &
+          i.subCategory.equalsNullable(subCategoryId) &
+          i.unit.equalsNullable(unitId));
     final rows = await _joinValues(query).get();
     return _rowsToViewModels(rows);
   }
@@ -225,6 +236,7 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
   }) {
     return sourceQuery.join([
       leftOuterJoin(itemCategories, basketItems.category.equalsExp(itemCategories.id)),
+      leftOuterJoin(itemSubCategories, basketItems.subCategory.equalsExp(itemSubCategories.id)),
       leftOuterJoin(itemUnits, basketItems.unit.equalsExp(itemUnits.id)),
       leftOuterJoin(shoppingBaskets, basketItems.basket.equalsExp(shoppingBaskets.id)),
       ...includeJoins

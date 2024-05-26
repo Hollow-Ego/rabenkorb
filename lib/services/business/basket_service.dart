@@ -88,6 +88,7 @@ class BasketService implements Disposable {
     String name, {
     double amount = 0,
     int? categoryId,
+    int? subCategoryId,
     required int? basketId,
     File? image,
     String? note,
@@ -107,6 +108,7 @@ class BasketService implements Disposable {
       name,
       amount: amount,
       categoryId: categoryId,
+      subCategoryId: subCategoryId,
       basketId: basketId,
       imagePath: imagePath,
       note: note,
@@ -132,6 +134,7 @@ class BasketService implements Disposable {
         name: originalBasketItem.name,
         categoryId: originalBasketItem.category?.id,
         basketId: originalBasketItem.basket.id,
+        subCategoryId: originalBasketItem.subCategory?.id,
         imagePath: null,
         note: originalBasketItem.note,
         isChecked: originalBasketItem.isChecked,
@@ -151,6 +154,7 @@ class BasketService implements Disposable {
     String? name,
     double? amount,
     int? categoryId,
+    int? subCategoryId,
     int? basketId,
     File? image,
     String? note,
@@ -172,6 +176,7 @@ class BasketService implements Disposable {
       name: name,
       amount: amount,
       categoryId: categoryId,
+      subCategoryId: subCategoryId,
       basketId: basketId,
       imagePath: image?.path,
       note: note,
@@ -185,6 +190,7 @@ class BasketService implements Disposable {
     required String name,
     double? amount,
     int? categoryId,
+    int? subCategoryId,
     int? basketId,
     File? image,
     String? note,
@@ -194,6 +200,7 @@ class BasketService implements Disposable {
   }) async {
     basketId = await _ensureExistingBasket(basketId);
     await _metadataService.ensureExistingCategory(categoryId);
+    await _metadataService.ensureExistingSubCategory(subCategoryId);
     await _metadataService.ensureExistingUnit(unitId);
 
     // Delete old image if new one was provided
@@ -211,6 +218,7 @@ class BasketService implements Disposable {
       name: name,
       amount: amount,
       categoryId: categoryId,
+      subCategoryId: subCategoryId,
       basketId: basketId,
       imagePath: image?.path,
       note: note,

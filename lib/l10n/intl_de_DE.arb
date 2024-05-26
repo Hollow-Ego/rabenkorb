@@ -49,6 +49,7 @@
   "SortByDatabaseOrder": "Erstellung",
   "Name": "Name",
   "Category": "Kategorie",
+  "SubCategory": "Unterkategorie",
   "Categories": "Kategorien",
   "Variant": "Variante",
   "Image": "Bild",
