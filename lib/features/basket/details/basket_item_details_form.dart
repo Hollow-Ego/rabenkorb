@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:rabenkorb/generated/l10n.dart';
 import 'package:rabenkorb/models/basket_item_view_model.dart';
 import 'package:rabenkorb/models/item_category_view_model.dart';
+import 'package:rabenkorb/models/item_sub_category_view_model.dart';
 import 'package:rabenkorb/models/item_unit_view_model.dart';
 import 'package:rabenkorb/models/shopping_basket_view_model.dart';
 import 'package:rabenkorb/services/business/basket_service.dart';
@@ -16,6 +17,7 @@ import 'package:rabenkorb/shared/widgets/form/basket_dropdown.dart';
 import 'package:rabenkorb/shared/widgets/form/category_dropdown.dart';
 import 'package:rabenkorb/shared/widgets/form/core_image_form_field.dart';
 import 'package:rabenkorb/shared/widgets/form/core_text_form_field.dart';
+import 'package:rabenkorb/shared/widgets/form/sub_category_dropdown.dart';
 import 'package:rabenkorb/shared/widgets/form/unit_dropdown.dart';
 import 'package:rabenkorb/shared/widgets/inputs/core_primary_button.dart';
 import 'package:watch_it/watch_it.dart';
@@ -23,7 +25,7 @@ import 'package:watch_it/watch_it.dart';
 class BasketItemDetailsForm extends StatefulWidget {
   final BasketItemViewModel? basketItem;
   final String? tempItemName;
-  final Function(String name, double amount, File? image, String? note, int? categoryId, int? unitId, int? basketId) onSubmit;
+  final Function(String name, double amount, File? image, String? note, int? categoryId, int? subCategoryId, int? unitId, int? basketId) onSubmit;
 
   const BasketItemDetailsForm({super.key, required this.basketItem, required this.onSubmit, this.tempItemName});
 
@@ -38,6 +40,7 @@ class _BasketItemDetailsFormState extends State<BasketItemDetailsForm> {
   final TextEditingController _amountController = TextEditingController();
   ShoppingBasketViewModel? _basket;
   ItemCategoryViewModel? _category;
+  ItemSubCategoryViewModel? _subCategory;
   ItemUnitViewModel? _unit;
   File? _image;
 
@@ -52,6 +55,7 @@ class _BasketItemDetailsFormState extends State<BasketItemDetailsForm> {
 
     _nameController.text = basketItem.name;
     _category = basketItem.category;
+    _subCategory = basketItem.subCategory;
     _unit = basketItem.unit;
     _amountController.text = basketItem.amount.toFormattedString();
     _noteController.text = basketItem.note ?? "";
@@ -80,6 +84,7 @@ class _BasketItemDetailsFormState extends State<BasketItemDetailsForm> {
         _image,
         note,
         _category?.id,
+        _subCategory?.id,
         _unit?.id,
         _basket?.id,
       );
@@ -152,6 +157,31 @@ class _BasketItemDetailsFormState extends State<BasketItemDetailsForm> {
                   });
                 },
               );
+            },
+          ),
+          gap,
+          SubCategoryDropdown(
+            dropdownKey: 'item-sub-category-dropdown',
+            selectedSubCategory: _subCategory,
+            onNoSearchResultAction: (String searchValue) async {
+              await showRenameDialog(
+                context,
+                initialName: searchValue,
+                onConfirm: (newName, nameChanged) async {
+                  if (!newName.isValid()) {
+                    return;
+                  }
+                  final newId = await di<MetadataService>().createItemSubCategory(newName!);
+                  setState(() {
+                    _subCategory = ItemSubCategoryViewModel(newId, newName);
+                  });
+                },
+              );
+            },
+            onChanged: (subCategory) {
+              setState(() {
+                _subCategory = subCategory;
+              });
             },
           ),
           gap,

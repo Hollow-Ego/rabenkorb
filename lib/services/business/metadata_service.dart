@@ -129,6 +129,15 @@ class MetadataService implements Disposable {
     throwIf(category == null, MissingCategoryException(categoryId));
   }
 
+  Future<void> ensureExistingSubCategory(int? subCategoryId) async {
+    if (subCategoryId == null) {
+      return;
+    }
+    final subCategory = await getItemSubCategoryById(subCategoryId);
+
+    throwIf(subCategory == null, MissingSubCategoryException(subCategoryId));
+  }
+
   Future<void> ensureExistingUnit(int? unitId) async {
     if (unitId == null) {
       return;
