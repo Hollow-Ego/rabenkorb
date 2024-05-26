@@ -462,6 +462,16 @@ class S {
     );
   }
 
+  /// `Categories`
+  String get Categories {
+    return Intl.message(
+      'Categories',
+      name: 'Categories',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Sub-Category`
   String get SubCategory {
     return Intl.message(
@@ -472,11 +482,11 @@ class S {
     );
   }
 
-  /// `Categories`
-  String get Categories {
+  /// `Sub-Categories`
+  String get SubCategories {
     return Intl.message(
-      'Categories',
-      name: 'Categories',
+      'Sub-Categories',
+      name: 'SubCategories',
       desc: '',
       args: [],
     );

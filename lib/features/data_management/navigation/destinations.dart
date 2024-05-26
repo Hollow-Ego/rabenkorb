@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rabenkorb/features/data_management/categories/catgory_management_view.dart';
 import 'package:rabenkorb/features/data_management/sort_rules/sort_rule_management_title.dart';
 import 'package:rabenkorb/features/data_management/sort_rules/sort_rule_management_view.dart';
+import 'package:rabenkorb/features/data_management/sub_categories/sub_catgory_management_view.dart';
 import 'package:rabenkorb/features/data_management/units/unit_management_view.dart';
 import 'package:rabenkorb/generated/l10n.dart';
 import 'package:rabenkorb/services/business/metadata_service.dart';
@@ -28,6 +29,30 @@ final List<DestinationDetails> dataManagementDestinations = [
               return;
             }
             await di<MetadataService>().createItemCategory(newName);
+          },
+        );
+      },
+    ),
+    appBar: AppBar(
+      title: Text(S.current.Categories),
+    ),
+    index: 0,
+  ),
+  DestinationDetails(
+    destination: NavigationDestination(
+      icon: const Icon(Icons.label),
+      label: S.current.SubCategories,
+    ),
+    body: const SubCategoryManagementView(),
+    mainAction: MainAction(
+      onPressed: (BuildContext context) async {
+        await showRenameDialog(
+          context,
+          onConfirm: (String? newName, bool _) async {
+            if (newName == null) {
+              return;
+            }
+            await di<MetadataService>().createItemSubCategory(newName);
           },
         );
       },
