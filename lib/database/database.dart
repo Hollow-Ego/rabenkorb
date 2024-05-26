@@ -6,6 +6,7 @@ import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:rabenkorb/database/daos/basket_items_dao.dart';
 import 'package:rabenkorb/database/daos/item_categories_dao.dart';
+import 'package:rabenkorb/database/daos/item_sub_categories_dao.dart';
 import 'package:rabenkorb/database/daos/item_templates_dao.dart';
 import 'package:rabenkorb/database/daos/item_units_dao.dart';
 import 'package:rabenkorb/database/daos/shopping_baskets_dao.dart';
@@ -14,6 +15,7 @@ import 'package:rabenkorb/database/daos/sort_rules_dao.dart';
 import 'package:rabenkorb/database/daos/template_libraries_dao.dart';
 import 'package:rabenkorb/database/tables/basket_items.dart';
 import 'package:rabenkorb/database/tables/item_categories.dart';
+import 'package:rabenkorb/database/tables/item_sub_category.dart';
 import 'package:rabenkorb/database/tables/item_templates.dart';
 import 'package:rabenkorb/database/tables/item_units.dart';
 import 'package:rabenkorb/database/tables/shopping_basket.dart';
@@ -33,9 +35,11 @@ part 'database.g.dart';
     SortOrders,
     SortRules,
     TemplateLibraries,
+    ItemSubCategories,
   ],
   daos: [
     ItemCategoriesDao,
+    ItemSubCategoriesDao,
     ItemTemplatesDao,
     ItemUnitsDao,
     BasketItemsDao,
@@ -55,7 +59,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forImport(String path, String fileName) : super(_openImportDatabase(path, fileName));
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration {
@@ -69,6 +73,11 @@ class AppDatabase extends _$AppDatabase {
           await m.addColumn(basketItems, basketItems.note);
           await m.alterTable(TableMigration(basketItems));
           await m.alterTable(TableMigration(itemTemplates));
+        }
+        if (from < 3) {
+          m.createTable(itemSubCategories);
+          await m.addColumn(basketItems, basketItems.subCategory);
+          await m.alterTable(TableMigration(basketItems));
         }
       },
     );

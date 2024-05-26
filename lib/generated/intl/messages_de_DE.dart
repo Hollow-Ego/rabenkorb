@@ -31,6 +31,7 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "Add": MessageLookupByLibrary.simpleMessage("Hinzufügen"),
+        "AddToCart": MessageLookupByLibrary.simpleMessage("Zum Korb hinzufügen"),
         "AlwaysCollapseCategories": MessageLookupByLibrary.simpleMessage("Kategorien immer zuklappen"),
         "Amount": MessageLookupByLibrary.simpleMessage("Menge"),
         "AppTitle": MessageLookupByLibrary.simpleMessage("Rabenkorb"),
@@ -81,6 +82,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "MessagePermissionRequired": MessageLookupByLibrary.simpleMessage(
             "Um auf Ordner zum Speicher oder Laden von Sicherungen zugreifen zu können, benötigt diese App die Berechtigung auf alle Dateien und Ordner zuzugreifen. Diese wird niemals auf Dateien zugreifen, die nicht zu ihr gehören. \n\nWenn Sie auf \"Berechtigung setzen\" drücken werden Sie zur Berechtigungsverwaltung weitergeleitet. Setzen Sie dort die Berechtigung und kehren zur App zurück, indem Sie auf die Zurück-Taste Ihres Smartphones drücken."),
         "MissingString": MessageLookupByLibrary.simpleMessage("<Leer>"),
+        "Move": MessageLookupByLibrary.simpleMessage("Verschieben"),
+        "MoveSelected": MessageLookupByLibrary.simpleMessage("Ausgewählte verschieben"),
+        "MoveTo": MessageLookupByLibrary.simpleMessage("Verschieben nach"),
         "Name": MessageLookupByLibrary.simpleMessage("Name"),
         "NameMustNotBeEmpty": MessageLookupByLibrary.simpleMessage("Name darf nicht leer sein"),
         "New": MessageLookupByLibrary.simpleMessage("Neu"),
@@ -108,6 +112,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "SortDirection": m1,
         "SortRule": MessageLookupByLibrary.simpleMessage("Sortierregel"),
         "SortRules": MessageLookupByLibrary.simpleMessage("Sortierregeln"),
+        "SubCategories": MessageLookupByLibrary.simpleMessage("Unterkategorien"),
+        "SubCategory": MessageLookupByLibrary.simpleMessage("Unterkategorie"),
         "TakePicture": MessageLookupByLibrary.simpleMessage("Bild aufnehmen"),
         "Template": MessageLookupByLibrary.simpleMessage("Template"),
         "Unit": MessageLookupByLibrary.simpleMessage("Einheit"),

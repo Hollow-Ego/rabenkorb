@@ -3,6 +3,7 @@ import 'package:rabenkorb/generated/l10n.dart';
 import 'package:rabenkorb/services/business/basket_service.dart';
 import 'package:rabenkorb/services/state/basket_state_service.dart';
 import 'package:rabenkorb/shared/helper_functions.dart';
+import 'package:rabenkorb/shared/widgets/move_to_basket_dialog.dart';
 import 'package:watch_it/watch_it.dart';
 
 enum BasketPopupMenuActions {
@@ -16,6 +17,7 @@ enum BasketPopupMenuActions {
   renameBasket,
   createBasket,
   deleteBasket,
+  move,
 }
 
 class BasketPopupMenu extends StatelessWidget with WatchItMixin {
@@ -119,6 +121,28 @@ class BasketPopupMenu extends StatelessWidget with WatchItMixin {
               },
             );
             return;
+          case BasketPopupMenuActions.move:
+            if (basketId == null) {
+              return;
+            }
+            await showDialog<int?>(
+              context: context,
+              builder: (BuildContext context) {
+                return MoveToBasketDialog(
+                  initialBasket: basketService.activeBasketSync,
+                  onConfirm: (int? targetBasketId) async {
+                    if (targetBasketId == null || targetBasketId == basketId) {
+                      return;
+                    }
+                    final templateIds = basketStateService.selectedItemsSync;
+                    basketStateService.deselectAll();
+                    await basketService.moveItemsToBasket(targetBasketId, templateIds);
+                    basketStateService.leaveMultiSelectMode();
+                  },
+                );
+              },
+            );
+            return;
         }
       },
     );
@@ -137,11 +161,6 @@ class BasketPopupMenu extends StatelessWidget with WatchItMixin {
   List<PopupMenuEntry<BasketPopupMenuActions>> _multiSelectItems(BuildContext context) {
     return <PopupMenuEntry<BasketPopupMenuActions>>[
       PopupMenuItem<BasketPopupMenuActions>(
-        key: const Key("basket-popup-menu-delete-selected"),
-        value: BasketPopupMenuActions.deleteSelected,
-        child: Text(S.of(context).DeleteSelected),
-      ),
-      PopupMenuItem<BasketPopupMenuActions>(
         key: const Key("basket-popup-menu-select-all"),
         value: BasketPopupMenuActions.selectAll,
         child: Text(S.of(context).SelectAll),
@@ -150,6 +169,16 @@ class BasketPopupMenu extends StatelessWidget with WatchItMixin {
         key: const Key("basket-popup-menu-deselect-all"),
         value: BasketPopupMenuActions.deselectAll,
         child: Text(S.of(context).DeselectAll),
+      ),
+      PopupMenuItem<BasketPopupMenuActions>(
+        key: const Key("basket-popup-menu-move-selected"),
+        value: BasketPopupMenuActions.move,
+        child: Text(S.of(context).MoveSelected),
+      ),
+      PopupMenuItem<BasketPopupMenuActions>(
+        key: const Key("basket-popup-menu-delete-selected"),
+        value: BasketPopupMenuActions.deleteSelected,
+        child: Text(S.of(context).DeleteSelected),
       ),
       PopupMenuItem<BasketPopupMenuActions>(
         key: const Key("basket-popup-menu-cancel"),

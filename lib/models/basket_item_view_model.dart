@@ -1,5 +1,6 @@
 import 'package:rabenkorb/abstracts/data_item.dart';
 import 'package:rabenkorb/models/item_category_view_model.dart';
+import 'package:rabenkorb/models/item_sub_category_view_model.dart';
 import 'package:rabenkorb/models/item_unit_view_model.dart';
 import 'package:rabenkorb/models/shopping_basket_view_model.dart';
 import 'package:rabenkorb/shared/extensions.dart';
@@ -11,6 +12,7 @@ class BasketItemViewModel extends DataItem {
   final String? note;
   final double amount;
   final ItemCategoryViewModel? category;
+  final ItemSubCategoryViewModel? subCategory;
   final ShoppingBasketViewModel basket;
   final ItemUnitViewModel? unit;
   final bool isChecked;
@@ -25,6 +27,7 @@ class BasketItemViewModel extends DataItem {
     required this.note,
     required this.amount,
     required this.category,
+    required this.subCategory,
     required this.basket,
     required this.unit,
     required this.isChecked,
@@ -39,6 +42,7 @@ class BasketItemViewModel extends DataItem {
       "note": note,
       "amount": amount,
       "category": category,
+      "subCategory": subCategory,
       "basket": basket,
       "unit": unit,
       "isChecked": isChecked,

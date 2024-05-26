@@ -41,8 +41,11 @@ class BasketItemTile extends StatelessWidget {
           children: [
             if (extraWidget != null) extraWidget,
             if (item.imagePath.isValid())
-              ItemImage(
-                imagePath: item.imagePath!,
+              Padding(
+                padding: EdgeInsets.only(left: extraWidget != null ? 8 : 0),
+                child: ItemImage(
+                  imagePath: item.imagePath!,
+                ),
               ),
             if (!isMultiSelectMode && !isShoppingMode) BasketItemPopupMenu(item),
             if (isMultiSelectMode && !isShoppingMode)
@@ -94,11 +97,36 @@ class BasketItemTile extends StatelessWidget {
     );
   }
 
+  Widget? _subCategory() {
+    final subCategory = item.subCategory;
+    if (subCategory == null) {
+      return null;
+    }
+    return Text(
+      subCategory.name.trim(),
+      style: const TextStyle(fontSize: 14),
+    );
+  }
+
   Widget? _subtitle() {
     return _amountUnit();
   }
 
   Widget? _extra() {
-    return _note();
+    final subCategory = _subCategory();
+    final note = _note();
+    final hasExtra = note != null || subCategory != null;
+    return hasExtra
+        ? Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (subCategory != null) subCategory,
+                if (note != null) note,
+              ],
+            ),
+          )
+        : null;
   }
 }

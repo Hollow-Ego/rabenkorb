@@ -472,6 +472,26 @@ class S {
     );
   }
 
+  /// `Sub-Category`
+  String get SubCategory {
+    return Intl.message(
+      'Sub-Category',
+      name: 'SubCategory',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sub-Categories`
+  String get SubCategories {
+    return Intl.message(
+      'Sub-Categories',
+      name: 'SubCategories',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Variant`
   String get Variant {
     return Intl.message(
@@ -797,6 +817,46 @@ class S {
     return Intl.message(
       'New Basket',
       name: 'NewBasket',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Add to cart`
+  String get AddToCart {
+    return Intl.message(
+      'Add to cart',
+      name: 'AddToCart',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Move selected`
+  String get MoveSelected {
+    return Intl.message(
+      'Move selected',
+      name: 'MoveSelected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Move`
+  String get Move {
+    return Intl.message(
+      'Move',
+      name: 'Move',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Move to`
+  String get MoveTo {
+    return Intl.message(
+      'Move to',
+      name: 'MoveTo',
       desc: '',
       args: [],
     );

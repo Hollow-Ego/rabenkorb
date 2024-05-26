@@ -6,7 +6,6 @@ import 'package:rabenkorb/features/core/error/error_handler.dart';
 import 'package:rabenkorb/features/core/error/error_handler_step.dart';
 import 'package:rabenkorb/features/core/error/steps/log_step.dart';
 import 'package:rabenkorb/features/core/logging/core_logger.dart';
-import 'package:rabenkorb/features/core/logging/sinks/mongo_db_sink.dart';
 import 'package:rabenkorb/features/core/logging/sinks/void_sink.dart';
 import 'package:rabenkorb/services/business/basket_service.dart';
 import 'package:rabenkorb/services/business/data_management_service.dart';
@@ -20,6 +19,7 @@ import 'package:rabenkorb/services/core/snackbar_service.dart';
 import 'package:rabenkorb/services/core/version_service.dart';
 import 'package:rabenkorb/services/data_access/basket_item_service.dart';
 import 'package:rabenkorb/services/data_access/item_category_service.dart';
+import 'package:rabenkorb/services/data_access/item_sub_category_service.dart';
 import 'package:rabenkorb/services/data_access/item_template_service.dart';
 import 'package:rabenkorb/services/data_access/item_unit_service.dart';
 import 'package:rabenkorb/services/data_access/shopping_basket_service.dart';
@@ -102,6 +102,7 @@ void _registerDatabase() {
 void _registerDataAccessServices() {
   di.registerSingletonWithDependencies<BasketItemService>(() => BasketItemService(), dependsOn: [BasketStateService]);
   di.registerSingleton<ItemCategoryService>(ItemCategoryService());
+  di.registerSingleton<ItemSubCategoryService>(ItemSubCategoryService());
   di.registerSingletonWithDependencies<ItemTemplateService>(() => ItemTemplateService(), dependsOn: [LibraryStateService]);
   di.registerSingleton<ItemUnitService>(ItemUnitService());
   di.registerSingleton<ShoppingBasketService>(ShoppingBasketService());
@@ -141,7 +142,6 @@ void _registerUtilityServices() {
 void _addLogging() {
   di.registerLazySingleton<List<LogSinks>>(() => [
         VoidSink(),
-        MongoDbSink(),
       ]);
   di.registerLazySingleton<CoreLogger>(() => CoreLogger());
 }
@@ -164,6 +164,7 @@ Future<void> _unregisterBusinessServices() async {
 Future<void> _unregisterDataAccessServices() async {
   await di.unregister<BasketItemService>();
   await di.unregister<ItemCategoryService>();
+  await di.unregister<ItemSubCategoryService>();
   await di.unregister<ItemTemplateService>();
   await di.unregister<ItemUnitService>();
   await di.unregister<ShoppingBasketService>();

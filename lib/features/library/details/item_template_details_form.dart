@@ -12,13 +12,14 @@ import 'package:rabenkorb/shared/widgets/constant_widgets.dart';
 import 'package:rabenkorb/shared/widgets/form/category_dropdown.dart';
 import 'package:rabenkorb/shared/widgets/form/core_image_form_field.dart';
 import 'package:rabenkorb/shared/widgets/form/core_text_form_field.dart';
+import 'package:rabenkorb/shared/widgets/inputs/core_checkbox.dart';
 import 'package:rabenkorb/shared/widgets/inputs/core_primary_button.dart';
 import 'package:watch_it/watch_it.dart';
 
 class ItemTemplateDetailsForm extends StatefulWidget {
   final ItemTemplateViewModel? itemTemplate;
   final String? tempItemName;
-  final Function(String name, File? image, int? categoryId) onSubmit;
+  final Function(String name, File? image, int? categoryId, bool addToCart) onSubmit;
 
   const ItemTemplateDetailsForm({super.key, required this.itemTemplate, required this.onSubmit, this.tempItemName});
 
@@ -30,8 +31,8 @@ class _ItemTemplateDetailsFormState extends State<ItemTemplateDetailsForm> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nameController = TextEditingController();
   ItemCategoryViewModel? _category;
-  int? _variant;
   File? _image;
+  bool addToCart = false;
 
   void _setupInitialValues() {
     final itemTemplate = widget.itemTemplate;
@@ -60,7 +61,7 @@ class _ItemTemplateDetailsFormState extends State<ItemTemplateDetailsForm> {
         return;
       }
       state.save();
-      widget.onSubmit(_nameController.text, _image, _category?.id);
+      widget.onSubmit(_nameController.text, _image, _category?.id, addToCart);
       context.pop("saved");
     });
   }
@@ -118,6 +119,21 @@ class _ItemTemplateDetailsFormState extends State<ItemTemplateDetailsForm> {
             initialValue: _image,
             onSaved: (file) => {_image = file},
           ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(S.of(context).AddToCart),
+              CoreCheckbox(
+                value: addToCart,
+                onChanged: (value) {
+                  setState(() {
+                    addToCart = value ?? false;
+                  });
+                },
+              ),
+            ],
+          ),
+          gap,
           CorePrimaryButton(
             key: const Key("item-template-save-button"),
             child: Text(S.of(context).Save),

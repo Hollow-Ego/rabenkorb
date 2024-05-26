@@ -39,6 +39,7 @@ class MainNavigationStateService implements Disposable, NavigationStateService {
         pageIndex: index,
         body: destination.body,
         mainAction: destination.mainAction,
+        fab: destination.floatingActionButton,
         appBar: destination.appBar,
         hideFabInShoppingMode: destination.hideFabInShoppingMode,
       ));

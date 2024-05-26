@@ -10,6 +10,7 @@ import 'package:rabenkorb/services/business/basket_service.dart';
 import 'package:rabenkorb/services/business/metadata_service.dart';
 import 'package:rabenkorb/services/data_access/basket_item_service.dart';
 import 'package:rabenkorb/services/data_access/item_category_service.dart';
+import 'package:rabenkorb/services/data_access/item_sub_category_service.dart';
 import 'package:rabenkorb/services/data_access/item_unit_service.dart';
 import 'package:rabenkorb/services/data_access/shopping_basket_service.dart';
 import 'package:rabenkorb/services/data_access/sort_rule_service.dart';
@@ -36,6 +37,7 @@ void main() {
     di.registerSingleton<BasketItemService>(BasketItemService());
     di.registerSingleton<ItemUnitService>(ItemUnitService());
     di.registerSingleton<ItemCategoryService>(ItemCategoryService());
+    di.registerSingleton<ItemSubCategoryService>(ItemSubCategoryService());
 
     di.registerSingleton<MetadataService>(MetadataService());
     di.registerSingleton<ShoppingBasketService>(ShoppingBasketService());

@@ -49,6 +49,7 @@ class BasketItemService implements Disposable {
     String name, {
     double amount = 0,
     int? categoryId,
+    int? subCategoryId,
     required int basketId,
     String? imagePath,
     String? note,
@@ -58,6 +59,7 @@ class BasketItemService implements Disposable {
       name,
       amount: amount,
       categoryId: categoryId,
+      subCategoryId: subCategoryId,
       basketId: basketId,
       imagePath: imagePath,
       note: note,
@@ -70,6 +72,7 @@ class BasketItemService implements Disposable {
     String? name,
     double? amount,
     int? categoryId,
+    int? subCategoryId,
     int? basketId,
     String? imagePath,
     String? note,
@@ -81,6 +84,7 @@ class BasketItemService implements Disposable {
       name: name,
       amount: amount,
       categoryId: categoryId,
+      subCategoryId: subCategoryId,
       basketId: basketId,
       imagePath: imagePath,
       note: note,
@@ -94,6 +98,7 @@ class BasketItemService implements Disposable {
     required String name,
     double? amount,
     int? categoryId,
+    int? subCategoryId,
     required int basketId,
     String? imagePath,
     String? note,
@@ -105,6 +110,7 @@ class BasketItemService implements Disposable {
       name: name,
       amount: amount,
       categoryId: categoryId,
+      subCategoryId: subCategoryId,
       basketId: basketId,
       imagePath: imagePath,
       note: note,
@@ -139,6 +145,10 @@ class BasketItemService implements Disposable {
 
   Future<int> countItemsInBasket(int basketId) {
     return _db.basketItemsDao.countItemsInBasket(basketId);
+  }
+
+  Future<int> moveItemsToBasket(int targetBasketId, List<int> templateIds) async {
+    return _db.basketItemsDao.moveItemsToBasket(targetBasketId, templateIds);
   }
 
   Stream<List<GroupedItems<BasketItemViewModel>>> _watchBasketItemsInOrder({

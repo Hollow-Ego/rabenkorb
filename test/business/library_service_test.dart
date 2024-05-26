@@ -8,6 +8,7 @@ import 'package:rabenkorb/features/debug/debug_database_helper.dart';
 import 'package:rabenkorb/services/business/library_service.dart';
 import 'package:rabenkorb/services/business/metadata_service.dart';
 import 'package:rabenkorb/services/data_access/item_category_service.dart';
+import 'package:rabenkorb/services/data_access/item_sub_category_service.dart';
 import 'package:rabenkorb/services/data_access/item_template_service.dart';
 import 'package:rabenkorb/services/data_access/item_unit_service.dart';
 import 'package:rabenkorb/services/data_access/sort_rule_service.dart';
@@ -35,6 +36,7 @@ void main() {
     di.registerSingleton<ItemTemplateService>(ItemTemplateService());
     di.registerSingleton<ItemUnitService>(ItemUnitService());
     di.registerSingleton<ItemCategoryService>(ItemCategoryService());
+    di.registerSingleton<ItemSubCategoryService>(ItemSubCategoryService());
 
     di.registerSingleton<MetadataService>(MetadataService());
     di.registerSingleton<TemplateLibraryService>(TemplateLibraryService());
