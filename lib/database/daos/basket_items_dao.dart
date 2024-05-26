@@ -186,6 +186,10 @@ class BasketItemsDao extends DatabaseAccessor<AppDatabase> with _$BasketItemsDao
     return await itemsInBasketQuery.map((row) => row.read(itemsInBasket)).getSingle() ?? 0;
   }
 
+  Future<int> moveItemsToBasket(int targetBasketId, List<int> templateIds) async {
+    return (update(basketItems)..where((tbl) => tbl.id.isIn(templateIds))).write(BasketItemsCompanion(basket: Value(targetBasketId)));
+  }
+
   List<OrderingTerm> _getOrderingTerms<T>(
     SortMode sortMode,
   ) {

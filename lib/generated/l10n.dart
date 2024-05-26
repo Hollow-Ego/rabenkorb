@@ -812,6 +812,36 @@ class S {
     );
   }
 
+  /// `Move selected`
+  String get MoveSelected {
+    return Intl.message(
+      'Move selected',
+      name: 'MoveSelected',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Move`
+  String get Move {
+    return Intl.message(
+      'Move',
+      name: 'Move',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Move to`
+  String get MoveTo {
+    return Intl.message(
+      'Move to',
+      name: 'MoveTo',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `New`
   String get New {
     return Intl.message(
