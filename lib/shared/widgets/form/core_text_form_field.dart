@@ -35,6 +35,7 @@ class CoreTextFormField extends StatelessWidget {
       decoration: InputDecoration(
         labelText: labelText,
         icon: icon,
+        floatingLabelBehavior: FloatingLabelBehavior.always,
       ),
       controller: textEditingController,
       textInputAction: textInputAction ?? TextInputAction.next,
