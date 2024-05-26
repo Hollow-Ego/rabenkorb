@@ -802,6 +802,16 @@ class S {
     );
   }
 
+  /// `Add to cart`
+  String get AddToCart {
+    return Intl.message(
+      'Add to cart',
+      name: 'AddToCart',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `New`
   String get New {
     return Intl.message(
